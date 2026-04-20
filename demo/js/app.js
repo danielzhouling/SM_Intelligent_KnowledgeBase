@@ -491,6 +491,10 @@ function addBotMessage(text, sources = [], isWelcome = false) {
   const messageEl = document.createElement('div');
   messageEl.className = 'message';
 
+  const msgIndex = chatHistory.length - 1;
+  const feedbackData = getFeedbackData(msgIndex);
+  const isLocked = feedbackData && feedbackData.submitted;
+
   const sourcesHtml = sources.length > 0 ? `
     <div class="message-meta">
       <div class="message-sources">
@@ -500,10 +504,19 @@ function addBotMessage(text, sources = [], isWelcome = false) {
           </span>
         `).join('')}
       </div>
-      ${isWelcome ? '' : `<button class="btn-annotate" data-message-index="${chatHistory.length - 1}">
-        <span>📝</span>
-        <span>Annotate</span>
-      </button>`}
+      ${isWelcome || isLocked ? '' : `
+      <div class="feedback-buttons">
+        <button class="btn-feedback btn-feedback-useful" data-msg-index="${msgIndex}" data-rating="useful">
+          <span>👍</span><span>有用</span>
+        </button>
+        <button class="btn-feedback btn-feedback-not-useful" data-msg-index="${msgIndex}" data-rating="not-useful">
+          <span>👎</span><span>没用</span>
+        </button>
+      </div>`}
+      ${!isWelcome && isLocked ? `<div class="feedback-status">
+        <span class="feedback-submitted">${feedbackData.rating === 'useful' ? '👍 有用' : '👎 没用'}${feedbackData.reason ? ' - ' + feedbackData.reason : ''}</span>
+        <span class="feedback-locked">🔒</span>
+      </div>` : ''}
     </div>
     <div class="source-details">
       ${sources.map((s, i) => `
@@ -520,10 +533,19 @@ function addBotMessage(text, sources = [], isWelcome = false) {
           Demo mode - No real knowledge base
         </span>
       </div>
-      ${isWelcome ? '' : `<button class="btn-annotate" data-message-index="${chatHistory.length - 1}">
-        <span>📝</span>
-        <span>Annotate</span>
-      </button>`}
+      ${isWelcome || isLocked ? '' : `
+      <div class="feedback-buttons">
+        <button class="btn-feedback btn-feedback-useful" data-msg-index="${msgIndex}" data-rating="useful">
+          <span>👍</span><span>有用</span>
+        </button>
+        <button class="btn-feedback btn-feedback-not-useful" data-msg-index="${msgIndex}" data-rating="not-useful">
+          <span>👎</span><span>没用</span>
+        </button>
+      </div>`}
+      ${!isWelcome && isLocked ? `<div class="feedback-status">
+        <span class="feedback-submitted">${feedbackData.rating === 'useful' ? '👍 有用' : '👎 没用'}</span>
+        <span class="feedback-locked">🔒</span>
+      </div>` : ''}
     </div>
   `;
 
@@ -550,13 +572,18 @@ function addBotMessage(text, sources = [], isWelcome = false) {
     });
   });
 
-  // Add annotate button handler
-  const annotateBtn = messageEl.querySelector('.btn-annotate');
-  if (annotateBtn) {
-    annotateBtn.addEventListener('click', () => {
-      openAnnotationModal(chatHistory.length - 1);
+  // Add feedback button handlers
+  messageEl.querySelectorAll('.btn-feedback').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const msgIndex = parseInt(btn.dataset.msgIndex);
+      const rating = btn.dataset.rating;
+      if (rating === 'useful') {
+        submitFeedback(msgIndex, 'useful');
+      } else {
+        openFeedbackReasonModal(msgIndex);
+      }
     });
-  }
+  });
 
   scrollToBottom();
 }
@@ -606,93 +633,137 @@ function formatMessageText(text) {
 }
 
 // ============================================
-// Annotation System
+// Feedback System (Task-004)
 // ============================================
 
-let currentAnnotationIndex = null;
-let annotations = [];
+let currentFeedbackMsgIndex = null;
+let feedbackData = [];
 
 function setupAnnotationModal() {
-  // Load existing annotations
-  const stored = localStorage.getItem('demo_annotations');
-  annotations = stored ? JSON.parse(stored) : [];
+  // Load existing feedback
+  const stored = localStorage.getItem('demo_feedbacks');
+  feedbackData = stored ? JSON.parse(stored) : [];
 }
 
-function openAnnotationModal(messageIndex) {
-  currentAnnotationIndex = messageIndex;
+function getFeedbackData(msgIndex) {
+  return feedbackData.find(f => f.botId === currentBotId && f.msgIndex === msgIndex);
+}
+
+function submitFeedback(msgIndex, rating, reason = '', comment = '') {
+  // Check if already submitted
+  const existing = feedbackData.findIndex(f => f.botId === currentBotId && f.msgIndex === msgIndex);
+  if (existing !== -1) {
+    Toast.warning('Feedback already submitted');
+    return;
+  }
+
+  // Save feedback
+  const feedback = {
+    id: `fb_${Date.now()}`,
+    botId: currentBotId,
+    msgIndex,
+    rating,
+    reason,
+    comment,
+    submitted: true,
+    timestamp: new Date().toISOString()
+  };
+
+  feedbackData.push(feedback);
+  localStorage.setItem('demo_feedbacks', JSON.stringify(feedbackData));
+
+  // Re-render the message to show locked state
+  renderMessagesWithFeedback();
+
+  Toast.success('Thank you for your feedback!');
+}
+
+function renderMessagesWithFeedback() {
+  const messagesContainer = $('#chat-messages');
+  const messages = messagesContainer.querySelectorAll('.message');
+
+  messages.forEach((msgEl, idx) => {
+    if (idx === 0) return; // Skip welcome message
+
+    const feedback = getFeedbackData(idx - 1); // -1 because first msg is welcome
+    const feedbackDiv = msgEl.querySelector('.feedback-buttons');
+    const statusDiv = msgEl.querySelector('.feedback-status');
+
+    if (feedback && feedback.submitted) {
+      if (feedbackDiv) feedbackDiv.remove();
+      if (!statusDiv) {
+        const newStatus = document.createElement('div');
+        newStatus.className = 'feedback-status';
+        newStatus.innerHTML = `
+          <span class="feedback-submitted">${feedback.rating === 'useful' ? '👍 有用' : '👎 没用'}${feedback.reason ? ' - ' + feedback.reason : ''}</span>
+          <span class="feedback-locked">🔒</span>
+        `;
+        const metaDiv = msgEl.querySelector('.message-meta');
+        if (metaDiv) metaDiv.appendChild(newStatus);
+      }
+    }
+  });
+}
+
+function openFeedbackReasonModal(msgIndex) {
+  currentFeedbackMsgIndex = msgIndex;
 
   const content = `
     <div class="form-group">
-      <label class="form-label">What is the issue with this answer?</label>
+      <label class="form-label">请选择原因：</label>
       <div class="radio-group">
         <label class="radio-item">
-          <input type="radio" name="issue-type" value="inaccurate" checked>
-          <span class="radio-label">Inaccurate</span>
+          <input type="radio" name="feedback-reason" value="不相关" checked>
+          <span class="radio-label">不相关</span>
         </label>
-        <p class="radio-desc">The answer contains incorrect information</p>
+        <p class="radio-desc">回答与问题无关</p>
 
         <label class="radio-item">
-          <input type="radio" name="issue-type" value="incomplete">
-          <span class="radio-label">Missing Information</span>
+          <input type="radio" name="feedback-reason" value="来源错误">
+          <span class="radio-label">来源错误</span>
         </label>
-        <p class="radio-desc">The answer is correct but incomplete</p>
+        <p class="radio-desc">引用了错误的知识来源</p>
 
         <label class="radio-item">
-          <input type="radio" name="issue-type" value="other">
-          <span class="radio-label">Other</span>
+          <input type="radio" name="feedback-reason" value="答案不完整">
+          <span class="radio-label">答案不完整</span>
         </label>
-        <p class="radio-desc">Other issues not listed above</p>
+        <p class="radio-desc">回答不够完整，缺少关键信息</p>
+
+        <label class="radio-item">
+          <input type="radio" name="feedback-reason" value="其他">
+          <span class="radio-label">其他</span>
+        </label>
+        <p class="radio-desc">其他问题</p>
       </div>
     </div>
 
     <div class="form-group">
-      <label class="form-label">Additional Comments (optional)</label>
-      <textarea class="form-input" id="annotation-comment" placeholder="Please provide more details about the issue..."></textarea>
+      <label class="form-label">补充说明（可选）：</label>
+      <textarea class="form-input" id="feedback-comment" placeholder="请提供更多细节..."></textarea>
     </div>
   `;
 
   const footer = `
-    <button class="btn btn-secondary" id="annotation-cancel">Cancel</button>
-    <button class="btn btn-primary" id="annotation-submit">Submit Annotation</button>
+    <button class="btn btn-secondary" id="feedback-cancel">取消</button>
+    <button class="btn btn-primary" id="feedback-submit">提交反馈</button>
   `;
 
   Modal.show({
-    title: '📝 Annotate This Answer',
+    title: '👎 选择原因',
     content,
     footer
   });
 
-  // Add event listeners
-  $('#annotation-cancel').addEventListener('click', () => Modal.hide());
-  $('#annotation-submit').addEventListener('click', submitAnnotation);
-}
+  $('#feedback-cancel').addEventListener('click', () => Modal.hide());
+  $('#feedback-submit').addEventListener('click', () => {
+    const reasonRadio = document.querySelector('input[name="feedback-reason"]:checked');
+    const comment = $('#feedback-comment').value.trim();
+    const reason = reasonRadio ? reasonRadio.value : '';
 
-function submitAnnotation() {
-  const issueType = document.querySelector('input[name="issue-type"]:checked');
-  const comment = $('#annotation-comment').value.trim();
-
-  if (!issueType) {
-    Toast.error('Please select an issue type');
-    return;
-  }
-
-  // Save annotation
-  const annotation = {
-    id: Date.now(),
-    botId: currentBotId,
-    messageIndex: currentAnnotationIndex,
-    issueType: issueType.value,
-    comment,
-    timestamp: new Date().toISOString()
-  };
-
-  annotations.push(annotation);
-  localStorage.setItem('demo_annotations', JSON.stringify(annotations));
-
-  Modal.hide();
-  Toast.success('Annotation submitted successfully! Thank you for your feedback.');
-
-  console.log('Annotation saved:', annotation);
+    submitFeedback(currentFeedbackMsgIndex, 'not-useful', reason, comment);
+    Modal.hide();
+  });
 }
 
 // ============================================

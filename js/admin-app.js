@@ -230,18 +230,18 @@ const AdminData = {
   initDemoData() {
     if (!localStorage.getItem(this.KEYS.USERS)) {
       const demoUsers = [
-        { id: 'u001', username: 'hq-admin', name: 'HQ Admin User', role: 'hq-admin', status: 'active', createdAt: '2026-01-15' },
-        { id: 'u002', username: 'store-manager', name: 'Store Manager', role: 'store-manager', status: 'active', createdAt: '2026-02-01' },
-        { id: 'u003', username: 'helpdesk', name: 'Helpdesk Agent', role: 'helpdesk', status: 'active', createdAt: '2026-02-10' },
-        { id: 'u004', username: 'john.doe', name: 'John Doe', role: 'store-manager', status: 'active', createdAt: '2026-03-01' },
-        { id: 'u005', username: 'jane.smith', name: 'Jane Smith', role: 'helpdesk', status: 'inactive', createdAt: '2026-03-15' }
+        { id: 'u001', username: 'hq-admin', name: 'HQ Admin User', roles: ['hq-admin'], status: 'active', createdAt: '2026-01-15' },
+        { id: 'u002', username: 'store-manager', name: 'Store Manager', roles: ['store-manager'], status: 'active', createdAt: '2026-02-01' },
+        { id: 'u003', username: 'helpdesk', name: 'Helpdesk Agent', roles: ['helpdesk'], status: 'active', createdAt: '2026-02-10' },
+        { id: 'u004', username: 'john.doe', name: 'John Doe', roles: ['store-manager', 'helpdesk'], status: 'active', createdAt: '2026-03-01' },
+        { id: 'u005', username: 'jane.smith', name: 'Jane Smith', roles: ['helpdesk'], status: 'inactive', createdAt: '2026-03-15' }
       ];
       localStorage.setItem(this.KEYS.USERS, JSON.stringify(demoUsers));
     }
 
     if (!localStorage.getItem(this.KEYS.ROLES)) {
       const demoRoles = [
-        { id: 'r001', name: 'HQ IT Admin', permissions: ['user.manage', 'role.manage', 'feedback.view', 'feedback.review', 'knowledge.*', 'bot.*'], userCount: 1 },
+        { id: 'r001', name: 'HQ IT Admin', permissions: ['user.manage', 'role.manage', 'feedback.view', 'feedback.review', 'knowledge.*', 'bot.*', 'bot.A', 'bot.B', 'bot.C'], userCount: 1 },
         { id: 'r002', name: 'Store Manager', permissions: ['feedback.view', 'bot.B'], userCount: 2 },
         { id: 'r003', name: 'Helpdesk', permissions: ['feedback.view', 'feedback.review', 'bot.A', 'bot.B'], userCount: 2 }
       ];
@@ -250,9 +250,9 @@ const AdminData = {
 
     if (!localStorage.getItem(this.KEYS.BOTS)) {
       const demoBots = [
-        { id: 'A', name: 'System Issues', nameCn: '系统问题', description: 'Handles system errors and troubleshooting', status: 'enabled', createdAt: '2026-01-01' },
-        { id: 'B', name: 'Usage Knowledge', nameCn: '使用知识', description: 'Guides on how to use ERP modules', status: 'enabled', createdAt: '2026-01-01' },
-        { id: 'C', name: 'Version Content', nameCn: '版本内容', description: 'System release and version information', status: 'enabled', createdAt: '2026-03-01' }
+        { id: 'A', name: 'System Issues', nameCn: '系统问题', description: 'Handles system errors and troubleshooting', status: 'enabled', permissions: ['bot.A'], createdAt: '2026-01-01' },
+        { id: 'B', name: 'Usage Knowledge', nameCn: '使用知识', description: 'Guides on how to use ERP modules', status: 'enabled', permissions: ['bot.B'], createdAt: '2026-01-01' },
+        { id: 'C', name: 'Version Content', nameCn: '版本内容', description: 'System release and version information', status: 'enabled', permissions: ['bot.C'], createdAt: '2026-03-01' }
       ];
       localStorage.setItem(this.KEYS.BOTS, JSON.stringify(demoBots));
     }
@@ -288,7 +288,29 @@ const AdminData = {
     return JSON.parse(localStorage.getItem(this.KEYS.BOTS) || '[]');
   },
 
-  saveBots(bots) {
+  saveBots(bots, newBotId = null) {
+    // When registering a new bot, auto-generate corresponding permission record
+    if (newBotId) {
+      const roles = this.getRoles();
+      const botPerm = `bot.${newBotId}`;
+
+      // Add bot permission to each role that has bot.* or specific bot permissions
+      const updatedRoles = roles.map(role => {
+        // Skip if role already has this specific bot permission or has bot.*
+        if (role.permissions.includes(botPerm) || role.permissions.includes('bot.*')) {
+          return role;
+        }
+        // Add bot permission to roles that have other bot permissions
+        const hasBotPerms = role.permissions.some(p => p.startsWith('bot.'));
+        if (hasBotPerms) {
+          return { ...role, permissions: [...role.permissions, botPerm] };
+        }
+        return role;
+      });
+
+      this.saveRoles(updatedRoles);
+    }
+
     localStorage.setItem(this.KEYS.BOTS, JSON.stringify(bots));
   },
 

@@ -306,10 +306,10 @@
         let bots = AdminData.getBots();
 
         if (id) {
-          // Editing existing - update but keep the ID
+          // Editing existing - update but keep the ID and permissions
           const index = bots.findIndex(b => b.id === id);
           if (index !== -1) {
-            bots[index] = { ...bots[index], ...botData, id: id };
+            bots[index] = { ...bots[index], ...botData, id: id, permissions: bots[index].permissions };
             AdminData.saveBots(bots);
             Toast.success('Bot updated successfully');
           }
@@ -319,9 +319,11 @@
             Toast.error('Bot ID already exists');
             return;
           }
+          // Auto-generate bot permission
+          botData.permissions = [`bot.${botData.id}`];
           botData.createdAt = new Date().toISOString().split('T')[0];
           bots.push(botData);
-          AdminData.saveBots(bots);
+          AdminData.saveBots(bots, botData.id); // Pass new bot ID for auto-permission generation
           Toast.success('Bot registered successfully');
         }
 

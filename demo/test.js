@@ -140,29 +140,25 @@ async function testDemo() {
     results.push({ test: 'Source Tags', status: 'PASS' });
 
 
-    // ========== TEST 6: Annotation Modal ==========
-    console.log('\n📋 TEST 6: Annotation Modal');
+    // ========== TEST 6: Feedback Modal (Task-004) ==========
+    console.log('\n📋 TEST 6: Feedback Modal');
 
-    // Find and click annotate button (not on welcome message)
-    const annotateBtn = await page.$('.message:last-child .btn-annotate');
-    if (annotateBtn) {
-      await annotateBtn.click();
-      await page.waitForSelector('.modal-overlay.visible', { timeout: 2000 });
-      console.log('  ✅ Annotation modal opened');
-
-      // Fill annotation
-      await page.click('input[value="inaccurate"]');
-      await page.fill('#annotation-comment', 'Test annotation comment');
-      await page.click('#annotation-submit');
-
-      // Wait for modal to close and toast
-      await page.waitForSelector('.modal-overlay:not(.visible)', { timeout: 2000 });
+    // Find and click "👍 有用" button (not on welcome message)
+    const usefulBtn = await page.$('.message:last-child .btn-feedback-useful');
+    if (usefulBtn) {
+      await usefulBtn.click();
       await page.waitForSelector('.toast', { timeout: 2000 });
-      console.log('  ✅ Annotation submitted successfully');
+      console.log('  ✅ Useful feedback submitted successfully');
+
+      // Check if feedback status is shown
+      const feedbackStatus = await page.$('.message:last-child .feedback-status');
+      if (feedbackStatus) {
+        console.log('  ✅ Feedback status displayed');
+      }
     } else {
-      console.log('  ⚠️ No annotate button found');
+      console.log('  ⚠️ No feedback button found');
     }
-    results.push({ test: 'Annotation Modal', status: 'PASS' });
+    results.push({ test: 'Feedback Modal', status: 'PASS' });
 
 
     // ========== TEST 7: Role Permissions - Store Manager ==========

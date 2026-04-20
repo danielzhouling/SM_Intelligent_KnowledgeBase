@@ -73,6 +73,13 @@
 
     /* Role Tags */
     .role-tag { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; background: var(--primary-light); color: var(--primary); margin-right: 4px; }
+
+    /* Checkbox Group for Multi-Role */
+    .checkbox-group { display: flex; flex-direction: column; gap: 8px; }
+    .checkbox-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg-input); border-radius: var(--radius-sm); cursor: pointer; transition: background var(--transition-fast); }
+    .checkbox-item:hover { background: var(--border-light); }
+    .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+    .checkbox-item label { font-size: 14px; cursor: pointer; flex: 1; }
   </style>
 </head>
 <body>
@@ -203,10 +210,10 @@
             <input type="text" id="name" class="form-input" placeholder="Enter display name" required>
           </div>
           <div class="form-group">
-            <label class="form-label" for="role">Role</label>
-            <select id="role" class="form-select" required>
+            <label class="form-label">Roles (select multiple)</label>
+            <div id="roles-checkbox-group" class="checkbox-group">
               <!-- Options populated by JS -->
-            </select>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label" for="status">Status</label>
@@ -237,10 +244,15 @@
       $('#user-name').textContent = user.username;
       $('#user-role').textContent = user.roleName;
 
-      // Load roles for dropdown
+      // Load roles for checkbox group (multi-role support)
       const roles = AdminData.getRoles();
-      const roleSelect = $('#role');
-      roleSelect.innerHTML = roles.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+      const rolesCheckboxGroup = $('#roles-checkbox-group');
+      rolesCheckboxGroup.innerHTML = roles.map(r => `
+        <label class="checkbox-item">
+          <input type="checkbox" name="roles" value="${r.id}">
+          <span>${r.name}</span>
+        </label>
+      `).join('');
 
       // Load users
       function loadUsers() {
@@ -248,11 +260,14 @@
         const tbody = $('#users-table');
         $('#user-count').textContent = `${users.length} users`;
 
-        tbody.innerHTML = users.map(u => `
+        tbody.innerHTML = users.map(u => {
+          const userRoles = Array.isArray(u.roles) ? u.roles : (u.role ? [u.role] : []);
+          const roleNames = userRoles.map(rid => getRoleName(rid)).join(', ');
+          return `
           <tr>
             <td>${escapeHtml(u.username)}</td>
             <td>${escapeHtml(u.name)}</td>
-            <td>${getRoleName(u.role)}</td>
+            <td>${roleNames || '-'}</td>
             <td><span class="status-badge ${u.status}">${u.status}</span></td>
             <td>${u.createdAt}</td>
             <td>
@@ -262,7 +277,7 @@
               </div>
             </td>
           </tr>
-        `).join('');
+        `}).join('');
 
         // Add event listeners
         $$('.btn-edit').forEach(btn => {
@@ -313,8 +328,14 @@
           $('#user-id').value = user.id;
           $('#username').value = user.username;
           $('#name').value = user.name;
-          $('#role').value = user.role;
           $('#status').value = user.status;
+
+          // Set checkbox for roles (multi-role support)
+          const userRoles = Array.isArray(user.roles) ? user.roles : (user.role ? [user.role] : []);
+          $$('input[name="roles"]').forEach(cb => {
+            cb.checked = userRoles.includes(cb.value);
+          });
+
           openModal(true);
         }
       }
@@ -331,15 +352,22 @@
 
       $('#btn-save').addEventListener('click', () => {
         const id = $('#user-id').value;
+        const selectedRoles = Array.from($$('input[name="roles"]:checked')).map(cb => cb.value);
+
         const userData = {
           username: $('#username').value.trim(),
           name: $('#name').value.trim(),
-          role: $('#role').value,
+          roles: selectedRoles,
           status: $('#status').value
         };
 
         if (!userData.username || !userData.name) {
           Toast.error('Please fill in all required fields');
+          return;
+        }
+
+        if (selectedRoles.length === 0) {
+          Toast.error('Please select at least one role');
           return;
         }
 
