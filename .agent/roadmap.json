@@ -1,0 +1,41 @@
+{
+  "project_name": "SM-Dmall ERP 智能知识库系统",
+  "version": "0.1",
+  "milestones": [
+    {
+      "id": "M1",
+      "name": "Demo静态页面",
+      "description": "完成用户端和管理后台的静态页面Demo",
+      "tasks": ["TASK-001", "TASK-002", "TASK-003", "TASK-004", "TASK-005", "TASK-006", "TASK-007", "TASK-008", "TASK-009", "TASK-010", "TASK-011", "TASK-012"],
+      "status": "in_progress"
+    },
+    {
+      "id": "M2",
+      "name": "系统部署",
+      "description": "Docker Compose部署Dify + Qdrant，Ollama本地安装",
+      "tasks": [],
+      "status": "pending"
+    },
+    {
+      "id": "M3",
+      "name": "知识库建设",
+      "description": "文档收集、预处理、Embedding、入库",
+      "tasks": [],
+      "status": "pending"
+    },
+    {
+      "id": "M4",
+      "name": "Bot配置",
+      "description": "Dify智能体配置、MCP飞书连接",
+      "tasks": [],
+      "status": "pending"
+    },
+    {
+      "id": "M5",
+      "name": "真实API对接",
+      "description": "管理后端与Dify API对接",
+      "tasks": [],
+      "status": "pending"
+    }
+  ]
+}

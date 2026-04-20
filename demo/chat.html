@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SM-Dmall ERP Knowledge Base - Chat</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="page">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-brand">
+        <svg class="header-logo" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="headerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#667EEA"/>
+              <stop offset="100%" style="stop-color:#764BA2"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="36" height="36" rx="6" fill="url(#headerLogoGradient)"/>
+          <text x="20" y="26" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">SM</text>
+        </svg>
+        <span class="header-title">SM-Dmall ERP Knowledge Base</span>
+      </div>
+
+      <div class="header-actions">
+        <div class="user-info">
+          <span id="user-name">User</span>
+          <span id="user-role" class="user-role">Role</span>
+        </div>
+        <button id="btn-logout" class="btn-logout">Logout</button>
+      </div>
+    </header>
+
+    <!-- Chat Page Layout -->
+    <div class="chat-page">
+      <!-- Sidebar -->
+      <aside class="chat-sidebar">
+        <div class="chat-sidebar-header">
+          <div class="chat-bot-info">
+            <div class="chat-bot-avatar">
+              <span id="bot-avatar-icon">🤖</span>
+            </div>
+            <div>
+              <div id="bot-sidebar-name" class="chat-bot-name">Bot Name</div>
+              <div id="bot-sidebar-desc" class="chat-bot-desc">Bot Description</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-sidebar-content">
+          <h4 class="chat-knowledge-title">Knowledge Sources</h4>
+          <ul id="knowledge-list" class="chat-knowledge-list">
+            <!-- Knowledge items rendered by JS -->
+          </ul>
+        </div>
+
+        <div class="chat-sidebar-footer">
+          <button id="btn-back" class="btn btn-secondary" style="width: 100%;">
+            <span>←</span>
+            <span>Back to Bot Selection</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Chat Main Area -->
+      <main class="chat-main">
+        <!-- Chat Header -->
+        <div class="chat-header">
+          <div>
+            <span style="color: var(--text-secondary); font-size: 14px;">Currently chatting with:</span>
+            <h2 id="current-bot-name" style="margin: 0; font-size: 18px;">Bot</h2>
+          </div>
+          <a href="bots.html" class="btn btn-secondary btn-sm">
+            <span>Switch Bot</span>
+            <span>▼</span>
+          </a>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chat-messages" class="chat-messages">
+          <!-- Messages rendered by JS -->
+        </div>
+
+        <!-- Chat Input -->
+        <div class="chat-input-area">
+          <form id="chat-form" class="chat-input-form">
+            <input
+              type="text"
+              id="chat-input"
+              class="chat-input"
+              placeholder="Type your question here..."
+              autocomplete="off"
+            >
+            <button type="submit" class="btn-send">
+              <span>Send</span>
+              <span>→</span>
+            </button>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

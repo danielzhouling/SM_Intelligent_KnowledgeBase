@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SM-Dmall ERP Knowledge Base - Login</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-header">
+        <!-- SM Logo Placeholder -->
+        <svg class="login-logo" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#667EEA"/>
+              <stop offset="100%" style="stop-color:#764BA2"/>
+            </linearGradient>
+          </defs>
+          <!-- SM-style icon -->
+          <rect x="5" y="10" width="50" height="40" rx="4" fill="url(#logoGradient)"/>
+          <text x="30" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">SM</text>
+          <!-- ERP Text -->
+          <text x="70" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#667EEA">ERP</text>
+          <text x="70" y="50" font-family="Arial, sans-serif" font-size="10" fill="#A0A0A0">Knowledge Base</text>
+        </svg>
+
+        <h1 class="login-title">SM-Dmall ERP</h1>
+        <p class="login-subtitle">Intelligent Knowledge Base System</p>
+      </div>
+
+      <form id="login-form" class="login-form">
+        <div class="form-group">
+          <label class="form-label" for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            class="form-input"
+            placeholder="Enter your username"
+            autocomplete="username"
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="form-input"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="role">Select Role</label>
+          <select id="role" class="form-select">
+            <option value="">-- Select Role --</option>
+            <option value="hq-admin">HQ IT Admin</option>
+            <option value="store-manager">Store Manager</option>
+            <option value="helpdesk">Helpdesk</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-ai btn-lg" style="width: 100%;">
+          <span>Login</span>
+          <span>→</span>
+        </button>
+      </form>
+
+      <div class="login-hint">
+        <p class="login-hint-title">Demo Accounts</p>
+        <div class="login-accounts">
+          <div class="login-account" data-account="hq-admin">
+            <span class="login-account-info">
+              <span class="login-account-name">hq-admin</span>
+              <span class="login-account-role">Full Access (A+B+C)</span>
+            </span>
+            <span class="login-account-pass">password123</span>
+          </div>
+          <div class="login-account" data-account="store-manager">
+            <span class="login-account-info">
+              <span class="login-account-name">store-manager</span>
+              <span class="login-account-role">Bot B Only</span>
+            </span>
+            <span class="login-account-pass">password123</span>
+          </div>
+          <div class="login-account" data-account="helpdesk">
+            <span class="login-account-info">
+              <span class="login-account-name">helpdesk</span>
+              <span class="login-account-role">Bot A, B</span>
+            </span>
+            <span class="login-account-pass">password123</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
