@@ -10,7 +10,7 @@
     {
       "id": "TASK-002",
       "description": "用户端 - Bot选择页：用户信息展示、退出登录、Bot卡片列表（按权限过滤）",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-003",

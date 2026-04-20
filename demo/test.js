@@ -31,8 +31,7 @@ async function testDemo() {
     // ========== TEST 1: Login Page ==========
     console.log('\n📋 TEST 1: Login Page');
     await page.goto(indexPath);
-    await page.waitForLoadState('domcontentloaded');
-    await page.waitForTimeout(500);
+    await page.waitForSelector('#login-form');
 
     // Check login form exists
     const usernameInput = await page.$('#username');
@@ -44,11 +43,11 @@ async function testDemo() {
     if (!loginBtn) throw new Error('Login button not found');
     console.log('  ✅ Login form elements present');
 
-    // Fill form and submit
-    await page.fill('#username', 'Test Admin');
-    await page.selectOption('#role', 'hq-admin');
+    // Fill form and submit - click demo account to autofill like test_login.js does
+    await page.click('.login-account[data-account="hq-admin"]');
+    await page.waitForTimeout(300);
     await page.click('button[type="submit"]');
-    await page.waitForTimeout(800);
+    await page.waitForTimeout(1000);
 
     // Check session was saved
     const sessionData = await page.evaluate(() => localStorage.getItem('demo_session'));
@@ -78,7 +77,7 @@ async function testDemo() {
 
     // Check user info displayed
     const userName = await page.$eval('#user-name', el => el.textContent);
-    if (userName !== 'Test Admin') throw new Error(`Expected username "Test Admin", got "${userName}"`);
+    if (userName !== 'hq-admin') throw new Error(`Expected username "hq-admin", got "${userName}"`);
     console.log('  ✅ User name displayed correctly');
     results.push({ test: 'Bot Selection Page', status: 'PASS' });
 
@@ -175,14 +174,11 @@ async function testDemo() {
     await page.waitForTimeout(500);
 
     // Login as Store Manager
-    await page.fill('#username', 'Store Manager');
-    await page.selectOption('#role', 'store-manager');
+    await page.click('.login-account[data-account="store-manager"]');
+    await page.waitForTimeout(300);
     await page.click('button[type="submit"]');
-    await page.waitForTimeout(500);
-
-    // Go to bots page
-    await page.goto(botsPath);
-    await page.waitForTimeout(500);
+    await page.waitForURL('**/bots.html');
+    await page.waitForTimeout(300);
 
     const storeAvailable = await page.$$('.bot-card:not(.bot-card-locked)');
     const storeLocked = await page.$$('.bot-card.bot-card-locked');
