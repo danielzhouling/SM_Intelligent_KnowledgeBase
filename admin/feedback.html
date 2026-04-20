@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Review - Admin Dashboard</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .admin-page { display: flex; min-height: 100vh; }
+    .admin-sidebar { width: 240px; background: var(--bg-card); border-right: 1px solid var(--border-light); display: flex; flex-direction: column; flex-shrink: 0; }
+    .admin-sidebar-header { padding: 20px; border-bottom: 1px solid var(--border-light); }
+    .admin-logo { display: flex; align-items: center; gap: 10px; }
+    .admin-logo svg { height: 32px; }
+    .admin-logo-text { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .admin-nav { flex: 1; padding: 16px 12px; }
+    .nav-section { margin-bottom: 24px; }
+    .nav-section-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 0 12px; margin-bottom: 8px; font-weight: 600; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 14px; text-decoration: none; transition: all var(--transition-fast); margin-bottom: 4px; }
+    .nav-item:hover { background: var(--bg-input); color: var(--text-primary); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); }
+    .nav-item-icon { font-size: 18px; width: 24px; text-align: center; }
+    .admin-sidebar-footer { padding: 16px; border-top: 1px solid var(--border-light); }
+    .admin-user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .admin-user-avatar { width: 36px; height: 36px; background: var(--ai-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; }
+    .admin-user-details { flex: 1; }
+    .admin-user-name { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+    .admin-user-role { font-size: 12px; color: var(--text-muted); }
+    .admin-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .admin-header { background: var(--bg-card); border-bottom: 1px solid var(--border-light); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .admin-header-title { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+    .admin-content { flex: 1; padding: 24px; overflow-y: auto; background: var(--bg-page); }
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .page-title { font-size: 20px; font-weight: 600; color: var(--text-primary); }
+    .filters { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 8px; }
+    .filter-label { font-size: 13px; color: var(--text-secondary); }
+    .filter-select { padding: 8px 12px; border: 1px solid var(--border-light); border-radius: var(--radius-sm); background: var(--bg-card); font-size: 13px; }
+    .section-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 24px; }
+    .section-header { padding: 16px 20px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; }
+    .section-title { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table th { text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border-light); }
+    .data-table td { padding: 14px 16px; font-size: 14px; color: var(--text-primary); border-bottom: 1px solid var(--border-light); }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--bg-page); }
+    .status-badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+    .status-badge.pending { background: #FEF3C7; color: #D97706; }
+    .status-badge.reviewed { background: #DBEAFE; color: #2563EB; }
+    .status-badge.valid { background: #D1FAE5; color: #059669; }
+    .status-badge.invalid { background: #FEE2E2; color: #DC2626; }
+    .status-badge.duplicate { background: #F3E8FF; color: #7C3AED; }
+    .status-badge.wrong-source { background: #FEE2E2; color: #DC2626; }
+    .rating-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 8px; font-size: 12px; }
+    .rating-badge.useful { background: #D1FAE5; color: #059669; }
+    .rating-badge.not-useful { background: #FEE2E2; color: #DC2626; }
+    .action-btns { display: flex; gap: 8px; }
+    .btn-action { padding: 6px 12px; border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; border: none; transition: all var(--transition-fast); }
+    .btn-review { background: var(--primary-light); color: var(--primary); }
+    .btn-review:hover { background: var(--primary); color: white; }
+    .btn-view { background: var(--bg-input); color: var(--text-secondary); }
+    .btn-view:hover { background: var(--border-light); }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all var(--transition-normal); }
+    .modal-overlay.visible { opacity: 1; visibility: visible; }
+    .modal { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-xl); padding: 28px; width: 100%; max-width: 600px; transform: scale(0.95); transition: transform var(--transition-normal); box-shadow: var(--shadow-card-hover); max-height: 85vh; overflow-y: auto; }
+    .modal-overlay.visible .modal { transform: scale(1); }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .modal-title { font-size: 17px; font-weight: 600; color: var(--text-primary); }
+    .modal-close { width: 32px; height: 32px; background: var(--bg-input); border: none; border-radius: 50%; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all var(--transition-fast); }
+    .modal-close:hover { background: #FEE2E2; color: var(--error); }
+    .modal-body { margin-bottom: 20px; }
+    .modal-footer { display: flex; justify-content: flex-end; gap: 10px; }
+    .detail-row { margin-bottom: 16px; }
+    .detail-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .detail-value { font-size: 14px; color: var(--text-primary); }
+    .review-result-options { display: flex; flex-wrap: wrap; gap: 10px; }
+    .review-result-option { padding: 10px 20px; border: 1px solid var(--border-light); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-fast); }
+    .review-result-option:hover { border-color: var(--primary); }
+    .review-result-option.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+  </style>
+</head>
+<body>
+  <div class="admin-page">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <div class="admin-logo">
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="adminLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#667EEA"/>
+                <stop offset="100%" style="stop-color:#764BA2"/>
+              </linearGradient>
+            </defs>
+            <rect x="2" y="2" width="36" height="36" rx="6" fill="url(#adminLogoGradient)"/>
+            <text x="20" y="26" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">SM</text>
+          </svg>
+          <span class="admin-logo-text">Admin Dashboard</span>
+        </div>
+      </div>
+
+      <nav class="admin-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Overview</div>
+          <a href="index.html" class="nav-item"><span class="nav-item-icon">📊</span><span>Dashboard</span></a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Management</div>
+          <a href="users.html" class="nav-item"><span class="nav-item-icon">👥</span><span>Users</span></a>
+          <a href="roles.html" class="nav-item"><span class="nav-item-icon">🔐</span><span>Roles</span></a>
+          <a href="bots.html" class="nav-item"><span class="nav-item-icon">🤖</span><span>Bots</span></a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Feedback</div>
+          <a href="feedback.html" class="nav-item active"><span class="nav-item-icon">💬</span><span>Feedback Review</span></a>
+        </div>
+      </nav>
+
+      <div class="admin-sidebar-footer">
+        <div class="admin-user-info">
+          <div class="admin-user-avatar" id="user-avatar">A</div>
+          <div class="admin-user-details">
+            <div id="user-name" class="admin-user-name">Admin</div>
+            <div id="user-role" class="admin-user-role">Super Admin</div>
+          </div>
+        </div>
+        <button id="btn-logout" class="btn btn-secondary" style="width: 100%;">Logout</button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <h1 class="admin-header-title">Feedback Review</h1>
+      </header>
+
+      <div class="admin-content">
+        <div class="page-header">
+          <h2 class="page-title">All Feedback</h2>
+        </div>
+
+        <div class="filters">
+          <div class="filter-group">
+            <span class="filter-label">Bot:</span>
+            <select id="filter-bot" class="filter-select">
+              <option value="">All Bots</option>
+              <option value="A">Bot A - System Issues</option>
+              <option value="B">Bot B - Usage Knowledge</option>
+              <option value="C">Bot C - Version Content</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">Status:</span>
+            <select id="filter-status" class="filter-select">
+              <option value="">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="reviewed">Reviewed</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">Rating:</span>
+            <select id="filter-rating" class="filter-select">
+              <option value="">All</option>
+              <option value="useful">Useful</option>
+              <option value="not-useful">Not Useful</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-header">
+            <h3 class="section-title">Feedback List</h3>
+            <span id="feedback-count">0 items</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Bot</th>
+                <th>Rating</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="feedback-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- View/Review Modal -->
+  <div id="feedback-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Feedback Details</h3>
+        <button id="modal-close" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-row">
+          <div class="detail-label">Question</div>
+          <div id="detail-question" class="detail-value"></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Bot</div>
+          <div id="detail-bot" class="detail-value"></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Rating</div>
+          <div id="detail-rating" class="detail-value"></div>
+        </div>
+        <div id="reason-section" class="detail-row" style="display: none;">
+          <div class="detail-label">Reason (if not useful)</div>
+          <div id="detail-reason" class="detail-value"></div>
+        </div>
+        <div id="comment-section" class="detail-row" style="display: none;">
+          <div class="detail-label">Comment</div>
+          <div id="detail-comment" class="detail-value"></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">Submitted</div>
+          <div id="detail-date" class="detail-value"></div>
+        </div>
+
+        <div id="review-section" style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-light);">
+          <div class="detail-label" style="margin-bottom: 12px;">Review Result</div>
+          <div class="review-result-options">
+            <div class="review-result-option" data-result="valid">Valid</div>
+            <div class="review-result-option" data-result="invalid">Invalid</div>
+            <div class="review-result-option" data-result="duplicate">Duplicate</div>
+            <div class="review-result-option" data-result="wrong-source">Wrong Source</div>
+          </div>
+          <div class="form-group" style="margin-top: 16px;">
+            <label class="form-label">Review Notes</label>
+            <textarea id="review-notes" class="form-input" rows="3" placeholder="Optional notes about this feedback..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-cancel" class="btn btn-secondary">Close</button>
+        <button id="btn-submit-review" class="btn btn-primary">Submit Review</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/admin-app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!AdminSession.isLoggedIn()) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const user = AdminSession.get();
+      $('#user-avatar').textContent = user.username.charAt(0).toUpperCase();
+      $('#user-name').textContent = user.username;
+      $('#user-role').textContent = user.roleName;
+
+      let currentFeedbackId = null;
+      let selectedResult = null;
+
+      function loadFeedbacks() {
+        let feedbacks = AdminData.getFeedbacks();
+        const botFilter = $('#filter-bot').value;
+        const statusFilter = $('#filter-status').value;
+        const ratingFilter = $('#filter-rating').value;
+
+        if (botFilter) feedbacks = feedbacks.filter(f => f.botId === botFilter);
+        if (statusFilter) feedbacks = feedbacks.filter(f => f.status === statusFilter);
+        if (ratingFilter) feedbacks = feedbacks.filter(f => f.rating === ratingFilter);
+
+        const tbody = $('#feedback-table');
+        $('#feedback-count').textContent = `${feedbacks.length} items`;
+
+        if (feedbacks.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No feedback found</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = feedbacks.map(f => `
+          <tr>
+            <td>${escapeHtml(f.question)}</td>
+            <td>Bot ${f.botId}</td>
+            <td>
+              <span class="rating-badge ${f.rating}">
+                ${f.rating === 'useful' ? '👍 Useful' : '👎 Not Useful'}
+              </span>
+            </td>
+            <td><span class="status-badge ${f.status}">${f.status}</span></td>
+            <td>${f.createdAt}</td>
+            <td>
+              <div class="action-btns">
+                <button class="btn-action btn-view" data-id="${f.id}">View</button>
+                ${f.status === 'pending' ? `<button class="btn-action btn-review" data-id="${f.id}">Review</button>` : ''}
+              </div>
+            </td>
+          </tr>
+        `).join('');
+
+        $$('.btn-view, .btn-review').forEach(btn => {
+          btn.addEventListener('click', () => openFeedbackModal(btn.dataset.id, btn.classList.contains('btn-review') ? 'review' : 'view'));
+        });
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function openFeedbackModal(id, mode = 'view') {
+        currentFeedbackId = id;
+        const feedbacks = AdminData.getFeedbacks();
+        const f = feedbacks.find(fb => fb.id === id);
+        if (!f) return;
+
+        const bots = AdminData.getBots();
+        const bot = bots.find(b => b.id === f.botId);
+
+        $('#detail-question').textContent = f.question;
+        $('#detail-bot').textContent = bot ? `${bot.name} (${bot.nameCn})` : `Bot ${f.botId}`;
+        $('#detail-rating').innerHTML = `<span class="rating-badge ${f.rating}">${f.rating === 'useful' ? '👍 Useful' : '👎 Not Useful'}</span>`;
+        $('#detail-date').textContent = f.createdAt;
+
+        if (f.rating === 'not-useful' && f.reason) {
+          $('#reason-section').show();
+          $('#detail-reason').textContent = f.reason;
+        } else {
+          $('#reason-section').hide();
+        }
+
+        if (f.comment) {
+          $('#comment-section').show();
+          $('#detail-comment').textContent = f.comment;
+        } else {
+          $('#comment-section').hide();
+        }
+
+        // Reset review selection
+        selectedResult = f.result || null;
+        $$('.review-result-option').forEach(opt => {
+          opt.classList.toggle('selected', opt.dataset.result === selectedResult);
+        });
+        $('#review-notes').value = f.reviewNotes || '';
+
+        // Show/hide review section based on mode and status
+        const reviewSection = $('#review-section');
+        if (mode === 'review' && f.status === 'pending') {
+          reviewSection.style.display = 'block';
+          $('#btn-submit-review').style.display = 'inline-flex';
+        } else {
+          reviewSection.style.display = 'none';
+          $('#btn-submit-review').style.display = 'none';
+        }
+
+        $('#feedback-modal').classList.add('visible');
+      }
+
+      function closeModal() {
+        $('#feedback-modal').classList.remove('visible');
+        currentFeedbackId = null;
+        selectedResult = null;
+      }
+
+      // Event listeners
+      $('#filter-bot').addEventListener('change', loadFeedbacks);
+      $('#filter-status').addEventListener('change', loadFeedbacks);
+      $('#filter-rating').addEventListener('change', loadFeedbacks);
+      $('#modal-close').addEventListener('click', closeModal);
+      $('#btn-cancel').addEventListener('click', closeModal);
+      $('#feedback-modal').addEventListener('click', (e) => { if (e.target === $('#feedback-modal')) closeModal(); });
+
+      $$('.review-result-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          $$('.review-result-option').forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+          selectedResult = opt.dataset.result;
+        });
+      });
+
+      $('#btn-submit-review').addEventListener('click', () => {
+        if (!selectedResult) {
+          Toast.error('Please select a review result');
+          return;
+        }
+
+        let feedbacks = AdminData.getFeedbacks();
+        const index = feedbacks.findIndex(f => f.id === currentFeedbackId);
+        if (index !== -1) {
+          feedbacks[index].status = 'reviewed';
+          feedbacks[index].result = selectedResult;
+          feedbacks[index].reviewer = AdminSession.get().username;
+          feedbacks[index].reviewedAt = new Date().toISOString().split('T')[0];
+          feedbacks[index].reviewNotes = $('#review-notes').value.trim();
+          AdminData.saveFeedbacks(feedbacks);
+          Toast.success('Feedback reviewed successfully');
+          closeModal();
+          loadFeedbacks();
+        }
+      });
+
+      $('#btn-logout').addEventListener('click', () => {
+        AdminSession.clear();
+        Toast.success('Logged out successfully');
+        setTimeout(() => window.location.href = 'login.html', 500);
+      });
+
+      loadFeedbacks();
+    });
+  </script>
+</body>
+</html>

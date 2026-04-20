@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SM-Dmall ERP Knowledge Base - Admin Login</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-header">
+        <!-- SM Logo Placeholder -->
+        <svg class="login-logo" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#667EEA"/>
+              <stop offset="100%" style="stop-color:#764BA2"/>
+            </linearGradient>
+          </defs>
+          <!-- SM-style icon -->
+          <rect x="5" y="10" width="50" height="40" rx="4" fill="url(#logoGradient)"/>
+          <text x="30" y="38" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">SM</text>
+          <!-- ERP Text -->
+          <text x="70" y="35" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#667EEA">ERP</text>
+          <text x="70" y="50" font-family="Arial, sans-serif" font-size="10" fill="#A0A0A0">Knowledge Base</text>
+        </svg>
+
+        <h1 class="login-title">Admin Dashboard</h1>
+        <p class="login-subtitle">SM-Dmall ERP Knowledge Base Management</p>
+      </div>
+
+      <form id="login-form" class="login-form">
+        <div class="form-group">
+          <label class="form-label" for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            class="form-input"
+            placeholder="Enter admin username"
+            autocomplete="username"
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="form-input"
+            placeholder="Enter admin password"
+            autocomplete="current-password"
+          >
+        </div>
+
+        <button type="submit" class="btn btn-ai btn-lg" style="width: 100%;">
+          <span>Login</span>
+          <span>→</span>
+        </button>
+      </form>
+
+      <div class="login-hint">
+        <p class="login-hint-title">Demo Account</p>
+        <div class="login-accounts">
+          <div class="login-account" data-account="admin">
+            <span class="login-account-info">
+              <span class="login-account-name">admin</span>
+              <span class="login-account-role">Super Admin (Full Access)</span>
+            </span>
+            <span class="login-account-pass">admin123</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/admin-app.js"></script>
+</body>
+</html>

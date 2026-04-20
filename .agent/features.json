@@ -30,37 +30,37 @@
     {
       "id": "TASK-006",
       "description": "管理后台 - 登录页：admin账号密码登录、session存储",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-007",
       "description": "管理后台 - 仪表盘：统计卡片（用户/角色/Bot/待审核）、快捷入口、最近反馈",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-008",
       "description": "管理后台 - 用户管理：用户列表、创建/编辑/删除用户、角色多选分配",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-009",
       "description": "管理后台 - 角色管理：角色列表、创建/编辑/删除角色、权限树分配",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-010",
       "description": "管理后台 - Bot注册：Bot列表、注册新Bot、权限自动生成、启用/禁用",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-011",
       "description": "管理后台 - 反馈审核：反馈列表、筛选、查看详情、审核操作、审核记录",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-012",
       "description": "管理后台 - 导航与布局：侧边导航栏、顶部栏、权限控制",
-      "pass": false
+      "pass": true
     }
   ]
 }
