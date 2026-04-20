@@ -75,3 +75,83 @@ feat: 完成用户端登录页
 fix: 修复反馈区提交逻辑
 docs: 更新需求文档
 ```
+
+## 五、数据规范详解
+
+### 5.1 localStorage Key定义
+
+| Key | 用途 | 数据结构 |
+|-----|------|----------|
+| demo_session | 用户登录session | {username, role, roleName} |
+| demo_users | 用户列表（管理后台） | Array<{id, username, name, roles, status}> |
+| demo_roles | 角色列表 | Array<{id, name, permissions}> |
+| demo_permissions | 权限列表 | Array<{id, key, name, type}> |
+| demo_bots | Bot列表 | Array<{id, name, description, status, knowledge}> |
+| demo_feedbacks | 反馈列表 | Array<{id, botId, question, answer, rating, reason, comment, status, reviewer, reviewedAt}> |
+| demo_annotations | 注释列表 | Array<{id, botId, messageIndex, issueType, comment, timestamp}> |
+| admin_session | 管理员登录session | {username, role} |
+
+### 5.2 用户角色定义
+
+| 角色Key | 角色名称 | Bot权限 | 功能权限 |
+|---------|----------|---------|----------|
+| hq-admin | HQ IT Admin | A, B, C | 全部 |
+| store-manager | Store Manager | B | 无 |
+| helpdesk | Helpdesk | A, B | 无 |
+
+### 5.3 权限类型定义
+
+**功能权限**:
+- user.manage - 用户管理
+- role.manage - 角色管理
+- feedback.view - 反馈查看
+- feedback.review - 反馈审核
+- knowledge.* - 知识库管理
+
+**Bot权限**:
+- bot.* - 所有Bot
+- bot.A - 故障处理Bot
+- bot.B - 操作指南Bot
+- bot.C - 版本指南Bot
+
+### 5.4 数据ID生成规则
+
+```javascript
+const generateId = () => `id_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+```
+
+### 5.5 账号配置
+
+**用户端Demo账号** (demo/js/mock-data.js):
+```javascript
+const DEMO_ACCOUNTS = {
+  'hq-admin': { password: 'password123', role: 'hq-admin' },
+  'store-manager': { password: 'password123', role: 'store-manager' },
+  'helpdesk': { password: 'password123', role: 'helpdesk' }
+};
+```
+
+**管理后台账号** (demo/js/mock-data.js):
+```javascript
+const ADMIN_ACCOUNTS = {
+  'admin': { password: 'admin123', role: 'admin' }
+};
+```
+
+## 六、测试规范
+
+### 6.1 页面测试流程
+
+**用户端**:
+1. 登录页 → 输入账号密码 → 验证跳转
+2. Bot选择页 → 验证权限过滤 → 选择Bot
+3. 聊天页 → 发送问题 → 验证回答和来源
+4. 反馈区 → 提交反馈 → 验证状态锁定
+
+**管理后台**:
+1. 登录页 → admin账号登录
+2. 仪表盘 → 验证统计数据
+3. 用户管理 → CRUD操作
+4. 角色管理 → CRUD + 权限分配
+5. Bot注册 → 注册 + 启用/禁用
+6. 反馈审核 → 审核 + 记录

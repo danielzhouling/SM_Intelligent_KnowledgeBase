@@ -32,6 +32,11 @@ const DEMO_ACCOUNTS = {
   'helpdesk': { password: 'password123', role: 'helpdesk' }
 };
 
+// Admin panel accounts with passwords
+const ADMIN_ACCOUNTS = {
+  'admin': { password: 'admin123', role: 'admin' }
+};
+
 // ============================================
 // Bot Configuration
 // ============================================
@@ -1172,6 +1177,7 @@ function findMatchingQA(botId, userQuestion) {
 window.MockData = {
   ROLE_PERMISSIONS,
   DEMO_ACCOUNTS,
+  ADMIN_ACCOUNTS,
   BOT_CONFIG,
   BOT_A_DATA,
   BOT_B_DATA,
