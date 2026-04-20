@@ -15,17 +15,17 @@
     {
       "id": "TASK-003",
       "description": "用户端 - 聊天页：侧边栏Bot信息、消息列表、欢迎消息、来源卡片展示",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-004",
       "description": "用户端 - 反馈区：有用/没用按钮、展开原因面板、提交反馈、状态锁定",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-005",
       "description": "用户端 - 用户信息：头部显示用户名+角色、退出登录",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-006",
