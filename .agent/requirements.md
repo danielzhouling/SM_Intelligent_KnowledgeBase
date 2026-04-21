@@ -90,14 +90,127 @@
     ├── Qdrant（官方镜像）
     └── 管理后端（自开发）
 
-Demo静态页面：HTML/CSS/JS，localStorage模拟数据
+前端：HTML/CSS/JS，API调用后端代理
 ```
 
 ### 5.2 技术栈
 
 - 前端：HTML + CSS + JavaScript（纯静态）
-- 后端（Demo阶段）：localStorage模拟
+- 后端代理：Node.js/Express 或 Python/FastAPI
 - 部署：Docker Compose
+
+### 5.3 M5阶段系统架构（API对接）
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         用户端浏览器                              │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐   │
+│  │  login.html │  │  bots.html   │  │     chat.html       │   │
+│  └──────┬──────┘  └──────┬──────┘  └──────────┬──────────┘   │
+│         │                 │                     │              │
+│         └────────────────┬┴─────────────────────┘              │
+│                          │                                      │
+│                   ┌──────▼──────┐                               │
+│                   │ api-service │  (前端API服务层)                │
+│                   │   .js      │                               │
+│                   └──────┬──────┘                               │
+└──────────────────────────┼──────────────────────────────────────┘
+                           │ HTTP/HTTPS
+                    ┌──────▼──────┐
+                    │  后端代理服务 │
+                    │  (Node.js)  │
+                    └──────┬──────┘
+                           │
+         ┌──────────────────┼──────────────────┐
+         │                  │                  │
+    ┌────▼────┐      ┌─────▼─────┐    ┌──────▼──────┐
+    │ Dify    │      │  用户管理   │    │  反馈管理    │
+    │ API     │      │  API       │    │  API        │
+    │ (Bot)   │      │            │    │             │
+    └────┬────┘      └─────┬─────┘    └──────┬──────┘
+         │                  │                  │
+         ▼                  ▼                  ▼
+    ┌─────────┐      ┌──────────┐      ┌──────────┐
+    │ Ollama   │      │  数据库   │      │  数据库   │
+    │ +Qdrant  │      │(用户/角色)│      │ (反馈)   │
+    └─────────┘      └──────────┘      └──────────┘
+```
+
+### 5.4 后端代理服务职责
+
+| 职责 | 说明 |
+|------|------|
+| API Key保护 | Dify API Key仅在后端存储，不暴露给前端 |
+| 路由转发 | 统一路由管理，前端不直接访问Dify |
+| 会话管理 | 维护conversation_id，支持多轮对话 |
+| 流式处理 | 支持SSE流式响应，转发给前端 |
+| 权限校验 | 验证用户Bot访问权限 |
+| 日志记录 | 记录API调用日志，便于排查 |
+
+### 5.5 Dify API对接要点
+
+**认证**:
+```http
+Authorization: Bearer {API_KEY}
+```
+
+**发送消息**:
+```http
+POST /v1/chat-messages
+{
+  "inputs": {},
+  "query": "用户问题",
+  "response_mode": "blocking",  // 或 streaming
+  "conversation_id": "",
+  "user": "user-123"
+}
+```
+
+**响应数据结构**:
+```json
+{
+  "event": "message_end",
+  "task_id": "xxx",
+  "conversation_id": "xxx",
+  "message_id": "xxx",
+  "answer": "AI回答",
+  "metadata": {
+    "citations": [
+      {"position": 1, "document_id": "xxx", "content": "引用片段"}
+    ]
+  }
+}
+```
+
+### 5.6 前端API服务层设计
+
+**api-service.js 核心接口**:
+
+```javascript
+// 对话服务
+ApiService.sendMessage(botId, query, conversationId)
+ApiService.getConversations(botId)
+ApiService.getMessages(conversationId)
+
+// 用户服务
+ApiService.login(username, password)
+ApiService.getUserInfo()
+
+// 反馈服务
+ApiService.submitFeedback(messageId, rating, reason, comment)
+ApiService.getFeedbackList(filters)
+
+// 管理服务
+ApiService.getUsers()
+ApiService.createUser(userData)
+ApiService.updateUser(userId, userData)
+ApiService.deleteUser(userId)
+
+// Bot服务
+ApiService.getBots()
+ApiService.createBot(botData)
+ApiService.toggleBot(botId, enabled)
+```
 
 ## 六、Demo账号
 
@@ -159,3 +272,23 @@ Demo静态页面：HTML/CSS/JS，localStorage模拟数据
 - **决策**: 注释(Annotate)模式，非即时反馈
 - **原因**: Demo阶段反馈数据用于评估AI回答质量，非实时处理
 - **日期**: 2026-04-20
+
+### 9.7 后端代理架构
+- **决策**: 前端不直接调用Dify API，通过后端代理转发
+- **原因**: 保护API Key安全、统一路由、权限校验、日志记录
+- **日期**: 2026-04-21
+
+### 9.8 API服务层分离
+- **决策**: 前端封装独立的api-service.js服务层
+- **原因**: 统一API调用入口、方便切换Mock/真实API、代码维护性
+- **日期**: 2026-04-21
+
+### 9.9 会话上下文管理
+- **决策**: 后端代理维护conversation_id支持多轮对话
+- **原因**: Dify基于conversation_id区分不同对话线程
+- **日期**: 2026-04-21
+
+### 9.10 流式响应方案
+- **决策**: 支持SSE流式传输，实时展示AI回答
+- **原因**: 长回答需等待，采用流式提升用户体验
+- **日期**: 2026-04-21

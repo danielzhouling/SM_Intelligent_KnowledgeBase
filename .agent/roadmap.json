@@ -7,7 +7,7 @@
       "name": "Demo静态页面",
       "description": "完成用户端和管理后台的静态页面Demo",
       "tasks": ["TASK-001", "TASK-002", "TASK-003", "TASK-004", "TASK-005", "TASK-006", "TASK-007", "TASK-008", "TASK-009", "TASK-010", "TASK-011", "TASK-012"],
-      "status": "in_progress"
+      "status": "completed"
     },
     {
       "id": "M2",
@@ -51,13 +51,16 @@
     {
       "id": "M5",
       "name": "真实API对接",
-      "description": "管理后端与Dify API对接",
+      "description": "后端代理服务 + 前端API服务层 + Dify对接",
       "tasks": [
         "TASK-M5-001",
         "TASK-M5-002",
         "TASK-M5-003",
         "TASK-M5-004",
-        "TASK-M5-005"
+        "TASK-M5-005",
+        "TASK-M5-006",
+        "TASK-M5-007",
+        "TASK-M5-008"
       ],
       "status": "pending"
     }
@@ -85,11 +88,14 @@
       "TASK-M4-005": "Bot对话流程测试与调优"
     },
     "M5": {
-      "TASK-M5-001": "用户端API对接（替换localStorage）",
-      "TASK-M5-002": "管理后台API对接",
-      "TASK-M5-003": "反馈数据同步机制",
-      "TASK-M5-004": "Dify API密钥与权限管理",
-      "TASK-M5-005": "端到端集成测试"
+      "TASK-M5-001": "后端代理服务设计与实现",
+      "TASK-M5-002": "API路由层开发",
+      "TASK-M5-003": "Dify API对接与流式处理",
+      "TASK-M5-004": "前端API服务层设计(api-service.js)",
+      "TASK-M5-005": "对话上下文与会话管理",
+      "TASK-M5-006": "用户端API替换(localStorage → 真实API)",
+      "TASK-M5-007": "管理后台API对接",
+      "TASK-M5-008": "端到端集成测试"
     }
   }
 }
