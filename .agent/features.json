@@ -80,7 +80,7 @@
     {
       "id": "TASK-M2-004",
       "description": "配置Dify与Ollama连接",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M2-005",

@@ -11,7 +11,7 @@
 | TASK-M2-001 | 安装Ollama并配置Metal后端支持 | ✅ 已完成 |
 | TASK-M2-002 | 部署Qdrant向量数据库 | ✅ 已完成 |
 | TASK-M2-003 | 部署Dify平台 | ✅ 已完成 |
-| TASK-M2-004 | 配置Dify与Ollama连接 | ⏳ 待配置 (需Web操作) |
+| TASK-M2-004 | 配置Dify与Ollama连接 | ✅ 已完成 (2026-04-21) |
 | TASK-M2-005 | 编写Docker Compose部署文档 | ⏳ 待完成 |
 
 ## 已完成详情
