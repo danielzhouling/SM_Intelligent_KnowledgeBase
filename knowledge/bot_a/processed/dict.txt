@@ -1,0 +1,133 @@
+【UOM】
+术语: UOM
+缩写: Unit of Measurement
+
+【BOM】
+术语: BOM
+缩写: Bill of Material
+
+【EAN】
+术语: EAN
+缩写: European Article Number
+
+【PLU】
+术语: PLU
+解释: Weight artilce's barcode, use to record weight,price in one code. Our system can scan it and parse weight, price information from it.
+
+【Value Pack】
+术语: Value Pack
+解释: Similar to bundle. The value pack is processed in the warehouse and delivered to the store. It's a Value pack.
+
+【Bundle】
+术语: Bundle
+解释: Package several articles to one article with BOM relationship in the store
+
+【Sale Set】
+术语: Sale Set
+解释: Sub scenario of Value Pack, one item with one freebie called Sale Set.
+
+【PO】
+术语: PO
+缩写: Purchase Order
+解释: Receiving goods from suppliers
+
+【RPO】
+术语: RPO
+缩写: Return Purchase Order
+解释: Return goods to suppliers
+
+【IBT】
+术语: IBT
+缩写: Inter branch transfer
+解释: One store transfers articles to the other stores
+
+【BST】
+术语: BST
+解释: Dc to store
+
+【STO】
+术语: STO
+解释: Stock Transport Order
+
+【GR】
+术语: GR
+缩写: Goods Receipt
+解释: DMall post order to SAP and SAP response GR to DMALL
+
+【MR】
+术语: MR
+缩写: Merchandise Return
+
+【FM】
+术语: FM
+缩写: Function Module
+
+【ROR】
+术语: ROR
+缩写: Return Order Request
+
+【RTV】
+术语: RTV
+缩写: Return to Vendor
+
+【Consignment without stock】
+术语: Consignment without stock
+解释: Vendor delivers goods to store for sale, but SM supermaket dosen't manage inventory
+
+【ISP】
+术语: ISP
+缩写: In-store POS server
+
+【Term-Z】
+术语: Term-Z
+解释: Term-Z is the daily settlement. It will print receipt which shows sale amount during this period.Term-Z can be done many times in one day. Every Term-Z will calculate the sale amount from now to last Term-Z.
+
+【X-Reading】
+术语: X-Reading
+解释: X-reading is when cashier A pre-comimt , the POS will prints X-reading to record his sales information.
+
+【Y-reading】
+术语: Y-reading
+解释: Y-reading is the sales amount in one POS from 0 am to now time.
+
+【Z-reading】
+术语: Z-reading
+解释: Z-reading is record whole day sales information. That means after Term-Z, the printer will print a Z-reading receipt. After that , this POS cannot do transactions in that day.
+
+【PCA】
+术语: PCA
+缩写: Price Change
+
+【MR】
+术语: MR
+缩写: Merchandise Return
+
+【DTI】
+术语: DTI
+缩写: Department of Trade and Industry
+解释: Executive department of the Philippine government responsible for the advancement, promotion, governance, regulation, management and growth of industry and trade.
+
+【TP】
+术语: TP
+缩写: Transfer Posting
+
+【GI】
+术语: GI
+缩写: Goods Issuance
+
+【Pull obd Order】
+术语: Pull obd Order
+缩写: Pull obd (outbound delivey) Order
+解释: Integration task wherein the system pulls the Delivery Note (obd) from SAP to DMall
+
+【MAV】
+术语: MAV
+缩写: Moving Average Price
+
+【DSA】
+术语: DSA
+
+【SOH】
+术语: SOH
+缩写: Stock on hand
+解释: Actual item in store

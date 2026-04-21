@@ -96,6 +96,11 @@
       "id": "TASK-M3-004",
       "description": "文档预处理：清洗、切分、格式化",
       "pass": true
+    },
+    {
+      "id": "TASK-M3-005",
+      "description": "Bot A数据Embedding入库Qdrant（通过Dify UI手动导入）",
+      "pass": true
     }
   ]
 }

@@ -22,7 +22,7 @@
 | TASK-M3-002 | 收集Bot B知识库文档（用户手册、蓝图） | ⏳ 待开始 |
 | TASK-M3-003 | 部署Embedding模型（m2-bert或nomic-embed-text） | ✅ 已完成 |
 | TASK-M3-004 | 文档预处理：清洗、切分、格式化 | ✅ 已完成 |
-| TASK-M3-005 | Bot A数据Embedding入库Qdrant | ⏳ 待开始 |
+| TASK-M3-005 | Bot A数据Embedding入库Qdrant | ✅ 已完成 (2026-04-22) |
 | TASK-M3-006 | Bot B数据Embedding入库Qdrant | ⏳ 待开始 |
 | TASK-M3-007 | 知识库质量验证（检索测试） | ⏳ 待开始 |
 
@@ -50,6 +50,9 @@
 | tickets.json | 4.2 MB | 3326条工单知识单元 |
 | prd.json | 114 KB | 47个PRD章节 |
 | dict.json | 10 KB | 32条术语 |
+| dict.txt | 2 KB | 数据字典（文本格式） |
+| prd.txt | 94 KB | PRD章节（文本格式） |
+| tickets_part1~7.txt | 各300~400KB | 工单拆分文件（每份500条，文本格式） |
 
 **知识单元结构：**
 ```json
@@ -71,6 +74,26 @@
 - `source="prd"` - PRD章节
 - `source="dict"` - 数据字典术语
 
+### TASK-M3-005: Bot A数据入库
+
+**导入方式：** 通过 Dify UI 手动上传（项目硬性约束）
+
+**Dify 知识库配置：**
+- 知识库名称：Bot A - 工单与PRD
+- 分段方式：自动，分段长度 1500，重叠 50
+- 索引方式：高质量（Embedding）
+- Embedding 模型：nomic-embed-text
+- 检索方式：混合检索（语义 0.7 + 关键词 0.3）
+
+**上传文件清单：**
+| 文件 | 类型 | 条数 |
+|------|------|------|
+| dict.txt | 数据字典 | 32 条 |
+| prd.txt | PRD章节 | 47 个 |
+| tickets_part1~7.txt | 工单 | 3326 条 |
+
+**测试用例：** `docs/test_cases/bot_a_knowledge_base_test.md`（19条用例）
+
 ### TASK-M2-001: Ollama安装
 - Ollama版本: 0.20.7
 - 已安装模型:
@@ -89,6 +112,11 @@
 
 ## 历史记录
 
+- 2026-04-22: Bot A数据通过Dify UI手动导入知识库（dict.txt + prd.txt + 7个tickets_part*.txt）
+- 2026-04-22: 修复Worker容器缺少MODE=worker导致Celery未启动
+- 2026-04-22: 修复API容器缺少CELERY_BROKER_URL导致文档处理失败
+- 2026-04-22: 修复plugin_daemon安装source字段大小写不匹配问题
+- 2026-04-22: Ollama插件通过本地difypkg手动安装成功
 - 2026-04-21: M3开始 - Bot A文档收集完成，预处理脚本完成
 - 2026-04-21: M2系统部署完成 - init.sh和docker-compose-all-in-one.yml
 - 2026-04-20: 需求讨论完成，确认方案，开始M1任务拆分

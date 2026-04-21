@@ -126,11 +126,28 @@ services:
       - QDRANT_CLIENT_TIMEOUT=20
       - QDRANT_GRPC_ENABLED=false
 
+      # Celery 配置
+      - CELERY_BROKER_URL=redis://:dify-redis-pass@redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://:dify-redis-pass@redis:6379/1
+
       # 日志配置
       - LOG_LEVEL=INFO
 
       # Sentry (生产环境建议配置)
       - SENTRY_DSN=
+
+      # Plugin Daemon 配置
+      - PLUGIN_DAEMON_URL=http://plugin_daemon:5002
+      - PLUGIN_DAEMON_KEY=lYkiYYT6owG+71oLerGzA7GXCgOT++6ovaezWAjpCjf+Sjc3ZtU+qUEi
+      - PLUGIN_DIFY_INNER_API_KEY=QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1
+
+      # Sandbox 配置
+      - CODE_EXECUTION_ENDPOINT=http://sandbox:8194
+      - CODE_EXECUTION_API_KEY=dify-sandbox
+
+      # SSRF Proxy 配置
+      - SSRF_PROXY_HTTP_URL=http://ssrf_proxy:3128
+      - SSRF_PROXY_HTTPS_URL=http://ssrf_proxy:3128
     volumes:
       - ./volumes/dify/storage:/app/storage
       - ./volumes/dify/logs:/app/logs
@@ -141,6 +158,10 @@ services:
         condition: service_healthy
       qdrant:
         condition: service_healthy
+      plugin_daemon:
+        condition: service_started
+      sandbox:
+        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
       interval: 30s
@@ -149,6 +170,7 @@ services:
       start_period: 30s
     networks:
       - sm-network
+      - ssrf_proxy_network
 
   # ==================================================================
   # Dify Worker (异步任务处理)
@@ -157,11 +179,11 @@ services:
     image: langgenius/dify-api:1.13.3
     container_name: sm-dify-worker
     restart: unless-stopped
-    command: celery -A celery worker --loglevel=info
     environment:
       # 密钥配置
       - SECRET_KEY=dify-secret-key-change-in-production-2026
       - INIT_PASSWORD=dify123456
+      - MODE=worker
 
       # URL 配置
       - CONSOLE_WEB_URL=http://localhost:3001
@@ -199,6 +221,19 @@ services:
 
       # 日志配置
       - LOG_LEVEL=INFO
+
+      # Plugin Daemon 配置
+      - PLUGIN_DAEMON_URL=http://plugin_daemon:5002
+      - PLUGIN_DAEMON_KEY=lYkiYYT6owG+71oLerGzA7GXCgOT++6ovaezWAjpCjf+Sjc3ZtU+qUEi
+      - PLUGIN_DIFY_INNER_API_KEY=QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1
+
+      # Sandbox 配置
+      - CODE_EXECUTION_ENDPOINT=http://sandbox:8194
+      - CODE_EXECUTION_API_KEY=dify-sandbox
+
+      # SSRF Proxy 配置
+      - SSRF_PROXY_HTTP_URL=http://ssrf_proxy:3128
+      - SSRF_PROXY_HTTPS_URL=http://ssrf_proxy:3128
     volumes:
       - ./volumes/dify/storage:/app/storage
       - ./volumes/dify/logs:/app/logs
@@ -208,6 +243,98 @@ services:
       redis:
         condition: service_healthy
       qdrant:
+        condition: service_healthy
+      plugin_daemon:
+        condition: service_started
+      sandbox:
+        condition: service_started
+    networks:
+      - sm-network
+      - ssrf_proxy_network
+
+  # ==================================================================
+  # SSRF Proxy (for sandbox network isolation)
+  # ==================================================================
+  ssrf_proxy:
+    image: ubuntu/squid:latest
+    container_name: sm-dify-ssrf-proxy
+    restart: always
+    volumes:
+      - ./volumes/ssrf_proxy:/etc/squid
+    command: ["squid", "-N", "-f", "/etc/squid/squid.conf"]
+    networks:
+      - sm-network
+      - ssrf_proxy_network
+
+  # ==================================================================
+  # Sandbox (Code Execution Environment)
+  # ==================================================================
+  sandbox:
+    image: langgenius/dify-sandbox:0.2.14
+    container_name: sm-dify-sandbox
+    restart: always
+    environment:
+      - API_KEY=dify-sandbox
+      - GIN_MODE=release
+      - WORKER_TIMEOUT=15
+      - ENABLE_NETWORK=true
+      - HTTP_PROXY=http://ssrf_proxy:3128
+      - HTTPS_PROXY=http://ssrf_proxy:3128
+      - SANDBOX_PORT=8194
+      - PIP_MIRROR_URL=
+    volumes:
+      - ./volumes/sandbox/dependencies:/dependencies
+      - ./volumes/sandbox/conf:/conf
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8194/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - ssrf_proxy_network
+
+  # ==================================================================
+  # Plugin Daemon
+  # ==================================================================
+  plugin_daemon:
+    image: langgenius/dify-plugin-daemon:0.5.3-local
+    container_name: sm-dify-plugin-daemon
+    restart: always
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=dify-db-pass
+      - DB_DATABASE=dify_plugin
+      - DB_SSL_MODE=disable
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=dify-redis-pass
+      - REDIS_PORT=6379
+      - SERVER_KEY=lYkiYYT6owG+71oLerGzA7GXCgOT++6ovaezWAjpCjf+Sjc3ZtU+qUEi
+      - DIFY_INNER_API_URL=http://api:5001
+      - DIFY_INNER_API_KEY=QaHbTe77CtuXmsfyhR7+vRjI/+XbV1AaFy691iy+kGDv2Jvy0/eAh8Y1
+      - MARKETPLACE_ENABLED=true
+      - MARKETPLACE_API_URL=https://marketplace.dify.ai
+      - PLUGIN_REMOTE_INSTALLING_HOST=0.0.0.0
+      - PLUGIN_REMOTE_INSTALLING_PORT=5003
+      - PLUGIN_WORKING_PATH=/app/storage/cwd
+      - FORCE_VERIFYING_SIGNATURE=true
+      - PYTHON_ENV_INIT_TIMEOUT=120
+      - PLUGIN_MAX_EXECUTION_TIMEOUT=600
+      - PLUGIN_STDIO_BUFFER_SIZE=1024
+      - PLUGIN_STDIO_MAX_BUFFER_SIZE=5242880
+      - PIP_MIRROR_URL=
+      - PLUGIN_STORAGE_TYPE=local
+      - PLUGIN_STORAGE_LOCAL_ROOT=/app/storage
+      - PLUGIN_INSTALLED_PATH=plugin
+      - PLUGIN_PACKAGE_CACHE_PATH=plugin_packages
+      - PLUGIN_MEDIA_CACHE_PATH=assets
+    volumes:
+      - ./volumes/plugin_daemon:/app/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     networks:
       - sm-network
@@ -220,7 +347,7 @@ services:
     container_name: sm-dify-web
     restart: unless-stopped
     environment:
-      - CONSOLE_API_URL=http://localhost:3001/console/api
+      - CONSOLE_API_URL=/console/api
       - CONSOLE_WEB_URL=http://localhost:3001
       - SERVICE_API_URL=http://localhost:3001
       - APP_WEB_URL=http://localhost:3001
@@ -262,6 +389,11 @@ networks:
     ipam:
       config:
         - subnet: 172.28.0.0/16
+  ssrf_proxy_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.29.0.0/16
 
 # ==================================================================
 # 数据卷配置
