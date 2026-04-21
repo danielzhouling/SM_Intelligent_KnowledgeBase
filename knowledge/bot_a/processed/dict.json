@@ -1,0 +1,386 @@
+[
+  {
+    "doc_id": "dict_000",
+    "title": "UOM",
+    "content": "术语: UOM\n缩写: Unit of Measurement",
+    "metadata": {
+      "source": "dict",
+      "name": "UOM",
+      "abbreviation": "Unit of Measurement",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_001",
+    "title": "BOM",
+    "content": "术语: BOM\n缩写: Bill of Material",
+    "metadata": {
+      "source": "dict",
+      "name": "BOM",
+      "abbreviation": "Bill of Material",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_002",
+    "title": "EAN",
+    "content": "术语: EAN\n缩写: European Article Number",
+    "metadata": {
+      "source": "dict",
+      "name": "EAN",
+      "abbreviation": "European Article Number",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_003",
+    "title": "PLU",
+    "content": "术语: PLU\n解释: Weight artilce's barcode, use to record weight,price in one code. Our system can scan it and parse weight, price information from it.",
+    "metadata": {
+      "source": "dict",
+      "name": "PLU",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_004",
+    "title": "Value Pack",
+    "content": "术语: Value Pack\n解释: Similar to bundle. The value pack is processed in the warehouse and delivered to the store. It's a Value pack.",
+    "metadata": {
+      "source": "dict",
+      "name": "Value Pack",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_005",
+    "title": "Bundle",
+    "content": "术语: Bundle\n解释: Package several articles to one article with BOM relationship in the store",
+    "metadata": {
+      "source": "dict",
+      "name": "Bundle",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_006",
+    "title": "Sale Set",
+    "content": "术语: Sale Set\n解释: Sub scenario of Value Pack, one item with one freebie called Sale Set.",
+    "metadata": {
+      "source": "dict",
+      "name": "Sale Set",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_007",
+    "title": "PO",
+    "content": "术语: PO\n缩写: Purchase Order\n解释: Receiving goods from suppliers",
+    "metadata": {
+      "source": "dict",
+      "name": "PO",
+      "abbreviation": "Purchase Order",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_008",
+    "title": "RPO",
+    "content": "术语: RPO\n缩写: Return Purchase Order\n解释: Return goods to suppliers",
+    "metadata": {
+      "source": "dict",
+      "name": "RPO",
+      "abbreviation": "Return Purchase Order",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_009",
+    "title": "IBT",
+    "content": "术语: IBT\n缩写: Inter branch transfer\n解释: One store transfers articles to the other stores",
+    "metadata": {
+      "source": "dict",
+      "name": "IBT",
+      "abbreviation": "Inter branch transfer",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_010",
+    "title": "BST",
+    "content": "术语: BST\n解释: Dc to store",
+    "metadata": {
+      "source": "dict",
+      "name": "BST",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_011",
+    "title": "STO",
+    "content": "术语: STO\n解释: Stock Transport Order",
+    "metadata": {
+      "source": "dict",
+      "name": "STO",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_012",
+    "title": "GR",
+    "content": "术语: GR\n缩写: Goods Receipt\n解释: DMall post order to SAP and SAP response GR to DMALL",
+    "metadata": {
+      "source": "dict",
+      "name": "GR",
+      "abbreviation": "Goods Receipt",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_013",
+    "title": "MR",
+    "content": "术语: MR\n缩写: Merchandise Return",
+    "metadata": {
+      "source": "dict",
+      "name": "MR",
+      "abbreviation": "Merchandise Return",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_014",
+    "title": "FM",
+    "content": "术语: FM\n缩写: Function Module",
+    "metadata": {
+      "source": "dict",
+      "name": "FM",
+      "abbreviation": "Function Module",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_015",
+    "title": "ROR",
+    "content": "术语: ROR\n缩写: Return Order Request",
+    "metadata": {
+      "source": "dict",
+      "name": "ROR",
+      "abbreviation": "Return Order Request",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_016",
+    "title": "RTV",
+    "content": "术语: RTV\n缩写: Return to Vendor",
+    "metadata": {
+      "source": "dict",
+      "name": "RTV",
+      "abbreviation": "Return to Vendor",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_017",
+    "title": "Consignment without stock",
+    "content": "术语: Consignment without stock\n解释: Vendor delivers goods to store for sale, but SM supermaket dosen't manage inventory",
+    "metadata": {
+      "source": "dict",
+      "name": "Consignment without stock",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_018",
+    "title": "ISP",
+    "content": "术语: ISP\n缩写: In-store POS server",
+    "metadata": {
+      "source": "dict",
+      "name": "ISP",
+      "abbreviation": "In-store POS server",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_019",
+    "title": "Term-Z",
+    "content": "术语: Term-Z\n解释: Term-Z is the daily settlement. It will print receipt which shows sale amount during this period.Term-Z can be done many times in one day. Every Term-Z will calculate the sale amount from now to last Term-Z.",
+    "metadata": {
+      "source": "dict",
+      "name": "Term-Z",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_020",
+    "title": "X-Reading",
+    "content": "术语: X-Reading\n解释: X-reading is when cashier A pre-comimt , the POS will prints X-reading to record his sales information.",
+    "metadata": {
+      "source": "dict",
+      "name": "X-Reading",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_021",
+    "title": "Y-reading",
+    "content": "术语: Y-reading\n解释: Y-reading is the sales amount in one POS from 0 am to now time.",
+    "metadata": {
+      "source": "dict",
+      "name": "Y-reading",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_022",
+    "title": "Z-reading",
+    "content": "术语: Z-reading\n解释: Z-reading is record whole day sales information. That means after Term-Z, the printer will print a Z-reading receipt. After that , this POS cannot do transactions in that day.",
+    "metadata": {
+      "source": "dict",
+      "name": "Z-reading",
+      "abbreviation": "",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_023",
+    "title": "PCA",
+    "content": "术语: PCA\n缩写: Price Change",
+    "metadata": {
+      "source": "dict",
+      "name": "PCA",
+      "abbreviation": "Price Change",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_024",
+    "title": "MR",
+    "content": "术语: MR\n缩写: Merchandise Return",
+    "metadata": {
+      "source": "dict",
+      "name": "MR",
+      "abbreviation": "Merchandise Return",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_025",
+    "title": "DTI",
+    "content": "术语: DTI\n缩写: Department of Trade and Industry\n解释: Executive department of the Philippine government responsible for the advancement, promotion, governance, regulation, management and growth of industry and trade.",
+    "metadata": {
+      "source": "dict",
+      "name": "DTI",
+      "abbreviation": "Department of Trade and Industry",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_026",
+    "title": "TP",
+    "content": "术语: TP\n缩写: Transfer Posting",
+    "metadata": {
+      "source": "dict",
+      "name": "TP",
+      "abbreviation": "Transfer Posting",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_027",
+    "title": "GI",
+    "content": "术语: GI\n缩写: Goods Issuance",
+    "metadata": {
+      "source": "dict",
+      "name": "GI",
+      "abbreviation": "Goods Issuance",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_028",
+    "title": "Pull obd Order",
+    "content": "术语: Pull obd Order\n缩写: Pull obd (outbound delivey) Order\n解释: Integration task wherein the system pulls the Delivery Note (obd) from SAP to DMall",
+    "metadata": {
+      "source": "dict",
+      "name": "Pull obd Order",
+      "abbreviation": "Pull obd (outbound delivey) Order",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_029",
+    "title": "MAV",
+    "content": "术语: MAV\n缩写: Moving Average Price",
+    "metadata": {
+      "source": "dict",
+      "name": "MAV",
+      "abbreviation": "Moving Average Price",
+      "questioner": "",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_030",
+    "title": "DSA",
+    "content": "术语: DSA",
+    "metadata": {
+      "source": "dict",
+      "name": "DSA",
+      "abbreviation": "",
+      "questioner": "Leo",
+      "answerer": ""
+    }
+  },
+  {
+    "doc_id": "dict_031",
+    "title": "SOH",
+    "content": "术语: SOH\n缩写: Stock on hand\n解释: Actual item in store",
+    "metadata": {
+      "source": "dict",
+      "name": "SOH",
+      "abbreviation": "Stock on hand",
+      "questioner": "",
+      "answerer": ""
+    }
+  }
+]

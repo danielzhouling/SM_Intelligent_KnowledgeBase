@@ -6,3 +6,14 @@ node_modules/
 *.swp
 *.swo
 *~
+
+# 原始数据文件（不提交）
+knowledge/bot_a/raw/
+knowledge/bot_b/raw/
+knowledge/bot_c/raw/
+
+# Docker 数据卷
+docker/volumes/
+
+# Session 数据
+bot-data/session-*

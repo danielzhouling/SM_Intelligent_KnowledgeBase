@@ -86,6 +86,16 @@
       "id": "TASK-M2-005",
       "description": "编写Docker Compose部署文档",
       "pass": true
+    },
+    {
+      "id": "TASK-M3-001",
+      "description": "收集Bot A知识库文档（工单、问题记录）",
+      "pass": true
+    },
+    {
+      "id": "TASK-M3-004",
+      "description": "文档预处理：清洗、切分、格式化",
+      "pass": true
     }
   ]
 }
