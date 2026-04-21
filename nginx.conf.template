@@ -1,0 +1,81 @@
+worker_processes auto;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    
+    upstream web {
+        server web:3000;
+    }
+    
+    upstream api {
+        server api:5001;
+    }
+    
+    server {
+        listen 80;
+        server_name ${NGINX_SERVER_NAME};
+        
+        client_max_body_size 100M;
+        keepalive_timeout 3600s;
+        
+        # Web static files
+        location / {
+            proxy_pass http://web;
+            proxy_set_header Host $host;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_cache_bypass $http_upgrade;
+            
+            # For Next.js static files
+            proxy_cache cache;
+            add_header X-Cache-Status $upstream_cache_status;
+        }
+        
+        # Proxy to API - console routes
+        location /console/api {
+            rewrite ^/console/api/(.*) /$1 break;
+            proxy_pass http://api;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            
+            # SSE support
+            proxy_buffering off;
+            proxy_cache off;
+            proxy_read_timeout 3600s;
+            proxy_send_timeout 3600s;
+        }
+        
+        # Proxy to API - v1 routes (for app API)
+        location /v1 {
+            proxy_pass http://api;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            
+            proxy_buffering off;
+            proxy_cache off;
+            proxy_read_timeout 3600s;
+        }
+        
+        # Proxy to API - direct /api routes
+        location /api {
+            proxy_pass http://api;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            
+            proxy_buffering off;
+            proxy_cache off;
+            proxy_read_timeout 3600s;
+        }
+    }
+}
