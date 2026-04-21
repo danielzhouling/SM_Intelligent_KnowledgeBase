@@ -292,3 +292,20 @@ ApiService.toggleBot(botId, enabled)
 - **决策**: 支持SSE流式传输，实时展示AI回答
 - **原因**: 长回答需等待，采用流式提升用户体验
 - **日期**: 2026-04-21
+
+### 9.11 Embedding模型选择
+- **决策**: 使用Ollama本地部署，推荐模型 `m2-bert-base-multilingual-sentence-embedding` 或 `nomic-embed-text`
+- **原因**: 本地部署降低成本，多语言支持好（中文），Ollama官方推荐
+- **日期**: 2026-04-21
+
+### 9.12 Bot C（版本指南）同步策略
+- **决策**: 飞书多维表格定时同步（每小时，可配置）+ 支持手动触发
+- **原因**: 数据量小（几百行），全量删除重建更简单可靠；手动触发便于测试
+- **同步方式**: 定时同步（crontab表达式）+ `/api/feishu/sync` 手动触发接口
+- **日期**: 2026-04-21
+
+### 9.13 Qdrant Collection设计
+- **决策**: Bot A/B/C分别使用独立的Collection
+- **原因**: 不同Bot的问题场景和数据结构不同，独立Collection便于管理和优化
+- **Collection命名**: `bot_a_knowledge`, `bot_b_knowledge`, `bot_c_versions`
+- **日期**: 2026-04-21

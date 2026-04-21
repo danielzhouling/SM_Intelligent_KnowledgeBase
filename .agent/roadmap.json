@@ -25,26 +25,29 @@
     {
       "id": "M3",
       "name": "知识库建设",
-      "description": "文档收集、预处理、Embedding、入库",
+      "description": "文档收集、预处理、Embedding、入库Qdrant",
       "tasks": [
         "TASK-M3-001",
         "TASK-M3-002",
         "TASK-M3-003",
         "TASK-M3-004",
-        "TASK-M3-005"
+        "TASK-M3-005",
+        "TASK-M3-006",
+        "TASK-M3-007"
       ],
       "status": "pending"
     },
     {
       "id": "M4",
       "name": "Bot配置",
-      "description": "Dify智能体配置、MCP飞书连接",
+      "description": "Dify智能体配置、飞书同步服务",
       "tasks": [
         "TASK-M4-001",
         "TASK-M4-002",
         "TASK-M4-003",
         "TASK-M4-004",
-        "TASK-M4-005"
+        "TASK-M4-005",
+        "TASK-M4-006"
       ],
       "status": "pending"
     },
@@ -74,18 +77,21 @@
       "TASK-M2-005": "编写Docker Compose部署文档"
     },
     "M3": {
-      "TASK-M3-001": "收集工单、蓝图、用户手册等原始文档",
-      "TASK-M3-002": "文档预处理：清洗、切分、格式化",
-      "TASK-M3-003": "Embedding模型部署与调优",
-      "TASK-M3-004": "向量数据入库Qdrant",
-      "TASK-M3-005": "知识库质量验证"
+      "TASK-M3-001": "收集Bot A知识库文档（工单、问题记录）",
+      "TASK-M3-002": "收集Bot B知识库文档（用户手册、蓝图）",
+      "TASK-M3-003": "部署Embedding模型（m2-bert或nomic-embed-text）",
+      "TASK-M3-004": "文档预处理：清洗、切分、格式化",
+      "TASK-M3-005": "Bot A数据Embedding入库Qdrant（collection: bot_a_knowledge）",
+      "TASK-M3-006": "Bot B数据Embedding入库Qdrant（collection: bot_b_knowledge）",
+      "TASK-M3-007": "知识库质量验证（检索测试）"
     },
     "M4": {
-      "TASK-M4-001": "配置Dify Bot A（故障处理）",
-      "TASK-M4-002": "配置Dify Bot B（操作指南）",
-      "TASK-M4-003": "配置Dify Bot C（版本指南）",
-      "TASK-M4-004": "MCP飞书多维表格连接配置",
-      "TASK-M4-005": "Bot对话流程测试与调优"
+      "TASK-M4-001": "配置Dify Bot A（故障处理）- 关联bot_a_knowledge",
+      "TASK-M4-002": "配置Dify Bot B（操作指南）- 关联bot_b_knowledge",
+      "TASK-M4-003": "申请飞书多维表格访问权限（app_id + app_secret）",
+      "TASK-M4-004": "开发飞书定时同步服务（Bot C数据）",
+      "TASK-M4-005": "配置Dify Bot C（版本指南）- 关联bot_c_versions",
+      "TASK-M4-006": "Bot对话流程测试与调优"
     },
     "M5": {
       "TASK-M5-001": "后端代理服务设计与实现",

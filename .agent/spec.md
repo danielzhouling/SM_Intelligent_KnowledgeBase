@@ -433,3 +433,210 @@ const CONFIG = {
   MODE: 'mock'  // 'mock' | 'real'
 };
 ```
+
+## 十一、Qdrant向量数据库设计
+
+### 11.1 Collection设计
+
+Bot A/B/C 分别使用独立的Collection：
+
+| Collection | 用途 | 数据来源 | 向量维度 |
+|-----------|------|---------|---------|
+| bot_a_knowledge | Bot A - 故障处理 | 工单、问题记录 | 768 |
+| bot_b_knowledge | Bot B - 操作指南 | 用户手册、蓝图 | 768 |
+| bot_c_versions | Bot C - 版本指南 | 飞书多维表格同步 | 768 |
+
+### 11.2 Payload数据结构
+
+```javascript
+// Bot A/B payload
+{
+  "doc_id": "wo-2024-0521",
+  "title": "SAP上传失败处理",
+  "content": "SAP文件上传失败，问题原因：文件编码格式错误...",
+  "source": "work_order",
+  "created_at": "2024-05-21"
+}
+
+// Bot C payload
+{
+  "version": "v2.1.0",
+  "date": "2026-04-15",
+  "type": "功能新增",
+  "content": "新增库存预警功能，支持多仓库管理...",
+  "doc_link": "https://feishu.cn/..."
+}
+```
+
+### 11.3 向量检索接口
+
+```javascript
+// 后端代理向量检索
+async function searchKnowledge(botId, query, limit = 5) {
+  // 1. 将用户问题转为向量
+  const queryVector = await embedText(query);
+
+  // 2. 从对应Collection检索
+  const results = await qdrant.search(botId + '_knowledge', {
+    vector: queryVector,
+    limit: limit,
+    score_threshold: 0.7  // 相似度阈值
+  });
+
+  return results.map(r => ({
+    content: r.payload.content,
+    score: r.score,
+    metadata: r.payload
+  }));
+}
+```
+
+## 十二、Embedding服务配置
+
+### 12.1 Ollama模型配置
+
+```bash
+# 安装模型
+ollama pull m2-bert-base-multilingual-sentence-embedding
+# 或
+ollama pull nomic-embed-text
+
+# 验证
+ollama list
+```
+
+### 12.2 Embedding服务调用
+
+```javascript
+// 后端代理 - 获取文本向量
+async function embedText(text) {
+  const response = await fetch('http://localhost:11434/api/embeddings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'm2-bert-base-multilingual-sentence-embedding',
+      prompt: text
+    })
+  });
+
+  const data = await response.json();
+  return data.embedding;
+}
+```
+
+### 12.3 环境变量配置
+
+```bash
+# .env 补充
+OLLAMA_HOST=http://localhost:11434
+OLLAMA_MODEL=m2-bert-base-multilingual-sentence-embedding
+QDRANT_HOST=localhost
+QDRANT_PORT=6333
+```
+
+## 十三、Bot C飞书同步机制
+
+### 13.1 同步流程
+
+```
+飞书多维表格 → 读取记录 → 生成向量 → 写入Qdrant
+```
+
+### 13.2 定时同步配置
+
+```javascript
+// 后端代理 - 定时任务配置
+const cron = require('node-cron');
+
+// 支持两种配置方式：
+// 1. Crontab表达式（默认每小时）
+SYNC_CRON='0 * * * *'
+
+// 2. 禁用定时任务
+SYNC_CRON='disabled'
+```
+
+### 13.3 手动触发接口
+
+```
+POST /api/feishu/sync
+```
+
+响应：
+```json
+{
+  "success": true,
+  "data": {
+    "records_synced": 156,
+    "synced_at": "2026-04-21T10:00:00Z",
+    "collection": "bot_c_versions"
+  }
+}
+```
+
+### 13.4 同步状态查询
+
+```
+GET /api/feishu/sync/status
+```
+
+响应：
+```json
+{
+  "success": true,
+  "data": {
+    "last_sync": "2026-04-21T10:00:00Z",
+    "records_count": 156,
+    "next_sync": "2026-04-21T11:00:00Z",
+    "cron_expression": "0 * * * *"
+  }
+}
+```
+
+### 13.5 同步实现代码
+
+```javascript
+// src/services/feishuSync.js
+async function syncBotCVersions() {
+  // 1. 获取飞书Access Token
+  const token = await getFeishuAccessToken();
+
+  // 2. 读取飞书多维表格记录
+  const records = await fetchFeishuRecords(token);
+
+  // 3. 清空旧数据（全量重建）
+  await qdrant.deleteCollection('bot_c_versions');
+  await qdrant.createCollection('bot_c_versions', { vectorSize: 768 });
+
+  // 4. 批量写入新数据
+  const points = [];
+  for (const record of records) {
+    const vector = await embedText(record.fields['更新内容']);
+    points.push({
+      id: record.record_id,
+      vector,
+      payload: {
+        version: record.fields['版本号'],
+        date: record.fields['发布日期'],
+        type: record.fields['更新类型'],
+        content: record.fields['更新内容'],
+        doc_link: record.fields['相关文档']?.[0]?.link || ''
+      }
+    });
+  }
+
+  await qdrant.upsert('bot_c_versions', { points });
+
+  return { count: records.length };
+}
+```
+
+### 13.6 飞书API配置
+
+```bash
+# .env 补充
+FEISHU_APP_ID=cli_xxx
+FEISHU_APP_SECRET=xxx
+FEISHU_APP_TOKEN=xxx      # 多维表格app_token
+FEISHU_TABLE_ID=xxx       # 多维表格table_id
+```
