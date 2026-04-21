@@ -1,0 +1,136 @@
+# Dify Docker Compose Configuration
+# Usage: docker-compose -f dify-docker-compose.yml up -d
+
+services:
+  # Dify API Service
+  api:
+    image: langgenius/dify-api:latest
+    container_name: sm-dify-api
+    restart: unless-stopped
+    environment:
+      - SECRET_KEY=dify-secret-key-change-in-production
+      - INIT_PASSWORD=dify123456
+      - CONSOLE_WEB_URL=http://localhost:5000
+      - APP_WEB_URL=http://localhost:5000
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - SENTRY_DSN=
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=dify-db-pass
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=dify
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=dify-redis-pass
+      - REDIS_PORT=6379
+      - STORAGE_TYPE=local
+      - STORAGE_LOCAL_PATH=/app/storage
+    volumes:
+      - dify_api_data:/app/storage
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - dify-network
+
+  # Dify Web Frontend
+  web:
+    image: langgenius/dify-web:latest
+    container_name: sm-dify-web
+    restart: unless-stopped
+    environment:
+      - CONSOLE_API_URL=http://api:5001/console/api
+      - CONSOLE_WEB_URL=http://localhost:5000
+      - SERVICE_API_URL=http://api:5001
+      - APP_WEB_URL=http://localhost:5000
+      - APP_ORIGIN=*
+    networks:
+      - dify-network
+
+  # Dify Worker (for async tasks)
+  worker:
+    image: langgenius/dify-api:latest
+    container_name: sm-dify-worker
+    restart: unless-stopped
+    command: [python, -m, celery, -A, app, worker, --loglevel=info]
+    environment:
+      - SECRET_KEY=dify-secret-key-change-in-production
+      - INIT_PASSWORD=dify123456
+      - CONSOLE_WEB_URL=http://localhost:5000
+      - APP_WEB_URL=http://localhost:5000
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=dify-db-pass
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=dify
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=dify-redis-pass
+      - REDIS_PORT=6379
+      - STORAGE_TYPE=local
+      - STORAGE_LOCAL_PATH=/app/storage
+    volumes:
+      - dify_api_data:/app/storage
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - dify-network
+
+  # Dify Nginx Gateway
+  nginx:
+    image: nginx:alpine
+    container_name: sm-dify-nginx
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - web
+    networks:
+      - dify-network
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: sm-dify-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=dify-db-pass
+      - POSTGRES_DB=dify
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - dify-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: sm-dify-redis
+    restart: unless-stopped
+    command: redis-server --requirepass dify-redis-pass
+    volumes:
+      - redis_data:/data
+    networks:
+      - dify-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "dify-redis-pass", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  dify_api_data:
+  postgres_data:
+  redis_data:
+
+networks:
+  dify-network:
+    driver: bridge

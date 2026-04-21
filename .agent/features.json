@@ -61,6 +61,31 @@
       "id": "TASK-012",
       "description": "管理后台 - 导航与布局：侧边导航栏、顶部栏、权限控制",
       "pass": true
+    },
+    {
+      "id": "TASK-M2-001",
+      "description": "安装Ollama并配置Metal后端支持",
+      "pass": true
+    },
+    {
+      "id": "TASK-M2-002",
+      "description": "部署Qdrant向量数据库",
+      "pass": true
+    },
+    {
+      "id": "TASK-M2-003",
+      "description": "部署Dify平台",
+      "pass": true
+    },
+    {
+      "id": "TASK-M2-004",
+      "description": "配置Dify与Ollama连接",
+      "pass": false
+    },
+    {
+      "id": "TASK-M2-005",
+      "description": "编写Docker Compose部署文档",
+      "pass": true
     }
   ]
 }
