@@ -1,0 +1,279 @@
+# ==================================================================
+# SM-Dmall ERP 智能知识库系统 - All-in-One Docker Compose
+# ==================================================================
+# 描述: 整合 Qdrant 向量数据库 + Dify AI 平台的一键部署配置
+#       包含 Ollama 本地模型服务集成
+#
+# 使用方法:
+#   docker-compose -f docker/docker-compose-all-in-one.yml up -d
+#   docker-compose -f docker/docker-compose-all-in-one.yml down
+#
+# 依赖:
+#   - Docker Desktop (Mac/Windows) 或 Docker Engine (Linux)
+#   - Ollama 本地安装 (brew install ollama)
+#   - 端口: 6333, 6334, 3001 可用
+# ==================================================================
+
+services:
+  # ==================================================================
+  # Qdrant 向量数据库
+  # ==================================================================
+  qdrant:
+    image: qdrant/qdrant:v1.17.1
+    container_name: sm-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"      # REST API
+      - "6334:6334"      # gRPC API
+    volumes:
+      - ./volumes/qdrant:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__GRPC_PORT=6334
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__MAX_REQUEST_SIZE_MB=32
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'cat < /dev/null > /dev/tcp/localhost/6333'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - sm-network
+
+  # ==================================================================
+  # Dify PostgreSQL 数据库
+  # ==================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: sm-dify-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=dify-db-pass
+      - POSTGRES_DB=dify
+      - POSTGRES_MAX_CONNECTIONS=100
+      - POSTGRES_SHARED_BUFFERS=128MB
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sm-network
+
+  # ==================================================================
+  # Dify Redis 缓存
+  # ==================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: sm-dify-redis
+    restart: unless-stopped
+    command: redis-server --requirepass dify-redis-pass --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - ./volumes/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "dify-redis-pass", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sm-network
+
+  # ==================================================================
+  # Dify API 服务
+  # ==================================================================
+  api:
+    image: langgenius/dify-api:1.13.3
+    container_name: sm-dify-api
+    restart: unless-stopped
+    environment:
+      # 密钥配置
+      - SECRET_KEY=dify-secret-key-change-in-production-2026
+      - INIT_PASSWORD=dify123456
+
+      # URL 配置
+      - CONSOLE_WEB_URL=http://localhost:3001
+      - CONSOLE_API_URL=http://localhost:3001/console/api
+      - SERVICE_API_URL=http://localhost:3001
+      - APP_WEB_URL=http://localhost:3001
+      - APP_API_URL=http://localhost:3001
+
+      # Ollama 配置 (通过宿主机访问)
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+
+      # 数据库配置
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=dify-db-pass
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=dify
+
+      # Redis 配置
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=dify-redis-pass
+      - REDIS_PORT=6379
+
+      # 存储配置
+      - STORAGE_TYPE=local
+      - STORAGE_LOCAL_PATH=/app/storage
+
+      # 向量数据库配置 (Qdrant)
+      - VECTOR_STORE=qdrant
+      - QDRANT_URL=http://qdrant:6333
+      - QDRANT_API_KEY=
+      - QDRANT_CLIENT_TIMEOUT=20
+      - QDRANT_GRPC_ENABLED=false
+
+      # 日志配置
+      - LOG_LEVEL=INFO
+
+      # Sentry (生产环境建议配置)
+      - SENTRY_DSN=
+    volumes:
+      - ./volumes/dify/storage:/app/storage
+      - ./volumes/dify/logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - sm-network
+
+  # ==================================================================
+  # Dify Worker (异步任务处理)
+  # ==================================================================
+  worker:
+    image: langgenius/dify-api:1.13.3
+    container_name: sm-dify-worker
+    restart: unless-stopped
+    command: celery -A celery worker --loglevel=info
+    environment:
+      # 密钥配置
+      - SECRET_KEY=dify-secret-key-change-in-production-2026
+      - INIT_PASSWORD=dify123456
+
+      # URL 配置
+      - CONSOLE_WEB_URL=http://localhost:3001
+      - APP_WEB_URL=http://localhost:3001
+
+      # Ollama 配置
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+
+      # 数据库配置
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=dify-db-pass
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=dify
+
+      # Redis 配置
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=dify-redis-pass
+      - REDIS_PORT=6379
+
+      # 存储配置
+      - STORAGE_TYPE=local
+      - STORAGE_LOCAL_PATH=/app/storage
+
+      # 向量数据库配置
+      - VECTOR_STORE=qdrant
+      - QDRANT_URL=http://qdrant:6333
+      - QDRANT_API_KEY=
+      - QDRANT_CLIENT_TIMEOUT=20
+      - QDRANT_GRPC_ENABLED=false
+
+      # Celery 配置
+      - CELERY_BROKER_URL=redis://:dify-redis-pass@redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://:dify-redis-pass@redis:6379/1
+
+      # 日志配置
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./volumes/dify/storage:/app/storage
+      - ./volumes/dify/logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+    networks:
+      - sm-network
+
+  # ==================================================================
+  # Dify Web 前端
+  # ==================================================================
+  web:
+    image: langgenius/dify-web:1.13.3
+    container_name: sm-dify-web
+    restart: unless-stopped
+    environment:
+      - CONSOLE_API_URL=http://localhost:3001/console/api
+      - CONSOLE_WEB_URL=http://localhost:3001
+      - SERVICE_API_URL=http://localhost:3001
+      - APP_WEB_URL=http://localhost:3001
+      - APP_ORIGIN=*
+      - NEXT_TELEMETRY_DISABLED=1
+    depends_on:
+      - api
+    networks:
+      - sm-network
+
+  # ==================================================================
+  # Dify Nginx 反向代理
+  # ==================================================================
+  nginx:
+    image: nginx:alpine
+    container_name: sm-dify-nginx
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - web
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://0.0.0.0:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - sm-network
+
+# ==================================================================
+# 网络配置
+# ==================================================================
+networks:
+  sm-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+# ==================================================================
+# 数据卷配置
+# ==================================================================
+volumes:
+  qdrant_data:
+    driver: local
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  dify_storage:
+    driver: local
+  dify_logs:
+    driver: local

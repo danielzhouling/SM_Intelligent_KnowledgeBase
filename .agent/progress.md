@@ -1,6 +1,6 @@
 # 研发进度
 
-## 当前阶段：M2 - 系统部署
+## 当前阶段：M2 - 系统部署 (已完成)
 
 ## 任务进度
 
@@ -12,7 +12,7 @@
 | TASK-M2-002 | 部署Qdrant向量数据库 | ✅ 已完成 |
 | TASK-M2-003 | 部署Dify平台 | ✅ 已完成 |
 | TASK-M2-004 | 配置Dify与Ollama连接 | ✅ 已完成 (2026-04-21) |
-| TASK-M2-005 | 编写Docker Compose部署文档 | ⏳ 待完成 |
+| TASK-M2-005 | 编写Docker Compose部署文档 | ✅ 已完成 (2026-04-21) |
 
 ## 已完成详情
 
@@ -49,8 +49,31 @@ Dify连接Ollama需要通过Web界面配置:
    - API Base URL: http://host.docker.internal:11434
    - 使用的模型: qwen2.5:3b-instruct
 
+### TASK-M2-005: Docker Compose部署文档
+- 新增文件:
+  - `init.sh` - 环境管理脚本，支持 start/stop/restart/status/logs/health/info 命令
+  - `docker/docker-compose-all-in-one.yml` - 整合 Qdrant + Dify 的一键部署配置
+- 修复问题:
+  - Qdrant 健康检查从 `/health` 改为 `/collections` (v1.17.x API)
+  - Dify 健康检查添加 redirect 处理 (307 -> 200)
+- 验证状态:
+  - Qdrant: ✅ 健康
+  - Dify: ✅ 健康 (端口 3001)
+  - Ollama: ✅ 健康
+
 ## 历史记录
 
+Dify连接Ollama需要通过Web界面配置:
+1. 访问 http://localhost:3001
+2. 首次登录创建管理员账号
+3. 进入 Settings > Model Providers
+4. 添加 Ollama 提供商:
+   - API Base URL: http://host.docker.internal:11434
+   - 使用的模型: qwen2.5:3b-instruct
+
+## 历史记录
+
+- 2026-04-21: M2系统部署完成 - TASK-M2-005部署文档编写完成，init.sh和docker-compose-all-in-one.yml
 - 2026-04-20: 需求讨论完成，确认方案，开始M1任务拆分
 - 2026-04-20: 审查反馈修复 - TASK-004反馈机制、TASK-008多角色分配、TASK-010自动生成权限
 - 2026-04-21: M1 Demo静态页面开发完成
