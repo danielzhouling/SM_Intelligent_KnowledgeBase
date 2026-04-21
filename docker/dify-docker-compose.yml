@@ -38,10 +38,10 @@ services:
     container_name: sm-dify-web
     restart: unless-stopped
     environment:
-      - CONSOLE_API_URL=http://api:5001/console/api
-      - CONSOLE_WEB_URL=http://localhost:5000
-      - SERVICE_API_URL=http://api:5001
-      - APP_WEB_URL=http://localhost:5000
+      - CONSOLE_API_URL=http://localhost:3001/console/api
+      - CONSOLE_WEB_URL=http://localhost:3001
+      - SERVICE_API_URL=http://localhost:3001
+      - APP_WEB_URL=http://localhost:3001
       - APP_ORIGIN=*
     networks:
       - dify-network

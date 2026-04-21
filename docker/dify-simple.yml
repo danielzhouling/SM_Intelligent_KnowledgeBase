@@ -1,0 +1,136 @@
+# Simplified Dify Configuration for local development
+# Only includes essential services
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: dify-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: difyai123456
+      POSTGRES_DB: dify
+    volumes:
+      - ./volumes/db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: dify-redis
+    restart: always
+    command: redis-server --requirepass difyai123456
+    volumes:
+      - ./volumes/redis:/data
+
+  # Dify API
+  api:
+    image: langgenius/dify-api:1.13.3
+    container_name: dify-api
+    restart: always
+    environment:
+      # URLs - Use localhost with port 3001 (nginx will proxy)
+      CONSOLE_API_URL: http://localhost:3001/console/api
+      CONSOLE_WEB_URL: http://localhost:3001
+      SERVICE_API_URL: http://localhost:3001
+      APP_WEB_URL: http://localhost:3001
+      APP_API_URL: http://localhost:3001
+      
+      # Security
+      SECRET_KEY: dify-secret-key-change-in-production
+      INIT_PASSWORD: dify123456
+      
+      # Database
+      DB_USERNAME: postgres
+      DB_PASSWORD: difyai123456
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: dify
+      
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PASSWORD: difyai123456
+      REDIS_PORT: 6379
+      
+      # Ollama
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./volumes/app/storage:/app/api/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  # Dify Worker
+  worker:
+    image: langgenius/dify-api:1.13.3
+    container_name: dify-worker
+    restart: always
+    command: [python, -m, celery, -A, app, worker, --loglevel=info]
+    environment:
+      CONSOLE_API_URL: http://localhost:3001/console/api
+      CONSOLE_WEB_URL: http://localhost:3001
+      SERVICE_API_URL: http://localhost:3001
+      APP_WEB_URL: http://localhost:3001
+      APP_API_URL: http://localhost:3001
+      SECRET_KEY: dify-secret-key-change-in-production
+      INIT_PASSWORD: dify123456
+      DB_USERNAME: postgres
+      DB_PASSWORD: difyai123456
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: dify
+      REDIS_HOST: redis
+      REDIS_PASSWORD: difyai123456
+      REDIS_PORT: 6379
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./volumes/app/storage:/app/api/storage
+
+  # Dify Web (will be served through nginx)
+  web:
+    image: langgenius/dify-web:1.13.3
+    container_name: dify-web
+    restart: always
+    environment:
+      # These are baked into the image - using nginx as proxy
+      CONSOLE_API_URL: http://localhost:3001/console/api
+      CONSOLE_WEB_URL: http://localhost:3001
+      SERVICE_API_URL: http://localhost:3001
+      APP_WEB_URL: http://localhost:3001
+      APP_API_URL: http://localhost:3001
+    depends_on:
+      - api
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: dify-nginx
+    restart: always
+    ports:
+      - "3001:80"
+    volumes:
+      - ./nginx.simple.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - web
+
+networks:
+  default:
+    name: dify-network
