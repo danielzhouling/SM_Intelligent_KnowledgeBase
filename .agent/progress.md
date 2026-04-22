@@ -156,21 +156,27 @@
 | 数据字典 | 0% | **100%** |
 | 中英混合 | 16.7% | **100%** |
 
-### TASK-M4-004: 飞书 MCP Server 开发
+### TASK-M4-004: 飞书 HTTP API 服务
 
-**MCP Server:** `server/mcp_server.py`
+**服务:** `server/feishu_http_server.py` (FastAPI)
 
-**可用工具:**
-| 工具名 | 功能 |
-|--------|------|
-| `get_release_index` | 获取版本发布索引列表 |
-| `get_terminal_versions` | 获取当前生产终端版本 |
-| `search_releases` | 按关键词搜索版本记录 |
+**可用接口:**
+| 接口 | 功能 |
+|------|------|
+| `GET /api/release-index` | 获取版本发布索引列表 |
+| `GET /api/terminal-versions` | 获取当前生产终端版本 |
+| `GET /api/search?keyword=xxx` | 按关键词搜索版本 |
 
-**协议:** MCP (Model Context Protocol) over HTTP
-**数据源:** 飞书表格 ReleaseIndex
+**协议:** HTTP REST API
+**数据源:** 飞书表格 ReleaseIndex（实时读取，无缓存）
 
-**启动命令:** `python3 server/mcp_server.py`
+**启动命令:** `python3 server/feishu_http_server.py`
+**访问地址:** http://localhost:8000
+
+**Dify HTTP Tool 配置:**
+- URL: http://localhost:8000/api/release-index
+- URL: http://localhost:8000/api/terminal-versions
+- URL: http://localhost:8000/api/search?keyword={keyword}
 
 ### TASK-M2-001: Ollama安装
 - Ollama版本: 0.20.7

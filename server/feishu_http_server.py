@@ -1,22 +1,34 @@
 """
-飞书 MCP Server (HTTP 传输模式)
-实现 MCP 协议，供 Dify 调用以实时读取飞书表格数据
+飞书 HTTP API Server
+供 Dify 作为 HTTP Tool 调用，实时读取飞书表格数据
 """
 
-import json
 from typing import Any, List, Optional
 import httpx
-from mcp.server import Server
-from mcp.server.http import HTTPServer
-from mcp.types import Tool, TextContent
+from fastapi import FastAPI, Query
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 # ============== 配置 ==============
 FEISHU_APP_ID = "cli_a932aed4ec389bcb"
 FEISHU_APP_SECRET = "VEDSStFLUfeYWJe86oQwnhOxdUiaTiaN"
 FEISHU_SPREADSHEET_TOKEN = "YASaso15NhaPfQt4JTkcgKvYneY"
 
-MCP_SERVER_HOST = "0.0.0.0"
-MCP_SERVER_PORT = 8000
+SERVER_HOST = "0.0.0.0"
+SERVER_PORT = 8000
+
+# ============== FastAPI App ==============
+app = FastAPI(title="Feishu API Server", version="1.0.0")
+
+# CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # ============== 飞书 API 客户端 ==============
 class FeishuClient:
@@ -24,7 +36,6 @@ class FeishuClient:
         self.access_token: Optional[str] = None
 
     def get_access_token(self) -> str:
-        """获取飞书 Access Token"""
         if self.access_token:
             return self.access_token
 
@@ -39,7 +50,6 @@ class FeishuClient:
         return self.access_token
 
     def get_sheet_data(self, sheet_id: str, range_str: str = "A1:Z100") -> List[List]:
-        """读取飞书表格数据"""
         token = self.get_access_token()
         url = f"https://open.feishu.cn/open-apis/sheets/v2/spreadsheets/{FEISHU_SPREADSHEET_TOKEN}/values/{sheet_id}!{range_str}"
         headers = {"Authorization": f"Bearer {token}"}
@@ -51,7 +61,6 @@ class FeishuClient:
         return data["data"]["valueRange"]["values"]
 
     def get_sheet_list(self) -> List[dict]:
-        """获取所有 Sheet"""
         token = self.get_access_token()
         url = f"https://open.feishu.cn/open-apis/sheets/v3/spreadsheets/{FEISHU_SPREADSHEET_TOKEN}/sheets/query"
         headers = {"Authorization": f"Bearer {token}"}
@@ -63,67 +72,38 @@ class FeishuClient:
         return data["data"]["sheets"]
 
 
-# ============== MCP Server ==============
-app = Server("feishu-mcp")
 feishu = FeishuClient()
 
 
-@app.list_tools()
-async def list_tools() -> List[Tool]:
-    """列出所有可用工具"""
-    return [
-        Tool(
-            name="get_release_index",
-            description="获取版本发布索引列表，包含各版本的名称、模块、版本号、状态、影响范围等信息",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            }
-        ),
-        Tool(
-            name="get_terminal_versions",
-            description="获取当前生产环境的终端版本信息，包括POS、PVT、ISP、PDT、Dmall OS的当前版本",
-            inputSchema={
-                "type": "object",
-                "properties": {},
-                "required": []
-            }
-        ),
-        Tool(
-            name="search_releases",
-            description="搜索版本发布记录，可按关键词搜索版本名称、模块、状态等",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "keyword": {
-                        "type": "string",
-                        "description": "搜索关键词，如版本名、模块名"
-                    }
-                },
-                "required": ["keyword"]
-            }
-        ),
-    ]
+# ============== API Endpoints ==============
+@app.get("/")
+async def root():
+    return {"message": "Feishu API Server", "version": "1.0.0"}
 
 
-@app.call_tool()
-async def call_tool(name: str, arguments: Any) -> List[TextContent]:
-    """执行工具调用"""
-    if name == "get_release_index":
-        # 获取 Release Index 数据
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
+@app.get("/api/release-index")
+async def get_release_index():
+    """
+    获取版本发布索引列表
+    Dify HTTP Tool 调用此接口获取版本列表
+    """
+    try:
         sheets = feishu.get_sheet_list()
         release_index_sheet = next((s for s in sheets if "Release Index" in s["title"]), None)
 
         if not release_index_sheet:
-            return [TextContent(type="text", text="未找到 Release Index Sheet")]
+            return {"error": "未找到 Release Index Sheet"}
 
         rows = feishu.get_sheet_data(release_index_sheet["sheet_id"])
 
-        # 格式化输出
         result_lines = ["# 版本发布索引 (Release Index)\n"]
         if len(rows) > 2:
-            for i, row in enumerate(rows[2:22], 1):  # 只返回前20条
+            for i, row in enumerate(rows[2:22], 1):
                 if not row:
                     continue
                 release_name = row[0] if len(row) > 0 else ""
@@ -141,15 +121,24 @@ async def call_tool(name: str, arguments: Any) -> List[TextContent]:
                     result_lines.append(f"   - 模块: {', '.join(modules) if modules else 'N/A'}")
                     result_lines.append("")
 
-        return [TextContent(type="text", text="\n".join(result_lines))]
+        return {"result": "\n".join(result_lines)}
 
-    elif name == "get_terminal_versions":
-        # 获取 Production Terminal Versions 数据
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.get("/api/terminal-versions")
+async def get_terminal_versions():
+    """
+    获取当前生产环境终端版本
+    Dify HTTP Tool 调用此接口获取终端版本
+    """
+    try:
         sheets = feishu.get_sheet_list()
         terminal_sheet = next((s for s in sheets if "Production Terminal Versions" in s["title"]), None)
 
         if not terminal_sheet:
-            return [TextContent(type="text", text="未找到 Production Terminal Versions Sheet")]
+            return {"error": "未找到 Production Terminal Versions Sheet"}
 
         rows = feishu.get_sheet_data(terminal_sheet["sheet_id"])
 
@@ -175,18 +164,27 @@ async def call_tool(name: str, arguments: Any) -> List[TextContent]:
                     if header in version_map:
                         result_lines.append(f"- **{version_map[header]}**: {cell}")
 
-        return [TextContent(type="text", text="\n".join(result_lines))]
+        return {"result": "\n".join(result_lines)}
 
-    elif name == "search_releases":
-        keyword = arguments.get("keyword", "")
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.get("/api/search")
+async def search_releases(keyword: str = Query(..., description="搜索关键词")):
+    """
+    搜索版本发布记录
+    Dify HTTP Tool 调用此接口搜索版本
+    """
+    try:
         if not keyword:
-            return [TextContent(type="text", text="请提供搜索关键词")]
+            return {"error": "请提供搜索关键词"}
 
         sheets = feishu.get_sheet_list()
         release_index_sheet = next((s for s in sheets if "Release Index" in s["title"]), None)
 
         if not release_index_sheet:
-            return [TextContent(type="text", text="未找到 Release Index Sheet")]
+            return {"error": "未找到 Release Index Sheet"}
 
         rows = feishu.get_sheet_data(release_index_sheet["sheet_id"])
 
@@ -227,23 +225,18 @@ async def call_tool(name: str, arguments: Any) -> List[TextContent]:
         if found == 0:
             result_lines.append("未找到匹配结果")
 
-        return [TextContent(type="text", text="\n".join(result_lines))]
+        return {"result": "\n".join(result_lines)}
 
-    else:
-        return [TextContent(type="text", text=f"未知工具: {name}")]
-
-
-# ============== 启动 HTTP 服务器 ==============
-import asyncio
-
-async def main():
-    server = HTTPServer(app, host=MCP_SERVER_HOST, port=MCP_SERVER_PORT)
-    print(f"飞书 MCP Server 启动中...")
-    print(f"Server ID: feishu_mcp")
-    print(f"URL: http://{MCP_SERVER_HOST}:{MCP_SERVER_PORT}")
-    print(f"Dify 配置: Server URL 填写 http://{MCP_SERVER_HOST}:{MCP_SERVER_PORT}")
-    await server.run()
+    except Exception as e:
+        return {"error": str(e)}
 
 
+# ============== 启动服务器 ==============
 if __name__ == "__main__":
-    asyncio.run(main())
+    print(f"飞书 API Server 启动中...")
+    print(f"URL: http://{SERVER_HOST}:{SERVER_PORT}")
+    print(f"\nDify HTTP Tool 配置:")
+    print(f"  - 获取版本列表: GET http://{SERVER_HOST}:{SERVER_PORT}/api/release-index")
+    print(f"  - 获取终端版本: GET http://{SERVER_HOST}:{SERVER_PORT}/api/terminal-versions")
+    print(f"  - 搜索版本:     GET http://{SERVER_HOST}:{SERVER_PORT}/api/search?keyword=xxx")
+    uvicorn.run(app, host=SERVER_HOST, port=SERVER_PORT)

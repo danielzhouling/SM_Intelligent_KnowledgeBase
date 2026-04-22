@@ -129,9 +129,8 @@
     },
     {
       "id": "TASK-M4-004",
-      "description": "开发飞书定时同步服务（Bot C数据）",
-      "pass": false,
-      "note": "方案变更：改用MCP实时查询，暂不实施定时同步"
+      "description": "开发飞书HTTP API服务（供Dify HTTP Tool调用，实时读取飞书）",
+      "pass": true
     },
     {
       "id": "TASK-M4-005",
