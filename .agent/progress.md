@@ -43,8 +43,8 @@
 | TASK-M4-001 | 配置Dify Bot A（关联bot_a_knowledge） | ⏳ 待开始 |
 | TASK-M4-002 | 配置Dify Bot B（关联bot_b_knowledge） | ⏳ 暂缓 — 依赖Bot B文档 |
 | TASK-M4-003 | 申请飞书多维表格访问权限（app_id + app_secret） | ✅ 已完成 |
-| TASK-M4-004 | 开发飞书定时同步服务（Bot C数据） | ✅ 已完成 (2026-04-22) — 98条版本记录+1条终端版本 |
-| TASK-M4-005 | 配置Dify Bot C（关联bot_c_versions） | 🔄 **下一步** |
+| TASK-M4-004 | 开发飞书HTTP API服务（供Dify HTTP Tool调用） | ✅ 已完成 — 服务运行在 localhost:8000 |
+| TASK-M4-005 | 配置Dify Bot C（关联飞书HTTP Tool） | 🔄 **待配置** — 需在Dify UI手动完成 |
 | TASK-M4-006 | Bot对话流程测试与调优 | ⏳ 待开始 |
 | TASK-M3-006-1 | Embedding模型替换为bge-m3（支持中英文检索） | ✅ 已完成 (2026-04-22) — 通过率84.2% |
 | TASK-M3-007 | 知识库质量验证（检索测试，19条用例） | ✅ 已完成 (2026-04-22) — 英文87.5%通过，中文0%通过（模型不支持） |
@@ -172,6 +172,29 @@
 
 **启动命令:** `python3 server/feishu_http_server.py`
 **访问地址:** http://localhost:8000
+
+### TASK-M4-005: Dify Bot C 配置（待完成）
+
+**Dify HTTP Tool 配置步骤：**
+
+1. 打开 Dify: http://localhost:3001
+2. 登录账号: `daniel_zhou@126.com` / `dify123456`
+3. 进入 **工具 (Tools)** → 点击 **HTTP**
+4. 添加工具（共3个）：
+
+| 工具名称 | URL |
+|----------|-----|
+| `get_terminal_versions` | `http://host.docker.internal:8000/api/terminal-versions` |
+| `search_releases` | `http://host.docker.internal:8000/api/search?keyword={{keyword}}` |
+| `get_release_index` | `http://host.docker.internal:8000/api/release-index` |
+
+5. 创建 Bot C 应用：
+   - 应用 → 创建应用 → 对话型 Chatbot
+   - 名称: `Bot C - 版本指南`
+   - 启用上述 3 个 HTTP 工具
+   - 配置提示词
+
+### TASK-M4-006: Bot对话测试（待开始）
 
 **Dify HTTP Tool 配置:**
 - URL: http://localhost:8000/api/release-index
