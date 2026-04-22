@@ -113,6 +113,36 @@
       "pass": true
     },
     {
+      "id": "TASK-M4-001",
+      "description": "配置Dify Bot A（故障处理）- 关联bot_a_knowledge",
+      "pass": false
+    },
+    {
+      "id": "TASK-M4-002",
+      "description": "配置Dify Bot B（操作指南）- 关联bot_b_knowledge",
+      "pass": false
+    },
+    {
+      "id": "TASK-M4-003",
+      "description": "申请飞书多维表格访问权限（app_id + app_secret）",
+      "pass": false
+    },
+    {
+      "id": "TASK-M4-004",
+      "description": "开发飞书定时同步服务（Bot C数据）",
+      "pass": false
+    },
+    {
+      "id": "TASK-M4-005",
+      "description": "配置Dify Bot C（版本指南）- 关联bot_c_versions",
+      "pass": false
+    },
+    {
+      "id": "TASK-M4-006",
+      "description": "Bot对话流程测试与调优",
+      "pass": false
+    },
+    {
       "id": "TASK-M5-001",
       "description": "Python/FastAPI后端服务搭建 + PostgreSQL独立实例部署 + 数据库Schema初始化 + JWT认证中间件",
       "pass": false
