@@ -125,12 +125,12 @@
     {
       "id": "TASK-M4-003",
       "description": "申请飞书多维表格访问权限（app_id + app_secret）",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M4-004",
       "description": "开发飞书定时同步服务（Bot C数据）",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M4-005",

@@ -42,9 +42,9 @@
 |------|------|------|
 | TASK-M4-001 | 配置Dify Bot A（关联bot_a_knowledge） | ⏳ 待开始 |
 | TASK-M4-002 | 配置Dify Bot B（关联bot_b_knowledge） | ⏳ 暂缓 — 依赖Bot B文档 |
-| TASK-M4-003 | **申请飞书多维表格访问权限（app_id + app_secret）** | 🔄 **当前优先任务** |
-| TASK-M4-004 | 开发飞书定时同步服务（Bot C数据） | ⏳ 待开始 — 依赖M4-003 |
-| TASK-M4-005 | 配置Dify Bot C（关联bot_c_versions） | ⏳ 待开始 — 依赖M4-004 |
+| TASK-M4-003 | 申请飞书多维表格访问权限（app_id + app_secret） | ✅ 已完成 |
+| TASK-M4-004 | 开发飞书定时同步服务（Bot C数据） | ✅ 已完成 (2026-04-22) — 98条版本记录+1条终端版本 |
+| TASK-M4-005 | 配置Dify Bot C（关联bot_c_versions） | 🔄 **下一步** |
 | TASK-M4-006 | Bot对话流程测试与调优 | ⏳ 待开始 |
 | TASK-M3-006-1 | Embedding模型替换为bge-m3（支持中英文检索） | ✅ 已完成 (2026-04-22) — 通过率84.2% |
 | TASK-M3-007 | 知识库质量验证（检索测试，19条用例） | ✅ 已完成 (2026-04-22) — 英文87.5%通过，中文0%通过（模型不支持） |
@@ -155,6 +155,23 @@
 | 中文PRD | 0% | **60%** |
 | 数据字典 | 0% | **100%** |
 | 中英混合 | 16.7% | **100%** |
+
+### TASK-M4-004: 飞书定时同步服务
+
+**同步脚本：** `server/services/feishu_sync.py`
+
+**同步数据：**
+| Sheet | 记录数 | 说明 |
+|-------|--------|------|
+| Release Index | 98条 | 版本发布记录 |
+| Production Terminal Versions | 1条 | 当前终端版本 |
+
+**Qdrant Collection:** `bot_c_versions`
+**向量模型:** bge-m3 (1024维)
+**检索验证:** "What is the latest POS version?" → 0.6814 相关
+
+**同步方式:** 手动执行 `python3 server/services/feishu_sync.py`
+**定时同步:** 需配置 cron 或后续集成到 FastAPI 后端
 
 ### TASK-M2-001: Ollama安装
 - Ollama版本: 0.20.7
