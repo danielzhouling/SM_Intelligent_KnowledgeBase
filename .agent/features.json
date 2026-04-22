@@ -101,6 +101,66 @@
       "id": "TASK-M3-005",
       "description": "Bot A数据Embedding入库Qdrant（通过Dify UI手动导入）",
       "pass": true
+    },
+    {
+      "id": "TASK-M3-006-1",
+      "description": "Embedding模型替换为bge-m3（支持中英文检索），待用户确认是否执行",
+      "pass": false
+    },
+    {
+      "id": "TASK-M3-007",
+      "description": "知识库质量验证（Bot A检索测试，19条测试用例已完成）",
+      "pass": true
+    },
+    {
+      "id": "TASK-M5-001",
+      "description": "Python/FastAPI后端服务搭建 + PostgreSQL独立实例部署 + 数据库Schema初始化 + JWT认证中间件",
+      "pass": false
+    },
+    {
+      "id": "TASK-M5-002",
+      "description": "FastAPI路由层开发：auth(登录/登出/me)、users(CRUD)、roles(CRUD)、bots(CRUD)、feedbacks(提交/列表/审核/导出)、chat(消息/流式/会话)",
+      "pass": false
+    },
+    {
+      "id": "TASK-M5-003",
+      "description": "Dify API对接：httpx异步客户端、blocking/streaming双模式、SSE流式转发、API Key按Bot路由",
+      "pass": false
+    },
+    {
+      "id": "TASK-M5-004",
+      "description": "前端API服务层（api-service.js）：JWT Token管理、请求拦截、接口封装、Mock/Real模式切换",
+      "pass": false
+    },
+    {
+      "id": "TASK-M5-005",
+      "description": "会话管理：conversation映射表（user_id↔bot_id↔dify_conversation_id）、历史消息拉取、前端侧边栏会话列表",
+      "pass": false
+    },
+    {
+      "id": "TASK-M5-006",
+      "description": "用户端前端改造：localStorage→真实API、JWT登录流程、流式聊天UI、会话列表、反馈提交对接",
+      "pass": false
+    },
+    {
+      "id": "TASK-M5-007",
+      "description": "管理后台前端改造：真实API对接、用户/角色/Bot CRUD、反馈审核（状态机+审核+正确答案补充）",
+      "pass": false
+    },
+    {
+      "id": "TASK-M5-008",
+      "description": "反馈闭环实现：反馈状态机（pending→approved/rejected/source_error/duplicate）、审核接口、微调数据导出接口、知识库维护队列",
+      "pass": false
+    },
+    {
+      "id": "TASK-M5-009",
+      "description": "Docker Compose整合：后端FastAPI服务容器 + PostgreSQL容器加入现有编排，统一部署",
+      "pass": false
+    },
+    {
+      "id": "TASK-M5-010",
+      "description": "端到端集成测试：用户端全流程（登录→选Bot→聊天→反馈）、管理后台全流程（登录→各模块CRUD→反馈审核→导出）、流式响应测试",
+      "pass": false
     }
   ]
 }
