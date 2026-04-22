@@ -294,9 +294,11 @@ ApiService.toggleBot(botId, enabled)
 - **日期**: 2026-04-21
 
 ### 9.11 Embedding模型选择
-- **决策**: 使用Ollama本地部署，推荐模型 `m2-bert-base-multilingual-sentence-embedding` 或 `nomic-embed-text`
-- **原因**: 本地部署降低成本，多语言支持好（中文），Ollama官方推荐
-- **日期**: 2026-04-21
+- **决策**: 使用 `bge-m3` (BAAI) 替代 `nomic-embed-text`
+- **原因**: nomic-embed-text 仅支持英文，中文检索完全失效；bge-m3 支持100+语言、中英混合检索、8K长上下文，且在MTEB检索榜单排名第一
+- **验证结果**: 替换后通过率从 42.1% 提升至 84.2%（中文PRD从0%提升至60%，数据字典从0%提升至100%，中英混合从16.7%提升至100%）
+- **规格**: 567M参数，1024维向量，8K上下文，MIT协议
+- **日期**: 2026-04-22
 
 ### 9.12 Bot C（版本指南）同步策略
 - **决策**: 飞书多维表格定时同步（每小时，可配置）+ 支持手动触发
@@ -309,3 +311,30 @@ ApiService.toggleBot(botId, enabled)
 - **原因**: 不同Bot的问题场景和数据结构不同，独立Collection便于管理和优化
 - **Collection命名**: `bot_a_knowledge`, `bot_b_knowledge`, `bot_c_versions`
 - **日期**: 2026-04-21
+
+### 9.14 后端技术栈
+- **决策**: Python/FastAPI 替代 Node.js/Express
+- **原因**: 项目预处理脚本已用Python，AI/ML生态（微调/Embedding）均为Python原生，FastAPI自动生成API文档，async/await原生支持SSE流式
+- **日期**: 2026-04-22
+
+### 9.15 数据库选型
+- **决策**: 独立PostgreSQL实例（Docker Compose部署，与Dify的PostgreSQL隔离）
+- **原因**: 正式商用需生产级数据库；SQLite并发弱不适合商用；复用Dify的PostgreSQL会耦合升级风险
+- **日期**: 2026-04-22
+
+### 9.16 账号体系
+- **决策**: 系统自建用户表，管理后台创建/管理账号，不依赖外部SSO/LDAP
+- **原因**: 系统用户量可控（SM IT + Dmall Helpdesk），自建足够满足需求，无外部系统对接成本
+- **日期**: 2026-04-22
+
+### 9.17 会话历史保存
+- **决策**: 保存会话历史，利用Dify存储 + 后端仅存映射关系（user_id ↔ bot_id ↔ dify_conversation_id）
+- **原因**: 主流产品均保存会话；Dify已持久化conversation和message，无需重复存储；前端侧边栏展示历史会话列表
+- **日期**: 2026-04-22
+
+### 9.18 反馈闭环流程
+- **决策**: 用户提交反馈 → 后台审核（有效/无效/来源错误/重复）→ 有效反馈分类标记 → 导出微调数据集
+- **原因**: 反馈数据最终用于微调，需审核过滤噪声；来源错误类反馈进知识库维护队列而非微调
+- **状态机**: pending → approved / rejected / source_error / duplicate
+- **审核字段**: 审核员可补充"正确答案"，直接作为微调训练数据
+- **日期**: 2026-04-22

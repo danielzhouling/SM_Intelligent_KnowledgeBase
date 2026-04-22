@@ -20,7 +20,7 @@
         "TASK-M2-004",
         "TASK-M2-005"
       ],
-      "status": "in_progress"
+      "status": "completed"
     },
     {
       "id": "M3",
@@ -33,9 +33,10 @@
         "TASK-M3-004",
         "TASK-M3-005",
         "TASK-M3-006",
+        "TASK-M3-006-1",
         "TASK-M3-007"
       ],
-      "status": "pending"
+      "status": "in_progress"
     },
     {
       "id": "M4",
@@ -63,7 +64,9 @@
         "TASK-M5-005",
         "TASK-M5-006",
         "TASK-M5-007",
-        "TASK-M5-008"
+        "TASK-M5-008",
+        "TASK-M5-009",
+        "TASK-M5-010"
       ],
       "status": "pending"
     }
@@ -83,7 +86,8 @@
       "TASK-M3-004": "文档预处理：清洗、切分、格式化",
       "TASK-M3-005": "Bot A数据Embedding入库Qdrant（collection: bot_a_knowledge）",
       "TASK-M3-006": "Bot B数据Embedding入库Qdrant（collection: bot_b_knowledge）",
-      "TASK-M3-007": "知识库质量验证（检索测试）"
+      "TASK-M3-006-1": "Embedding模型替换为bge-m3（已验证通过率84.2%）",
+      "TASK-M3-007": "知识库质量验证（Bot A检索测试，19条测试用例已生成）"
     },
     "M4": {
       "TASK-M4-001": "配置Dify Bot A（故障处理）- 关联bot_a_knowledge",
@@ -94,14 +98,16 @@
       "TASK-M4-006": "Bot对话流程测试与调优"
     },
     "M5": {
-      "TASK-M5-001": "后端代理服务设计与实现",
-      "TASK-M5-002": "API路由层开发",
-      "TASK-M5-003": "Dify API对接与流式处理",
-      "TASK-M5-004": "前端API服务层设计(api-service.js)",
-      "TASK-M5-005": "对话上下文与会话管理",
-      "TASK-M5-006": "用户端API替换(localStorage → 真实API)",
-      "TASK-M5-007": "管理后台API对接",
-      "TASK-M5-008": "端到端集成测试"
+      "TASK-M5-001": "Python/FastAPI后端服务搭建 + PostgreSQL部署 + 数据库Schema初始化",
+      "TASK-M5-002": "FastAPI路由层开发（auth/users/roles/bots/feedbacks/chat）",
+      "TASK-M5-003": "Dify API对接与SSE流式处理（httpx异步客户端）",
+      "TASK-M5-004": "前端API服务层设计（api-service.js，JWT认证 + 接口封装）",
+      "TASK-M5-005": "会话管理（conversation映射表 + 历史消息拉取 + 侧边栏会话列表）",
+      "TASK-M5-006": "用户端前端改造（localStorage → 真实API，JWT登录，流式聊天）",
+      "TASK-M5-007": "管理后台前端改造（真实API对接，用户/角色/Bot/反馈CRUD）",
+      "TASK-M5-008": "反馈闭环实现（状态机 + 审核 + 微调数据导出接口）",
+      "TASK-M5-009": "Docker Compose整合（后端服务 + PostgreSQL加入现有编排）",
+      "TASK-M5-010": "端到端集成测试"
     }
   }
 }
