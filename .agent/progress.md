@@ -156,22 +156,13 @@
 | 数据字典 | 0% | **100%** |
 | 中英混合 | 16.7% | **100%** |
 
-### TASK-M4-004: 飞书定时同步服务
+### TASK-M4-004: 飞书实时查询方案（替代定时同步）
 
-**同步脚本：** `server/services/feishu_sync.py`
+**方案变更:** 不再做定时同步到 Qdrant，改用 MCP 直接读取飞书
 
-**同步数据：**
-| Sheet | 记录数 | 说明 |
-|-------|--------|------|
-| Release Index | 98条 | 版本发布记录 |
-| Production Terminal Versions | 1条 | 当前终端版本 |
+**原因:** 需要和客户确认数据同步策略，先用实时查询验证 Bot C 对话效果
 
-**Qdrant Collection:** `bot_c_versions`
-**向量模型:** bge-m3 (1024维)
-**检索验证:** "What is the latest POS version?" → 0.6814 相关
-
-**同步方式:** 手动执行 `python3 server/services/feishu_sync.py`
-**定时同步:** 需配置 cron 或后续集成到 FastAPI 后端
+**后续工作:** Dify MCP 工具 → 实时调用飞书 API
 
 ### TASK-M2-001: Ollama安装
 - Ollama版本: 0.20.7
