@@ -156,13 +156,21 @@
 | 数据字典 | 0% | **100%** |
 | 中英混合 | 16.7% | **100%** |
 
-### TASK-M4-004: 飞书实时查询方案（替代定时同步）
+### TASK-M4-004: 飞书 MCP Server 开发
 
-**方案变更:** 不再做定时同步到 Qdrant，改用 MCP 直接读取飞书
+**MCP Server:** `server/mcp_server.py`
 
-**原因:** 需要和客户确认数据同步策略，先用实时查询验证 Bot C 对话效果
+**可用工具:**
+| 工具名 | 功能 |
+|--------|------|
+| `get_release_index` | 获取版本发布索引列表 |
+| `get_terminal_versions` | 获取当前生产终端版本 |
+| `search_releases` | 按关键词搜索版本记录 |
 
-**后续工作:** Dify MCP 工具 → 实时调用飞书 API
+**协议:** MCP (Model Context Protocol) over HTTP
+**数据源:** 飞书表格 ReleaseIndex
+
+**启动命令:** `python3 server/mcp_server.py`
 
 ### TASK-M2-001: Ollama安装
 - Ollama版本: 0.20.7
