@@ -28,6 +28,7 @@ services:
     volumes:
       - ./volumes/qdrant:/qdrant/storage
     environment:
+      - TZ=Asia/Shanghai
       - QDRANT__SERVICE__GRPC_PORT=6334
       - QDRANT__SERVICE__HTTP_PORT=6333
       - QDRANT__SERVICE__MAX_REQUEST_SIZE_MB=32
@@ -48,6 +49,7 @@ services:
     container_name: sm-dify-postgres
     restart: unless-stopped
     environment:
+      - TZ=Asia/Shanghai
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=dify-db-pass
       - POSTGRES_DB=dify
@@ -71,6 +73,8 @@ services:
     container_name: sm-dify-redis
     restart: unless-stopped
     command: redis-server --requirepass dify-redis-pass --maxmemory 256mb --maxmemory-policy allkeys-lru
+    environment:
+      - TZ=Asia/Shanghai
     volumes:
       - ./volumes/redis:/data
     healthcheck:
@@ -89,6 +93,9 @@ services:
     container_name: sm-dify-api
     restart: unless-stopped
     environment:
+      # 时区配置
+      - TZ=Asia/Shanghai
+
       # 密钥配置
       - SECRET_KEY=dify-secret-key-change-in-production-2026
       - INIT_PASSWORD=dify123456
@@ -180,6 +187,9 @@ services:
     container_name: sm-dify-worker
     restart: unless-stopped
     environment:
+      # 时区配置
+      - TZ=Asia/Shanghai
+
       # 密钥配置
       - SECRET_KEY=dify-secret-key-change-in-production-2026
       - INIT_PASSWORD=dify123456
@@ -259,8 +269,8 @@ services:
     image: ubuntu/squid:latest
     container_name: sm-dify-ssrf-proxy
     restart: always
-    volumes:
-      - ./volumes/ssrf_proxy:/etc/squid
+    environment:
+      - TZ=Asia/Shanghai
     command: ["squid", "-N", "-f", "/etc/squid/squid.conf"]
     networks:
       - sm-network
@@ -274,6 +284,7 @@ services:
     container_name: sm-dify-sandbox
     restart: always
     environment:
+      - TZ=Asia/Shanghai
       - API_KEY=dify-sandbox
       - GIN_MODE=release
       - WORKER_TIMEOUT=15
@@ -301,6 +312,7 @@ services:
     container_name: sm-dify-plugin-daemon
     restart: always
     environment:
+      - TZ=Asia/Shanghai
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USERNAME=postgres
@@ -318,7 +330,7 @@ services:
       - PLUGIN_REMOTE_INSTALLING_HOST=0.0.0.0
       - PLUGIN_REMOTE_INSTALLING_PORT=5003
       - PLUGIN_WORKING_PATH=/app/storage/cwd
-      - FORCE_VERIFYING_SIGNATURE=true
+      - FORCE_VERIFYING_SIGNATURE=false
       - PYTHON_ENV_INIT_TIMEOUT=120
       - PLUGIN_MAX_EXECUTION_TIMEOUT=600
       - PLUGIN_STDIO_BUFFER_SIZE=1024
@@ -347,6 +359,7 @@ services:
     container_name: sm-dify-web
     restart: unless-stopped
     environment:
+      - TZ=Asia/Shanghai
       - CONSOLE_API_URL=/console/api
       - CONSOLE_WEB_URL=http://localhost:3001
       - SERVICE_API_URL=http://localhost:3001
@@ -365,6 +378,8 @@ services:
     image: nginx:alpine
     container_name: sm-dify-nginx
     restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - "3001:80"
     volumes:

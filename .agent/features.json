@@ -115,7 +115,7 @@
     {
       "id": "TASK-M4-001",
       "description": "配置Dify Bot A（故障处理）- 关联bot_a_knowledge",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M4-002",
@@ -134,8 +134,8 @@
     },
     {
       "id": "TASK-M4-005",
-      "description": "配置Dify Bot C（版本指南）- 关联bot_c_versions",
-      "pass": false
+      "description": "配置Dify Bot C（版本指南）- Agent + 飞书电子表格插件",
+      "pass": true
     },
     {
       "id": "TASK-M4-006",

@@ -94,7 +94,7 @@
       "TASK-M4-002": "配置Dify Bot B（操作指南）- 关联bot_b_knowledge",
       "TASK-M4-003": "申请飞书多维表格访问权限（app_id + app_secret）",
       "TASK-M4-004": "开发飞书定时同步服务（Bot C数据）",
-      "TASK-M4-005": "配置Dify Bot C（版本指南）- 关联bot_c_versions",
+      "TASK-M4-005": "配置Dify Bot C（版本指南）- Agent + 飞书电子表格插件（已完成）",
       "TASK-M4-006": "Bot对话流程测试与调优"
     },
     "M5": {

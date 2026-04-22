@@ -161,38 +161,77 @@ const ADMIN_ACCOUNTS = {
 ### 7.1 服务架构
 
 ```
-端口: 3000
-技术栈: Node.js + Express
+端口: 8000
+技术栈: Python 3.11 + FastAPI + SQLAlchemy + asyncpg
+数据库: PostgreSQL（独立实例，与Dify隔离）
 ```
 
-### 7.2 路由结构
+### 7.2 项目结构
+
+```
+server/
+├── main.py                  # FastAPI入口
+├── config.py                # 配置管理
+├── database.py              # 数据库连接
+├── models/                  # SQLAlchemy模型
+│   ├── user.py
+│   ├── role.py
+│   ├── bot.py
+│   ├── feedback.py
+│   └── conversation.py
+├── routers/                 # API路由
+│   ├── auth.py
+│   ├── chat.py
+│   ├── users.py
+│   ├── roles.py
+│   ├── bots.py
+│   └── feedbacks.py
+├── services/                # 业务逻辑
+│   ├── dify_service.py      # Dify API对接
+│   ├── feishu_sync.py       # 飞书同步
+│   └── embedding_service.py # Embedding调用
+├── schemas/                 # Pydantic请求/响应模型
+│   └── ...
+├── requirements.txt
+└── Dockerfile
+```
+
+### 7.3 路由结构
 
 ```
 /api
 ├── /auth
-│   ├── POST /login          # 用户登录
-│   └── POST /logout         # 用户登出
+│   ├── POST /login          # 用户登录 → 返回JWT Token
+│   ├── POST /logout         # 用户登出
+│   └── GET  /me             # 获取当前用户信息
 ├── /chat
-│   ├── POST /message         # 发送消息（调用Dify）
-│   ├── GET /conversations   # 获取会话列表
-│   └── GET /messages        # 获取历史消息
-├── /users                   # 用户管理CRUD
-├── /roles                   # 角色管理CRUD
-├── /bots                    # Bot管理CRUD
-└── /feedbacks               # 反馈管理CRUD
+│   ├── POST /message         # 发送消息（调用Dify，支持blocking模式）
+│   ├── POST /message/stream  # 流式发送消息（SSE）
+│   ├── GET  /conversations   # 获取当前用户的会话列表
+│   └── GET  /conversations/{id}/messages  # 获取会话历史消息
+├── /users                   # 用户管理CRUD（管理后台）
+├── /roles                   # 角色管理CRUD（管理后台）
+├── /bots                    # Bot管理CRUD（管理后台）
+├── /feedbacks               # 反馈管理CRUD
+│   ├── POST /               # 用户提交反馈
+│   ├── GET  /               # 反馈列表（管理后台，支持筛选）
+│   ├── POST /{id}/review    # 审核反馈（管理后台）
+│   └── POST /export         # 导出微调数据集
+└── /feishu
+    ├── POST /sync            # 手动触发飞书同步
+    └── GET  /sync/status     # 同步状态查询
 ```
 
-### 7.3 Dify对接配置
+### 7.4 认证方案
 
-**环境变量** (.env):
-```bash
-DIFY_API_KEY_APP_A=app-xxx-for-bot-a
-DIFY_API_KEY_APP_B=app-xxx-for-bot-b
-DIFY_API_KEY_APP_C=app-xxx-for-bot-c
-DIFY_API_BASE_URL=https://api.dify.ai/v1
-```
+**JWT Token认证**:
+- 登录成功后签发JWT access_token + refresh_token
+- access_token有效期: 24小时
+- refresh_token有效期: 7天
+- 前端每次请求携带 `Authorization: Bearer {access_token}`
+- 后端中间件校验Token + 提取user_id
 
-### 7.4 API响应格式
+### 7.5 API响应格式
 
 **成功响应**:
 ```json
@@ -209,6 +248,19 @@ DIFY_API_BASE_URL=https://api.dify.ai/v1
   "error": {
     "code": "ERROR_CODE",
     "message": "错误描述"
+  }
+}
+```
+
+**分页响应**:
+```json
+{
+  "success": true,
+  "data": {
+    "items": [...],
+    "total": 100,
+    "page": 1,
+    "page_size": 20
   }
 }
 ```
@@ -329,34 +381,55 @@ async sendMessageStream(botId, query, onChunk, onComplete) {
 
 ### 9.1 请求格式
 
-```javascript
-// 后端代理转发到Dify
-async function forwardToDify(botId, params) {
-  const apiKey = getDifyApiKey(botId); // 根据Bot获取对应API Key
+```python
+# server/services/dify_service.py
+import httpx
+from typing import AsyncGenerator
 
-  const response = await fetch(`${DIFY_BASE_URL}/chat-messages`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      inputs: {},
-      query: params.query,
-      response_mode: params.streaming ? 'streaming' : 'blocking',
-      conversation_id: params.conversationId || '',
-      user: params.userId
-    })
-  });
+async def forward_to_dify(bot_id: str, params: dict) -> dict:
+    api_key = get_dify_api_key(bot_id)
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{DIFY_BASE_URL}/chat-messages",
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}"
+            },
+            json={
+                "inputs": {},
+                "query": params["query"],
+                "response_mode": "blocking",
+                "conversation_id": params.get("conversation_id", ""),
+                "user": params["user_id"]
+            }
+        )
+        return response.json()
 
-  return response;
-}
+async def forward_to_dify_stream(bot_id: str, params: dict) -> AsyncGenerator:
+    api_key = get_dify_api_key(bot_id)
+    async with httpx.AsyncClient() as client:
+        async with client.stream("POST", f"{DIFY_BASE_URL}/chat-messages",
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}"
+            },
+            json={
+                "inputs": {},
+                "query": params["query"],
+                "response_mode": "streaming",
+                "conversation_id": params.get("conversation_id", ""),
+                "user": params["user_id"]
+            }
+        ) as response:
+            async for line in response.aiter_lines():
+                if line.startswith("data: "):
+                    yield line[6:]
 ```
 
 ### 9.2 响应处理
 
 **阻塞模式**:
-```javascript
+```json
 {
   "event": "message_end",
   "task_id": "xxx",
@@ -380,36 +453,40 @@ data: {"event": "message", "type": "ai", "content": "答"}
 data: {"event": "message_end", "task_id": "xxx", ...}
 ```
 
-### 9.3 会话上下文
+### 9.3 会话管理
 
-```javascript
-// 每个用户的会话上下文
-const userContexts = new Map(); // userId -> { conversationId, messages[] }
+```python
+# server/models/conversation.py
+# 后端仅存储映射关系，聊天内容由Dify持久化
+class Conversation(Base):
+    __tablename__ = "conversations"
 
-// 创建新对话
-function createConversation(userId, botId) {
-  const conversationId = generateUUID();
-  userContexts.set(`${userId}:${botId}`, {
-    conversationId,
-    messages: []
-  });
-  return conversationId;
-}
+    id: Mapped[str]          # 主键（UUID）
+    user_id: Mapped[str]     # 关联用户
+    bot_id: Mapped[str]      # 关联Bot
+    dify_conversation_id: Mapped[str]  # Dify的conversation_id
+    title: Mapped[str]       # 会话标题（取首条消息前20字）
+    created_at: Mapped[datetime]
+    updated_at: Mapped[datetime]
 
-// 获取当前会话ID
-function getCurrentConversation(userId, botId) {
-  return userContexts.get(`${userId}:${botId}`)?.conversationId;
-}
+# 前端获取历史消息流程：
+# 1. GET /api/chat/conversations → 返回当前用户的所有会话列表
+# 2. GET /api/chat/conversations/{id}/messages → 后端通过Dify API拉取历史
 ```
 
 ## 十、环境配置清单
 
-### 10.1 后端代理环境变量
+### 10.1 后端服务环境变量
 
 ```bash
 # .env
-PORT=3000
-NODE_ENV=development
+PORT=8000
+PYTHON_ENV=development
+
+# JWT配置
+JWT_SECRET=your-secret-key-change-in-production
+JWT_ACCESS_TOKEN_EXPIRE_HOURS=24
+JWT_REFRESH_TOKEN_EXPIRE_DAYS=7
 
 # Dify API配置
 DIFY_API_KEY_APP_A=app-xxx
@@ -417,9 +494,27 @@ DIFY_API_KEY_APP_B=app-xxx
 DIFY_API_KEY_APP_C=app-xxx
 DIFY_API_BASE_URL=https://api.dify.ai/v1
 
-# 数据库配置（可选，如需持久化用户数据）
-DB_TYPE=sqlite
-DB_PATH=./data/app.db
+# PostgreSQL配置（独立实例）
+POSTGRES_HOST=sm-app-postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=knowledge_base_app
+POSTGRES_USER=kb_app
+POSTGRES_PASSWORD=kb_password_change_me
+
+# Ollama配置
+OLLAMA_HOST=http://host.docker.internal:11434
+OLLAMA_EMBED_MODEL=nomic-embed-text
+
+# Qdrant配置
+QDRANT_HOST=sm-qdrant
+QDRANT_PORT=6333
+
+# 飞书配置
+FEISHU_APP_ID=cli_xxx
+FEISHU_APP_SECRET=xxx
+FEISHU_APP_TOKEN=xxx
+FEISHU_TABLE_ID=xxx
+SYNC_CRON=0 * * * *
 ```
 
 ### 10.2 前端环境配置
@@ -497,8 +592,6 @@ async function searchKnowledge(botId, query, limit = 5) {
 
 ```bash
 # 安装模型
-ollama pull m2-bert-base-multilingual-sentence-embedding
-# 或
 ollama pull nomic-embed-text
 
 # 验证
@@ -507,136 +600,271 @@ ollama list
 
 ### 12.2 Embedding服务调用
 
-```javascript
-// 后端代理 - 获取文本向量
-async function embedText(text) {
-  const response = await fetch('http://localhost:11434/api/embeddings', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'm2-bert-base-multilingual-sentence-embedding',
-      prompt: text
-    })
-  });
+```python
+# server/services/embedding_service.py
+import httpx
 
-  const data = await response.json();
-  return data.embedding;
+async def embed_text(text: str) -> list[float]:
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{OLLAMA_HOST}/api/embeddings",
+            json={"model": OLLAMA_EMBED_MODEL, "prompt": text}
+        )
+        return response.json()["embedding"]
+```
+
+## 十三、PostgreSQL数据库设计
+
+### 13.1 表结构
+
+```sql
+-- 用户表
+CREATE TABLE users (
+    id VARCHAR(36) PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    display_name VARCHAR(100) NOT NULL,
+    status VARCHAR(20) DEFAULT 'active',  -- active / disabled
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 角色表
+CREATE TABLE roles (
+    id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 用户-角色关联表（多对多）
+CREATE TABLE user_roles (
+    user_id VARCHAR(36) REFERENCES users(id) ON DELETE CASCADE,
+    role_id VARCHAR(36) REFERENCES roles(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, role_id)
+);
+
+-- 权限表
+CREATE TABLE permissions (
+    id VARCHAR(36) PRIMARY KEY,
+    key VARCHAR(100) UNIQUE NOT NULL,    -- 例: bot.A, user.manage
+    name VARCHAR(100) NOT NULL,
+    type VARCHAR(20) NOT NULL,           -- bot / function
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 角色-权限关联表（多对多）
+CREATE TABLE role_permissions (
+    role_id VARCHAR(36) REFERENCES roles(id) ON DELETE CASCADE,
+    permission_id VARCHAR(36) REFERENCES permissions(id) ON DELETE CASCADE,
+    PRIMARY KEY (role_id, permission_id)
+);
+
+-- Bot表
+CREATE TABLE bots (
+    id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    key VARCHAR(50) UNIQUE NOT NULL,     -- 例: A, B, C
+    description TEXT,
+    dify_api_key VARCHAR(255) NOT NULL,
+    status VARCHAR(20) DEFAULT 'active', -- active / disabled
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 会话表（映射关系，聊天内容由Dify存储）
+CREATE TABLE conversations (
+    id VARCHAR(36) PRIMARY KEY,
+    user_id VARCHAR(36) REFERENCES users(id) ON DELETE CASCADE,
+    bot_id VARCHAR(36) REFERENCES bots(id) ON DELETE CASCADE,
+    dify_conversation_id VARCHAR(100) NOT NULL,
+    title VARCHAR(200),                  -- 首条消息前20字
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, bot_id, dify_conversation_id)
+);
+
+-- 反馈表
+CREATE TABLE feedbacks (
+    id VARCHAR(36) PRIMARY KEY,
+    user_id VARCHAR(36) REFERENCES users(id) ON DELETE CASCADE,
+    bot_id VARCHAR(36) REFERENCES bots(id) ON DELETE CASCADE,
+    conversation_id VARCHAR(36) REFERENCES conversations(id),
+    message_id VARCHAR(100) NOT NULL,    -- Dify的message_id
+    query TEXT NOT NULL,                  -- 用户原始问题
+    answer TEXT NOT NULL,                 -- AI回答
+    rating VARCHAR(10) NOT NULL,         -- useful / not_useful
+    reason VARCHAR(50),                  -- 不相关/来源错误/答案不完整/其他
+    comment TEXT,                         -- 用户补充说明
+    status VARCHAR(20) DEFAULT 'pending', -- pending/approved/rejected/source_error/duplicate
+    reviewed_by VARCHAR(36) REFERENCES users(id),
+    reviewed_at TIMESTAMP,
+    review_result VARCHAR(20),
+    review_comment TEXT,                 -- 审核员补充的正确答案（用于微调）
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- 飞书同步状态表
+CREATE TABLE sync_status (
+    id VARCHAR(36) PRIMARY KEY,
+    collection VARCHAR(50) NOT NULL,
+    records_synced INTEGER DEFAULT 0,
+    synced_at TIMESTAMP,
+    status VARCHAR(20),                  -- success / failed
+    error_message TEXT
+);
+```
+
+### 13.2 初始数据
+
+```sql
+-- 初始权限
+INSERT INTO permissions (id, key, name, type) VALUES
+('p1', 'user.manage', '用户管理', 'function'),
+('p2', 'role.manage', '角色管理', 'function'),
+('p3', 'feedback.view', '反馈查看', 'function'),
+('p4', 'feedback.review', '反馈审核', 'function'),
+('p5', 'knowledge.*', '知识库管理', 'function');
+
+-- 初始角色
+INSERT INTO roles (id, name, description) VALUES
+('r1', 'HQ IT Admin', '总部IT管理员'),
+('r2', 'Store Manager', '门店经理'),
+('r3', 'Helpdesk', '客服支持'),
+('r4', 'System Admin', '系统管理员（后台）');
+
+-- 角色-权限映射
+INSERT INTO role_permissions (role_id, permission_id) VALUES
+('r1', 'p3'), ('r1', 'p4'),
+('r4', 'p1'), ('r4', 'p2'), ('r4', 'p3'), ('r4', 'p4'), ('r4', 'p5');
+
+-- Bot注册后自动生成bot权限（由应用层处理）
+```
+
+## 十四、反馈闭环流程规范
+
+### 14.1 反馈状态机
+
+```
+pending（用户提交）
+    ├── approved（审核有效）→ 可导出微调数据
+    ├── rejected（审核无效）→ 结束
+    ├── source_error（知识源有误）→ 进知识库维护队列
+    └── duplicate（重复反馈）→ 结束
+```
+
+### 14.2 审核字段
+
+| 字段 | 说明 | 用途 |
+|------|------|------|
+| review_result | approved/rejected/source_error/duplicate | 分类 |
+| review_comment | 审核员补充的正确答案 | 直接作为微调训练数据 |
+| reviewed_by | 审核人 | 追溯 |
+| reviewed_at | 审核时间 | 追溯 |
+
+### 14.3 微调数据导出接口
+
+```
+POST /api/feedbacks/export
+```
+
+请求参数：
+```json
+{
+  "status": "approved",
+  "rating": "not_useful",
+  "date_from": "2026-04-01",
+  "date_to": "2026-04-22"
 }
 ```
 
-### 12.3 环境变量配置
-
-```bash
-# .env 补充
-OLLAMA_HOST=http://localhost:11434
-OLLAMA_MODEL=m2-bert-base-multilingual-sentence-embedding
-QDRANT_HOST=localhost
-QDRANT_PORT=6333
+响应格式（适配微调训练数据）：
+```json
+{
+  "success": true,
+  "data": {
+    "export_count": 42,
+    "records": [
+      {
+        "query": "用户原始问题",
+        "original_answer": "AI原始回答",
+        "feedback_reason": "答案不完整",
+        "correct_answer": "审核员补充的正确答案",
+        "bot_id": "A",
+        "citations": ["引用片段1"]
+      }
+    ]
+  }
+}
 ```
 
-## 十三、Bot C飞书同步机制
+### 14.4 知识库维护队列
 
-### 13.1 同步流程
+`source_error` 类型的反馈不进入微调，而是生成维护任务：
+
+```sql
+-- 可在feedbacks表中通过 status='source_error' 查询
+-- 管理后台提供"来源错误反馈"筛选视图
+-- 运营人员根据反馈修正/补充知识库文档
+```
+
+## 十五、Bot C飞书同步机制
+
+### 15.1 同步流程
 
 ```
 飞书多维表格 → 读取记录 → 生成向量 → 写入Qdrant
 ```
 
-### 13.2 定时同步配置
+### 15.2 定时同步配置
 
-```javascript
-// 后端代理 - 定时任务配置
-const cron = require('node-cron');
+```python
+# 使用 APScheduler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-// 支持两种配置方式：
-// 1. Crontab表达式（默认每小时）
-SYNC_CRON='0 * * * *'
-
-// 2. 禁用定时任务
-SYNC_CRON='disabled'
+# SYNC_CRON 环境变量控制，默认每小时
+# SYNC_CRON='0 * * * *'  启用
+# SYNC_CRON='disabled'   禁用
 ```
 
-### 13.3 手动触发接口
+### 15.3 同步实现代码
 
-```
-POST /api/feishu/sync
-```
+```python
+# server/services/feishu_sync.py
+import httpx
+from qdrant_client import QdrantClient
+from server.services.embedding_service import embed_text
 
-响应：
-```json
-{
-  "success": true,
-  "data": {
-    "records_synced": 156,
-    "synced_at": "2026-04-21T10:00:00Z",
-    "collection": "bot_c_versions"
-  }
-}
-```
+async def sync_bot_c_versions():
+    # 1. 获取飞书Access Token
+    token = await get_feishu_access_token()
 
-### 13.4 同步状态查询
+    # 2. 读取飞书多维表格记录
+    records = await fetch_feishu_records(token)
 
-```
-GET /api/feishu/sync/status
-```
+    # 3. 清空旧数据（全量重建）
+    client = QdrantClient(host=QDRANT_HOST, port=QDRANT_PORT)
+    client.delete_collection("bot_c_versions")
+    client.create_collection("bot_c_versions", vectors_config={...})
 
-响应：
-```json
-{
-  "success": true,
-  "data": {
-    "last_sync": "2026-04-21T10:00:00Z",
-    "records_count": 156,
-    "next_sync": "2026-04-21T11:00:00Z",
-    "cron_expression": "0 * * * *"
-  }
-}
-```
+    # 4. 批量写入新数据
+    points = []
+    for record in records:
+        vector = await embed_text(record["fields"]["更新内容"])
+        points.append({
+            "id": record["record_id"],
+            "vector": vector,
+            "payload": {
+                "version": record["fields"]["版本号"],
+                "date": record["fields"]["发布日期"],
+                "type": record["fields"]["更新类型"],
+                "content": record["fields"]["更新内容"],
+                "doc_link": record["fields"].get("相关文档", [{}])[0].get("link", "")
+            }
+        })
 
-### 13.5 同步实现代码
-
-```javascript
-// src/services/feishuSync.js
-async function syncBotCVersions() {
-  // 1. 获取飞书Access Token
-  const token = await getFeishuAccessToken();
-
-  // 2. 读取飞书多维表格记录
-  const records = await fetchFeishuRecords(token);
-
-  // 3. 清空旧数据（全量重建）
-  await qdrant.deleteCollection('bot_c_versions');
-  await qdrant.createCollection('bot_c_versions', { vectorSize: 768 });
-
-  // 4. 批量写入新数据
-  const points = [];
-  for (const record of records) {
-    const vector = await embedText(record.fields['更新内容']);
-    points.push({
-      id: record.record_id,
-      vector,
-      payload: {
-        version: record.fields['版本号'],
-        date: record.fields['发布日期'],
-        type: record.fields['更新类型'],
-        content: record.fields['更新内容'],
-        doc_link: record.fields['相关文档']?.[0]?.link || ''
-      }
-    });
-  }
-
-  await qdrant.upsert('bot_c_versions', { points });
-
-  return { count: records.length };
-}
-```
-
-### 13.6 飞书API配置
-
-```bash
-# .env 补充
-FEISHU_APP_ID=cli_xxx
-FEISHU_APP_SECRET=xxx
-FEISHU_APP_TOKEN=xxx      # 多维表格app_token
-FEISHU_TABLE_ID=xxx       # 多维表格table_id
+    client.upsert("bot_c_versions", points)
+    return {"count": len(records)}
 ```

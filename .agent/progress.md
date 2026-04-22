@@ -40,11 +40,11 @@
 
 | 任务 | 描述 | 状态 |
 |------|------|------|
-| TASK-M4-001 | 配置Dify Bot A（关联bot_a_knowledge） | ⏳ 待开始 |
+| TASK-M4-001 | 配置Dify Bot A（关联bot_a_knowledge） | ✅ 已完成 (2026-04-23) — Chatbot + 知识库检索，待调优 |
 | TASK-M4-002 | 配置Dify Bot B（关联bot_b_knowledge） | ⏳ 暂缓 — 依赖Bot B文档 |
 | TASK-M4-003 | 申请飞书多维表格访问权限（app_id + app_secret） | ✅ 已完成 |
 | TASK-M4-004 | 开发飞书HTTP API服务（供Dify HTTP Tool调用） | ✅ 已完成 — 服务运行在 localhost:8000 |
-| TASK-M4-005 | 配置Dify Bot C（关联飞书HTTP Tool） | 🔄 **待配置** — 需在Dify UI手动完成 |
+| TASK-M4-005 | 配置Dify Bot C（版本指南，飞书插件） | ✅ 已完成 (2026-04-22) — Dify Agent + 飞书电子表格插件 |
 | TASK-M4-006 | Bot对话流程测试与调优 | ⏳ 待开始 |
 | TASK-M3-006-1 | Embedding模型替换为bge-m3（支持中英文检索） | ✅ 已完成 (2026-04-22) — 通过率84.2% |
 | TASK-M3-007 | 知识库质量验证（检索测试，19条用例） | ✅ 已完成 (2026-04-22) — 英文87.5%通过，中文0%通过（模型不支持） |
@@ -173,26 +173,23 @@
 **启动命令:** `python3 server/feishu_http_server.py`
 **访问地址:** http://localhost:8000
 
-### TASK-M4-005: Dify Bot C 配置（待完成）
+### TASK-M4-005: Dify Bot C 配置（已完成）
 
-**Dify HTTP Tool 配置步骤：**
+**方案变更：** 从 HTTP Tool 方案改为 **Dify 飞书电子表格插件** 方案
 
-1. 打开 Dify: http://localhost:3001
-2. 登录账号: `daniel_zhou@126.com` / `dify123456`
-3. 进入 **工具 (Tools)** → 点击 **HTTP**
-4. 添加工具（共3个）：
+**配置详情：**
+- 应用类型: **Agent**（支持工具调用）
+- 应用名称: `Bot C - 版本指南`
+- LLM 模型: `qwen2.5:3b-instruct` (Ollama本地)
+- 插件: `langgenius/feishu_spreadsheet:0.0.2`
+- 工具: `read_rows`, `read_table`（飞书电子表格读取）
+- 数据源: 飞书电子表格 `YASaso15NhaPfQt4JTkcgKvYneY`
 
-| 工具名称 | URL |
-|----------|-----|
-| `get_terminal_versions` | `http://host.docker.internal:8000/api/terminal-versions` |
-| `search_releases` | `http://host.docker.internal:8000/api/search?keyword={{keyword}}` |
-| `get_release_index` | `http://host.docker.internal:8000/api/release-index` |
+**飞书插件凭证配置：**
+- APP_ID: `cli_a932aed4ec389bcb`
+- APP_SECRET: 已配置
 
-5. 创建 Bot C 应用：
-   - 应用 → 创建应用 → 对话型 Chatbot
-   - 名称: `Bot C - 版本指南`
-   - 启用上述 3 个 HTTP 工具
-   - 配置提示词
+**注意：** 飞书插件使用第三方代理API (`lark-plugin-api.solutionsuite.cn`)，非直接调用飞书Open API
 
 ### TASK-M4-006: Bot对话测试（待开始）
 
@@ -221,6 +218,7 @@
 ## 历史记录
 
 - 2026-04-22: 技术方案定稿 — Python/FastAPI + PostgreSQL + JWT + 会话保存 + 反馈闭环，M5扩展为10个任务
+- 2026-04-22: TASK-M4-005完成 — Bot C配置为Dify Agent + 飞书电子表格插件，测试通过并发布
 - 2026-04-22: Bot A数据通过Dify UI手动导入知识库（dict.txt + prd.txt + 7个tickets_part*.txt）
 - 2026-04-22: 修复Worker容器缺少MODE=worker导致Celery未启动
 - 2026-04-22: 修复API容器缺少CELERY_BROKER_URL导致文档处理失败

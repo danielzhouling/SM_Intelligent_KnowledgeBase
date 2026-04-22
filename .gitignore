@@ -17,3 +17,12 @@ docker/volumes/
 
 # Session 数据
 bot-data/session-*
+
+# 敏感配置
+cookies.txt
+docker/.env
+docker/.env.dify
+
+# Python
+__pycache__/
+*.pyc
