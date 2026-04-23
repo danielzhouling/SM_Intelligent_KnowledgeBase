@@ -475,11 +475,37 @@ class Conversation(Base):
     title: Mapped[str]       # 会话标题（取首条消息前20字）
     created_at: Mapped[datetime]
     updated_at: Mapped[datetime]
-
-# 前端获取历史消息流程：
-# 1. GET /api/chat/conversations → 返回当前用户的所有会话列表
-# 2. GET /api/chat/conversations/{id}/messages → 后端通过Dify API拉取历史
 ```
+
+**多会话管理流程**:
+
+同一用户可对同一Bot创建多个独立会话，侧边栏切换：
+
+```
+用户选择Bot A
+├── 侧边栏显示历史会话列表
+│   ├── 会话1: "SAP上传失败怎么办" (3轮)
+│   ├── 会话2: "退款流程怎么操作" (2轮)
+│   └── [新建会话]
+│
+├── 点击已有会话 → GET /conversations/{id}/messages → 加载历史
+├── 继续聊天 → POST /message (带conversation_id) → Dify保持上下文
+└── 点击"新建会话" → 清空聊天区，首条消息后创建新conversation记录
+```
+
+**会话创建时机**: 首条消息响应后创建（不产生空记录）
+
+```
+1. 用户发送首条消息 → 后端转发到Dify（不带conversation_id）
+2. Dify返回 answer + conversation_id + message_id
+3. 后端创建 conversations 表记录（our_id ↔ dify_conversation_id）
+4. 前端收到 our_conversation_id，更新侧边栏（新会话出现）
+```
+
+**Bot禁用时的会话处理**:
+- Bot禁用后，用户端Bot选择页不显示该Bot
+- 已打开的聊天页，发消息时后端校验Bot状态 → 返回错误"该Bot已下线"
+- 历史会话列表中该Bot的会话仍可见，可查看历史消息（只读，不可发新消息）
 
 ## 十、环境配置清单
 
@@ -999,3 +1025,215 @@ GET /api/bots/available
 - draft状态标注"未配置API Key，暂不可用"
 - disabled状态标注"已禁用"
 - 支持按状态筛选
+
+## 十七、流式响应与反馈交互规范
+
+### 17.1 流式响应事件处理
+
+前端SSE流式处理需处理以下事件：
+
+| 事件 | 处理 |
+|------|------|
+| `message` | 追加AI回答文本到聊天区 |
+| `message_end` | 流结束，获取message_id和conversation_id，启用反馈按钮 |
+| `error` | 显示错误提示，停止流式 |
+| 网络断连 | 显示"网络中断，请重试"，停止流式 |
+
+### 17.2 反馈按钮状态机
+
+```
+AI回复中（流式输出）
+  → 反馈按钮灰色禁用
+  → "AI正在回答..."提示
+
+流式完成（收到message_end事件）
+  → 启用"有用/没用"反馈按钮
+  → 前端此时持有: message_id, conversation_id, 完整answer文本
+
+用户点击反馈提交
+  → POST /api/feedbacks
+  → body: { message_id, bot_id, conversation_id, query, answer, rating, reason, comment }
+```
+
+### 17.3 SSE错误处理
+
+前端 `sendMessageStream` 必须处理：
+
+```javascript
+// 流式请求错误处理规范
+async sendMessageStream(botId, query, conversationId, callbacks) {
+  try {
+    const response = await fetch('/api/chat/message/stream', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`
+      },
+      body: JSON.stringify({ botId, query, conversationId })
+    });
+
+    if (!response.ok) {
+      // HTTP错误（401/403/500等）
+      callbacks.onError?.(`请求失败: ${response.status}`);
+      return;
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value);
+      const lines = chunk.split('\n');
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = JSON.parse(line.slice(6));
+          switch (data.event) {
+            case 'message':
+              callbacks.onChunk?.(data.content);
+              break;
+            case 'message_end':
+              callbacks.onComplete?.(data);
+              break;
+            case 'error':
+              callbacks.onError?.(data.message);
+              return;
+          }
+        }
+      }
+    }
+  } catch (error) {
+    // 网络异常（断连、超时）
+    callbacks.onError?.('网络连接中断，请重试');
+  }
+}
+```
+
+## 十八、JWT认证与Token刷新规范
+
+### 18.1 Token生命周期
+
+| Token | 有效期 | 用途 |
+|-------|--------|------|
+| access_token | 24小时 | API请求认证 |
+| refresh_token | 7天 | 刷新access_token |
+
+### 18.2 前端自动刷新流程
+
+```
+前端发起API请求
+  → 后端返回401（access_token过期）
+  → 前端拦截器自动调用 POST /api/auth/refresh（带refresh_token）
+  → 成功：获取新access_token，重放原请求
+  → 失败（refresh_token也过期）：跳转登录页
+```
+
+### 18.3 前端请求拦截器
+
+```javascript
+// api-service.js 统一请求封装
+async _request(url, options = {}) {
+  const token = getToken();
+  const headers = {
+    'Content-Type': 'application/json',
+    ...options.headers,
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+  };
+
+  let response = await fetch(url, { ...options, headers });
+
+  // 自动刷新逻辑
+  if (response.status === 401) {
+    const refreshed = await this._refreshToken();
+    if (refreshed) {
+      headers['Authorization'] = `Bearer ${getToken()}`;
+      response = await fetch(url, { ...options, headers });
+    } else {
+      // refresh也失败，跳转登录
+      window.location.href = '/login.html';
+      return;
+    }
+  }
+
+  return response.json();
+}
+```
+
+## 十九、错误处理与降级规范
+
+### 19.1 后端错误处理
+
+| 场景 | 后端行为 | 前端展示 |
+|------|---------|---------|
+| Dify超时（>30s） | 返回504 + "AI服务响应超时" | 提示用户稍后重试 |
+| Dify返回错误 | 转发错误信息 | 显示错误原因 |
+| Bot已禁用 | 返回403 + "该Bot已下线" | 提示Bot不可用 |
+| API Key无效 | 返回500 + "Bot配置异常" | 提示联系管理员 |
+| 用户无权限 | 返回403 + "无权访问该Bot" | 提示权限不足 |
+
+### 19.2 Nginx统一入口
+
+```nginx
+# nginx.conf.template 增加API代理
+location /api/ {
+    proxy_pass http://sm-app-backend:8000/api/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+
+    # SSE流式响应专用配置
+    proxy_buffering off;
+    proxy_cache off;
+    proxy_read_timeout 300s;
+    proxy_http_version 1.1;
+    proxy_set_header Connection '';
+}
+
+location / {
+    # 前端静态文件
+    root /usr/share/nginx/html;
+    try_files $uri $uri/ /index.html;
+}
+```
+
+### 19.3 CORS配置（开发环境）
+
+```python
+# server/main.py
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # 开发环境
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+```
+
+## 二十、初始数据种子规范
+
+### 20.1 启动时自动Seed
+
+后端服务启动时检查数据库是否为空，空则自动执行种子数据：
+
+```python
+# server/seed.py
+async def seed_initial_data():
+    """仅在数据库为空时执行"""
+    if await db.is_empty():
+        await seed_permissions()
+        await seed_roles()
+        await seed_admin_user()
+        await seed_demo_users()
+```
+
+### 20.2 种子数据内容
+
+| 类别 | 数据 |
+|------|------|
+| 权限 | user.manage, role.manage, feedback.view, feedback.review, knowledge.* |
+| 角色 | HQ IT Admin, Store Manager, Helpdesk, System Admin |
+| 管理员 | admin / admin123 (bcrypt哈希) |
+| Demo用户 | hq-admin, store-manager, helpdesk (password123, bcrypt哈希) |
+| 角色-权限 | System Admin拥有全部权限，HQ IT Admin拥有feedback.view+review |
+| Bot记录 | Bot A/B/C（status=draft，API Key待后续配置） |

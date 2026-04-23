@@ -98,16 +98,16 @@
       "TASK-M4-006": "Bot对话流程测试与调优"
     },
     "M5": {
-      "TASK-M5-001": "Python/FastAPI后端服务搭建 + PostgreSQL部署 + 数据库Schema初始化",
-      "TASK-M5-002": "FastAPI路由层开发：auth(登录/登出/me)、users(CRUD)、roles(CRUD)、bots(创建/列表/配置Dify/测试连接/状态切换)、feedbacks(提交/列表/审核/导出)、chat(消息/流式/会话)",
-      "TASK-M5-003": "Dify API对接与SSE流式处理（httpx异步客户端）",
-      "TASK-M5-004": "前端API服务层设计（api-service.js，JWT认证 + 接口封装）",
-      "TASK-M5-005": "会话管理（conversation映射表 + 历史消息拉取 + 侧边栏会话列表）",
-      "TASK-M5-006": "用户端前端改造（localStorage → 真实API，JWT登录，流式聊天）",
-      "TASK-M5-007": "管理后台前端改造：真实API对接、Bot管理（两步走创建→配置Dify API Key）、反馈审核",
-      "TASK-M5-008": "反馈闭环实现（状态机 + 审核 + 微调数据导出接口）",
-      "TASK-M5-009": "Docker Compose整合（后端服务 + PostgreSQL加入现有编排）",
-      "TASK-M5-010": "端到端集成测试"
+      "TASK-M5-001": "Python/FastAPI后端服务搭建 + PostgreSQL部署 + Schema初始化 + JWT中间件 + 初始数据种子",
+      "TASK-M5-002": "FastAPI路由层：auth(登录/登出/me/refresh) + users/roles/bots(两步走)/feedbacks/chat全路由",
+      "TASK-M5-003": "Dify API对接：httpx异步客户端 + blocking/streaming双模式 + SSE流式转发 + 超时/错误降级",
+      "TASK-M5-004": "前端API服务层：JWT(access+refresh) + 401自动刷新拦截器 + 接口封装 + Mock/Real切换",
+      "TASK-M5-005": "多会话管理：首条消息后创建映射 + 侧边栏历史会话切换 + Bot禁用时只读处理",
+      "TASK-M5-006": "用户端前端改造：真实API + 流式聊天(SSE错误处理+反馈按钮状态机) + 多会话侧边栏",
+      "TASK-M5-007": "管理后台前端改造：Bot两步走管理 + 用户/角色CRUD + 反馈审核",
+      "TASK-M5-008": "反馈闭环：状态机 + 审核 + 微调数据导出 + 知识库维护队列",
+      "TASK-M5-009": "Docker Compose整合：FastAPI + PostgreSQL + Nginx统一入口(SSE配置)",
+      "TASK-M5-010": "端到端集成测试：用户端全流程 + 管理后台全流程 + 流式响应+错误降级测试"
     }
   }
 }

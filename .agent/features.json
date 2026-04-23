@@ -144,37 +144,37 @@
     },
     {
       "id": "TASK-M5-001",
-      "description": "Python/FastAPI后端服务搭建 + PostgreSQL独立实例部署 + 数据库Schema初始化 + JWT认证中间件",
+      "description": "Python/FastAPI后端服务搭建 + PostgreSQL独立实例部署 + 数据库Schema初始化 + JWT认证中间件 + 初始数据种子（admin/demo用户/角色/权限/Bot记录）",
       "pass": false
     },
     {
       "id": "TASK-M5-002",
-      "description": "FastAPI路由层开发：auth(登录/登出/me)、users(CRUD)、roles(CRUD)、bots(创建/列表/配置Dify/测试连接/状态切换)、feedbacks(提交/列表/审核/导出)、chat(消息/流式/会话)",
+      "description": "FastAPI路由层开发：auth(登录/登出/me/refresh)、users(CRUD)、roles(CRUD)、bots(创建/列表/配置Dify/测试连接/状态切换)、feedbacks(提交/列表/审核/导出)、chat(消息/流式/会话)",
       "pass": false
     },
     {
       "id": "TASK-M5-003",
-      "description": "Dify API对接：httpx异步客户端、blocking/streaming双模式、SSE流式转发、API Key按Bot路由",
+      "description": "Dify API对接：httpx异步客户端、blocking/streaming双模式、SSE流式转发、API Key按Bot路由、超时/错误处理与降级",
       "pass": false
     },
     {
       "id": "TASK-M5-004",
-      "description": "前端API服务层（api-service.js）：JWT Token管理、请求拦截、接口封装、Mock/Real模式切换",
+      "description": "前端API服务层（api-service.js）：JWT Token管理（access+refresh）、401自动刷新拦截器、请求封装、Mock/Real模式切换",
       "pass": false
     },
     {
       "id": "TASK-M5-005",
-      "description": "会话管理：conversation映射表（user_id↔bot_id↔dify_conversation_id）、历史消息拉取、前端侧边栏会话列表",
+      "description": "多会话管理：conversation映射表（首条消息响应后创建）、历史会话列表（侧边栏切换）、历史消息拉取、Bot禁用时已存在会话只读处理",
       "pass": false
     },
     {
       "id": "TASK-M5-006",
-      "description": "用户端前端改造：localStorage→真实API、JWT登录流程、流式聊天UI、会话列表、反馈提交对接",
+      "description": "用户端前端改造：localStorage→真实API、JWT登录流程、流式聊天UI（SSE错误处理+反馈按钮状态机）、多会话侧边栏、反馈提交对接",
       "pass": false
     },
     {
       "id": "TASK-M5-007",
-      "description": "管理后台前端改造：真实API对接、用户/角色CRUD、Bot管理（两步走：创建→配置Dify API Key→测试连接）、反馈审核（状态机+审核+正确答案补充）",
+      "description": "管理后台前端改造：真实API对接、用户/角色CRUD、Bot管理（两步走创建→配置Dify API Key→测试连接→状态切换）、反馈审核（状态机+审核+正确答案补充）",
       "pass": false
     },
     {
@@ -184,12 +184,12 @@
     },
     {
       "id": "TASK-M5-009",
-      "description": "Docker Compose整合：后端FastAPI服务容器 + PostgreSQL容器加入现有编排，统一部署",
+      "description": "Docker Compose整合：后端FastAPI服务容器 + PostgreSQL容器 + Nginx统一入口（静态文件+/api反向代理+SSE配置）加入现有编排",
       "pass": false
     },
     {
       "id": "TASK-M5-010",
-      "description": "端到端集成测试：用户端全流程（登录→选Bot→聊天→反馈）、管理后台全流程（登录→各模块CRUD→反馈审核→导出）、流式响应测试",
+      "description": "端到端集成测试：用户端全流程（登录→选Bot→多会话聊天→反馈→历史会话）、管理后台全流程（Bot两步走注册→用户CRUD→反馈审核→导出）、流式响应+错误降级测试",
       "pass": false
     }
   ]
