@@ -1390,3 +1390,127 @@ textarea.form-input {
     transform: translateY(-4px);
   }
 }
+
+/* ========================================
+   Chat Conversations List (M5 TASK-005)
+   ======================================== */
+
+.chat-conversations-section {
+  border-bottom: 1px solid var(--border-light);
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.chat-conversations-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px 8px;
+}
+
+.chat-conversations-title {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.btn-new-chat {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  line-height: 1;
+}
+
+.btn-new-chat:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.chat-conversations-list {
+  list-style: none;
+  padding: 0 8px 8px;
+}
+
+.conversation-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 13px;
+  color: var(--text-secondary);
+  position: relative;
+}
+
+.conversation-item:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.conversation-item.active {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.conversation-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.conversation-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.conversation-delete {
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all var(--transition-fast);
+}
+
+.conversation-item:hover .conversation-delete {
+  opacity: 1;
+}
+
+.conversation-delete:hover {
+  background: #FEE2E2;
+  color: var(--error);
+}
+
+.current-conversation-title {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chat-header-actions {
+  display: flex;
+  align-items: center;
+}

@@ -155,42 +155,42 @@
     {
       "id": "TASK-M5-003",
       "description": "Dify API对接：httpx异步客户端、blocking/streaming双模式、SSE流式转发、API Key按Bot路由、超时/错误处理与降级",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-004",
       "description": "前端API服务层（api-service.js）：JWT Token管理（access+refresh）、401自动刷新拦截器、请求封装、Mock/Real模式切换",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-005",
       "description": "多会话管理：conversation映射表（首条消息响应后创建）、历史会话列表（侧边栏切换）、历史消息拉取、Bot禁用时已存在会话只读处理",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-006",
       "description": "用户端前端改造：localStorage→真实API、JWT登录流程、流式聊天UI（SSE错误处理+反馈按钮状态机）、多会话侧边栏、反馈提交对接",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-007",
       "description": "管理后台前端改造：真实API对接、用户/角色CRUD、Bot管理（两步走创建→配置Dify API Key→测试连接→状态切换）、反馈审核（状态机+审核+正确答案补充）",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-008",
       "description": "反馈闭环实现：反馈状态机（pending→approved/rejected/source_error/duplicate）、审核接口、微调数据导出接口、知识库维护队列",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-009",
       "description": "Docker Compose整合：后端FastAPI服务容器 + PostgreSQL容器 + Nginx统一入口（静态文件+/api反向代理+SSE配置）加入现有编排",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-010",
       "description": "端到端集成测试：用户端全流程（登录→选Bot→多会话聊天→反馈→历史会话）、管理后台全流程（Bot两步走注册→用户CRUD→反馈审核→导出）、流式响应+错误降级测试",
-      "pass": false
+      "pass": true
     }
   ]
 }

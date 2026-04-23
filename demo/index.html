@@ -39,6 +39,7 @@
             class="form-input"
             placeholder="Enter your username"
             autocomplete="username"
+            required
           >
         </div>
 
@@ -50,17 +51,8 @@
             class="form-input"
             placeholder="Enter your password"
             autocomplete="current-password"
+            required
           >
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="role">Select Role</label>
-          <select id="role" class="form-select">
-            <option value="">-- Select Role --</option>
-            <option value="hq-admin">HQ IT Admin</option>
-            <option value="store-manager">Store Manager</option>
-            <option value="helpdesk">Helpdesk</option>
-          </select>
         </div>
 
         <button type="submit" class="btn btn-ai btn-lg" style="width: 100%;">
@@ -72,33 +64,43 @@
       <div class="login-hint">
         <p class="login-hint-title">Demo Accounts</p>
         <div class="login-accounts">
+          <div class="login-account" data-account="admin">
+            <span class="login-account-info">
+              <span class="login-account-name">admin</span>
+              <span class="login-account-role">System Admin</span>
+            </span>
+            <span class="login-account-pass">admin123</span>
+          </div>
           <div class="login-account" data-account="hq-admin">
             <span class="login-account-info">
               <span class="login-account-name">hq-admin</span>
-              <span class="login-account-role">Full Access (A+B+C)</span>
+              <span class="login-account-role">HQ IT Admin</span>
             </span>
             <span class="login-account-pass">password123</span>
           </div>
           <div class="login-account" data-account="store-manager">
             <span class="login-account-info">
               <span class="login-account-name">store-manager</span>
-              <span class="login-account-role">Bot B Only</span>
+              <span class="login-account-role">Store Manager</span>
             </span>
             <span class="login-account-pass">password123</span>
           </div>
           <div class="login-account" data-account="helpdesk">
             <span class="login-account-info">
               <span class="login-account-name">helpdesk</span>
-              <span class="login-account-role">Bot A, B</span>
+              <span class="login-account-role">Helpdesk</span>
             </span>
             <span class="login-account-pass">password123</span>
           </div>
         </div>
+        <p class="login-mode-hint" id="mode-hint">Mode: Mock (API Service v1.0)</p>
       </div>
     </div>
   </div>
 
+  <!-- ApiService must be loaded before app.js -->
   <script src="js/mock-data.js"></script>
+  <script src="js/api-service.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

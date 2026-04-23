@@ -48,6 +48,7 @@
 | TASK-M4-006 | Bot对话流程测试与调优 | ⏳ 待开始 |
 | TASK-M5-001 | 后端服务搭建 + PostgreSQL + Schema + JWT + 种子数据 | ✅ 已完成 (2026-04-23) |
 | TASK-M5-002 | FastAPI路由层：auth + users/roles/bots CRUD + feedbacks + chat会话 | ✅ 已完成 (2026-04-23) |
+| TASK-M5-010 | 端到端集成测试 (21个测试全部通过) | ✅ 已完成 (2026-04-23) |
 | TASK-M3-006-1 | Embedding模型替换为bge-m3（支持中英文检索） | ✅ 已完成 (2026-04-22) — 通过率84.2% |
 | TASK-M3-007 | 知识库质量验证（检索测试，19条用例） | ✅ 已完成 (2026-04-22) — 英文87.5%通过，中文0%通过（模型不支持） |
 
@@ -294,7 +295,12 @@ server/
 - 2026-04-20: 需求讨论完成，确认方案，开始M1任务拆分
 - 2026-04-21: M1 Demo静态页面开发完成
 
-## 历史记录
-
-- 2026-04-23: TASK-M5-002完成 — FastAPI全路由层开发（48个测试全部通过），users/roles/bots/feedbacks/chat CRUD + 权限控制 + Dify流式/阻塞聊天
-- 2026-04-23: TASK-M5-001完成 — FastAPI后端服务搭建（32个测试全部通过），PostgreSQL独立实例部署，JWT认证，种子数据，Docker Compose集成，飞书HTTP服务集成到后端router
+- 2026-04-23: TASK-M5-008完成 — 反馈闭环实现（admin/feedback.html），反馈审核Modal、状态机(valid/invalid/duplicate/wrong-source)、微调数据导出JSON、AdminApiService对接
+- 2026-04-23: TASK-M5-005完成 — 多会话管理（chat.html侧边栏会话列表 + 切换 + 新会话 + 删除），历史消息加载，mock模式会话持久化
+- 2026-04-23: TASK-M5-006完成 — 用户端前端改造（demo/js/app.js），ApiService真实API对接、流式响应、多会话支持、反馈提交
+- 2026-04-23: TASK-M5-007完成 — 管理后台API服务层（js/admin-api-service.js），AdminApiService实现 + admin-app.js对接，Mock/Real模式切换
+- 2026-04-23: TASK-M5-003完成 — 前端API服务层（api-service.js）重构，JWT Token管理、401刷新拦截器、SSE流式解析
+- 2026-04-23: TASK-M5-004完成 — 前端app.js改造，接入新ApiService
+- 2026-04-23: TASK-M5-002完成 — FastAPI全路由层开发（48个测试全部通过）
+- 2026-04-23: TASK-M5-001完成 — FastAPI后端服务搭建（32个测试全部通过）
+- 2026-04-23: TASK-M5-010完成 — 端到端集成测试（21个测试全部通过），覆盖认证、Bot管理、用户CRUD、角色CRUD、反馈管理

@@ -52,11 +52,13 @@
     .status-badge.wrong-source { background: #FEE2E2; color: #DC2626; }
     .rating-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 8px; font-size: 12px; }
     .rating-badge.useful { background: #D1FAE5; color: #059669; }
-    .rating-badge.not-useful { background: #FEE2E2; color: #DC2626; }
+    .rating-badge.not_useful { background: #FEE2E2; color: #DC2626; }
     .action-btns { display: flex; gap: 8px; }
     .btn-action { padding: 6px 12px; border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; border: none; transition: all var(--transition-fast); }
     .btn-review { background: var(--primary-light); color: var(--primary); }
     .btn-review:hover { background: var(--primary); color: white; }
+    .btn-export { background: #D1FAE5; color: #059669; }
+    .btn-export:hover { background: #059669; color: white; }
     .btn-view { background: var(--bg-input); color: var(--text-secondary); }
     .btn-view:hover { background: var(--border-light); }
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all var(--transition-normal); }
@@ -76,6 +78,7 @@
     .review-result-option { padding: 10px 20px; border: 1px solid var(--border-light); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-fast); }
     .review-result-option:hover { border-color: var(--primary); }
     .review-result-option.selected { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+    .answer-box { background: var(--bg-input); border-radius: var(--radius-sm); padding: 12px; margin-top: 8px; font-size: 14px; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -134,6 +137,7 @@
       <div class="admin-content">
         <div class="page-header">
           <h2 class="page-title">All Feedback</h2>
+          <button id="btn-export" class="btn btn-export"><span>📥</span><span>Export for Fine-tuning</span></button>
         </div>
 
         <div class="filters">
@@ -141,9 +145,6 @@
             <span class="filter-label">Bot:</span>
             <select id="filter-bot" class="filter-select">
               <option value="">All Bots</option>
-              <option value="A">Bot A - System Issues</option>
-              <option value="B">Bot B - Usage Knowledge</option>
-              <option value="C">Bot C - Version Content</option>
             </select>
           </div>
           <div class="filter-group">
@@ -159,7 +160,7 @@
             <select id="filter-rating" class="filter-select">
               <option value="">All</option>
               <option value="useful">Useful</option>
-              <option value="not-useful">Not Useful</option>
+              <option value="not_useful">Not Useful</option>
             </select>
           </div>
         </div>
@@ -200,6 +201,10 @@
           <div id="detail-question" class="detail-value"></div>
         </div>
         <div class="detail-row">
+          <div class="detail-label">Bot Answer</div>
+          <div id="detail-answer" class="answer-box"></div>
+        </div>
+        <div class="detail-row">
           <div class="detail-label">Bot</div>
           <div id="detail-bot" class="detail-value"></div>
         </div>
@@ -223,10 +228,10 @@
         <div id="review-section" style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-light);">
           <div class="detail-label" style="margin-bottom: 12px;">Review Result</div>
           <div class="review-result-options">
-            <div class="review-result-option" data-result="valid">Valid</div>
-            <div class="review-result-option" data-result="invalid">Invalid</div>
-            <div class="review-result-option" data-result="duplicate">Duplicate</div>
-            <div class="review-result-option" data-result="wrong-source">Wrong Source</div>
+            <div class="review-result-option" data-result="valid">✅ Valid</div>
+            <div class="review-result-option" data-result="invalid">❌ Invalid</div>
+            <div class="review-result-option" data-result="duplicate">📋 Duplicate</div>
+            <div class="review-result-option" data-result="wrong-source">📚 Wrong Source</div>
           </div>
           <div class="form-group" style="margin-top: 16px;">
             <label class="form-label">Review Notes</label>
@@ -241,51 +246,141 @@
     </div>
   </div>
 
-  <script src="../js/admin-app.js"></script>
+  <!-- Toast container for messages -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="../js/admin-api-service.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (!AdminSession.isLoggedIn()) {
-        window.location.href = 'login.html';
+    // ============================================
+    // Toast Notification
+    // ============================================
+    const Toast = {
+      container: null,
+      init() {
+        if (!this.container) {
+          this.container = document.getElementById('toast-container');
+        }
+      },
+      show(message, type = 'info', duration = 3000) {
+        this.init();
+        const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `<span class="toast-icon">${icons[type]}</span><span class="toast-message">${message}</span>`;
+        this.container.appendChild(toast);
+        setTimeout(() => {
+          toast.classList.add('hiding');
+          setTimeout(() => toast.remove(), 300);
+        }, duration);
+      },
+      success(m) { this.show(m, 'success'); },
+      error(m) { this.show(m, 'error'); },
+      warning(m) { this.show(m, 'warning'); },
+      info(m) { this.show(m, 'info'); },
+    };
+
+    // ============================================
+    // Utility
+    // ============================================
+    function $(selector) { return document.querySelector(selector); }
+    function $$(selector) { return document.querySelectorAll(selector); }
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    function formatDate(dateStr) {
+      if (!dateStr) return '-';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    // ============================================
+    // State
+    // ============================================
+    let feedbacks = [];
+    let bots = [];
+    let currentFeedbackId = null;
+    let selectedResult = null;
+    let filters = { bot_id: '', status: '', rating: '' };
+
+    // ============================================
+    // Init
+    // ============================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Check auth
+      if (AdminApiService.getMode() === 'real') {
+        const user = await AdminApiService.checkAuth();
+        if (!user) {
+          window.location.href = 'login.html';
+          return;
+        }
+      }
+
+      setupUserInfo();
+      await loadBots();
+      await loadFeedbacks();
+      setupEventListeners();
+    });
+
+    function setupUserInfo() {
+      const user = AdminApiService.getCurrentUser();
+      if (user) {
+        $('#user-avatar').textContent = (user.display_name || user.username || 'A').charAt(0).toUpperCase();
+        $('#user-name').textContent = user.display_name || user.username || 'Admin';
+        $('#user-role').textContent = user.roleName || user.role || '';
+      }
+    }
+
+    async function loadBots() {
+      try {
+        const result = await AdminApiService.getBots();
+        if (result.success && result.data) {
+          bots = result.data;
+          const select = $('#filter-bot');
+          select.innerHTML = '<option value="">All Bots</option>' +
+            bots.map(b => `<option value="${b.id}">${escapeHtml(b.name)}</option>`).join('');
+        }
+      } catch (e) {
+        console.error('Failed to load bots:', e);
+      }
+    }
+
+    async function loadFeedbacks() {
+      try {
+        const result = await AdminApiService.getFeedbacks(filters);
+        if (result.success && result.data) {
+          feedbacks = result.data;
+          renderFeedbacks();
+        }
+      } catch (e) {
+        console.error('Failed to load feedbacks:', e);
+        Toast.error('Failed to load feedbacks');
+      }
+    }
+
+    function renderFeedbacks() {
+      const tbody = $('#feedback-table');
+      $('#feedback-count').textContent = `${feedbacks.length} items`;
+
+      if (feedbacks.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No feedback found</td></tr>';
         return;
       }
 
-      const user = AdminSession.get();
-      $('#user-avatar').textContent = user.username.charAt(0).toUpperCase();
-      $('#user-name').textContent = user.username;
-      $('#user-role').textContent = user.roleName;
+      tbody.innerHTML = feedbacks.map(f => {
+        const bot = bots.find(b => b.id === f.bot_id || b.key === f.bot_id);
+        const botName = bot ? bot.name : `Bot ${f.bot_id}`;
+        const ratingClass = f.rating === 'useful' ? 'useful' : 'not_useful';
+        const ratingText = f.rating === 'useful' ? '👍 Useful' : '👎 Not Useful';
 
-      let currentFeedbackId = null;
-      let selectedResult = null;
-
-      function loadFeedbacks() {
-        let feedbacks = AdminData.getFeedbacks();
-        const botFilter = $('#filter-bot').value;
-        const statusFilter = $('#filter-status').value;
-        const ratingFilter = $('#filter-rating').value;
-
-        if (botFilter) feedbacks = feedbacks.filter(f => f.botId === botFilter);
-        if (statusFilter) feedbacks = feedbacks.filter(f => f.status === statusFilter);
-        if (ratingFilter) feedbacks = feedbacks.filter(f => f.rating === ratingFilter);
-
-        const tbody = $('#feedback-table');
-        $('#feedback-count').textContent = `${feedbacks.length} items`;
-
-        if (feedbacks.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No feedback found</td></tr>';
-          return;
-        }
-
-        tbody.innerHTML = feedbacks.map(f => `
+        return `
           <tr>
-            <td>${escapeHtml(f.question)}</td>
-            <td>Bot ${f.botId}</td>
-            <td>
-              <span class="rating-badge ${f.rating}">
-                ${f.rating === 'useful' ? '👍 Useful' : '👎 Not Useful'}
-              </span>
-            </td>
+            <td>${escapeHtml(f.query?.substring(0, 50) || '-')}${f.query?.length > 50 ? '...' : ''}</td>
+            <td>${escapeHtml(botName)}</td>
+            <td><span class="rating-badge ${ratingClass}">${ratingText}</span></td>
             <td><span class="status-badge ${f.status}">${f.status}</span></td>
-            <td>${f.createdAt}</td>
+            <td>${formatDate(f.created_at)}</td>
             <td>
               <div class="action-btns">
                 <button class="btn-action btn-view" data-id="${f.id}">View</button>
@@ -293,80 +388,125 @@
               </div>
             </td>
           </tr>
-        `).join('');
+        `;
+      }).join('');
 
-        $$('.btn-view, .btn-review').forEach(btn => {
-          btn.addEventListener('click', () => openFeedbackModal(btn.dataset.id, btn.classList.contains('btn-review') ? 'review' : 'view'));
-        });
+      $$('.btn-view, .btn-review').forEach(btn => {
+        btn.addEventListener('click', () => openFeedbackModal(btn.dataset.id, btn.classList.contains('btn-review') ? 'review' : 'view'));
+      });
+    }
+
+    function openFeedbackModal(id, mode = 'view') {
+      currentFeedbackId = id;
+      const f = feedbacks.find(fb => fb.id === id);
+      if (!f) return;
+
+      const bot = bots.find(b => b.id === f.bot_id || b.key === f.bot_id);
+      const botName = bot ? bot.name : `Bot ${f.bot_id}`;
+
+      $('#detail-question').textContent = f.query || '-';
+      $('#detail-answer').textContent = f.answer || '-';
+      $('#detail-bot').textContent = botName;
+      $('#detail-rating').innerHTML = `<span class="rating-badge ${f.rating === 'useful' ? 'useful' : 'not_useful'}">${f.rating === 'useful' ? '👍 Useful' : '👎 Not Useful'}</span>`;
+      $('#detail-date').textContent = formatDate(f.created_at);
+
+      if (f.rating === 'not_useful' && f.reason) {
+        $('#reason-section').show();
+        $('#detail-reason').textContent = f.reason;
+      } else {
+        $('#reason-section').hide();
       }
 
-      function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+      if (f.comment) {
+        $('#comment-section').show();
+        $('#detail-comment').textContent = f.comment;
+      } else {
+        $('#comment-section').hide();
       }
 
-      function openFeedbackModal(id, mode = 'view') {
-        currentFeedbackId = id;
-        const feedbacks = AdminData.getFeedbacks();
-        const f = feedbacks.find(fb => fb.id === id);
-        if (!f) return;
+      // Reset review selection
+      selectedResult = f.review_result || null;
+      $$('.review-result-option').forEach(opt => {
+        opt.classList.toggle('selected', opt.dataset.result === selectedResult);
+      });
+      $('#review-notes').value = f.review_comment || '';
 
-        const bots = AdminData.getBots();
-        const bot = bots.find(b => b.id === f.botId);
+      // Show/hide review section
+      const reviewSection = $('#review-section');
+      if (mode === 'review' && f.status === 'pending') {
+        reviewSection.style.display = 'block';
+        $('#btn-submit-review').style.display = 'inline-flex';
+      } else {
+        reviewSection.style.display = 'none';
+        $('#btn-submit-review').style.display = 'none';
+      }
 
-        $('#detail-question').textContent = f.question;
-        $('#detail-bot').textContent = bot ? `${bot.name} (${bot.nameCn})` : `Bot ${f.botId}`;
-        $('#detail-rating').innerHTML = `<span class="rating-badge ${f.rating}">${f.rating === 'useful' ? '👍 Useful' : '👎 Not Useful'}</span>`;
-        $('#detail-date').textContent = f.createdAt;
+      $('#feedback-modal').classList.add('visible');
+    }
 
-        if (f.rating === 'not-useful' && f.reason) {
-          $('#reason-section').show();
-          $('#detail-reason').textContent = f.reason;
-        } else {
-          $('#reason-section').hide();
+    function closeModal() {
+      $('#feedback-modal').classList.remove('visible');
+      currentFeedbackId = null;
+      selectedResult = null;
+    }
+
+    async function submitReview() {
+      if (!selectedResult) {
+        Toast.error('Please select a review result');
+        return;
+      }
+
+      try {
+        await AdminApiService.reviewFeedback(currentFeedbackId, selectedResult, $('#review-notes').value.trim());
+        Toast.success('Feedback reviewed successfully');
+        closeModal();
+        await loadFeedbacks();
+      } catch (e) {
+        Toast.error(e.message || 'Failed to submit review');
+      }
+    }
+
+    async function exportFeedbacks() {
+      try {
+        const result = await AdminApiService.exportFeedbacks({ status: 'reviewed' });
+        if (result.success && result.data) {
+          const validFeedbacks = result.data.filter(f => f.review_result === 'valid');
+          if (validFeedbacks.length === 0) {
+            Toast.warning('No valid feedback to export');
+            return;
+          }
+
+          // Create JSON download
+          const exportData = validFeedbacks.map(f => ({
+            query: f.query,
+            answer: f.answer,
+            bot_id: f.bot_id,
+          }));
+
+          const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `fine-tuning-feedback-${new Date().toISOString().split('T')[0]}.json`;
+          a.click();
+          URL.revokeObjectURL(url);
+
+          Toast.success(`Exported ${validFeedbacks.length} valid feedback items`);
         }
-
-        if (f.comment) {
-          $('#comment-section').show();
-          $('#detail-comment').textContent = f.comment;
-        } else {
-          $('#comment-section').hide();
-        }
-
-        // Reset review selection
-        selectedResult = f.result || null;
-        $$('.review-result-option').forEach(opt => {
-          opt.classList.toggle('selected', opt.dataset.result === selectedResult);
-        });
-        $('#review-notes').value = f.reviewNotes || '';
-
-        // Show/hide review section based on mode and status
-        const reviewSection = $('#review-section');
-        if (mode === 'review' && f.status === 'pending') {
-          reviewSection.style.display = 'block';
-          $('#btn-submit-review').style.display = 'inline-flex';
-        } else {
-          reviewSection.style.display = 'none';
-          $('#btn-submit-review').style.display = 'none';
-        }
-
-        $('#feedback-modal').classList.add('visible');
+      } catch (e) {
+        Toast.error(e.message || 'Failed to export feedbacks');
       }
+    }
 
-      function closeModal() {
-        $('#feedback-modal').classList.remove('visible');
-        currentFeedbackId = null;
-        selectedResult = null;
-      }
-
-      // Event listeners
-      $('#filter-bot').addEventListener('change', loadFeedbacks);
-      $('#filter-status').addEventListener('change', loadFeedbacks);
-      $('#filter-rating').addEventListener('change', loadFeedbacks);
+    function setupEventListeners() {
+      $('#filter-bot').addEventListener('change', (e) => { filters.bot_id = e.target.value; loadFeedbacks(); });
+      $('#filter-status').addEventListener('change', (e) => { filters.status = e.target.value; loadFeedbacks(); });
+      $('#filter-rating').addEventListener('change', (e) => { filters.rating = e.target.value; loadFeedbacks(); });
       $('#modal-close').addEventListener('click', closeModal);
       $('#btn-cancel').addEventListener('click', closeModal);
       $('#feedback-modal').addEventListener('click', (e) => { if (e.target === $('#feedback-modal')) closeModal(); });
+      $('#btn-submit-review').addEventListener('click', submitReview);
+      $('#btn-export').addEventListener('click', exportFeedbacks);
 
       $$('.review-result-option').forEach(opt => {
         opt.addEventListener('click', () => {
@@ -376,35 +516,12 @@
         });
       });
 
-      $('#btn-submit-review').addEventListener('click', () => {
-        if (!selectedResult) {
-          Toast.error('Please select a review result');
-          return;
-        }
-
-        let feedbacks = AdminData.getFeedbacks();
-        const index = feedbacks.findIndex(f => f.id === currentFeedbackId);
-        if (index !== -1) {
-          feedbacks[index].status = 'reviewed';
-          feedbacks[index].result = selectedResult;
-          feedbacks[index].reviewer = AdminSession.get().username;
-          feedbacks[index].reviewedAt = new Date().toISOString().split('T')[0];
-          feedbacks[index].reviewNotes = $('#review-notes').value.trim();
-          AdminData.saveFeedbacks(feedbacks);
-          Toast.success('Feedback reviewed successfully');
-          closeModal();
-          loadFeedbacks();
-        }
-      });
-
-      $('#btn-logout').addEventListener('click', () => {
-        AdminSession.clear();
+      $('#btn-logout').addEventListener('click', async () => {
+        await AdminApiService.logout();
         Toast.success('Logged out successfully');
         setTimeout(() => window.location.href = 'login.html', 500);
       });
-
-      loadFeedbacks();
-    });
+    }
   </script>
 </body>
 </html>

@@ -35,9 +35,19 @@ app.add_middleware(
 # Register routers
 from server.routers.auth import router as auth_router  # noqa: E402
 from server.routers.feishu import router as feishu_router  # noqa: E402
+from server.routers.users import router as users_router  # noqa: E402
+from server.routers.roles import router as roles_router  # noqa: E402
+from server.routers.bots import router as bots_router  # noqa: E402
+from server.routers.feedbacks import router as feedbacks_router  # noqa: E402
+from server.routers.chat import router as chat_router  # noqa: E402
 
 app.include_router(auth_router)
 app.include_router(feishu_router)
+app.include_router(users_router)
+app.include_router(roles_router)
+app.include_router(bots_router)
+app.include_router(feedbacks_router)
+app.include_router(chat_router)
 
 
 @app.get("/health")

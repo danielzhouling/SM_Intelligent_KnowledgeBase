@@ -42,3 +42,26 @@ async def get_current_user(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User is disabled")
 
     return user
+
+
+def require_permissions(*required_keys: str):
+    """Dependency factory: checks if current user has any of the required permissions."""
+    async def checker(current_user: UserModel = Depends(get_current_user)) -> UserModel:
+        user_permissions = set()
+        for role in current_user.roles:
+            for perm in role.permissions:
+                user_permissions.add(perm.key)
+
+        # Check wildcard
+        if "knowledge.*" in user_permissions:
+            return current_user
+
+        for key in required_keys:
+            if key in user_permissions:
+                return current_user
+
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"Permission denied. Required: {required_keys}",
+        )
+    return checker

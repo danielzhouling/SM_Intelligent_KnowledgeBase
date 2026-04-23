@@ -1,6 +1,8 @@
 /**
  * SM-Dmall ERP Knowledge Base Demo
- * Main Application Logic
+ * Main Application Logic (M5)
+ *
+ * 使用新的ApiService进行真实API对接
  */
 
 // ============================================
@@ -18,7 +20,7 @@ function $$(selector) {
 function formatTime(date) {
   return date.toLocaleTimeString('en-US', {
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   });
 }
 
@@ -55,7 +57,7 @@ const Toast = {
       success: '✅',
       error: '❌',
       warning: '⚠️',
-      info: 'ℹ️'
+      info: 'ℹ️',
     };
 
     const toast = document.createElement('div');
@@ -91,7 +93,7 @@ const Toast = {
 
   info(message) {
     this.show(message, 'info');
-  }
+  },
 };
 
 // ============================================
@@ -136,7 +138,6 @@ const Modal = {
 
     this.overlay.classList.add('visible');
 
-    // Store callback
     if (onClose) {
       this.overlay.dataset.onClose = 'true';
       this.overlay.onclick = (e) => {
@@ -151,60 +152,78 @@ const Modal = {
     if (this.overlay) {
       this.overlay.classList.remove('visible');
     }
-  }
+  },
 };
 
 // ============================================
-// User Session Management
+// Session Management (使用TokenManager)
 // ============================================
 
 const Session = {
-  KEY: 'demo_session',
-
-  save(user) {
-    localStorage.setItem(this.KEY, JSON.stringify(user));
-  },
-
+  /**
+   * 获取当前用户 (从ApiService)
+   */
   get() {
-    const data = localStorage.getItem(this.KEY);
-    return data ? JSON.parse(data) : null;
+    return ApiService.getCurrentUser();
   },
 
-  clear() {
-    localStorage.removeItem(this.KEY);
-  },
-
+  /**
+   * 检查是否已登录
+   */
   isLoggedIn() {
-    return this.get() !== null;
+    return !!ApiService.getCurrentUser() || TokenManager.isLoggedIn();
   },
 
+  /**
+   * 获取用户角色
+   */
   getUserRole() {
     const user = this.get();
     return user ? user.role : null;
   },
 
+  /**
+   * 获取用户可用的Bot权限
+   */
   getAllowedBots() {
     const role = this.getUserRole();
     if (!role) return [];
     return MockData.ROLE_PERMISSIONS[role]?.bots || [];
-  }
+  },
 };
+
+// ============================================
+// Auth State Handler
+// ============================================
+
+function setupAuthHandler() {
+  // 监听token过期事件
+  window.addEventListener('auth:expired', () => {
+    Toast.warning('登录已过期，请重新登录');
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 1500);
+  });
+}
 
 // ============================================
 // Login Page Logic
 // ============================================
 
-function initLoginPage() {
+async function initLoginPage() {
   // Redirect if already logged in
-  if (Session.isLoggedIn()) {
+  if (await checkExistingAuth()) {
     window.location.href = 'bots.html';
     return;
   }
+
+  setupAuthHandler();
 
   const loginForm = $('#login-form');
   const usernameInput = $('#username');
   const passwordInput = $('#password');
   const roleSelect = $('#role');
+  const submitBtn = loginForm.querySelector('button[type="submit"]');
 
   // Handle demo account click to auto-fill credentials
   $$('.login-account').forEach(el => {
@@ -213,18 +232,16 @@ function initLoginPage() {
       if (account && MockData.DEMO_ACCOUNTS[account]) {
         usernameInput.value = account;
         passwordInput.value = MockData.DEMO_ACCOUNTS[account].password;
-        roleSelect.value = MockData.DEMO_ACCOUNTS[account].role;
         Toast.info(`Account "${account}" filled`);
       }
     });
   });
 
-  loginForm.addEventListener('submit', (e) => {
+  loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
-    const role = roleSelect.value;
 
     if (!username) {
       Toast.error('Please enter your username');
@@ -238,65 +255,115 @@ function initLoginPage() {
       return;
     }
 
-    if (!role) {
-      Toast.error('Please select a role');
-      roleSelect.focus();
-      return;
-    }
+    // Disable button during login
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>Logging in...</span>';
 
-    // Validate credentials
-    const account = MockData.DEMO_ACCOUNTS[username];
-    if (!account || account.password !== password) {
-      Toast.error('Invalid username or password');
+    try {
+      const result = await ApiService.login(username, password);
+
+      if (result.success && result.data) {
+        Toast.success(`Welcome, ${result.data.user?.display_name || username}!`);
+        setTimeout(() => {
+          window.location.href = 'bots.html';
+        }, 500);
+      }
+    } catch (error) {
+      Toast.error(error.message || 'Login failed');
       passwordInput.focus();
-      return;
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>Login</span><span>→</span>';
     }
-
-    // Verify role matches account's assigned role
-    if (account.role !== role) {
-      Toast.error('Role does not match account. Please select the correct role.');
-      roleSelect.focus();
-      return;
-    }
-
-    // Save session
-    Session.save({
-      username,
-      role,
-      roleName: MockData.ROLE_PERMISSIONS[role].name
-    });
-
-    Toast.success(`Welcome, ${username}!`);
-    setTimeout(() => {
-      window.location.href = 'bots.html';
-    }, 500);
   });
+}
+
+/**
+ * 检查现有认证状态 (页面刷新后恢复)
+ */
+async function checkExistingAuth() {
+  if (ApiService.getMode() === 'mock') {
+    return Session.isLoggedIn();
+  }
+
+  try {
+    const user = await ApiService.checkAuth();
+    return !!user;
+  } catch (e) {
+    return false;
+  }
 }
 
 // ============================================
 // Bot Selection Page Logic
 // ============================================
 
-function initBotsPage() {
+async function initBotsPage() {
   // Check if logged in
-  if (!Session.isLoggedIn()) {
+  if (!(await checkExistingAuth())) {
     window.location.href = 'index.html';
     return;
   }
 
-  const user = Session.get();
-  const allowedBots = Session.getAllowedBots();
+  setupAuthHandler();
+
+  // 获取当前用户
+  let user = ApiService.getCurrentUser();
+  if (!user) {
+    try {
+      await ApiService.getMe();
+      user = ApiService.getCurrentUser();
+    } catch (e) {
+      window.location.href = 'index.html';
+      return;
+    }
+  }
 
   // Update header
-  $('#user-name').textContent = user.username;
-  $('#user-role').textContent = user.roleName;
+  $('#user-name').textContent = user?.display_name || user?.username || 'User';
+  $('#user-role').textContent = user?.roleName || user?.role || '';
 
-  // Render bots
+  // 获取可用Bots
+  try {
+    const result = await ApiService.getAvailableBots();
+    const availableBots = result.success ? result.data : [];
+    renderBots(availableBots, user);
+  } catch (e) {
+    console.error('Failed to load bots:', e);
+    Toast.error('Failed to load bots');
+    renderBots([], user);
+  }
+
+  // Logout handler
+  $('#btn-logout').addEventListener('click', async () => {
+    await ApiService.logout();
+    Toast.success('Logged out successfully');
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 500);
+  });
+}
+
+/**
+ * 渲染Bot列表
+ */
+function renderBots(availableBots, user) {
   const botsGrid = $('#bots-grid');
   botsGrid.innerHTML = '';
 
+  // 获取用户权限列表
+  const allowedBotKeys = new Set();
+  if (user?.role) {
+    const perms = MockData.ROLE_PERMISSIONS[user.role];
+    if (perms?.bots) {
+      perms.bots.forEach(b => allowedBotKeys.add(b));
+    }
+  }
+
   Object.values(MockData.BOT_CONFIG).forEach(bot => {
-    const isAllowed = allowedBots.includes(bot.id);
+    const isAllowed = allowedBotKeys.has(bot.id) || allowedBotKeys.size === 0;
+    const isActive = availableBots.some(b => b.id === bot.id || b.key === bot.id);
+
     const card = document.createElement('div');
     card.className = `bot-card ${isAllowed ? '' : 'bot-card-locked'}`;
 
@@ -310,7 +377,7 @@ function initBotsPage() {
             </div>
             <div class="bot-mouth"></div>
           </div>
-          <div class="bot-online"></div>
+          <div class="bot-online ${isActive ? '' : 'offline'}"></div>
           <div class="bot-icon-overlay">${bot.icon}</div>
         </div>
       </div>
@@ -319,14 +386,18 @@ function initBotsPage() {
       <div class="bot-knowledge">
         ${bot.knowledge.map(k => `<span class="knowledge-tag">${k}</span>`).join('')}
       </div>
-      <div class="bot-status ${isAllowed ? 'status-available' : 'status-locked'}">
-        ${isAllowed ? 'Online' : 'Offline'}
+      <div class="bot-status ${isAllowed && isActive ? 'status-available' : 'status-locked'}">
+        ${!isAllowed ? 'No Permission' : isActive ? 'Online' : 'Offline'}
       </div>
       <div class="bot-actions">
-        ${isAllowed
+        ${isAllowed && isActive
           ? `<button class="btn btn-ai btn-block" data-bot="${bot.id}">
               <span>Start Chat</span>
               <span>→</span>
+            </button>`
+          : isAllowed
+          ? `<button class="btn btn-secondary btn-block" disabled>
+              <span>🔒 Offline</span>
             </button>`
           : `<button class="btn btn-secondary btn-block" disabled>
               <span>🔒 Restricted</span>
@@ -338,25 +409,17 @@ function initBotsPage() {
     botsGrid.appendChild(card);
   });
 
-  // Update available count
-  $('#available-count').textContent = allowedBots.length;
+  // Update count
+  const activeCount = availableBots.length;
+  $('#available-count').textContent = activeCount;
   $('#total-count').textContent = Object.keys(MockData.BOT_CONFIG).length;
 
-  // Add click handlers
-  $$('.bot-card:not(.bot-card-locked)').forEach(card => {
-    card.addEventListener('click', () => {
-      const botId = card.querySelector('button').dataset.bot;
+  // Add click handlers for available bots
+  $$('.bot-card:not(.bot-card-locked) .btn-block:not([disabled])').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const botId = btn.dataset.bot;
       window.location.href = `chat.html?id=${botId}`;
     });
-  });
-
-  // Logout handler
-  $('#btn-logout').addEventListener('click', () => {
-    Session.clear();
-    Toast.success('Logged out successfully');
-    setTimeout(() => {
-      window.location.href = 'index.html';
-    }, 500);
   });
 }
 
@@ -366,14 +429,20 @@ function initBotsPage() {
 
 let currentBotId = null;
 let currentBot = null;
+let currentConversationId = null;
+let currentConversationTitle = null;
 let chatHistory = [];
+let currentMessageId = null;
+let conversations = [];  // 会话列表
 
-function initChatPage() {
+async function initChatPage() {
   // Check if logged in
-  if (!Session.isLoggedIn()) {
+  if (!(await checkExistingAuth())) {
     window.location.href = 'index.html';
     return;
   }
+
+  setupAuthHandler();
 
   // Get bot ID from URL
   currentBotId = getUrlParam('id') || 'A';
@@ -385,19 +454,21 @@ function initChatPage() {
     return;
   }
 
-  // Check permission
-  const allowedBots = Session.getAllowedBots();
-  if (!allowedBots.includes(currentBotId)) {
-    Toast.error('You do not have access to this Bot');
-    window.location.href = 'bots.html';
-    return;
+  // 获取用户信息
+  let user = ApiService.getCurrentUser();
+  if (!user) {
+    try {
+      await ApiService.getMe();
+      user = ApiService.getCurrentUser();
+    } catch (e) {
+      window.location.href = 'index.html';
+      return;
+    }
   }
 
-  const user = Session.get();
-
   // Update header
-  $('#user-name').textContent = user.username;
-  $('#user-role').textContent = user.roleName;
+  $('#user-name').textContent = user?.display_name || user?.username || 'User';
+  $('#user-role').textContent = user?.roleName || user?.role || '';
   $('#current-bot-name').textContent = currentBot.name;
 
   // Update sidebar
@@ -411,24 +482,211 @@ function initChatPage() {
     .map(k => `<li class="chat-knowledge-item">${k}</li>`)
     .join('');
 
-  // Set up chat with welcome message
-  initChat();
+  // Load existing conversations
+  await loadConversations();
+
+  // Set up chat with welcome message (or load from selected conversation)
+  if (currentConversationId) {
+    await loadMessages(currentConversationId);
+  } else {
+    initChat();
+  }
 
   // Event listeners
   $('#chat-form').addEventListener('submit', handleSendMessage);
   $('#btn-back').addEventListener('click', () => {
     window.location.href = 'bots.html';
   });
-  $('#btn-logout').addEventListener('click', () => {
-    Session.clear();
+  $('#btn-logout').addEventListener('click', async () => {
+    await ApiService.logout();
     Toast.success('Logged out successfully');
     setTimeout(() => {
       window.location.href = 'index.html';
     }, 500);
   });
 
+  // New conversation button
+  $('#btn-new-chat')?.addEventListener('click', newConversation);
+
   // Setup annotation modal handlers
   setupAnnotationModal();
+}
+
+/**
+ * 加载会话列表
+ */
+async function loadConversations() {
+  const conversationsList = $('#conversations-list');
+  if (!conversationsList) return;
+
+  if (ApiService.getMode() === 'mock') {
+    // Mock mode - use localStorage
+    const stored = localStorage.getItem(`demo_conversations_${currentBotId}`);
+    conversations = stored ? JSON.parse(stored) : [];
+    renderConversations();
+    return;
+  }
+
+  try {
+    const result = await ApiService.getConversations(currentBotId);
+    if (result.success && result.data) {
+      conversations = result.data;
+      renderConversations();
+    }
+  } catch (e) {
+    console.error('Failed to load conversations:', e);
+    conversations = [];
+    renderConversations();
+  }
+}
+
+/**
+ * 渲染会话列表
+ */
+function renderConversations() {
+  const conversationsList = $('#conversations-list');
+  if (!conversationsList) return;
+
+  if (conversations.length === 0) {
+    conversationsList.innerHTML = '<li class="conversation-empty" style="padding: 12px 16px; color: var(--text-muted); font-size: 12px;">No conversations yet</li>';
+    return;
+  }
+
+  conversationsList.innerHTML = conversations.map(conv => `
+    <li class="conversation-item ${conv.id === currentConversationId ? 'active' : ''}" data-conv-id="${conv.id}">
+      <span class="conversation-icon">💬</span>
+      <span class="conversation-title">${escapeHtml(conv.title || 'New Chat')}</span>
+      <button class="conversation-delete" data-conv-id="${conv.id}" title="Delete">×</button>
+    </li>
+  `).join('');
+
+  // Add click handlers
+  $$('.conversation-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      if (e.target.classList.contains('conversation-delete')) {
+        e.stopPropagation();
+        return;
+      }
+      const convId = item.dataset.convId;
+      switchConversation(convId);
+    });
+  });
+
+  $$('.conversation-delete').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const convId = btn.dataset.convId;
+      deleteConversation(convId);
+    });
+  });
+}
+
+/**
+ * 切换会话
+ */
+async function switchConversation(convId) {
+  if (convId === currentConversationId) return;
+
+  currentConversationId = convId;
+  const conv = conversations.find(c => c.id === convId);
+  currentConversationTitle = conv?.title || 'New Chat';
+
+  // Update header
+  $('#current-conversation-title').textContent = currentConversationTitle;
+
+  // Update conversations list UI
+  $$('.conversation-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.convId === convId);
+  });
+
+  // Load messages for this conversation
+  await loadMessages(convId);
+}
+
+/**
+ * 加载历史消息
+ */
+async function loadMessages(convId) {
+  if (ApiService.getMode() === 'mock') {
+    const stored = localStorage.getItem(`demo_messages_${convId}`);
+    const messages = stored ? JSON.parse(stored) : [];
+    renderMessages(messages);
+    return;
+  }
+
+  try {
+    const result = await ApiService.getMessages(convId);
+    if (result.success && result.data) {
+      renderMessages(result.data);
+    }
+  } catch (e) {
+    console.error('Failed to load messages:', e);
+    initChat(); // Show welcome message on error
+  }
+}
+
+/**
+ * 渲染消息列表
+ */
+function renderMessages(messages) {
+  chatHistory = [];
+  const messagesContainer = $('#chat-messages');
+  messagesContainer.innerHTML = '';
+
+  if (messages.length === 0) {
+    // Show welcome message
+    addBotMessage(currentBot.defaultPrompt, [], true);
+    return;
+  }
+
+  // Render each message
+  messages.forEach(msg => {
+    if (msg.role === 'user') {
+      chatHistory.push({ role: 'user', content: msg.content });
+      addUserMessage(msg.content, msg.created_at);
+    } else {
+      chatHistory.push({ role: 'bot', content: msg.content });
+      addBotMessage(msg.content, [], false, msg.id);
+    }
+  });
+}
+
+/**
+ * 开始新会话
+ */
+function newConversation() {
+  currentConversationId = null;
+  currentConversationTitle = null;
+  $('#current-conversation-title').textContent = '';
+
+  // Update conversations list UI
+  $$('.conversation-item').forEach(item => {
+    item.classList.remove('active');
+  });
+
+  // Clear messages and show welcome
+  initChat();
+}
+
+/**
+ * 删除会话
+ */
+function deleteConversation(convId) {
+  if (!confirm('Delete this conversation?')) return;
+
+  // Remove from local storage for mock mode
+  if (ApiService.getMode() === 'mock') {
+    localStorage.removeItem(`demo_messages_${convId}`);
+    conversations = conversations.filter(c => c.id !== convId);
+    localStorage.setItem(`demo_conversations_${currentBotId}`, JSON.stringify(conversations));
+  }
+
+  // If deleting current conversation, start new one
+  if (convId === currentConversationId) {
+    newConversation();
+  }
+
+  renderConversations();
 }
 
 function initChat() {
@@ -440,7 +698,7 @@ function initChat() {
   addBotMessage(currentBot.defaultPrompt, [], true);
 }
 
-function handleSendMessage(e) {
+async function handleSendMessage(e) {
   e.preventDefault();
 
   const input = $('#chat-input');
@@ -454,16 +712,91 @@ function handleSendMessage(e) {
   // Add user message
   addUserMessage(message);
   input.value = '';
+  input.disabled = true;
 
-  // Simulate bot thinking
+  // Show typing indicator
   showTypingIndicator();
 
-  // Find matching response (simulate delay)
-  setTimeout(() => {
+  try {
+    if (ApiService.getMode() === 'mock') {
+      // Mock模式延迟模拟
+      await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 700));
+      hideTypingIndicator();
+
+      const qa = MockData.findMatchingQA(currentBotId, message);
+      addBotMessage(qa.answer, qa.sources);
+
+      // Mock模式：创建新会话（如果还没有）
+      if (!currentConversationId) {
+        const convId = 'mock-' + Date.now();
+        const title = message.substring(0, 30) + (message.length > 30 ? '...' : '');
+        currentConversationId = convId;
+        currentConversationTitle = title;
+
+        // 保存到会话列表
+        conversations.unshift({
+          id: convId,
+          title: title,
+          bot_id: currentBotId,
+          created_at: new Date().toISOString(),
+        });
+        localStorage.setItem(`demo_conversations_${currentBotId}`, JSON.stringify(conversations));
+
+        // 保存消息
+        localStorage.setItem(`demo_messages_${convId}`, JSON.stringify([
+          { role: 'user', content: message, created_at: new Date().toISOString() },
+          { role: 'assistant', content: qa.answer, created_at: new Date().toISOString() },
+        ]));
+
+        // 更新UI
+        $('#current-conversation-title').textContent = title;
+        renderConversations();
+      }
+    } else {
+      // 真实流式请求
+      let fullAnswer = '';
+
+      await ApiService.sendMessageStream(
+        currentBotId,
+        message,
+        // onChunk - 每个字符的回调
+        (chunk) => {
+          fullAnswer += chunk;
+          updateBotMessageStream(fullAnswer);
+        },
+        // onComplete
+        (data) => {
+          hideTypingIndicator();
+          if (data.conversationId) {
+            // 新会话创建
+            if (!currentConversationId) {
+              currentConversationId = data.conversationId;
+              currentConversationTitle = message.substring(0, 30) + (message.length > 30 ? '...' : '');
+              $('#current-conversation-title').textContent = currentConversationTitle;
+
+              // 重新加载会话列表
+              loadConversations();
+            }
+          }
+          // 完成最终渲染
+          finalizeBotMessage(fullAnswer, data.citations || []);
+        },
+        // onError
+        (error) => {
+          hideTypingIndicator();
+          Toast.error(error || 'Failed to get response');
+          // 移除正在流式输出的消息
+          removeStreamingMessage();
+        }
+      );
+    }
+  } catch (error) {
     hideTypingIndicator();
-    const qa = MockData.findMatchingQA(currentBotId, message);
-    addBotMessage(qa.answer, qa.sources);
-  }, 800 + Math.random() * 700);
+    Toast.error(error.message || 'Failed to send message');
+  } finally {
+    input.disabled = false;
+    input.focus();
+  }
 }
 
 function addUserMessage(text) {
@@ -484,83 +817,192 @@ function addUserMessage(text) {
   scrollToBottom();
 }
 
+// 流式输出中的Bot消息
+let streamingMessageEl = null;
+
 function addBotMessage(text, sources = [], isWelcome = false) {
-  chatHistory.push({ role: 'bot', content: text });
+  chatHistory.push({ role: 'bot', content: text, sources });
+
   const messagesContainer = $('#chat-messages');
-
-  const messageEl = document.createElement('div');
-  messageEl.className = 'message';
-
   const msgIndex = chatHistory.length - 1;
   const feedbackData = getFeedbackData(msgIndex);
   const isLocked = feedbackData && feedbackData.submitted;
 
-  const sourcesHtml = sources.length > 0 ? `
-    <div class="message-meta">
-      <div class="message-sources">
-        ${sources.map((s, i) => `
-          <span class="source-tag" data-source-index="${i}">
-            📄 ${s.title}
-          </span>
-        `).join('')}
-      </div>
-      ${isWelcome || isLocked ? '' : `
-      <div class="feedback-buttons">
-        <button class="btn-feedback btn-feedback-useful" data-msg-index="${msgIndex}" data-rating="useful">
-          <span>👍</span><span>有用</span>
-        </button>
-        <button class="btn-feedback btn-feedback-not-useful" data-msg-index="${msgIndex}" data-rating="not-useful">
-          <span>👎</span><span>没用</span>
-        </button>
-      </div>`}
-      ${!isWelcome && isLocked ? `<div class="feedback-status">
-        <span class="feedback-submitted">${feedbackData.rating === 'useful' ? '👍 有用' : '👎 没用'}${feedbackData.reason ? ' - ' + feedbackData.reason : ''}</span>
-        <span class="feedback-locked">🔒</span>
-      </div>` : ''}
-    </div>
-    <div class="source-details">
-      ${sources.map((s, i) => `
-        <div class="source-detail" data-detail-index="${i}">
-          <div class="source-detail-header">📄 ${s.title}</div>
-          <div class="source-detail-content">"${s.snippet}"</div>
-        </div>
-      `).join('')}
-    </div>
-  ` : `
-    <div class="message-meta">
-      <div class="message-sources">
-        <span class="source-tag" style="background: var(--bg-input); color: var(--text-muted);">
-          Demo mode - No real knowledge base
-        </span>
-      </div>
-      ${isWelcome || isLocked ? '' : `
-      <div class="feedback-buttons">
-        <button class="btn-feedback btn-feedback-useful" data-msg-index="${msgIndex}" data-rating="useful">
-          <span>👍</span><span>有用</span>
-        </button>
-        <button class="btn-feedback btn-feedback-not-useful" data-msg-index="${msgIndex}" data-rating="not-useful">
-          <span>👎</span><span>没用</span>
-        </button>
-      </div>`}
-      ${!isWelcome && isLocked ? `<div class="feedback-status">
-        <span class="feedback-submitted">${feedbackData.rating === 'useful' ? '👍 有用' : '👎 没用'}</span>
-        <span class="feedback-locked">🔒</span>
-      </div>` : ''}
+  const messageEl = document.createElement('div');
+  messageEl.className = 'message message-bot';
+
+  messageEl.innerHTML = buildBotMessageHTML(text, sources, isWelcome, isLocked, msgIndex);
+
+  messagesContainer.appendChild(messageEl);
+
+  // 添加反馈按钮事件
+  setupFeedbackHandlers(messageEl, msgIndex);
+
+  scrollToBottom();
+}
+
+/**
+ * 添加流式输出中的Bot消息
+ */
+function addStreamingBotMessage() {
+  const messagesContainer = $('#chat-messages');
+
+  streamingMessageEl = document.createElement('div');
+  streamingMessageEl.className = 'message message-bot';
+
+  streamingMessageEl.innerHTML = `
+    <div class="message-avatar">${currentBot.icon}</div>
+    <div class="message-content">
+      <div class="message-text"></div>
+      <div class="message-time">${formatTime(new Date())}</div>
     </div>
   `;
 
-  messageEl.innerHTML = `
+  messagesContainer.appendChild(streamingMessageEl);
+  scrollToBottom();
+}
+
+/**
+ * 更新流式输出内容
+ */
+function updateBotMessageStream(text) {
+  if (!streamingMessageEl) {
+    addStreamingBotMessage();
+  }
+
+  const textEl = streamingMessageEl.querySelector('.message-text');
+  if (textEl) {
+    textEl.innerHTML = formatMessageText(text);
+    scrollToBottom();
+  }
+}
+
+/**
+ * 完成流式消息
+ */
+function finalizeBotMessage(text, sources) {
+  if (!streamingMessageEl) return;
+
+  const messagesContainer = $('#chat-messages');
+  const msgIndex = chatHistory.length;
+
+  // 移除流式消息
+  streamingMessageEl.remove();
+
+  // 添加到历史
+  chatHistory.push({ role: 'bot', content: text, sources });
+
+  // 创建最终消息
+  const messageEl = document.createElement('div');
+  messageEl.className = 'message message-bot';
+
+  const feedbackData = getFeedbackData(msgIndex);
+  const isLocked = feedbackData && feedbackData.submitted;
+
+  messageEl.innerHTML = buildBotMessageHTML(text, sources, false, isLocked, msgIndex);
+
+  messagesContainer.appendChild(messageEl);
+
+  // 添加反馈按钮事件
+  setupFeedbackHandlers(messageEl, msgIndex);
+
+  scrollToBottom();
+  streamingMessageEl = null;
+}
+
+/**
+ * 移除流式消息
+ */
+function removeStreamingMessage() {
+  if (streamingMessageEl) {
+    streamingMessageEl.remove();
+    streamingMessageEl = null;
+    // 移除对应的用户消息
+    chatHistory.pop();
+  }
+}
+
+/**
+ * 构建Bot消息HTML
+ */
+function buildBotMessageHTML(text, sources, isWelcome, isLocked, msgIndex) {
+  const hasSources = sources && sources.length > 0;
+
+  let metaHtml = '';
+
+  if (hasSources) {
+    metaHtml = `
+      <div class="message-meta">
+        <div class="message-sources">
+          ${sources.map((s, i) => `
+            <span class="source-tag" data-source-index="${i}">
+              📄 ${s.title || 'Source'}
+            </span>
+          `).join('')}
+        </div>
+        ${isWelcome || isLocked ? '' : `
+        <div class="feedback-buttons">
+          <button class="btn-feedback btn-feedback-useful" data-msg-index="${msgIndex}" data-rating="useful">
+            <span>👍</span><span>有用</span>
+          </button>
+          <button class="btn-feedback btn-feedback-not-useful" data-msg-index="${msgIndex}" data-rating="not_useful">
+            <span>👎</span><span>没用</span>
+          </button>
+        </div>`}
+        ${!isWelcome && isLocked ? `<div class="feedback-status">
+          <span class="feedback-submitted">${feedbackData?.rating === 'useful' ? '👍 有用' : '👎 没用'}${feedbackData?.reason ? ' - ' + feedbackData.reason : ''}</span>
+          <span class="feedback-locked">🔒</span>
+        </div>` : ''}
+      </div>
+      <div class="source-details">
+        ${sources.map((s, i) => `
+          <div class="source-detail" data-detail-index="${i}">
+            <div class="source-detail-header">📄 ${s.title || 'Source'}</div>
+            <div class="source-detail-content">"${s.snippet || s.content || ''}"</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } else {
+    metaHtml = `
+      <div class="message-meta">
+        <div class="message-sources">
+          <span class="source-tag" style="background: var(--bg-input); color: var(--text-muted);">
+            ${isWelcome ? 'System' : 'Knowledge Base'}
+          </span>
+        </div>
+        ${isWelcome || isLocked ? '' : `
+        <div class="feedback-buttons">
+          <button class="btn-feedback btn-feedback-useful" data-msg-index="${msgIndex}" data-rating="useful">
+            <span>👍</span><span>有用</span>
+          </button>
+          <button class="btn-feedback btn-feedback-not-useful" data-msg-index="${msgIndex}" data-rating="not_useful">
+            <span>👎</span><span>没用</span>
+          </button>
+        </div>`}
+        ${!isWelcome && isLocked ? `<div class="feedback-status">
+          <span class="feedback-submitted">${feedbackData?.rating === 'useful' ? '👍 有用' : '👎 没用'}</span>
+          <span class="feedback-locked">🔒</span>
+        </div>` : ''}
+      </div>
+    `;
+  }
+
+  return `
     <div class="message-avatar">${currentBot.icon}</div>
     <div class="message-content">
       <div class="message-text">${formatMessageText(text)}</div>
       <div class="message-time">${formatTime(new Date())}</div>
-      ${sourcesHtml}
+      ${metaHtml}
     </div>
   `;
+}
 
-  messagesContainer.appendChild(messageEl);
-
-  // Add source toggle handlers
+/**
+ * 设置反馈按钮事件
+ */
+function setupFeedbackHandlers(messageEl, msgIndex) {
+  // 来源展开
   messageEl.querySelectorAll('.source-tag[data-source-index]').forEach(tag => {
     tag.addEventListener('click', () => {
       const index = tag.dataset.sourceIndex;
@@ -572,10 +1014,9 @@ function addBotMessage(text, sources = [], isWelcome = false) {
     });
   });
 
-  // Add feedback button handlers
+  // 反馈按钮
   messageEl.querySelectorAll('.btn-feedback').forEach(btn => {
     btn.addEventListener('click', () => {
-      const msgIndex = parseInt(btn.dataset.msgIndex);
       const rating = btn.dataset.rating;
       if (rating === 'useful') {
         submitFeedback(msgIndex, 'useful');
@@ -584,14 +1025,12 @@ function addBotMessage(text, sources = [], isWelcome = false) {
       }
     });
   });
-
-  scrollToBottom();
 }
 
 function showTypingIndicator() {
   const messagesContainer = $('#chat-messages');
   const typingEl = document.createElement('div');
-  typingEl.className = 'message';
+  typingEl.className = 'message message-bot';
   typingEl.id = 'typing-indicator';
   typingEl.innerHTML = `
     <div class="message-avatar">${currentBot.icon}</div>
@@ -616,7 +1055,9 @@ function hideTypingIndicator() {
 
 function scrollToBottom() {
   const container = $('#chat-messages');
-  container.scrollTop = container.scrollHeight;
+  if (container) {
+    container.scrollTop = container.scrollHeight;
+  }
 }
 
 function escapeHtml(text) {
@@ -626,21 +1067,19 @@ function escapeHtml(text) {
 }
 
 function formatMessageText(text) {
-  // Convert markdown-like formatting to HTML
   return escapeHtml(text)
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\n/g, '<br>');
 }
 
 // ============================================
-// Feedback System (Task-004)
+// Feedback System
 // ============================================
 
 let currentFeedbackMsgIndex = null;
 let feedbackData = [];
 
 function setupAnnotationModal() {
-  // Load existing feedback
   const stored = localStorage.getItem('demo_feedbacks');
   feedbackData = stored ? JSON.parse(stored) : [];
 }
@@ -649,60 +1088,98 @@ function getFeedbackData(msgIndex) {
   return feedbackData.find(f => f.botId === currentBotId && f.msgIndex === msgIndex);
 }
 
-function submitFeedback(msgIndex, rating, reason = '', comment = '') {
-  // Check if already submitted
-  const existing = feedbackData.findIndex(f => f.botId === currentBotId && f.msgIndex === msgIndex);
+async function submitFeedback(msgIndex, rating, reason = '', comment = '') {
+  const existing = feedbackData.findIndex(
+    f => f.botId === currentBotId && f.msgIndex === msgIndex
+  );
   if (existing !== -1) {
     Toast.warning('Feedback already submitted');
     return;
   }
 
-  // Save feedback
+  // 获取对应的消息
+  const chatMsg = chatHistory[msgIndex];
+  if (!chatMsg) {
+    Toast.error('Message not found');
+    return;
+  }
+
   const feedback = {
-    id: `fb_${Date.now()}`,
+    id: generateId(),
     botId: currentBotId,
     msgIndex,
     rating,
     reason,
     comment,
+    query: chatHistory.slice(0, msgIndex).find(m => m.role === 'user')?.content || '',
+    answer: chatMsg.content,
+    conversationId: currentConversationId,
     submitted: true,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   };
 
   feedbackData.push(feedback);
   localStorage.setItem('demo_feedbacks', JSON.stringify(feedbackData));
 
-  // Re-render the message to show locked state
-  renderMessagesWithFeedback();
+  // 提交到服务器 (非阻塞)
+  if (ApiService.getMode() === 'real') {
+    try {
+      const msgId = chatMsg.messageId || `msg_${msgIndex}`;
+      await ApiService.submitFeedback(
+        currentBotId,
+        msgId,
+        feedback.query,
+        feedback.answer,
+        rating,
+        reason,
+        comment,
+        currentConversationId
+      );
+    } catch (e) {
+      console.error('Failed to submit feedback to server:', e);
+    }
+  }
+
+  // 更新消息显示
+  updateFeedbackDisplay(msgIndex);
 
   Toast.success('Thank you for your feedback!');
 }
 
-function renderMessagesWithFeedback() {
+/**
+ * 更新反馈显示状态
+ */
+function updateFeedbackDisplay(msgIndex) {
   const messagesContainer = $('#chat-messages');
   const messages = messagesContainer.querySelectorAll('.message');
+  const msgEl = messages[msgIndex + 1]; // +1 因为第一条是welcome消息
 
-  messages.forEach((msgEl, idx) => {
-    if (idx === 0) return; // Skip welcome message
+  if (!msgEl) return;
 
-    const feedback = getFeedbackData(idx - 1); // -1 because first msg is welcome
-    const feedbackDiv = msgEl.querySelector('.feedback-buttons');
-    const statusDiv = msgEl.querySelector('.feedback-status');
+  const feedback = getFeedbackData(msgIndex);
+  if (!feedback) return;
 
-    if (feedback && feedback.submitted) {
-      if (feedbackDiv) feedbackDiv.remove();
-      if (!statusDiv) {
-        const newStatus = document.createElement('div');
-        newStatus.className = 'feedback-status';
-        newStatus.innerHTML = `
-          <span class="feedback-submitted">${feedback.rating === 'useful' ? '👍 有用' : '👎 没用'}${feedback.reason ? ' - ' + feedback.reason : ''}</span>
-          <span class="feedback-locked">🔒</span>
-        `;
-        const metaDiv = msgEl.querySelector('.message-meta');
-        if (metaDiv) metaDiv.appendChild(newStatus);
-      }
+  // 移除反馈按钮
+  const feedbackBtns = msgEl.querySelector('.feedback-buttons');
+  if (feedbackBtns) {
+    feedbackBtns.remove();
+  }
+
+  // 添加状态显示
+  let statusDiv = msgEl.querySelector('.feedback-status');
+  if (!statusDiv) {
+    statusDiv = document.createElement('div');
+    statusDiv.className = 'feedback-status';
+    const metaDiv = msgEl.querySelector('.message-meta');
+    if (metaDiv) {
+      metaDiv.appendChild(statusDiv);
     }
-  });
+  }
+
+  statusDiv.innerHTML = `
+    <span class="feedback-submitted">${feedback.rating === 'useful' ? '👍 有用' : '👎 没用'}${feedback.reason ? ' - ' + feedback.reason : ''}</span>
+    <span class="feedback-locked">🔒</span>
+  `;
 }
 
 function openFeedbackReasonModal(msgIndex) {
@@ -713,25 +1190,25 @@ function openFeedbackReasonModal(msgIndex) {
       <label class="form-label">请选择原因：</label>
       <div class="radio-group">
         <label class="radio-item">
-          <input type="radio" name="feedback-reason" value="不相关" checked>
+          <input type="radio" name="feedback-reason" value="irrelevant" checked>
           <span class="radio-label">不相关</span>
         </label>
         <p class="radio-desc">回答与问题无关</p>
 
         <label class="radio-item">
-          <input type="radio" name="feedback-reason" value="来源错误">
+          <input type="radio" name="feedback-reason" value="wrong_source">
           <span class="radio-label">来源错误</span>
         </label>
         <p class="radio-desc">引用了错误的知识来源</p>
 
         <label class="radio-item">
-          <input type="radio" name="feedback-reason" value="答案不完整">
+          <input type="radio" name="feedback-reason" value="incomplete">
           <span class="radio-label">答案不完整</span>
         </label>
         <p class="radio-desc">回答不够完整，缺少关键信息</p>
 
         <label class="radio-item">
-          <input type="radio" name="feedback-reason" value="其他">
+          <input type="radio" name="feedback-reason" value="other">
           <span class="radio-label">其他</span>
         </label>
         <p class="radio-desc">其他问题</p>
@@ -752,7 +1229,7 @@ function openFeedbackReasonModal(msgIndex) {
   Modal.show({
     title: '👎 选择原因',
     content,
-    footer
+    footer,
   });
 
   $('#feedback-cancel').addEventListener('click', () => Modal.hide());
@@ -761,32 +1238,40 @@ function openFeedbackReasonModal(msgIndex) {
     const comment = $('#feedback-comment').value.trim();
     const reason = reasonRadio ? reasonRadio.value : '';
 
-    submitFeedback(currentFeedbackMsgIndex, 'not-useful', reason, comment);
+    submitFeedback(currentFeedbackMsgIndex, 'not_useful', reason, comment);
     Modal.hide();
   });
+}
+
+// ============================================
+// ID Generator
+// ============================================
+
+function generateId() {
+  return `id_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
 // ============================================
 // Page Initialization Router
 // ============================================
 
-function initPage() {
+async function initPage() {
   const path = window.location.pathname;
   const page = path.substring(path.lastIndexOf('/') + 1);
 
   switch (page) {
     case 'index.html':
     case '':
-      initLoginPage();
+      await initLoginPage();
       break;
     case 'bots.html':
-      initBotsPage();
+      await initBotsPage();
       break;
     case 'chat.html':
-      initChatPage();
+      await initChatPage();
       break;
     default:
-      if (Session.isLoggedIn()) {
+      if (await checkExistingAuth()) {
         window.location.href = 'bots.html';
       } else {
         window.location.href = 'index.html';

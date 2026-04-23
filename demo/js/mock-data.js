@@ -8,6 +8,11 @@
 // ============================================
 
 const ROLE_PERMISSIONS = {
+  'admin': {
+    name: 'System Admin',
+    bots: ['A', 'B', 'C'],
+    description: 'Full access to all bots'
+  },
   'hq-admin': {
     name: 'HQ IT Admin',
     bots: ['A', 'B', 'C'],
@@ -25,16 +30,12 @@ const ROLE_PERMISSIONS = {
   }
 };
 
-// Demo accounts with passwords
+// Demo accounts with passwords (includes admin for testing)
 const DEMO_ACCOUNTS = {
+  'admin': { password: 'admin123', role: 'admin' },
   'hq-admin': { password: 'password123', role: 'hq-admin' },
   'store-manager': { password: 'password123', role: 'store-manager' },
   'helpdesk': { password: 'password123', role: 'helpdesk' }
-};
-
-// Admin panel accounts with passwords
-const ADMIN_ACCOUNTS = {
-  'admin': { password: 'admin123', role: 'admin' }
 };
 
 // ============================================
@@ -1177,7 +1178,6 @@ function findMatchingQA(botId, userQuestion) {
 window.MockData = {
   ROLE_PERMISSIONS,
   DEMO_ACCOUNTS,
-  ADMIN_ACCOUNTS,
   BOT_CONFIG,
   BOT_A_DATA,
   BOT_B_DATA,

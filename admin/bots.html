@@ -40,19 +40,22 @@
     .data-table tr:last-child td { border-bottom: none; }
     .data-table tr:hover td { background: var(--bg-page); }
     .status-badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
-    .status-badge.enabled { background: #D1FAE5; color: #059669; }
+    .status-badge.active { background: #D1FAE5; color: #059669; }
+    .status-badge.draft { background: #FEF3C7; color: #D97706; }
     .status-badge.disabled { background: var(--bg-input); color: var(--text-muted); }
     .action-btns { display: flex; gap: 8px; }
     .btn-action { padding: 6px 12px; border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; border: none; transition: all var(--transition-fast); }
-    .btn-edit { background: var(--primary-light); color: var(--primary); }
-    .btn-edit:hover { background: var(--primary); color: white; }
+    .btn-configure { background: #DBEAFE; color: #2563EB; }
+    .btn-configure:hover { background: #2563EB; color: white; }
+    .btn-test { background: #F3E8FF; color: #7C3AED; }
+    .btn-test:hover { background: #7C3AED; color: white; }
     .btn-toggle { background: #FEF3C7; color: #D97706; }
     .btn-toggle:hover { background: #D97706; color: white; }
-    .btn-toggle.enabled { background: #D1FAE5; color: #059669; }
-    .btn-toggle.enabled:hover { background: #059669; color: white; }
+    .btn-toggle.active { background: #D1FAE5; color: #059669; }
+    .btn-toggle.active:hover { background: #059669; color: white; }
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all var(--transition-normal); }
     .modal-overlay.visible { opacity: 1; visibility: visible; }
-    .modal { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-xl); padding: 28px; width: 100%; max-width: 500px; transform: scale(0.95); transition: transform var(--transition-normal); box-shadow: var(--shadow-card-hover); }
+    .modal { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius-xl); padding: 28px; width: 100%; max-width: 500px; transform: scale(0.95); transition: transform var(--transition-normal); box-shadow: var(--shadow-card-hover); max-height: 90vh; overflow-y: auto; }
     .modal-overlay.visible .modal { transform: scale(1); }
     .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
     .modal-title { font-size: 17px; font-weight: 600; color: var(--text-primary); }
@@ -61,6 +64,9 @@
     .modal-body { margin-bottom: 20px; }
     .modal-footer { display: flex; justify-content: flex-end; gap: 10px; }
     .bot-icon-large { font-size: 48px; text-align: center; padding: 20px; }
+    .config-status { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 13px; }
+    .config-status.configured { color: #059669; }
+    .config-status.unconfigured { color: #D97706; }
   </style>
 </head>
 <body>
@@ -119,7 +125,6 @@
       <div class="admin-content">
         <div class="page-header">
           <h2 class="page-title">Registered Bots</h2>
-          <button id="btn-add-bot" class="btn btn-primary"><span>➕</span><span>Register New Bot</span></button>
         </div>
 
         <div class="section-card">
@@ -133,7 +138,7 @@
                 <th>Bot</th>
                 <th>Description</th>
                 <th>Status</th>
-                <th>Created</th>
+                <th>Dify</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -144,201 +149,241 @@
     </main>
   </div>
 
-  <!-- Add/Edit Bot Modal -->
-  <div id="bot-modal" class="modal-overlay">
+  <!-- Configure Dify Modal -->
+  <div id="dify-modal" class="modal-overlay">
     <div class="modal">
       <div class="modal-header">
-        <h3 id="modal-title" class="modal-title">Register Bot</h3>
+        <h3 class="modal-title">Configure Dify API</h3>
         <button id="modal-close" class="modal-close">&times;</button>
       </div>
       <div class="modal-body">
-        <form id="bot-form">
-          <input type="hidden" id="bot-id">
+        <p style="margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;">
+          Configure the Dify API Key for <strong id="dify-bot-name"></strong> to enable chatbot functionality.
+        </p>
+        <form id="dify-form">
+          <input type="hidden" id="dify-bot-id">
           <div class="form-group">
-            <label class="form-label" for="bot-key">Bot Key (ID)</label>
-            <input type="text" id="bot-key" class="form-input" placeholder="e.g., A, B, C" required>
+            <label class="form-label" for="dify-api-key">Dify API Key</label>
+            <input type="text" id="dify-api-key" class="form-input" placeholder="app-xxxxxxxxxxxxxxxx" required>
           </div>
           <div class="form-group">
-            <label class="form-label" for="bot-name">Bot Name</label>
-            <input type="text" id="bot-name" class="form-input" placeholder="e.g., System Issues" required>
+            <label class="form-label" for="dify-test-query">Test Query (optional)</label>
+            <input type="text" id="dify-test-query" class="form-input" placeholder="Enter a test question...">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="bot-name-cn">Chinese Name</label>
-            <input type="text" id="bot-name-cn" class="form-input" placeholder="e.g., 系统问题">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="bot-desc">Description</label>
-            <textarea id="bot-desc" class="form-input" placeholder="Describe what this bot does..." rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="bot-status">Status</label>
-            <select id="bot-status" class="form-select" required>
-              <option value="enabled">Enabled</option>
-              <option value="disabled">Disabled</option>
-            </select>
-          </div>
+          <div id="test-result" class="config-status" style="display: none;"></div>
         </form>
       </div>
       <div class="modal-footer">
+        <button id="btn-test" class="btn btn-secondary">Test Connection</button>
         <button id="btn-cancel" class="btn btn-secondary">Cancel</button>
-        <button id="btn-save" class="btn btn-primary">Save</button>
+        <button id="btn-save" class="btn btn-primary">Save & Activate</button>
       </div>
     </div>
   </div>
 
-  <script src="../js/admin-app.js"></script>
-  <script>
-    const BOT_ICONS = { 'A': '🔧', 'B': '📚', 'C': '📋', 'default': '🤖' };
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
 
-    document.addEventListener('DOMContentLoaded', () => {
-      if (!AdminSession.isLoggedIn()) {
-        window.location.href = 'login.html';
+  <script src="../js/admin-api-service.js"></script>
+  <script>
+    // ============================================
+    // Toast
+    // ============================================
+    const Toast = {
+      container: null,
+      init() { if (!this.container) this.container = document.getElementById('toast-container'); },
+      show(message, type = 'info', duration = 3000) {
+        this.init();
+        const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `<span class="toast-icon">${icons[type]}</span><span class="toast-message">${message}</span>`;
+        this.container.appendChild(toast);
+        setTimeout(() => { toast.classList.add('hiding'); setTimeout(() => toast.remove(), 300); }, duration);
+      },
+      success(m) { this.show(m, 'success'); },
+      error(m) { this.show(m, 'error'); },
+      warning(m) { this.show(m, 'warning'); },
+    };
+
+    function $(sel) { return document.querySelector(sel); }
+    function $$(sel) { return document.querySelectorAll(sel); }
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    const BOT_ICONS = { 'A': '🔧', 'B': '📚', 'C': '📋', 'default': '🤖' };
+    let bots = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (AdminApiService.getMode() === 'real') {
+        const user = await AdminApiService.checkAuth();
+        if (!user) { window.location.href = 'login.html'; return; }
+      }
+      setupUserInfo();
+      await loadBots();
+      setupEventListeners();
+    });
+
+    function setupUserInfo() {
+      const user = AdminApiService.getCurrentUser();
+      if (user) {
+        $('#user-avatar').textContent = (user.display_name || user.username || 'A').charAt(0).toUpperCase();
+        $('#user-name').textContent = user.display_name || user.username || 'Admin';
+        $('#user-role').textContent = user.roleName || user.role || '';
+      }
+    }
+
+    async function loadBots() {
+      try {
+        const result = await AdminApiService.getBots();
+        if (result.success && result.data) {
+          bots = result.data;
+          renderBots();
+        }
+      } catch (e) {
+        console.error('Failed to load bots:', e);
+        Toast.error('Failed to load bots');
+      }
+    }
+
+    function renderBots() {
+      const tbody = $('#bots-table');
+      $('#bot-count').textContent = `${bots.length} bots`;
+
+      if (bots.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No bots registered</td></tr>';
         return;
       }
 
-      const user = AdminSession.get();
-      $('#user-avatar').textContent = user.username.charAt(0).toUpperCase();
-      $('#user-name').textContent = user.username;
-      $('#user-role').textContent = user.roleName;
+      tbody.innerHTML = bots.map(b => {
+        const icon = BOT_ICONS[b.key] || BOT_ICONS.default;
+        const hasKey = b.has_dify_key || b.dify_api_key;
 
-      function loadBots() {
-        const bots = AdminData.getBots();
-        const tbody = $('#bots-table');
-        $('#bot-count').textContent = `${bots.length} bots`;
-
-        tbody.innerHTML = bots.map(b => `
+        return `
           <tr>
             <td>
               <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 24px;">${BOT_ICONS[b.id] || BOT_ICONS.default}</span>
+                <span style="font-size: 24px;">${icon}</span>
                 <div>
                   <div style="font-weight: 500;">${escapeHtml(b.name)}</div>
-                  <div style="font-size: 12px; color: var(--text-muted);">${escapeHtml(b.nameCn || '')}</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">Key: ${b.key}</div>
                 </div>
               </div>
             </td>
             <td>${escapeHtml(b.description || '-')}</td>
             <td><span class="status-badge ${b.status}">${b.status}</span></td>
-            <td>${b.createdAt}</td>
+            <td>
+              <span class="config-status ${hasKey ? 'configured' : 'unconfigured'}">
+                ${hasKey ? '✅ Configured' : '⚠️ Not Configured'}
+              </span>
+            </td>
             <td>
               <div class="action-btns">
-                <button class="btn-action btn-edit" data-id="${b.id}">Edit</button>
-                <button class="btn-action btn-toggle ${b.status}" data-id="${b.id}">${b.status === 'enabled' ? 'Disable' : 'Enable'}</button>
+                ${b.status === 'draft' ? `<button class="btn-action btn-configure" data-id="${b.id}">Configure</button>` : ''}
+                ${hasKey && b.status === 'active' ? `<button class="btn-action btn-toggle active" data-id="${b.id}">Disable</button>` : ''}
+                ${hasKey && b.status === 'disabled' ? `<button class="btn-action btn-toggle" data-id="${b.id}">Enable</button>` : ''}
               </div>
             </td>
           </tr>
-        `).join('');
+        `;
+      }).join('');
 
-        $$('.btn-edit').forEach(btn => btn.addEventListener('click', () => editBot(btn.dataset.id)));
-        $$('.btn-toggle').forEach(btn => btn.addEventListener('click', () => toggleBot(btn.dataset.id)));
+      $$('.btn-configure').forEach(btn => btn.addEventListener('click', () => openDifyModal(btn.dataset.id)));
+      $$('.btn-toggle').forEach(btn => btn.addEventListener('click', () => toggleBot(btn.dataset.id)));
+    }
+
+    function openDifyModal(botId) {
+      const bot = bots.find(b => b.id === botId);
+      if (!bot) return;
+
+      $('#dify-bot-id').value = botId;
+      $('#dify-bot-name').textContent = bot.name;
+      $('#dify-api-key').value = bot.dify_api_key || '';
+      $('#dify-test-query').value = '';
+      $('#test-result').style.display = 'none';
+      $('#dify-modal').classList.add('visible');
+    }
+
+    function closeModal() {
+      $('#dify-modal').classList.remove('visible');
+    }
+
+    async function testConnection() {
+      const botId = $('#dify-bot-id').value;
+      const apiKey = $('#dify-api-key').value.trim();
+      if (!apiKey) {
+        Toast.error('Please enter an API key first');
+        return;
       }
 
-      function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-      }
+      $('#test-result').style.display = 'block';
+      $('#test-result').textContent = 'Testing connection...';
+      $('#test-result').className = 'config-status';
 
-      const modal = $('#bot-modal');
-      const modalTitle = $('#modal-title');
-
-      function openModal(isEdit = false) {
-        modalTitle.textContent = isEdit ? 'Edit Bot' : 'Register New Bot';
-        if (!isEdit) {
-          $('#bot-key').disabled = false;
+      try {
+        // First save the API key temporarily
+        await AdminApiService.configureDify(botId, apiKey);
+        // Then test
+        const result = await AdminApiService.testDifyConnection(botId);
+        if (result.success && result.data?.success) {
+          $('#test-result').textContent = '✅ Connection successful!';
+          $('#test-result').className = 'config-status configured';
+          Toast.success('Connection test passed');
+        } else {
+          $('#test-result').textContent = '❌ ' + (result.data?.message || 'Connection failed');
+          $('#test-result').className = 'config-status unconfigured';
         }
-        modal.classList.add('visible');
+      } catch (e) {
+        $('#test-result').textContent = '❌ ' + e.message;
+        $('#test-result').className = 'config-status unconfigured';
+      }
+    }
+
+    async function saveDifyConfig() {
+      const botId = $('#dify-bot-id').value;
+      const apiKey = $('#dify-api-key').value.trim();
+
+      if (!apiKey) {
+        Toast.error('Please enter an API key');
+        return;
       }
 
-      function closeModal() {
-        modal.classList.remove('visible');
-        $('#bot-form').reset();
-        $('#bot-id').value = '';
-        $('#bot-key').disabled = false;
+      try {
+        await AdminApiService.configureDify(botId, apiKey);
+        Toast.success('Bot activated successfully');
+        closeModal();
+        await loadBots();
+      } catch (e) {
+        Toast.error(e.message || 'Failed to save configuration');
       }
+    }
 
-      $('#btn-add-bot').addEventListener('click', () => openModal(false));
+    async function toggleBot(botId) {
+      try {
+        await AdminApiService.toggleBotStatus(botId);
+        Toast.success('Bot status updated');
+        await loadBots();
+      } catch (e) {
+        Toast.error(e.message || 'Failed to update bot status');
+      }
+    }
+
+    function setupEventListeners() {
       $('#modal-close').addEventListener('click', closeModal);
       $('#btn-cancel').addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+      $('#dify-modal').addEventListener('click', (e) => { if (e.target === $('#dify-modal')) closeModal(); });
+      $('#btn-test').addEventListener('click', testConnection);
+      $('#btn-save').addEventListener('click', saveDifyConfig);
 
-      function editBot(id) {
-        const bots = AdminData.getBots();
-        const bot = bots.find(b => b.id === id);
-        if (bot) {
-          $('#bot-id').value = bot.id;
-          $('#bot-key').value = bot.id;
-          $('#bot-key').disabled = true;
-          $('#bot-name').value = bot.name;
-          $('#bot-name-cn').value = bot.nameCn || '';
-          $('#bot-desc').value = bot.description || '';
-          $('#bot-status').value = bot.status;
-          openModal(true);
-        }
-      }
-
-      function toggleBot(id) {
-        let bots = AdminData.getBots();
-        const index = bots.findIndex(b => b.id === id);
-        if (index !== -1) {
-          bots[index].status = bots[index].status === 'enabled' ? 'disabled' : 'enabled';
-          AdminData.saveBots(bots);
-          Toast.success(`Bot ${bots[index].status === 'enabled' ? 'enabled' : 'disabled'} successfully`);
-          loadBots();
-        }
-      }
-
-      $('#btn-save').addEventListener('click', () => {
-        const id = $('#bot-id').value;
-        const botData = {
-          id: $('#bot-key').value.trim().toUpperCase(),
-          name: $('#bot-name').value.trim(),
-          nameCn: $('#bot-name-cn').value.trim(),
-          description: $('#bot-desc').value.trim(),
-          status: $('#bot-status').value
-        };
-
-        if (!botData.id || !botData.name) {
-          Toast.error('Please fill in Bot Key and Name');
-          return;
-        }
-
-        let bots = AdminData.getBots();
-
-        if (id) {
-          // Editing existing - update but keep the ID and permissions
-          const index = bots.findIndex(b => b.id === id);
-          if (index !== -1) {
-            bots[index] = { ...bots[index], ...botData, id: id, permissions: bots[index].permissions };
-            AdminData.saveBots(bots);
-            Toast.success('Bot updated successfully');
-          }
-        } else {
-          // Check if ID already exists
-          if (bots.some(b => b.id === botData.id)) {
-            Toast.error('Bot ID already exists');
-            return;
-          }
-          // Auto-generate bot permission
-          botData.permissions = [`bot.${botData.id}`];
-          botData.createdAt = new Date().toISOString().split('T')[0];
-          bots.push(botData);
-          AdminData.saveBots(bots, botData.id); // Pass new bot ID for auto-permission generation
-          Toast.success('Bot registered successfully');
-        }
-
-        closeModal();
-        loadBots();
-      });
-
-      $('#btn-logout').addEventListener('click', () => {
-        AdminSession.clear();
+      $('#btn-logout').addEventListener('click', async () => {
+        await AdminApiService.logout();
         Toast.success('Logged out successfully');
         setTimeout(() => window.location.href = 'login.html', 500);
       });
-
-      loadBots();
-    });
+    }
   </script>
 </body>
 </html>

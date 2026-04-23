@@ -231,6 +231,7 @@
     </div>
   </div>
 
+  <script src="../js/admin-api-service.js"></script>
   <script src="../js/admin-app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -239,10 +240,10 @@
         return;
       }
 
-      const user = AdminSession.get();
-      $('#user-avatar').textContent = user.username.charAt(0).toUpperCase();
-      $('#user-name').textContent = user.username;
-      $('#user-role').textContent = user.roleName;
+      const user = AdminSession.get() || { username: 'Admin', roleName: 'Admin' };
+      $('#user-avatar').textContent = (user.username || 'A').charAt(0).toUpperCase();
+      $('#user-name').textContent = user.username || 'Admin';
+      $('#user-role').textContent = user.roleName || '';
 
       // Load roles for checkbox group (multi-role support)
       const roles = AdminData.getRoles();

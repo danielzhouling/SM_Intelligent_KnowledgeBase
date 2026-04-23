@@ -16,7 +16,7 @@ knowledge/bot_c/raw/
 docker/volumes/
 
 # Session 数据
-bot-data/session-*
+bot-data/
 
 # 敏感配置
 cookies.txt

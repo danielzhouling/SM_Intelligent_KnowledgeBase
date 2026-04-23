@@ -1,6 +1,8 @@
 /**
  * SM-Dmall ERP Knowledge Base - Admin Dashboard
- * Admin Application Logic
+ * Admin Application Logic (M5)
+ *
+ * 使用AdminApiService进行真实API对接
  */
 
 // ============================================
@@ -14,6 +16,25 @@ function $(selector) {
 function $$(selector) {
   return document.querySelectorAll(selector);
 }
+
+// ============================================
+// Session Management (wraps TokenManager from admin-api-service)
+// ============================================
+
+const AdminSession = {
+  isLoggedIn() {
+    return !!(TokenManager.getRefreshToken() || TokenManager.getAccessToken());
+  },
+
+  get() {
+    return AdminApiService.getCurrentUser();
+  },
+
+  clear() {
+    TokenManager.clearTokens();
+    AdminApiService.logout();
+  }
+};
 
 // ============================================
 // Toast Notification System
@@ -37,7 +58,7 @@ const Toast = {
       success: '✅',
       error: '❌',
       warning: '⚠️',
-      info: 'ℹ️'
+      info: 'ℹ️',
     };
 
     const toast = document.createElement('div');
@@ -73,70 +94,69 @@ const Toast = {
 
   info(message) {
     this.show(message, 'info');
-  }
+  },
 };
 
 // ============================================
-// Admin Session Management
+// Auth State Handler
 // ============================================
 
-const AdminSession = {
-  KEY: 'admin_session',
+function setupAuthHandler() {
+  window.addEventListener('auth:expired', () => {
+    Toast.warning('登录已过期，请重新登录');
+    setTimeout(() => {
+      window.location.href = 'login.html';
+    }, 1500);
+  });
+}
 
-  save(user) {
-    localStorage.setItem(this.KEY, JSON.stringify(user));
-  },
+// ============================================
+// Check Existing Auth
+// ============================================
 
-  get() {
-    const data = localStorage.getItem(this.KEY);
-    return data ? JSON.parse(data) : null;
-  },
-
-  clear() {
-    localStorage.removeItem(this.KEY);
-  },
-
-  isLoggedIn() {
-    return this.get() !== null;
+async function checkExistingAuth() {
+  if (AdminApiService.getMode() === 'mock') {
+    return TokenManager.isLoggedIn();
   }
-};
+
+  try {
+    const user = await AdminApiService.checkAuth();
+    return !!user;
+  } catch (e) {
+    return false;
+  }
+}
 
 // ============================================
 // Admin Login Page Logic
 // ============================================
 
-function initLoginPage() {
-  // Redirect if already logged in
-  if (AdminSession.isLoggedIn()) {
+async function initLoginPage() {
+  if (await checkExistingAuth()) {
     window.location.href = 'index.html';
     return;
   }
 
+  setupAuthHandler();
+
   const loginForm = $('#login-form');
   const usernameInput = $('#username');
   const passwordInput = $('#password');
+  const submitBtn = loginForm.querySelector('button[type="submit"]');
 
-  // Demo admin account
-  const DEMO_ADMIN = {
-    username: 'admin',
-    password: 'admin123',
-    role: 'super-admin',
-    roleName: 'Super Admin'
-  };
-
-  // Handle demo account click to auto-fill credentials
+  // Demo admin account auto-fill
   $$('.login-account').forEach(el => {
     el.addEventListener('click', () => {
       const account = el.dataset.account;
       if (account === 'admin') {
-        usernameInput.value = DEMO_ADMIN.username;
-        passwordInput.value = DEMO_ADMIN.password;
-        Toast.info(`Admin account filled`);
+        usernameInput.value = 'admin';
+        passwordInput.value = 'admin123';
+        Toast.info('Admin account filled');
       }
     });
   });
 
-  loginForm.addEventListener('submit', (e) => {
+  loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const username = usernameInput.value.trim();
@@ -154,24 +174,25 @@ function initLoginPage() {
       return;
     }
 
-    // Validate credentials
-    if (username !== DEMO_ADMIN.username || password !== DEMO_ADMIN.password) {
-      Toast.error('Invalid username or password');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>Logging in...</span>';
+
+    try {
+      const result = await AdminApiService.login(username, password);
+
+      if (result.success && result.data) {
+        Toast.success(`Welcome, ${result.data.user?.display_name || username}!`);
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 500);
+      }
+    } catch (error) {
+      Toast.error(error.message || 'Login failed');
       passwordInput.focus();
-      return;
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>Login</span><span>→</span>';
     }
-
-    // Save session
-    AdminSession.save({
-      username: DEMO_ADMIN.username,
-      role: DEMO_ADMIN.role,
-      roleName: DEMO_ADMIN.roleName
-    });
-
-    Toast.success(`Welcome, ${username}!`);
-    setTimeout(() => {
-      window.location.href = 'index.html';
-    }, 500);
   });
 }
 
@@ -179,27 +200,39 @@ function initLoginPage() {
 // Admin Main Page Logic
 // ============================================
 
-function initMainPage() {
-  // Check if logged in
-  if (!AdminSession.isLoggedIn()) {
+async function initMainPage() {
+  if (!(await checkExistingAuth())) {
     window.location.href = 'login.html';
     return;
   }
 
-  const user = AdminSession.get();
-  $('#user-name').textContent = user.username;
-  $('#user-role').textContent = user.roleName;
+  setupAuthHandler();
+
+  let user = AdminApiService.getCurrentUser();
+  if (!user) {
+    try {
+      await AdminApiService.getMe();
+      user = AdminApiService.getCurrentUser();
+    } catch (e) {
+      window.location.href = 'login.html';
+      return;
+    }
+  }
+
+  if (user) {
+    $('#user-name').textContent = user.display_name || user.username || 'Admin';
+    $('#user-role').textContent = user.roleName || user.role || '';
+  }
 
   // Logout handler
-  $('#btn-logout').addEventListener('click', () => {
-    AdminSession.clear();
+  $('#btn-logout')?.addEventListener('click', async () => {
+    await AdminApiService.logout();
     Toast.success('Logged out successfully');
     setTimeout(() => {
       window.location.href = 'login.html';
     }, 500);
   });
 
-  // Highlight current nav item based on URL
   highlightCurrentNav();
 }
 
@@ -214,134 +247,17 @@ function highlightCurrentNav() {
 }
 
 // ============================================
-// Data Storage Keys
-// ============================================
-
-const AdminData = {
-  KEYS: {
-    USERS: 'admin_users',
-    ROLES: 'admin_roles',
-    BOTS: 'admin_bots',
-    FEEDBACKS: 'admin_feedbacks',
-    PERMISSIONS: 'admin_permissions'
-  },
-
-  // Initialize with demo data if not exists
-  initDemoData() {
-    if (!localStorage.getItem(this.KEYS.USERS)) {
-      const demoUsers = [
-        { id: 'u001', username: 'hq-admin', name: 'HQ Admin User', roles: ['hq-admin'], status: 'active', createdAt: '2026-01-15' },
-        { id: 'u002', username: 'store-manager', name: 'Store Manager', roles: ['store-manager'], status: 'active', createdAt: '2026-02-01' },
-        { id: 'u003', username: 'helpdesk', name: 'Helpdesk Agent', roles: ['helpdesk'], status: 'active', createdAt: '2026-02-10' },
-        { id: 'u004', username: 'john.doe', name: 'John Doe', roles: ['store-manager', 'helpdesk'], status: 'active', createdAt: '2026-03-01' },
-        { id: 'u005', username: 'jane.smith', name: 'Jane Smith', roles: ['helpdesk'], status: 'inactive', createdAt: '2026-03-15' }
-      ];
-      localStorage.setItem(this.KEYS.USERS, JSON.stringify(demoUsers));
-    }
-
-    if (!localStorage.getItem(this.KEYS.ROLES)) {
-      const demoRoles = [
-        { id: 'r001', name: 'HQ IT Admin', permissions: ['user.manage', 'role.manage', 'feedback.view', 'feedback.review', 'knowledge.*', 'bot.*', 'bot.A', 'bot.B', 'bot.C'], userCount: 1 },
-        { id: 'r002', name: 'Store Manager', permissions: ['feedback.view', 'bot.B'], userCount: 2 },
-        { id: 'r003', name: 'Helpdesk', permissions: ['feedback.view', 'feedback.review', 'bot.A', 'bot.B'], userCount: 2 }
-      ];
-      localStorage.setItem(this.KEYS.ROLES, JSON.stringify(demoRoles));
-    }
-
-    if (!localStorage.getItem(this.KEYS.BOTS)) {
-      const demoBots = [
-        { id: 'A', name: 'System Issues', nameCn: '系统问题', description: 'Handles system errors and troubleshooting', status: 'enabled', permissions: ['bot.A'], createdAt: '2026-01-01' },
-        { id: 'B', name: 'Usage Knowledge', nameCn: '使用知识', description: 'Guides on how to use ERP modules', status: 'enabled', permissions: ['bot.B'], createdAt: '2026-01-01' },
-        { id: 'C', name: 'Version Content', nameCn: '版本内容', description: 'System release and version information', status: 'enabled', permissions: ['bot.C'], createdAt: '2026-03-01' }
-      ];
-      localStorage.setItem(this.KEYS.BOTS, JSON.stringify(demoBots));
-    }
-
-    if (!localStorage.getItem(this.KEYS.FEEDBACKS)) {
-      const demoFeedbacks = [
-        { id: 'f001', botId: 'A', question: 'SAP upload failed, how to handle?', rating: 'useful', status: 'pending', createdAt: '2026-04-15' },
-        { id: 'f002', botId: 'B', question: 'How to process a refund?', rating: 'useful', status: 'reviewed', reviewer: 'admin', reviewedAt: '2026-04-16', result: 'valid' },
-        { id: 'f003', botId: 'A', question: 'POS online failed', rating: 'not-useful', reason: 'incomplete', comment: 'Answer did not cover offline mode', status: 'pending', createdAt: '2026-04-18' },
-        { id: 'f004', botId: 'C', question: 'What new features in version 3.5?', rating: 'useful', status: 'reviewed', reviewer: 'admin', reviewedAt: '2026-04-17', result: 'valid' }
-      ];
-      localStorage.setItem(this.KEYS.FEEDBACKS, JSON.stringify(demoFeedbacks));
-    }
-  },
-
-  getUsers() {
-    return JSON.parse(localStorage.getItem(this.KEYS.USERS) || '[]');
-  },
-
-  saveUsers(users) {
-    localStorage.setItem(this.KEYS.USERS, JSON.stringify(users));
-  },
-
-  getRoles() {
-    return JSON.parse(localStorage.getItem(this.KEYS.ROLES) || '[]');
-  },
-
-  saveRoles(roles) {
-    localStorage.setItem(this.KEYS.ROLES, JSON.stringify(roles));
-  },
-
-  getBots() {
-    return JSON.parse(localStorage.getItem(this.KEYS.BOTS) || '[]');
-  },
-
-  saveBots(bots, newBotId = null) {
-    // When registering a new bot, auto-generate corresponding permission record
-    if (newBotId) {
-      const roles = this.getRoles();
-      const botPerm = `bot.${newBotId}`;
-
-      // Add bot permission to each role that has bot.* or specific bot permissions
-      const updatedRoles = roles.map(role => {
-        // Skip if role already has this specific bot permission or has bot.*
-        if (role.permissions.includes(botPerm) || role.permissions.includes('bot.*')) {
-          return role;
-        }
-        // Add bot permission to roles that have other bot permissions
-        const hasBotPerms = role.permissions.some(p => p.startsWith('bot.'));
-        if (hasBotPerms) {
-          return { ...role, permissions: [...role.permissions, botPerm] };
-        }
-        return role;
-      });
-
-      this.saveRoles(updatedRoles);
-    }
-
-    localStorage.setItem(this.KEYS.BOTS, JSON.stringify(bots));
-  },
-
-  getFeedbacks() {
-    return JSON.parse(localStorage.getItem(this.KEYS.FEEDBACKS) || '[]');
-  },
-
-  saveFeedbacks(feedbacks) {
-    localStorage.setItem(this.KEYS.FEEDBACKS, JSON.stringify(feedbacks));
-  },
-
-  generateId() {
-    return `id_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-  }
-};
-
-// Initialize demo data on page load
-AdminData.initDemoData();
-
-// ============================================
 // Page Initialization Router
 // ============================================
 
-function initPage() {
+async function initPage() {
   const path = window.location.pathname;
   const page = path.substring(path.lastIndexOf('/') + 1);
 
   switch (page) {
     case 'login.html':
     case '':
-      initLoginPage();
+      await initLoginPage();
       break;
     case 'index.html':
     case 'dashboard.html':
@@ -349,10 +265,10 @@ function initPage() {
     case 'roles.html':
     case 'bots.html':
     case 'feedback.html':
-      initMainPage();
+      await initMainPage();
       break;
     default:
-      if (AdminSession.isLoggedIn()) {
+      if (await checkExistingAuth()) {
         window.location.href = 'index.html';
       } else {
         window.location.href = 'login.html';

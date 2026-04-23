@@ -14,15 +14,6 @@ from server.models import BotModel, ConversationModel, UserModel
 from server.schemas.chat import ChatMessageRequest
 from server.schemas.common import SuccessResponse
 from server.services.dify_service import DifyServiceError, dify_service
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from server.auth.dependencies import get_current_user
-from server.database import get_db
-from server.models import BotModel, ConversationModel, UserModel
-from server.schemas.chat import ChatMessageRequest
-from server.schemas.common import SuccessResponse
-from server.services.dify_service import DifyServiceError, dify_service
 
 router = APIRouter(prefix="/api/chat", tags=["chat"])
 

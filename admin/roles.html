@@ -172,6 +172,7 @@
     </div>
   </div>
 
+  <script src="../js/admin-api-service.js"></script>
   <script src="../js/admin-app.js"></script>
   <script>
     const ALL_PERMISSIONS = [
@@ -192,10 +193,10 @@
         return;
       }
 
-      const user = AdminSession.get();
-      $('#user-avatar').textContent = user.username.charAt(0).toUpperCase();
-      $('#user-name').textContent = user.username;
-      $('#user-role').textContent = user.roleName;
+      const user = AdminSession.get() || { username: 'Admin', roleName: 'Admin' };
+      $('#user-avatar').textContent = (user.username || 'A').charAt(0).toUpperCase();
+      $('#user-name').textContent = user.username || 'Admin';
+      $('#user-role').textContent = user.roleName || '';
 
       // Build permissions list
       const permList = $('#permissions-list');
