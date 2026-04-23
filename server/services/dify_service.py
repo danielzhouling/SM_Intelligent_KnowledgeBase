@@ -1,9 +1,11 @@
-import asyncio
 from typing import AsyncGenerator
 
 import httpx
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from server.config import settings
+from server.models import BotModel
 
 
 class DifyServiceError(Exception):
@@ -13,24 +15,21 @@ class DifyServiceError(Exception):
 class DifyService:
     """Dify API client supporting blocking and streaming modes."""
 
-    BOT_API_KEYS = {
-        "A": settings.DIFY_API_KEY_APP_A,
-        "B": settings.DIFY_API_KEY_APP_B,
-        "C": settings.DIFY_API_KEY_APP_C,
-    }
-
-    def get_api_key(self, bot_key: str) -> str | None:
-        return self.BOT_API_KEYS.get(bot_key)
+    async def _get_api_key(self, db: AsyncSession, bot_key: str) -> str | None:
+        result = await db.execute(select(BotModel).where(BotModel.key == bot_key))
+        bot = result.scalar_one_or_none()
+        return bot.dify_api_key if bot else None
 
     async def chat_blocking(
         self,
+        db: AsyncSession,
         bot_key: str,
         query: str,
         user_id: str,
         conversation_id: str = "",
     ) -> dict:
         """Send a message and get blocking response."""
-        api_key = self.get_api_key(bot_key)
+        api_key = await self._get_api_key(db, bot_key)
         if not api_key:
             raise DifyServiceError(f"Bot {bot_key} not configured")
 
@@ -55,13 +54,14 @@ class DifyService:
 
     async def chat_stream(
         self,
+        db: AsyncSession,
         bot_key: str,
         query: str,
         user_id: str,
         conversation_id: str = "",
     ) -> AsyncGenerator[str, None]:
         """Send a message and yield SSE chunks."""
-        api_key = self.get_api_key(bot_key)
+        api_key = await self._get_api_key(db, bot_key)
         if not api_key:
             raise DifyServiceError(f"Bot {bot_key} not configured")
 
@@ -87,7 +87,7 @@ class DifyService:
 
                 async for line in resp.aiter_lines():
                     if line.startswith("data: "):
-                        yield f"{line}\n\n"
+                        yield line[6:]
 
 
 dify_service = DifyService()

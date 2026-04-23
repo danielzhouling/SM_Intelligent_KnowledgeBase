@@ -129,6 +129,7 @@ async def send_message(
 
     try:
         dify_resp = await dify_service.chat_blocking(
+            db=db,
             bot_key=bot.key,
             query=body.query,
             user_id=current_user.id,
@@ -192,14 +193,15 @@ async def _stream_generator(
 
     try:
         async for chunk in dify_service.chat_stream(
+            db=db,
             bot_key=bot.key,
             query=query,
             user_id=user_id,
             conversation_id=conversation_id,
         ):
-            # Forward the raw SSE line
+            # chunk is pure JSON from Dify
             if chunk.strip():
-                yield f"data: {chunk}"
+                yield f"data: {chunk}\n\n"
 
             # Try to parse conversation_id from message_end
             try:

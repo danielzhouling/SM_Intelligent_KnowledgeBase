@@ -584,6 +584,7 @@
       let buffer = '';
       let conversationId = '';
       let citations = [];
+      let resultResolve = null;
 
       const read = () => {
         reader.read().then(({ done, value }) => {
@@ -595,7 +596,9 @@
                 citations = data.metadata?.citations || citations;
               });
             }
-            onComplete?.({ conversationId, citations });
+            const result = { conversationId, citations };
+            onComplete?.(result);
+            resultResolve?.(result);
             return;
           }
 
@@ -614,20 +617,14 @@
         }).catch(error => {
           console.error('[ApiService] SSE read error:', error);
           onError?.('网络连接中断');
+          resultResolve?.({ conversationId, citations });
         });
       };
 
       read();
 
-      // 返回一个Promise，resolve时包含conversationId
-      return new Promise((resolve, reject) => {
-        // 通过onComplete回调返回结果
-        const originalComplete = onComplete;
-        onComplete = (data) => {
-          originalComplete?.(data);
-          resolve(data);
-        };
-        read();
+      return new Promise((resolve) => {
+        resultResolve = resolve;
       });
     },
 

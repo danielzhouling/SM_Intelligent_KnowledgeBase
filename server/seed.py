@@ -11,7 +11,7 @@ async def seed_initial_data(db: AsyncSession) -> None:
     if result.scalar_one_or_none() is not None:
         return
 
-    # --- Permissions ---
+    # --- Permissions (function) ---
     perms = {
         "p1": PermissionModel(id="p1", key="user.manage", name="用户管理", type="function"),
         "p2": PermissionModel(id="p2", key="role.manage", name="角色管理", type="function"),
@@ -20,14 +20,28 @@ async def seed_initial_data(db: AsyncSession) -> None:
         "p5": PermissionModel(id="p5", key="knowledge.*", name="知识库管理", type="function"),
     }
 
+    # --- Permissions (bot) ---
+    bot_perms = {
+        "pb_a": PermissionModel(id="pb_a", key="bot.A", name="Bot A - 故障处理", type="bot"),
+        "pb_b": PermissionModel(id="pb_b", key="bot.B", name="Bot B - 操作指南", type="bot"),
+        "pb_c": PermissionModel(id="pb_c", key="bot.C", name="Bot C - 版本指南", type="bot"),
+    }
+
     # --- Roles (with permissions wired before adding to session) ---
     r1 = RoleModel(id="r1", name="HQ IT Admin", description="总部IT管理员")
     r2 = RoleModel(id="r2", name="Store Manager", description="门店经理")
     r3 = RoleModel(id="r3", name="Helpdesk", description="客服支持")
     r4 = RoleModel(id="r4", name="System Admin", description="系统管理员（后台）")
 
-    r4.permissions = [perms["p1"], perms["p2"], perms["p3"], perms["p4"], perms["p5"]]
-    r1.permissions = [perms["p3"], perms["p4"]]
+    r4.permissions = [perms["p1"], perms["p2"], perms["p3"], perms["p4"], perms["p5"],
+                       bot_perms["pb_a"], bot_perms["pb_b"], bot_perms["pb_c"]]
+    # HQ IT Admin → Bot A + B + C + 反馈权限
+    r1.permissions = [perms["p3"], perms["p4"],
+                       bot_perms["pb_a"], bot_perms["pb_b"], bot_perms["pb_c"]]
+    # Helpdesk → Bot A + B
+    r3.permissions = [bot_perms["pb_a"], bot_perms["pb_b"]]
+    # Store Manager → Bot B only
+    r2.permissions = [bot_perms["pb_b"]]
 
     # --- Users (with roles wired before adding) ---
     admin_hash = get_password_hash("admin123")
@@ -69,5 +83,5 @@ async def seed_initial_data(db: AsyncSession) -> None:
     ]
 
     # Add all objects in one go
-    db.add_all(list(perms.values()) + [r1, r2, r3, r4] + [u_admin, u_hq, u_store, u_helpdesk] + bots)
+    db.add_all(list(perms.values()) + list(bot_perms.values()) + [r1, r2, r3, r4] + [u_admin, u_hq, u_store, u_helpdesk] + bots)
     await db.commit()

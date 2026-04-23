@@ -1,6 +1,21 @@
 # 研发进度
 
-## 当前阶段：M4 - Bot配置（进行中，优先Bot C飞书同步）
+## 当前阶段：M4 - Bot配置（进行中，Bot A已激活，等待Bot C配置）
+
+## 待修复Bug（2026-04-24）
+
+| Bug | 严重程度 | 状态 |
+|-----|---------|------|
+| AdminData未定义 | 🔴 严重 | 待修复 — admin页面JS报错，用户/角色列表为空 |
+| 非管理员可登录管理后台 | 🟡 中等 | 待修复 — hq-admin可登录admin后台 |
+| Bot权限过滤前端未生效 | 🟡 中等 | 待修复 — store-manager/helpdesk看到3个Bot（应为1/2） |
+
+## 已知问题
+
+| 问题 | 说明 |
+|------|------|
+| app-backend容器unhealthy | DifyService初始化时连接Dify失败，但不影响API运行 |
+| Bot B待配置 | 等待用户提供用户手册/蓝图文档 |
 
 ## 重要技术决策变更（2026-04-22）
 
@@ -304,3 +319,11 @@ server/
 - 2026-04-23: TASK-M5-002完成 — FastAPI全路由层开发（48个测试全部通过）
 - 2026-04-23: TASK-M5-001完成 — FastAPI后端服务搭建（32个测试全部通过）
 - 2026-04-23: TASK-M5-010完成 — 端到端集成测试（21个测试全部通过），覆盖认证、Bot管理、用户CRUD、角色CRUD、反馈管理
+
+- 2026-04-24: 修复种子数据缺失Bot权限 — seed.py添加bot.A/B/C权限，数据库插入9条role_permissions映射
+- 2026-04-24: 修复DifyService从数据库读取API Key — 从环境变量改为从BotModel查询数据库
+- 2026-04-24: 修复SSE流双重data:前缀 — dify_service yield纯JSON，chat.py统一加SSE前缀
+- 2026-04-24: 修复_parseSSE双次调用read() — 移除重复调用，修复reader消耗问题
+- 2026-04-24: 修复Nginx proxy_request_buffering配置 — 移除on避免缓冲POST请求
+- 2026-04-24: 系统测试执行 — 36项测试，API 14/14通过，UI 12/22通过（10项因Bot未配置/AdminData未定义而失败）
+- 2026-04-24: Bot A在管理后台配置为active — 用户端可见Bot A卡片
