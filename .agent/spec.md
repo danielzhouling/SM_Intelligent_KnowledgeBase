@@ -212,6 +212,13 @@ server/
 ├── /users                   # 用户管理CRUD（管理后台）
 ├── /roles                   # 角色管理CRUD（管理后台）
 ├── /bots                    # Bot管理CRUD（管理后台）
+│   ├── POST /               # 创建Bot（基本信息，无需API Key）
+│   ├── GET  /               # Bot列表（管理后台可见所有状态）
+│   ├── GET  /available      # 可用Bot列表（用户端，仅status=active）
+│   ├── PUT  /{id}           # 更新Bot信息
+│   ├── PUT  /{id}/dify      # 配置Dify API Key（第二步）
+│   ├── POST /{id}/test      # 测试Dify连接（验证API Key有效性）
+│   └── PATCH /{id}/status   # 切换Bot状态（active↔disabled）
 ├── /feedbacks               # 反馈管理CRUD
 │   ├── POST /               # 用户提交反馈
 │   ├── GET  /               # 反馈列表（管理后台，支持筛选）
@@ -661,14 +668,16 @@ CREATE TABLE role_permissions (
     PRIMARY KEY (role_id, permission_id)
 );
 
--- Bot表
+-- Bot表（两步走：先创建后配置API Key）
 CREATE TABLE bots (
     id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     key VARCHAR(50) UNIQUE NOT NULL,     -- 例: A, B, C
-    description TEXT,
-    dify_api_key VARCHAR(255) NOT NULL,
-    status VARCHAR(20) DEFAULT 'active', -- active / disabled
+    description TEXT,                     -- Bot描述（展示在用户端卡片上）
+    icon VARCHAR(50),                     -- 图标标识
+    welcome_message TEXT,                 -- 聊天页欢迎语
+    dify_api_key VARCHAR(255),            -- Dify API Key（可为空，为空时Bot不可用）
+    status VARCHAR(20) DEFAULT 'draft',   -- draft(未配API)/active(已配可用)/disabled(禁用)
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 );
@@ -868,3 +877,125 @@ async def sync_bot_c_versions():
     client.upsert("bot_c_versions", points)
     return {"count": len(records)}
 ```
+
+## 十六、Bot注册与Dify关联规范
+
+### 16.1 设计原则
+
+- **两步走**：创建Bot（基本信息）和配置Dify连接（API Key）解耦，不要求同时完成
+- **无类型分类**：Dify的Chatbot和Agent共用同一套API（`/v1/chat-messages`），后端无需区分Bot类型
+- **差异化靠配置**：Bot的展示差异通过description和welcome_message自然体现，不引入type/tags字段
+
+### 16.2 Bot状态机制
+
+```
+创建Bot → draft（草稿：未配置API Key，不可用）
+              │
+              ├── PUT /bots/{id}/dify（配置API Key）
+              │      + POST /bots/{id}/test（测试连接成功）
+              │      → 自动变更为 active
+              │
+              └── active（可用：用户端可见可聊天）
+                     │
+                     ├── PATCH /bots/{id}/status → disabled（禁用）
+                     └── disabled → PATCH /bots/{id}/status → active
+```
+
+### 16.3 第一步：创建Bot（基本信息）
+
+```
+POST /api/bots
+```
+
+请求体：
+```json
+{
+  "name": "Bot A - 故障处理",
+  "key": "A",
+  "description": "基于历史工单和PRD文档，快速查找问题解决方案",
+  "icon": "wrench",
+  "welcome_message": "你好！我是故障处理助手，基于历史工单和文档为您查找解答。请描述你遇到的问题。"
+}
+```
+
+响应：
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid-xxx",
+    "name": "Bot A - 故障处理",
+    "key": "A",
+    "status": "draft",
+    "dify_api_key": null
+  }
+}
+```
+
+### 16.4 第二步：配置Dify连接
+
+```
+PUT /api/bots/{id}/dify
+```
+
+请求体：
+```json
+{
+  "dify_api_key": "app-xxxxxxxx"
+}
+```
+
+配置流程：
+1. 管理员在Dify Studio创建App → 获取API Key
+2. 管理员在系统管理后台 → Bot详情页 → 粘贴API Key
+3. 点击"测试连接" → `POST /api/bots/{id}/test`
+4. 后端调用Dify API发送测试消息验证Key有效性
+5. 测试通过 → 保存API Key → Bot状态自动变更为 `active`
+
+### 16.5 测试连接接口
+
+```
+POST /api/bots/{id}/test
+```
+
+后端逻辑：
+```python
+async def test_dify_connection(bot_id: str, api_key: str):
+    """发送测试消息验证Dify API Key有效性"""
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{DIFY_BASE_URL}/chat-messages",
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {api_key}"
+            },
+            json={
+                "inputs": {},
+                "query": "hello",
+                "response_mode": "blocking",
+                "user": "system-test"
+            },
+            timeout=30.0
+        )
+        if response.status_code == 200:
+            return {"success": True, "message": "连接成功"}
+        else:
+            return {"success": False, "message": f"连接失败: {response.text}"}
+```
+
+### 16.6 用户端Bot列表接口
+
+```
+GET /api/bots/available
+```
+
+- 仅返回 `status=active` 的Bot
+- 根据当前用户角色过滤Bot权限
+- 响应包含 name, description, icon, welcome_message
+
+### 16.7 管理后台Bot列表
+
+- 展示所有Bot（包含draft/active/disabled）
+- draft状态标注"未配置API Key，暂不可用"
+- disabled状态标注"已禁用"
+- 支持按状态筛选

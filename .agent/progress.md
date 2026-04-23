@@ -228,3 +228,7 @@
 - 2026-04-21: M2系统部署完成 - init.sh和docker-compose-all-in-one.yml
 - 2026-04-20: 需求讨论完成，确认方案，开始M1任务拆分
 - 2026-04-21: M1 Demo静态页面开发完成
+
+## 历史记录
+
+- 2026-04-23: M5方案细化讨论 — 确定Bot注册与Dify关联方案（两步走、无类型分类、draft/active/disabled状态机制），更新requirements/spec/features/roadmap资产

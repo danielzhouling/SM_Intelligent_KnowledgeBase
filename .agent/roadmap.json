@@ -99,12 +99,12 @@
     },
     "M5": {
       "TASK-M5-001": "Python/FastAPI后端服务搭建 + PostgreSQL部署 + 数据库Schema初始化",
-      "TASK-M5-002": "FastAPI路由层开发（auth/users/roles/bots/feedbacks/chat）",
+      "TASK-M5-002": "FastAPI路由层开发：auth(登录/登出/me)、users(CRUD)、roles(CRUD)、bots(创建/列表/配置Dify/测试连接/状态切换)、feedbacks(提交/列表/审核/导出)、chat(消息/流式/会话)",
       "TASK-M5-003": "Dify API对接与SSE流式处理（httpx异步客户端）",
       "TASK-M5-004": "前端API服务层设计（api-service.js，JWT认证 + 接口封装）",
       "TASK-M5-005": "会话管理（conversation映射表 + 历史消息拉取 + 侧边栏会话列表）",
       "TASK-M5-006": "用户端前端改造（localStorage → 真实API，JWT登录，流式聊天）",
-      "TASK-M5-007": "管理后台前端改造（真实API对接，用户/角色/Bot/反馈CRUD）",
+      "TASK-M5-007": "管理后台前端改造：真实API对接、Bot管理（两步走创建→配置Dify API Key）、反馈审核",
       "TASK-M5-008": "反馈闭环实现（状态机 + 审核 + 微调数据导出接口）",
       "TASK-M5-009": "Docker Compose整合（后端服务 + PostgreSQL加入现有编排）",
       "TASK-M5-010": "端到端集成测试"

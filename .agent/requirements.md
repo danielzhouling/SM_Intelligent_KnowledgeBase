@@ -338,3 +338,23 @@ ApiService.toggleBot(botId, enabled)
 - **状态机**: pending → approved / rejected / source_error / duplicate
 - **审核字段**: 审核员可补充"正确答案"，直接作为微调训练数据
 - **日期**: 2026-04-22
+
+### 9.19 Bot注册与Dify关联方案
+
+- **决策**: 两步走生命周期管理 + 无类型分类
+- **原因**:
+  - Dify无论是Chatbot（知识库型）还是Agent（工具型），API接口完全一致（`/v1/chat-messages`），后端路由无差异，无需后端类型分类
+  - 差异化展示通过Bot的description和welcome_message自然体现，不需要硬性type字段
+  - 创建和配置API Key分离，允许先注册Bot再后续关联Dify，降低操作耦合
+- **两步走流程**:
+  1. 管理员在Dify Studio创建App并获取API Key（Dify负责AI逻辑）
+  2. 管理员在系统管理后台注册Bot，填入API Key完成关联（系统负责权限与展示）
+- **Bot状态机制**:
+  - `draft`: 已创建但未配置Dify API Key，不可用（仅管理后台可见）
+  - `active`: 已配置API Key且通过连接测试，用户端可见可用
+  - `disabled`: 管理员手动禁用，用户端不可见
+- **简化原则**:
+  - 去掉Bot type分类（knowledge/agent），Dify API统一处理
+  - 去掉tags标签系统，用description直接展示
+  - dify_api_key字段允许为空，未配置时Bot处于draft状态
+- **日期**: 2026-04-23

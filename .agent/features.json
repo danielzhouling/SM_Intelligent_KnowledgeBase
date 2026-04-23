@@ -149,7 +149,7 @@
     },
     {
       "id": "TASK-M5-002",
-      "description": "FastAPI路由层开发：auth(登录/登出/me)、users(CRUD)、roles(CRUD)、bots(CRUD)、feedbacks(提交/列表/审核/导出)、chat(消息/流式/会话)",
+      "description": "FastAPI路由层开发：auth(登录/登出/me)、users(CRUD)、roles(CRUD)、bots(创建/列表/配置Dify/测试连接/状态切换)、feedbacks(提交/列表/审核/导出)、chat(消息/流式/会话)",
       "pass": false
     },
     {
@@ -174,7 +174,7 @@
     },
     {
       "id": "TASK-M5-007",
-      "description": "管理后台前端改造：真实API对接、用户/角色/Bot CRUD、反馈审核（状态机+审核+正确答案补充）",
+      "description": "管理后台前端改造：真实API对接、用户/角色CRUD、Bot管理（两步走：创建→配置Dify API Key→测试连接）、反馈审核（状态机+审核+正确答案补充）",
       "pass": false
     },
     {
