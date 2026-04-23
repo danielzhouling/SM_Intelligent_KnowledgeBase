@@ -145,7 +145,7 @@
     {
       "id": "TASK-M5-001",
       "description": "Python/FastAPI后端服务搭建 + PostgreSQL独立实例部署 + 数据库Schema初始化 + JWT认证中间件 + 初始数据种子（admin/demo用户/角色/权限/Bot记录）",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-002",

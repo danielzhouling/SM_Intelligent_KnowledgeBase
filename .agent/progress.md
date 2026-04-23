@@ -46,6 +46,7 @@
 | TASK-M4-004 | 开发飞书HTTP API服务（供Dify HTTP Tool调用） | ✅ 已完成 — 服务运行在 localhost:8000 |
 | TASK-M4-005 | 配置Dify Bot C（版本指南，飞书插件） | ✅ 已完成 (2026-04-22) — Dify Agent + 飞书电子表格插件 |
 | TASK-M4-006 | Bot对话流程测试与调优 | ⏳ 待开始 |
+| TASK-M5-001 | 后端服务搭建 + PostgreSQL + Schema + JWT + 种子数据 | ✅ 已完成 (2026-04-23) |
 | TASK-M3-006-1 | Embedding模型替换为bge-m3（支持中英文检索） | ✅ 已完成 (2026-04-22) — 通过率84.2% |
 | TASK-M3-007 | 知识库质量验证（检索测试，19条用例） | ✅ 已完成 (2026-04-22) — 英文87.5%通过，中文0%通过（模型不支持） |
 
@@ -198,6 +199,69 @@
 - URL: http://localhost:8000/api/terminal-versions
 - URL: http://localhost:8000/api/search?keyword={keyword}
 
+### TASK-M5-001: 后端服务搭建 (2026-04-23 完成)
+
+**新增文件结构:**
+```
+server/
+├── config.py               # pydantic-settings 配置管理
+├── database.py             # async SQLAlchemy 引擎 + session + Base
+├── main.py                 # FastAPI 入口 + lifespan（建表+种子）
+├── seed.py                 # 幂等种子数据
+├── requirements.txt        # Python 依赖
+├── Dockerfile              # 容器构建
+├── .env.example            # 环境变量模板（提交）
+├── .env                    # 本地开发配置（不提交，gitignore）
+├── models/
+│   ├── __init__.py
+│   ├── user.py            # users + user_roles
+│   ├── role.py            # roles + permissions + role_permissions
+│   ├── bot.py             # bots
+│   ├── conversation.py    # conversations
+│   ├── feedback.py        # feedbacks
+│   └── sync_status.py     # sync_status
+├── schemas/
+│   ├── __init__.py
+│   ├── common.py          # SuccessResponse / ErrorResponse
+│   └── auth.py           # LoginRequest / TokenResponse / UserMeResponse
+├── auth/
+│   ├── __init__.py
+│   ├── jwt.py             # JWT签发/验证 + bcrypt密码
+│   └── dependencies.py    # get_current_user
+├── routers/
+│   ├── __init__.py
+│   ├── auth.py            # /api/auth/login, /refresh, /me
+│   └── feishu.py         # /api/feishu/*
+├── services/
+│   └── feishu_client.py  # async FeishuClient（从feishu_http_server.py提取）
+└── tests/
+    ├── __init__.py
+    ├── conftest.py        # 测试固件（SQLite内存DB + TestClient）
+    ├── test_models.py     # 9个模型测试
+    ├── test_auth.py       # 5个JWT测试
+    ├── test_auth_api.py   # 6个API测试
+    ├── test_seed.py       # 9个种子数据测试
+    └── test_feishu_router.py  # 3个飞书路由测试
+```
+
+**技术选型:**
+- FastAPI 0.115+ + SQLAlchemy 2.0 async + asyncpg
+- JWT: python-jose (HS256), bcrypt直接使用（非passlib，兼容性问题）
+- 测试: pytest-asyncio + aiosqlite 内存数据库
+- 配置: pydantic-settings + .env 文件
+
+**Docker部署:**
+- `app-postgres`: PostgreSQL 15 独立实例，端口5433暴露宿主机
+- `app-backend`: FastAPI服务，端口8000暴露宿主机
+- 容器名: sm-app-postgres, sm-app-backend
+
+**种子数据验证通过:**
+- admin/admin123 (System Admin, 5项权限)
+- hq-admin/password123 (HQ IT Admin)
+- store-manager/password123 (Store Manager)
+- helpdesk/password123 (Helpdesk)
+- Bot A/B/C (draft状态, dify_api_key=null)
+
 ### TASK-M2-001: Ollama安装
 - Ollama版本: 0.20.7
 - 已安装模型:
@@ -231,5 +295,4 @@
 
 ## 历史记录
 
-- 2026-04-23: M5方案细化讨论 — 确定Bot注册与Dify关联方案（两步走、无类型分类、draft/active/disabled状态机制），更新requirements/spec/features/roadmap资产
-- 2026-04-23: M5方案补充讨论 — 确认多会话管理（方案A：侧边栏切换+历史可查可续聊）、Bot禁用时立即断开+历史只读、会话首条消息后创建、流式反馈按钮状态机、JWT自动刷新、SSE错误处理、Nginx统一入口、初始数据种子，更新全部资产
+- 2026-04-23: TASK-M5-001完成 — FastAPI后端服务搭建（32个测试全部通过），PostgreSQL独立实例部署，JWT认证，种子数据，Docker Compose集成，飞书HTTP服务集成到后端router

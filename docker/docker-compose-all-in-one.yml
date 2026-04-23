@@ -395,6 +395,80 @@ services:
     networks:
       - sm-network
 
+  # ==================================================================
+  # App PostgreSQL (独立实例 - 知识库应用专用)
+  # ==================================================================
+  app-postgres:
+    image: postgres:15-alpine
+    container_name: sm-app-postgres
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+      - POSTGRES_USER=kb_app
+      - POSTGRES_PASSWORD=kb_password_change_me
+      - POSTGRES_DB=knowledge_base_app
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./volumes/app-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kb_app -d knowledge_base_app"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sm-network
+
+  # ==================================================================
+  # Knowledge Base Backend (FastAPI)
+  # ==================================================================
+  app-backend:
+    build:
+      context: ..
+      dockerfile: server/Dockerfile
+    container_name: sm-app-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=Asia/Shanghai
+      - PYTHON_ENV=production
+      - PORT=8000
+      - JWT_SECRET=${JWT_SECRET:-kb-jwt-secret-change-in-production}
+      - JWT_ACCESS_TOKEN_EXPIRE_HOURS=${JWT_ACCESS_TOKEN_EXPIRE_HOURS:-24}
+      - JWT_REFRESH_TOKEN_EXPIRE_DAYS=${JWT_REFRESH_TOKEN_EXPIRE_DAYS:-7}
+      - POSTGRES_HOST=app-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=knowledge_base_app
+      - POSTGRES_USER=kb_app
+      - POSTGRES_PASSWORD=kb_password_change_me
+      - DIFY_API_BASE_URL=http://api:5001/v1
+      - DIFY_API_KEY_APP_A=${DIFY_API_KEY_APP_A:-}
+      - DIFY_API_KEY_APP_B=${DIFY_API_KEY_APP_B:-}
+      - DIFY_API_KEY_APP_C=${DIFY_API_KEY_APP_C:-}
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - OLLAMA_EMBED_MODEL=bge-m3
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - FEISHU_APP_ID=${FEISHU_APP_ID:-}
+      - FEISHU_APP_SECRET=${FEISHU_APP_SECRET:-}
+      - FEISHU_APP_TOKEN=${FEISHU_APP_TOKEN:-}
+      - FEISHU_TABLE_ID=${FEISHU_TABLE_ID:-}
+      - SYNC_CRON=${SYNC_CRON:-disabled}
+    depends_on:
+      app-postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - sm-network
+
 # ==================================================================
 # 网络配置
 # ==================================================================

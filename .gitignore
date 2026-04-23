@@ -26,3 +26,7 @@ docker/.env.dify
 # Python
 __pycache__/
 *.pyc
+
+# Backend secrets
+server/.env
+server/.venv/

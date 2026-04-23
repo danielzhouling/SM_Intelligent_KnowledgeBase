@@ -8,7 +8,7 @@
 #   ./init.sh stop         - 停止所有服务
 #   ./init.sh restart      - 重启所有服务
 #   ./init.sh status       - 查看服务状态
-#   ./init.sh logs [svc]   - 查看日志 (可选: qdrant/dify/api/web/worker/nginx)
+#   ./init.sh logs [svc]   - 查看日志 (可选: qdrant/api/web/worker/nginx/backend/postgres)
 #   ./init.sh setup        - 一键初始化环境
 # ==================================================================
 
@@ -31,12 +31,16 @@ DIFY_API_CONTAINER="docker-api-1"
 DIFY_WEB_CONTAINER="docker-web-1"
 DIFY_WORKER_CONTAINER="docker-worker-1"
 DIFY_NGINX_CONTAINER="docker-nginx-1"
+APP_BACKEND_CONTAINER="sm-app-backend"
+APP_POSTGRES_CONTAINER="sm-app-postgres"
 
 # 端口定义
 QDRANT_REST_PORT=6333
 QDRANT_GRPC_PORT=6334
 DIFY_WEB_PORT=3001
 OLLAMA_PORT=11434
+APP_BACKEND_PORT=8000
+APP_POSTGRES_PORT=5433
 
 # ==================================================================
 # 辅助函数
@@ -160,6 +164,15 @@ show_status() {
         log_error "Dify Web: 未响应 (端口 ${DIFY_WEB_PORT})"
     fi
 
+    # App Backend 健康检查
+    echo ""
+    echo "App Backend:"
+    if curl -s -o /dev/null -w "%{http_code}" http://localhost:${APP_BACKEND_PORT}/health 2>/dev/null | grep -q "200"; then
+        log_success "App Backend: http://localhost:${APP_BACKEND_PORT} (运行中)"
+    else
+        log_error "App Backend: 未响应 (端口 ${APP_BACKEND_PORT})"
+    fi
+
     echo ""
 }
 
@@ -182,12 +195,18 @@ show_logs() {
         nginx)
             docker logs -f $DIFY_NGINX_CONTAINER --tail 100
             ;;
+        backend)
+            docker logs -f $APP_BACKEND_CONTAINER --tail 100
+            ;;
+        postgres)
+            docker logs -f $APP_POSTGRES_CONTAINER --tail 100
+            ;;
         "")
-            echo "Usage: $0 logs [qdrant|api|web|worker|nginx]"
+            echo "Usage: $0 logs [qdrant|api|web|worker|nginx|backend|postgres]"
             ;;
         *)
             echo "未知服务: $service"
-            echo "可用服务: qdrant, api, web, worker, nginx"
+            echo "可用服务: qdrant, api, web, worker, nginx, backend, postgres"
             ;;
     esac
 }
@@ -318,6 +337,15 @@ health_check() {
         all_ok=false
     fi
 
+    # App Backend
+    echo -n "App Backend: "
+    if curl -s -o /dev/null -w "%{http_code}" http://localhost:${APP_BACKEND_PORT}/health 2>/dev/null | grep -q "200"; then
+        echo -e "${GREEN}OK${NC}"
+    else
+        echo -e "${RED}FAIL${NC}"
+        all_ok=false
+    fi
+
     echo ""
     if $all_ok; then
         log_success "所有服务运行正常"
@@ -340,6 +368,8 @@ show_access_info() {
     echo "  Qdrant:         http://localhost:${QDRANT_REST_PORT}"
     echo "  Qdrant gRPC:    localhost:${QDRANT_GRPC_PORT}"
     echo "  Dify (Web UI):  http://localhost:${DIFY_WEB_PORT}"
+    echo "  App Backend:    http://localhost:${APP_BACKEND_PORT}"
+    echo "  App PostgreSQL: localhost:${APP_POSTGRES_PORT} (kb_app/knowledge_base_app)"
     echo ""
     echo "  Demo 页面:      file://${SCRIPT_DIR}/demo/index.html"
     echo "  管理后台:       file://${SCRIPT_DIR}/admin/login.html"
