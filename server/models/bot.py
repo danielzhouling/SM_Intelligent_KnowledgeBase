@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import String, Text, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from server.database import Base
 
@@ -20,3 +20,5 @@ class BotModel(Base):
     status: Mapped[str] = mapped_column(String(20), default="draft")
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
+
+    feedbacks: Mapped[list["FeedbackModel"]] = relationship(back_populates="bot", lazy="selectin")  # noqa: F821

@@ -1,0 +1,275 @@
+import json
+from typing import AsyncGenerator
+
+import httpx
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import StreamingResponse
+from sqlalchemy import func, select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from server.auth.dependencies import get_current_user
+from server.config import settings
+from server.database import get_db
+from server.models import BotModel, ConversationModel, UserModel
+from server.schemas.chat import ChatMessageRequest
+from server.schemas.common import SuccessResponse
+from server.services.dify_service import DifyServiceError, dify_service
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from server.auth.dependencies import get_current_user
+from server.database import get_db
+from server.models import BotModel, ConversationModel, UserModel
+from server.schemas.chat import ChatMessageRequest
+from server.schemas.common import SuccessResponse
+from server.services.dify_service import DifyServiceError, dify_service
+
+router = APIRouter(prefix="/api/chat", tags=["chat"])
+
+
+def _check_bot_permission(user: UserModel, bot: BotModel) -> None:
+    """Check if user has permission to access this bot."""
+    user_perms = set()
+    for role in user.roles:
+        for perm in role.permissions:
+            user_perms.add(perm.key)
+
+    if "bot.*" not in user_perms and f"bot.{bot.key}" not in user_perms:
+        raise HTTPException(status_code=403, detail="无权访问该Bot")
+
+
+def _check_bot_active(bot: BotModel) -> None:
+    """Check if bot is active."""
+    if bot.status != "active":
+        raise HTTPException(status_code=403, detail="该Bot已下线")
+    if not bot.dify_api_key:
+        raise HTTPException(status_code=403, detail="该Bot未配置API Key")
+
+
+@router.get("/conversations")
+async def list_conversations(
+    db: AsyncSession = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """获取当前用户的会话列表"""
+    result = await db.execute(
+        select(ConversationModel)
+        .where(ConversationModel.user_id == current_user.id)
+        .order_by(ConversationModel.updated_at.desc())
+    )
+    convs = result.scalars().all()
+    return SuccessResponse(data=[
+        {
+            "id": c.id,
+            "bot_id": c.bot_id,
+            "title": c.title,
+            "created_at": c.created_at.isoformat() if c.created_at else "",
+            "updated_at": c.updated_at.isoformat() if c.updated_at else "",
+        }
+        for c in convs
+    ])
+
+
+@router.get("/conversations/{conversation_id}/messages")
+async def get_messages(
+    conversation_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """获取会话历史消息（从Dify API获取）"""
+    # Verify conversation belongs to user
+    result = await db.execute(
+        select(ConversationModel).where(
+            ConversationModel.id == conversation_id,
+            ConversationModel.user_id == current_user.id,
+        )
+    )
+    conv = result.scalar_one_or_none()
+    if not conv:
+        raise HTTPException(status_code=404, detail="会话不存在")
+
+    # Get bot info
+    bot_result = await db.execute(select(BotModel).where(BotModel.id == conv.bot_id))
+    bot = bot_result.scalar_one_or_none()
+
+    if not bot or not bot.dify_api_key:
+        raise HTTPException(status_code=400, detail="Bot配置异常")
+
+    # Fetch messages from Dify
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            resp = await client.get(
+                f"{settings.DIFY_API_BASE_URL}/messages?conversation_id={conv.dify_conversation_id}&user={current_user.id}",
+                headers={"Authorization": f"Bearer {bot.dify_api_key}"},
+            )
+            if resp.status_code == 200:
+                data = resp.json()
+                messages = data.get("data", [])
+                return SuccessResponse(data=[
+                    {
+                        "id": m.get("id", ""),
+                        "role": m.get("role", ""),
+                        "content": m.get("answer", m.get("query", "")),
+                        "created_at": m.get("created_at", ""),
+                    }
+                    for m in messages
+                ])
+            else:
+                return SuccessResponse(data=[])
+    except Exception:
+        return SuccessResponse(data=[])
+
+
+@router.post("/message")
+async def send_message(
+    body: ChatMessageRequest,
+    db: AsyncSession = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """发送消息（阻塞模式）"""
+    # Get bot
+    bot_result = await db.execute(select(BotModel).where(BotModel.id == body.bot_id))
+    bot = bot_result.scalar_one_or_none()
+    if not bot:
+        raise HTTPException(status_code=404, detail="Bot不存在")
+
+    _check_bot_permission(current_user, bot)
+    _check_bot_active(bot)
+
+    try:
+        dify_resp = await dify_service.chat_blocking(
+            bot_key=bot.key,
+            query=body.query,
+            user_id=current_user.id,
+            conversation_id=body.conversation_id or "",
+        )
+
+        conversation_id = dify_resp.get("conversation_id", "")
+        message_id = dify_resp.get("message_id", "")
+        answer = dify_resp.get("answer", "")
+        citations = dify_resp.get("metadata", {}).get("citations", [])
+
+        # Create or get conversation mapping
+        if body.conversation_id:
+            # Existing conversation
+            conv_result = await db.execute(
+                select(ConversationModel).where(ConversationModel.id == body.conversation_id)
+            )
+            conv = conv_result.scalar_one_or_none()
+            if conv:
+                conv.updated_at = func.now()
+        elif conversation_id:
+            # New conversation
+            title = body.query[:50] if len(body.query) <= 50 else body.query[:47] + "..."
+            new_conv = ConversationModel(
+                user_id=current_user.id,
+                bot_id=bot.id,
+                dify_conversation_id=conversation_id,
+                title=title,
+            )
+            db.add(new_conv)
+            await db.flush()
+            conversation_id = new_conv.id
+        else:
+            conversation_id = ""
+
+        await db.commit()
+
+        return SuccessResponse(data={
+            "answer": answer,
+            "conversation_id": conversation_id,
+            "message_id": message_id,
+            "citations": citations,
+        })
+
+    except DifyServiceError as e:
+        raise HTTPException(status_code=502, detail=str(e))
+
+
+async def _stream_generator(
+    bot_key: str,
+    query: str,
+    user_id: str,
+    conversation_id: str,
+    db: AsyncSession,
+    current_user: UserModel,
+    bot: BotModel,
+) -> AsyncGenerator[str, None]:
+    """Internal generator for SSE streaming."""
+    saved_conversation_id = conversation_id
+    final_data = {}
+
+    try:
+        async for chunk in dify_service.chat_stream(
+            bot_key=bot.key,
+            query=query,
+            user_id=user_id,
+            conversation_id=conversation_id,
+        ):
+            # Forward the raw SSE line
+            if chunk.strip():
+                yield f"data: {chunk}"
+
+            # Try to parse conversation_id from message_end
+            try:
+                data_str = chunk.strip()
+                if data_str.startswith("{"):
+                    data = json.loads(data_str)
+                    if data.get("event") == "message_end":
+                        final_data = data
+                        if not saved_conversation_id and data.get("conversation_id"):
+                            # Create conversation mapping
+                            title = query[:50]
+                            new_conv = ConversationModel(
+                                user_id=current_user.id,
+                                bot_id=bot.id,
+                                dify_conversation_id=data["conversation_id"],
+                                title=title,
+                            )
+                            db.add(new_conv)
+                            await db.commit()
+                            final_data["our_conversation_id"] = new_conv.id
+            except json.JSONDecodeError:
+                pass
+
+    except DifyServiceError as e:
+        yield f'data: {{"event": "error", "message": "{str(e)}"}}\n\n'
+    except Exception as e:
+        yield f'data: {{"event": "error", "message": "网络连接中断，请重试"}}\n\n'
+
+
+@router.post("/message/stream")
+async def send_message_stream(
+    body: ChatMessageRequest,
+    db: AsyncSession = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """发送消息（流式模式，SSE）"""
+    # Get bot
+    bot_result = await db.execute(select(BotModel).where(BotModel.id == body.bot_id))
+    bot = bot_result.scalar_one_or_none()
+    if not bot:
+        raise HTTPException(status_code=404, detail="Bot不存在")
+
+    _check_bot_permission(current_user, bot)
+    _check_bot_active(bot)
+
+    generator = _stream_generator(
+        bot_key=bot.key,
+        query=body.query,
+        user_id=current_user.id,
+        conversation_id=body.conversation_id or "",
+        db=db,
+        current_user=current_user,
+        bot=bot,
+    )
+
+    return StreamingResponse(
+        generator,
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )

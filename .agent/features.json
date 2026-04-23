@@ -150,7 +150,7 @@
     {
       "id": "TASK-M5-002",
       "description": "FastAPI路由层开发：auth(登录/登出/me/refresh)、users(CRUD)、roles(CRUD)、bots(创建/列表/配置Dify/测试连接/状态切换)、feedbacks(提交/列表/审核/导出)、chat(消息/流式/会话)",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-003",

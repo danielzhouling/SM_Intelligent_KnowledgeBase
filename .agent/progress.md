@@ -47,6 +47,7 @@
 | TASK-M4-005 | 配置Dify Bot C（版本指南，飞书插件） | ✅ 已完成 (2026-04-22) — Dify Agent + 飞书电子表格插件 |
 | TASK-M4-006 | Bot对话流程测试与调优 | ⏳ 待开始 |
 | TASK-M5-001 | 后端服务搭建 + PostgreSQL + Schema + JWT + 种子数据 | ✅ 已完成 (2026-04-23) |
+| TASK-M5-002 | FastAPI路由层：auth + users/roles/bots CRUD + feedbacks + chat会话 | ✅ 已完成 (2026-04-23) |
 | TASK-M3-006-1 | Embedding模型替换为bge-m3（支持中英文检索） | ✅ 已完成 (2026-04-22) — 通过率84.2% |
 | TASK-M3-007 | 知识库质量验证（检索测试，19条用例） | ✅ 已完成 (2026-04-22) — 英文87.5%通过，中文0%通过（模型不支持） |
 
@@ -295,4 +296,5 @@ server/
 
 ## 历史记录
 
+- 2026-04-23: TASK-M5-002完成 — FastAPI全路由层开发（48个测试全部通过），users/roles/bots/feedbacks/chat CRUD + 权限控制 + Dify流式/阻塞聊天
 - 2026-04-23: TASK-M5-001完成 — FastAPI后端服务搭建（32个测试全部通过），PostgreSQL独立实例部署，JWT认证，种子数据，Docker Compose集成，飞书HTTP服务集成到后端router
