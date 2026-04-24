@@ -27,6 +27,14 @@
 - **问题**: Bot B被错误更新为disabled且有Bot C的API Key
 - **修复**: 重置Bot B为draft状态，API Key置空
 
+### SSE流解析Bug
+- **问题**: 前端一直显示"Stream request failed"，无法显示AI回答
+- **根因**: Dify返回的SSE事件中答案字段是`answer`，但前端代码错误使用`data.content`
+- **修复**: 
+  - 将`data.content`改为`data.answer`
+  - 添加`agent_message`事件处理（Bot C使用该事件）
+- **影响**: Bot A和Bot C的流式响应现在应该能正常显示
+
 ## 已知问题
 
 | 问题 | 说明 |
