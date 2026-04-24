@@ -46,7 +46,7 @@ async def test_get_me_authenticated(client: AsyncClient):
     assert resp.status_code == 200
     data = resp.json()["data"]
     assert data["username"] == "admin"
-    assert len(data["permissions"]) == 5
+    assert len(data["permissions"]) == 8  # 5 base + 3 bot permissions
 
 
 @pytest.mark.asyncio

@@ -30,10 +30,45 @@
 ### SSE流解析Bug
 - **问题**: 前端一直显示"Stream request failed"，无法显示AI回答
 - **根因**: Dify返回的SSE事件中答案字段是`answer`，但前端代码错误使用`data.content`
-- **修复**: 
+- **修复**:
   - 将`data.content`改为`data.answer`
   - 添加`agent_message`事件处理（Bot C使用该事件）
 - **影响**: Bot A和Bot C的流式响应现在应该能正常显示
+
+### Bot ID使用错误（UUID vs Key）
+- **问题**: 浏览器调用API返回404 "Bot不存在"，但curl成功
+- **根因**: 前端使用MockData的bot key ('A','B','C')作为bot_id，但API需要UUID
+- **修复**:
+  - `renderBots()`: 按钮data-bot属性改用`availableBots`的真实UUID
+  - `initChat()`: chat页面从API获取真实bot配置，与MockData合并显示
+- **影响**: 浏览器端聊天功能现在可以正确调用API
+
+### Bot动态管理功能（2026-04-24）
+- **需求**: Admin端可添加/配置Bot，用户端根据实际配置动态显示
+- **实现**:
+  - 后端: 添加 `DELETE /api/bots/{bot_id}` 路由（级联删除feedbacks）
+  - Admin端: 添加 Add Bot 按钮和表单Modal（name/key/icon/description/welcome_message）
+  - Admin端: 添加 Edit/Delete 按钮
+  - 用户端: `renderBots()` 完全使用API返回数据渲染，不再依赖MockData.BOT_CONFIG
+  - 用户端: Bot卡片显示真实name、icon、description
+  - Admin端: Icon选择器（12个预设emoji图标）
+  - Admin端: 删除二次确认（输入机器人名称确认）
+- **文件修改**:
+  - `server/routers/bots.py` - 添加delete_bot路由
+  - `admin/bots.html` - 添加Add/Edit/Delete UI、Icon选择器、二次确认Modal
+  - `js/admin-api-service.js` - 添加deleteBot方法
+  - `demo/js/app.js` - renderBots使用API数据
+
+### Roles权限管理增强（2026-04-24）
+- **修复**: Permissions列表显示object Object问题（改用p.key显示）
+- **修复**: Edit角色时已有权限正确预勾选
+- **增强**: 权限列表分为Function Permissions和Bot Permissions两组
+- **增强**: Bot权限从API动态获取，新增Bot后自动出现在权限列表
+- **修复**: 前端发送`permission_keys`与API期望的字段名一致
+- **文件修改**:
+  - `admin/roles.html` - 权限分组显示、动态Bot权限、修复Edit勾选
+  - `server/seed.py` - 添加bot.D权限
+  - `server/tests/test_seed.py` - 更新权限数量预期（8→9）
 
 ## 已知问题
 

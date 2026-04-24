@@ -11,7 +11,7 @@ from server.seed import seed_initial_data
 async def test_seed_creates_permissions(db: AsyncSession):
     await seed_initial_data(db)
     result = await db.execute(select(func.count()).select_from(PermissionModel))
-    assert result.scalar() == 5
+    assert result.scalar() == 9  # 5 base + 4 bot permissions
 
 
 @pytest.mark.asyncio
@@ -44,7 +44,7 @@ async def test_seed_admin_has_all_permissions(db: AsyncSession):
     role = admin.roles[0]
     await db.refresh(role, ["permissions"])
     perm_keys = sorted(p.key for p in role.permissions)
-    assert perm_keys == ["feedback.review", "feedback.view", "knowledge.*", "role.manage", "user.manage"]
+    assert perm_keys == ["bot.A", "bot.B", "bot.C", "feedback.review", "feedback.view", "knowledge.*", "role.manage", "user.manage"]
 
 
 @pytest.mark.asyncio

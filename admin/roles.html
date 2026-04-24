@@ -56,11 +56,13 @@
     .modal-close:hover { background: #FEE2E2; color: var(--error); }
     .modal-body { margin-bottom: 20px; }
     .modal-footer { display: flex; justify-content: flex-end; gap: 10px; }
-    .permission-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .permission-item { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: var(--radius-sm); background: var(--bg-input); cursor: pointer; }
-    .permission-item:hover { background: var(--border-light); }
-    .permission-item input { cursor: pointer; }
-    .permission-item label { font-size: 13px; cursor: pointer; flex: 1; }
+    .permission-grid { display: flex; flex-direction: column; gap: 16px; }
+    .perm-section { }
+    .perm-section-title { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid var(--border-light); }
+    .perm-section .permission-item { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: var(--radius-sm); background: var(--bg-input); cursor: pointer; margin-bottom: 4px; }
+    .perm-section .permission-item:hover { background: var(--border-light); }
+    .perm-section .permission-item input { cursor: pointer; width: 18px; height: 18px; }
+    .perm-section .permission-item label { font-size: 13px; cursor: pointer; flex: 1; }
   </style>
 </head>
 <body>
@@ -175,19 +177,18 @@
   <script src="../js/admin-api-service.js"></script>
   <script src="../js/admin-app.js"></script>
   <script>
-    const ALL_PERMISSIONS = [
-      { id: 'user.manage', label: 'User Management' },
-      { id: 'role.manage', label: 'Role Management' },
-      { id: 'feedback.view', label: 'View Feedback' },
-      { id: 'feedback.review', label: 'Review Feedback' },
-      { id: 'knowledge.*', label: 'Knowledge Management' },
-      { id: 'bot.*', label: 'All Bots Access' },
-      { id: 'bot.A', label: 'Bot A (System Issues)' },
-      { id: 'bot.B', label: 'Bot B (Usage Knowledge)' },
-      { id: 'bot.C', label: 'Bot C (Version Content)' }
+    // Base permissions (non-bot)
+    const BASE_PERMISSIONS = [
+      { id: 'user.manage', label: 'User Management', type: 'function' },
+      { id: 'role.manage', label: 'Role Management', type: 'function' },
+      { id: 'feedback.view', label: 'View Feedback', type: 'function' },
+      { id: 'feedback.review', label: 'Review Feedback', type: 'function' },
+      { id: 'knowledge.*', label: 'Knowledge Management', type: 'function' },
     ];
 
     let cachedUsers = [];
+    let cachedBots = [];
+    let allPermissions = [];
 
     document.addEventListener('DOMContentLoaded', async () => {
       if (!AdminSession.isLoggedIn()) {
@@ -200,14 +201,64 @@
       $('#user-name').textContent = user.username || 'Admin';
       $('#user-role').textContent = user.roleName || '';
 
-      // Build permissions list
-      const permList = $('#permissions-list');
-      permList.innerHTML = ALL_PERMISSIONS.map(p => `
-        <label class="permission-item">
-          <input type="checkbox" name="permissions" value="${p.id}">
-          <span>${p.label}</span>
-        </label>
-      `).join('');
+      // Build permissions list dynamically
+      await buildPermissionsList();
+
+      async function buildPermissionsList() {
+        // Fetch bots to generate dynamic bot permissions
+        try {
+          const botsRes = await AdminApiService.getBots();
+          cachedBots = botsRes.success ? botsRes.data : [];
+        } catch (e) {
+          cachedBots = [];
+        }
+
+        // Build all permissions: base + dynamic bots
+        const botPerms = cachedBots.map(b => ({
+          id: `bot.${b.key}`,
+          label: `${b.icon || ''} ${b.name}`.trim(),
+          type: 'bot',
+          botKey: b.key
+        }));
+
+        // Add "All Bots" option if there are bots
+        if (botPerms.length > 0) {
+          botPerms.unshift({ id: 'bot.*', label: '🔓 All Bots Access', type: 'bot' });
+        }
+
+        allPermissions = [...BASE_PERMISSIONS, ...botPerms];
+
+        // Render permissions list with grouping
+        renderPermissionsList();
+      }
+
+      function renderPermissionsList() {
+        const permList = $('#permissions-list');
+        const basePerms = allPermissions.filter(p => p.type === 'function');
+        const botPerms = allPermissions.filter(p => p.type === 'bot');
+
+        let html = '<div class="perm-section"><h4 class="perm-section-title">Function Permissions</h4>';
+        html += basePerms.map(p => `
+          <label class="permission-item">
+            <input type="checkbox" name="permissions" value="${p.id}">
+            <span>${p.label}</span>
+          </label>
+        `).join('');
+        html += '</div>';
+
+        if (botPerms.length > 0) {
+          html += '<div class="perm-section"><h4 class="perm-section-title">Bot Permissions</h4>';
+          html += botPerms.map(p => `
+            <label class="permission-item">
+              <input type="checkbox" name="permissions" value="${p.id}">
+              <span>${p.label}</span>
+            </label>
+          `).join('');
+          html += '</div>';
+        }
+
+        permList.innerHTML = html;
+      }
 
       async function loadRoles() {
         try {
@@ -225,11 +276,12 @@
               const userRoles = Array.isArray(u.roles) ? u.roles : (u.role ? [u.role] : []);
               return userRoles.includes(r.id);
             }).length;
-            const perms = (r.permissions || []).map(p => `<span class="permission-tag">${p}</span>`).join('');
+            // Fix: permissions is array of objects with key/name, show key instead
+            const perms = (r.permissions || []).map(p => `<span class="permission-tag">${p.key || p}</span>`).join('');
             return `
               <tr>
                 <td>${escapeHtml(r.name)}</td>
-                <td>${perms}</td>
+                <td>${perms || '-'}</td>
                 <td>${userCount}</td>
                 <td>
                   <div class="action-btns">
@@ -282,8 +334,10 @@
           if (role) {
             $('#role-id').value = role.id;
             $('#role-name').value = role.name;
+            // Get array of permission keys from role
+            const rolePermKeys = (role.permissions || []).map(p => p.key || p);
             $$('input[name="permissions"]').forEach(cb => {
-              cb.checked = (role.permissions || []).includes(cb.value);
+              cb.checked = rolePermKeys.includes(cb.value);
             });
             openModal(true);
           }
@@ -308,7 +362,7 @@
         const id = $('#role-id').value;
         const roleData = {
           name: $('#role-name').value.trim(),
-          permissions: Array.from($$('input[name="permissions"]:checked')).map(cb => cb.value)
+          permission_keys: Array.from($$('input[name="permissions"]:checked')).map(cb => cb.value)
         };
 
         if (!roleData.name) {
@@ -316,7 +370,7 @@
           return;
         }
 
-        if (roleData.permissions.length === 0) {
+        if (roleData.permission_keys.length === 0) {
           Toast.error('Please select at least one permission');
           return;
         }

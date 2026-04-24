@@ -482,6 +482,20 @@
       return await this._patch(`/bots/${botId}/status`);
     },
 
+    async deleteBot(botId) {
+      if (this._mode === 'mock') {
+        let bots = this._getMockBots();
+        const index = bots.findIndex(b => b.id === botId);
+        if (index >= 0) {
+          bots.splice(index, 1);
+          this._saveMockBots(bots);
+          return { success: true, data: { id: botId, deleted: true } };
+        }
+        throw new Error('Bot not found');
+      }
+      return await this._delete(`/bots/${botId}`);
+    },
+
     // ========================================
     // 反馈服务
     // ========================================

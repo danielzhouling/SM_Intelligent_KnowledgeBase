@@ -211,6 +211,24 @@ async def toggle_bot_status(
     return SuccessResponse(data={"id": b.id, "status": b.status})
 
 
+@router.delete("/{bot_id}")
+async def delete_bot(
+    bot_id: str,
+    db: AsyncSession = Depends(get_db),
+    _user: UserModel = Depends(require_permissions("user.manage")),
+):
+    """删除Bot（关联的feedbacks会级联删除）"""
+    result = await db.execute(select(BotModel).where(BotModel.id == bot_id))
+    b = result.scalar_one_or_none()
+    if not b:
+        raise HTTPException(status_code=404, detail="Bot not found")
+
+    await db.delete(b)
+    await db.commit()
+
+    return SuccessResponse(data={"id": bot_id, "deleted": True})
+
+
 # --- User-facing route (authenticated) ---
 
 @router.get("/available")

@@ -67,6 +67,17 @@
     .config-status { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 13px; }
     .config-status.configured { color: #059669; }
     .config-status.unconfigured { color: #D97706; }
+    .icon-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 8px; }
+    .icon-option { width: 44px; height: 44px; font-size: 24px; border: 2px solid var(--border-light); border-radius: var(--radius-sm); background: var(--bg-input); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all var(--transition-fast); }
+    .icon-option:hover { border-color: var(--primary); background: var(--primary-light); }
+    .icon-option.selected { border-color: var(--primary); background: var(--primary-light); }
+    .delete-confirm { text-align: center; padding: 20px 0; }
+    .delete-confirm p { margin-bottom: 16px; color: var(--text-secondary); }
+    .delete-confirm strong { color: var(--error); }
+    .delete-confirm input { width: 100%; text-align: center; }
+    .btn-danger { background: var(--error); color: white; }
+    .btn-danger:hover { background: #DC2626; }
+    .btn-danger:disabled { background: var(--bg-input); color: var(--text-muted); cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -125,6 +136,7 @@
       <div class="admin-content">
         <div class="page-header">
           <h2 class="page-title">Registered Bots</h2>
+          <button id="btn-add-bot" class="btn btn-primary"><span>➕</span><span>Add Bot</span></button>
         </div>
 
         <div class="section-card">
@@ -147,6 +159,83 @@
         </div>
       </div>
     </main>
+  </div>
+
+  <!-- Add/Edit Bot Modal -->
+  <div id="bot-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="bot-modal-title" class="modal-title">Add Bot</h3>
+        <button id="bot-modal-close" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="bot-form">
+          <input type="hidden" id="bot-id">
+          <div class="form-group">
+            <label class="form-label" for="bot-name">Bot Name <span style="color: red;">*</span></label>
+            <input type="text" id="bot-name" class="form-input" placeholder="e.g., Bot A - 故障处理" required maxlength="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="bot-key">Bot Key <span style="color: red;">*</span></label>
+            <input type="text" id="bot-key" class="form-input" placeholder="Single letter A-Z" required maxlength="1" style="text-transform: uppercase;">
+            <small style="color: var(--text-muted);">Unique identifier (A-Z). Cannot be changed after creation.</small>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Icon</label>
+            <input type="hidden" id="bot-icon" value="">
+            <div class="icon-grid" id="icon-grid">
+              <button type="button" class="icon-option" data-icon="🔧">🔧</button>
+              <button type="button" class="icon-option" data-icon="📚">📚</button>
+              <button type="button" class="icon-option" data-icon="📋">📋</button>
+              <button type="button" class="icon-option" data-icon="🤖">🤖</button>
+              <button type="button" class="icon-option" data-icon="💬">💬</button>
+              <button type="button" class="icon-option" data-icon="🔍">🔍</button>
+              <button type="button" class="icon-option" data-icon="⚙️">⚙️</button>
+              <button type="button" class="icon-option" data-icon="📊">📊</button>
+              <button type="button" class="icon-option" data-icon="🎯">🎯</button>
+              <button type="button" class="icon-option" data-icon="🚀">🚀</button>
+              <button type="button" class="icon-option" data-icon="💡">💡</button>
+              <button type="button" class="icon-option" data-icon="🛠️">🛠️</button>
+            </div>
+            <small style="color: var(--text-muted);">Click to select an icon</small>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="bot-description">Description</label>
+            <textarea id="bot-description" class="form-input" placeholder="Describe what this bot does..." rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="bot-welcome">Welcome Message</label>
+            <textarea id="bot-welcome" class="form-input" placeholder="Initial greeting message..." rows="2"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-bot-cancel" class="btn btn-secondary">Cancel</button>
+        <button id="btn-bot-save" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="delete-modal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Delete Bot</h3>
+        <button id="delete-modal-close" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="delete-confirm">
+          <p>Are you sure you want to delete this bot?</p>
+          <p>This will also delete all associated feedback records.</p>
+          <p><strong>Type the bot name to confirm:</strong></p>
+          <input type="text" id="delete-confirm-name" class="form-input" placeholder="Enter bot name">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-cancel" class="btn btn-secondary">Cancel</button>
+        <button id="btn-delete-confirm" class="btn btn-danger" disabled>Delete</button>
+      </div>
+    </div>
   </div>
 
   <!-- Configure Dify Modal -->
@@ -282,10 +371,12 @@
             </td>
             <td>
               <div class="action-btns">
+                <button class="btn-action btn-edit" data-id="${b.id}">Edit</button>
                 ${b.status === 'draft' ? `<button class="btn-action btn-configure" data-id="${b.id}">Configure</button>` : ''}
                 ${hasKey && b.status === 'active' ? `<button class="btn-action btn-configure" data-id="${b.id}">Edit Key</button>` : ''}
                 ${hasKey && b.status === 'active' ? `<button class="btn-action btn-toggle active" data-id="${b.id}">Disable</button>` : ''}
                 ${hasKey && b.status === 'disabled' ? `<button class="btn-action btn-toggle" data-id="${b.id}">Enable</button>` : ''}
+                <button class="btn-action btn-delete" data-id="${b.id}">Delete</button>
               </div>
             </td>
           </tr>
@@ -293,7 +384,99 @@
       }).join('');
 
       $$('.btn-configure').forEach(btn => btn.addEventListener('click', () => openDifyModal(btn.dataset.id)));
+      $$('.btn-edit').forEach(btn => btn.addEventListener('click', () => openBotModal(btn.dataset.id)));
+      $$('.btn-delete').forEach(btn => btn.addEventListener('click', () => openDeleteModal(btn.dataset.id)));
       $$('.btn-toggle').forEach(btn => btn.addEventListener('click', () => toggleBot(btn.dataset.id)));
+    }
+
+    function openBotModal(botId) {
+      const bot = botId ? bots.find(b => b.id === botId) : null;
+      $('#bot-modal-title').textContent = bot ? 'Edit Bot' : 'Add Bot';
+      $('#bot-id').value = botId || '';
+      $('#bot-name').value = bot?.name || '';
+      $('#bot-key').value = bot?.key || '';
+      $('#bot-key').disabled = !!bot; // Cannot change key after creation
+      $('#bot-icon').value = bot?.icon || '';
+      $('#bot-description').value = bot?.description || '';
+      $('#bot-welcome').value = bot?.welcome_message || '';
+      // Highlight selected icon
+      updateIconSelection($('#bot-icon').value);
+      $('#bot-modal').classList.add('visible');
+    }
+
+    function closeBotModal() {
+      $('#bot-modal').classList.remove('visible');
+      $('#bot-key').disabled = false;
+      $('#bot-form').reset();
+      $$('.icon-option').forEach(btn => btn.classList.remove('selected'));
+    }
+
+    function updateIconSelection(icon) {
+      $$('.icon-option').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.icon === icon);
+      });
+    }
+
+    async function saveBot() {
+      const id = $('#bot-id').value;
+      const botData = {
+        name: $('#bot-name').value.trim(),
+        key: $('#bot-key').value.trim().toUpperCase(),
+        icon: $('#bot-icon').value.trim() || null,
+        description: $('#bot-description').value.trim() || null,
+        welcome_message: $('#bot-welcome').value.trim() || null,
+      };
+
+      if (!botData.name) {
+        Toast.error('Bot name is required');
+        return;
+      }
+      if (!botData.key || !/^[A-Z]$/i.test(botData.key)) {
+        Toast.error('Bot key must be a single letter A-Z');
+        return;
+      }
+
+      try {
+        if (id) {
+          await AdminApiService.updateBot(id, botData);
+          Toast.success('Bot updated successfully');
+        } else {
+          await AdminApiService.createBot(botData);
+          Toast.success('Bot created successfully');
+        }
+        closeBotModal();
+        await loadBots();
+      } catch (e) {
+        Toast.error(e.message || 'Failed to save bot');
+      }
+    }
+
+    let pendingDeleteId = null;
+
+    function openDeleteModal(botId) {
+      const bot = bots.find(b => b.id === botId);
+      if (!bot) return;
+      pendingDeleteId = botId;
+      $('#delete-confirm-name').value = '';
+      $('#btn-delete-confirm').disabled = true;
+      $('#delete-modal').classList.add('visible');
+    }
+
+    function closeDeleteModal() {
+      $('#delete-modal').classList.remove('visible');
+      pendingDeleteId = null;
+    }
+
+    async function confirmDeleteBot() {
+      if (!pendingDeleteId) return;
+      try {
+        await AdminApiService.deleteBot(pendingDeleteId);
+        Toast.success('Bot deleted successfully');
+        closeDeleteModal();
+        await loadBots();
+      } catch (e) {
+        Toast.error(e.message || 'Failed to delete bot');
+      }
     }
 
     function openDifyModal(botId) {
@@ -373,11 +556,38 @@
     }
 
     function setupEventListeners() {
+      // Bot Modal events
+      $('#btn-add-bot').addEventListener('click', () => openBotModal(null));
+      $('#bot-modal-close').addEventListener('click', closeBotModal);
+      $('#btn-bot-cancel').addEventListener('click', closeBotModal);
+      $('#bot-modal').addEventListener('click', (e) => { if (e.target === $('#bot-modal')) closeBotModal(); });
+      $('#btn-bot-save').addEventListener('click', saveBot);
+
+      // Icon selection
+      $$('.icon-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const icon = btn.dataset.icon;
+          $('#bot-icon').value = icon;
+          updateIconSelection(icon);
+        });
+      });
+
+      // Dify Modal events
       $('#modal-close').addEventListener('click', closeModal);
       $('#btn-cancel').addEventListener('click', closeModal);
       $('#dify-modal').addEventListener('click', (e) => { if (e.target === $('#dify-modal')) closeModal(); });
       $('#btn-test').addEventListener('click', testConnection);
       $('#btn-save').addEventListener('click', saveDifyConfig);
+
+      // Delete Modal events
+      $('#delete-modal-close').addEventListener('click', closeDeleteModal);
+      $('#btn-delete-cancel').addEventListener('click', closeDeleteModal);
+      $('#delete-modal').addEventListener('click', (e) => { if (e.target === $('#delete-modal')) closeDeleteModal(); });
+      $('#btn-delete-confirm').addEventListener('click', confirmDeleteBot);
+      $('#delete-confirm-name').addEventListener('input', (e) => {
+        const bot = bots.find(b => b.id === pendingDeleteId);
+        $('#btn-delete-confirm').disabled = !bot || e.target.value !== bot.name;
+      });
 
       $('#btn-logout').addEventListener('click', async () => {
         await AdminApiService.logout();

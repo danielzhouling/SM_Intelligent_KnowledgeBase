@@ -360,12 +360,20 @@ function renderBots(availableBots, user) {
     }
   }
 
-  Object.values(MockData.BOT_CONFIG).forEach(bot => {
-    const isAllowed = allowedBotKeys.has(bot.id) || allowedBotKeys.size === 0;
-    const isActive = availableBots.some(b => b.id === bot.id || b.key === bot.id);
+  // 使用API返回的真实Bot数据渲染
+  availableBots.forEach(bot => {
+    // 检查用户是否有权限访问此bot (权限key格式: 'bot.A', 'bot.*'等)
+    const botPermKey = `bot.${bot.key}`;
+    const isAllowed = allowedBotKeys.has('bot.*') || allowedBotKeys.has(botPermKey) || allowedBotKeys.size === 0;
 
     const card = document.createElement('div');
     card.className = `bot-card ${isAllowed ? '' : 'bot-card-locked'}`;
+
+    // 获取MockData中的knowledge和默认图标作为fallback
+    const mockBot = MockData.BOT_CONFIG[bot.key] || {};
+    const icon = bot.icon || mockBot.icon || '🤖';
+    const knowledge = mockBot.knowledge || [];
+    const description = bot.description || mockBot.description || '';
 
     card.innerHTML = `
       <div class="bot-avatar">
@@ -377,27 +385,23 @@ function renderBots(availableBots, user) {
             </div>
             <div class="bot-mouth"></div>
           </div>
-          <div class="bot-online ${isActive ? '' : 'offline'}"></div>
-          <div class="bot-icon-overlay">${bot.icon}</div>
+          <div class="bot-online"></div>
+          <div class="bot-icon-overlay">${icon}</div>
         </div>
       </div>
-      <h3 class="bot-name">${bot.name}</h3>
-      <p class="bot-desc">${bot.description}</p>
+      <h3 class="bot-name">${escapeHtml(bot.name)}</h3>
+      <p class="bot-desc">${escapeHtml(description)}</p>
       <div class="bot-knowledge">
-        ${bot.knowledge.map(k => `<span class="knowledge-tag">${k}</span>`).join('')}
+        ${knowledge.map(k => `<span class="knowledge-tag">${escapeHtml(k)}</span>`).join('')}
       </div>
-      <div class="bot-status ${isAllowed && isActive ? 'status-available' : 'status-locked'}">
-        ${!isAllowed ? 'No Permission' : isActive ? 'Online' : 'Offline'}
+      <div class="bot-status ${isAllowed ? 'status-available' : 'status-locked'}">
+        ${!isAllowed ? 'No Permission' : 'Online'}
       </div>
       <div class="bot-actions">
-        ${isAllowed && isActive
+        ${isAllowed
           ? `<button class="btn btn-ai btn-block" data-bot="${bot.id}">
               <span>Start Chat</span>
               <span>→</span>
-            </button>`
-          : isAllowed
-          ? `<button class="btn btn-secondary btn-block" disabled>
-              <span>🔒 Offline</span>
             </button>`
           : `<button class="btn btn-secondary btn-block" disabled>
               <span>🔒 Restricted</span>
@@ -412,7 +416,7 @@ function renderBots(availableBots, user) {
   // Update count
   const activeCount = availableBots.length;
   $('#available-count').textContent = activeCount;
-  $('#total-count').textContent = Object.keys(MockData.BOT_CONFIG).length;
+  $('#total-count').textContent = activeCount;
 
   // Add click handlers for available bots
   $$('.bot-card:not(.bot-card-locked) .btn-block:not([disabled])').forEach(btn => {
@@ -421,6 +425,13 @@ function renderBots(availableBots, user) {
       window.location.href = `chat.html?id=${botId}`;
     });
   });
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 }
 
 // ============================================
@@ -446,7 +457,36 @@ async function initChatPage() {
 
   // Get bot ID from URL
   currentBotId = getUrlParam('id') || 'A';
-  currentBot = MockData.BOT_CONFIG[currentBotId];
+
+  // Fetch real bot config from API
+  try {
+    const result = await ApiService.getBots();
+    if (result.success) {
+      const realBot = result.data.find(b => b.id === currentBotId);
+      if (realBot) {
+        // Use real bot data from API, merge with MockData for display properties
+        const mockBot = MockData.BOT_CONFIG[realBot.key] || MockData.BOT_CONFIG['A'];
+        currentBot = {
+          id: realBot.id,
+          key: realBot.key,
+          name: realBot.name,
+          nameCn: realBot.name,
+          description: realBot.description,
+          icon: realBot.icon || mockBot.icon,
+          knowledge: mockBot.knowledge || [],
+          defaultPrompt: realBot.welcome_message || mockBot.defaultPrompt
+        };
+      } else {
+        Toast.error('Bot not found');
+        window.location.href = 'bots.html';
+        return;
+      }
+    } else {
+      currentBot = MockData.BOT_CONFIG[currentBotId] || MockData.BOT_CONFIG['A'];
+    }
+  } catch (e) {
+    currentBot = MockData.BOT_CONFIG[currentBotId] || MockData.BOT_CONFIG['A'];
+  }
 
   if (!currentBot) {
     Toast.error('Invalid Bot ID');
@@ -478,7 +518,7 @@ async function initChatPage() {
 
   // Render knowledge list
   const knowledgeList = $('#knowledge-list');
-  knowledgeList.innerHTML = currentBot.knowledge
+  knowledgeList.innerHTML = (currentBot.knowledge || [])
     .map(k => `<li class="chat-knowledge-item">${k}</li>`)
     .join('');
 
