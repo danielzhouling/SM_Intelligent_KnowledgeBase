@@ -187,7 +187,9 @@
       { id: 'bot.C', label: 'Bot C (Version Content)' }
     ];
 
-    document.addEventListener('DOMContentLoaded', () => {
+    let cachedUsers = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
       if (!AdminSession.isLoggedIn()) {
         window.location.href = 'login.html';
         return;
@@ -207,32 +209,44 @@
         </label>
       `).join('');
 
-      function loadRoles() {
-        const roles = AdminData.getRoles();
-        const users = AdminData.getUsers();
-        const tbody = $('#roles-table');
-        $('#role-count').textContent = `${roles.length} roles`;
+      async function loadRoles() {
+        try {
+          const [rolesRes, usersRes] = await Promise.all([
+            AdminApiService.getRoles(),
+            AdminApiService.getUsers()
+          ]);
+          const roles = rolesRes.success ? rolesRes.data : [];
+          cachedUsers = usersRes.success ? usersRes.data : [];
+          const tbody = $('#roles-table');
+          $('#role-count').textContent = `${roles.length} roles`;
 
-        tbody.innerHTML = roles.map(r => {
-          const userCount = users.filter(u => u.role === r.id).length;
-          const perms = r.permissions.map(p => `<span class="permission-tag">${p}</span>`).join('');
-          return `
-            <tr>
-              <td>${escapeHtml(r.name)}</td>
-              <td>${perms}</td>
-              <td>${userCount}</td>
-              <td>
-                <div class="action-btns">
-                  <button class="btn-action btn-edit" data-id="${r.id}">Edit</button>
-                  <button class="btn-action btn-delete" data-id="${r.id}">Delete</button>
-                </div>
-              </td>
-            </tr>
-          `;
-        }).join('');
+          tbody.innerHTML = roles.map(r => {
+            const userCount = cachedUsers.filter(u => {
+              const userRoles = Array.isArray(u.roles) ? u.roles : (u.role ? [u.role] : []);
+              return userRoles.includes(r.id);
+            }).length;
+            const perms = (r.permissions || []).map(p => `<span class="permission-tag">${p}</span>`).join('');
+            return `
+              <tr>
+                <td>${escapeHtml(r.name)}</td>
+                <td>${perms}</td>
+                <td>${userCount}</td>
+                <td>
+                  <div class="action-btns">
+                    <button class="btn-action btn-edit" data-id="${r.id}">Edit</button>
+                    <button class="btn-action btn-delete" data-id="${r.id}">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join('');
 
-        $$('.btn-edit').forEach(btn => btn.addEventListener('click', () => editRole(btn.dataset.id)));
-        $$('.btn-delete').forEach(btn => btn.addEventListener('click', () => deleteRole(btn.dataset.id)));
+          $$('.btn-edit').forEach(btn => btn.addEventListener('click', () => editRole(btn.dataset.id)));
+          $$('.btn-delete').forEach(btn => btn.addEventListener('click', () => deleteRole(btn.dataset.id)));
+        } catch (error) {
+          console.error('Failed to load roles:', error);
+          Toast.error('Failed to load roles');
+        }
       }
 
       function escapeHtml(text) {
@@ -260,30 +274,37 @@
       $('#btn-cancel').addEventListener('click', closeModal);
       modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-      function editRole(id) {
-        const roles = AdminData.getRoles();
-        const role = roles.find(r => r.id === id);
-        if (role) {
-          $('#role-id').value = role.id;
-          $('#role-name').value = role.name;
-          $$('input[name="permissions"]').forEach(cb => {
-            cb.checked = role.permissions.includes(cb.value);
-          });
-          openModal(true);
+      async function editRole(id) {
+        try {
+          const rolesRes = await AdminApiService.getRoles();
+          const roles = rolesRes.success ? rolesRes.data : [];
+          const role = roles.find(r => r.id === id);
+          if (role) {
+            $('#role-id').value = role.id;
+            $('#role-name').value = role.name;
+            $$('input[name="permissions"]').forEach(cb => {
+              cb.checked = (role.permissions || []).includes(cb.value);
+            });
+            openModal(true);
+          }
+        } catch (error) {
+          Toast.error('Failed to load role data');
         }
       }
 
-      function deleteRole(id) {
+      async function deleteRole(id) {
         if (confirm('Are you sure you want to delete this role?')) {
-          let roles = AdminData.getRoles();
-          roles = roles.filter(r => r.id !== id);
-          AdminData.saveRoles(roles);
-          Toast.success('Role deleted successfully');
-          loadRoles();
+          try {
+            await AdminApiService.deleteRole(id);
+            Toast.success('Role deleted successfully');
+            await loadRoles();
+          } catch (error) {
+            Toast.error('Failed to delete role');
+          }
         }
       }
 
-      $('#btn-save').addEventListener('click', () => {
+      $('#btn-save').addEventListener('click', async () => {
         const id = $('#role-id').value;
         const roleData = {
           name: $('#role-name').value.trim(),
@@ -300,27 +321,19 @@
           return;
         }
 
-        let roles = AdminData.getRoles();
-
-        if (id) {
-          const index = roles.findIndex(r => r.id === id);
-          if (index !== -1) {
-            roles[index] = { ...roles[index], ...roleData };
-            AdminData.saveRoles(roles);
+        try {
+          if (id) {
+            await AdminApiService.updateRole(id, roleData);
             Toast.success('Role updated successfully');
+          } else {
+            await AdminApiService.createRole(roleData);
+            Toast.success('Role added successfully');
           }
-        } else {
-          roles.push({
-            id: AdminData.generateId(),
-            ...roleData,
-            userCount: 0
-          });
-          AdminData.saveRoles(roles);
-          Toast.success('Role added successfully');
+          closeModal();
+          await loadRoles();
+        } catch (error) {
+          Toast.error(error.message || 'Failed to save role');
         }
-
-        closeModal();
-        loadRoles();
       });
 
       $('#btn-logout').addEventListener('click', () => {
@@ -329,7 +342,7 @@
         setTimeout(() => window.location.href = 'login.html', 500);
       });
 
-      loadRoles();
+      await loadRoles();
     });
   </script>
 </body>

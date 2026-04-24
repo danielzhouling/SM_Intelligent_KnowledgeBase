@@ -493,7 +493,7 @@
   <script src="../js/admin-app.js"></script>
   <script>
     // Dashboard specific initialization
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       // Check if logged in
       if (!AdminSession.isLoggedIn()) {
         window.location.href = 'login.html';
@@ -506,34 +506,45 @@
       $('#user-name').textContent = user.username || 'Admin';
       $('#user-role').textContent = user.roleName || '';
 
-      // Load stats
-      const users = AdminData.getUsers();
-      const roles = AdminData.getRoles();
-      const bots = AdminData.getBots();
-      const feedbacks = AdminData.getFeedbacks();
-      const pendingCount = feedbacks.filter(f => f.status === 'pending').length;
+      // Load stats via AdminApiService
+      try {
+        const [usersRes, rolesRes, botsRes, feedbacksRes] = await Promise.all([
+          AdminApiService.getUsers(),
+          AdminApiService.getRoles(),
+          AdminApiService.getBots(),
+          AdminApiService.getFeedbacks()
+        ]);
 
-      $('#stat-users').textContent = users.length;
-      $('#stat-roles').textContent = roles.length;
-      $('#stat-bots').textContent = bots.length;
-      $('#stat-pending').textContent = pendingCount;
+        const users = usersRes.success ? usersRes.data : [];
+        const roles = rolesRes.success ? rolesRes.data : [];
+        const bots = botsRes.success ? botsRes.data : [];
+        const feedbacks = feedbacksRes.success ? feedbacksRes.data : [];
+        const pendingCount = feedbacks.filter(f => f.status === 'pending').length;
 
-      // Load recent feedbacks
-      const recentFeedbacks = feedbacks.slice(-5).reverse();
-      const tbody = $('#recent-feedback-table');
+        $('#stat-users').textContent = users.length;
+        $('#stat-roles').textContent = roles.length;
+        $('#stat-bots').textContent = bots.length;
+        $('#stat-pending').textContent = pendingCount;
 
-      if (recentFeedbacks.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No feedback yet</td></tr>';
-      } else {
-        tbody.innerHTML = recentFeedbacks.map(f => `
-          <tr>
-            <td>${escapeHtml(f.question)}</td>
-            <td>Bot ${f.botId}</td>
-            <td>${f.rating === 'useful' ? '👍 Useful' : '👎 Not Useful'}</td>
-            <td><span class="status-badge ${f.status}">${f.status}</span></td>
-            <td>${f.createdAt}</td>
-          </tr>
-        `).join('');
+        // Load recent feedbacks
+        const recentFeedbacks = feedbacks.slice(-5).reverse();
+        const tbody = $('#recent-feedback-table');
+
+        if (recentFeedbacks.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No feedback yet</td></tr>';
+        } else {
+          tbody.innerHTML = recentFeedbacks.map(f => `
+            <tr>
+              <td>${escapeHtml(f.query || f.question)}</td>
+              <td>Bot ${f.bot_id || f.botId}</td>
+              <td>${f.rating === 'useful' ? '👍 Useful' : '👎 Not Useful'}</td>
+              <td><span class="status-badge ${f.status}">${f.status}</span></td>
+              <td>${f.created_at || f.createdAt}</td>
+            </tr>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Failed to load dashboard data:', error);
       }
 
       // Logout handler

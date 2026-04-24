@@ -234,7 +234,9 @@
   <script src="../js/admin-api-service.js"></script>
   <script src="../js/admin-app.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    let cachedRoles = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
       if (!AdminSession.isLoggedIn()) {
         window.location.href = 'login.html';
         return;
@@ -246,9 +248,15 @@
       $('#user-role').textContent = user.roleName || '';
 
       // Load roles for checkbox group (multi-role support)
-      const roles = AdminData.getRoles();
+      try {
+        const rolesRes = await AdminApiService.getRoles();
+        cachedRoles = rolesRes.success ? rolesRes.data : [];
+      } catch (e) {
+        cachedRoles = [];
+      }
+
       const rolesCheckboxGroup = $('#roles-checkbox-group');
-      rolesCheckboxGroup.innerHTML = roles.map(r => `
+      rolesCheckboxGroup.innerHTML = cachedRoles.map(r => `
         <label class="checkbox-item">
           <input type="checkbox" name="roles" value="${r.id}">
           <span>${r.name}</span>
@@ -256,41 +264,47 @@
       `).join('');
 
       // Load users
-      function loadUsers() {
-        const users = AdminData.getUsers();
-        const tbody = $('#users-table');
-        $('#user-count').textContent = `${users.length} users`;
+      async function loadUsers() {
+        try {
+          const usersRes = await AdminApiService.getUsers();
+          const users = usersRes.success ? usersRes.data : [];
+          const tbody = $('#users-table');
+          $('#user-count').textContent = `${users.length} users`;
 
-        tbody.innerHTML = users.map(u => {
-          const userRoles = Array.isArray(u.roles) ? u.roles : (u.role ? [u.role] : []);
-          const roleNames = userRoles.map(rid => getRoleName(rid)).join(', ');
-          return `
-          <tr>
-            <td>${escapeHtml(u.username)}</td>
-            <td>${escapeHtml(u.name)}</td>
-            <td>${roleNames || '-'}</td>
-            <td><span class="status-badge ${u.status}">${u.status}</span></td>
-            <td>${u.createdAt}</td>
-            <td>
-              <div class="action-btns">
-                <button class="btn-action btn-edit" data-id="${u.id}">Edit</button>
-                <button class="btn-action btn-delete" data-id="${u.id}">Delete</button>
-              </div>
-            </td>
-          </tr>
-        `}).join('');
+          tbody.innerHTML = users.map(u => {
+            const userRoles = Array.isArray(u.roles) ? u.roles : (u.role ? [u.role] : []);
+            const roleNames = userRoles.map(rid => getRoleName(rid)).join(', ');
+            return `
+            <tr>
+              <td>${escapeHtml(u.username)}</td>
+              <td>${escapeHtml(u.display_name || u.name)}</td>
+              <td>${roleNames || '-'}</td>
+              <td><span class="status-badge ${u.status}">${u.status}</span></td>
+              <td>${u.created_at || ''}</td>
+              <td>
+                <div class="action-btns">
+                  <button class="btn-action btn-edit" data-id="${u.id}">Edit</button>
+                  <button class="btn-action btn-delete" data-id="${u.id}">Delete</button>
+                </div>
+              </td>
+            </tr>
+          `}).join('');
 
-        // Add event listeners
-        $$('.btn-edit').forEach(btn => {
-          btn.addEventListener('click', () => editUser(btn.dataset.id));
-        });
-        $$('.btn-delete').forEach(btn => {
-          btn.addEventListener('click', () => deleteUser(btn.dataset.id));
-        });
+          // Add event listeners
+          $$('.btn-edit').forEach(btn => {
+            btn.addEventListener('click', () => editUser(btn.dataset.id));
+          });
+          $$('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', () => deleteUser(btn.dataset.id));
+          });
+        } catch (error) {
+          console.error('Failed to load users:', error);
+          Toast.error('Failed to load users');
+        }
       }
 
       function getRoleName(roleId) {
-        const role = roles.find(r => r.id === roleId);
+        const role = cachedRoles.find(r => r.id === roleId);
         return role ? role.name : roleId;
       }
 
@@ -322,47 +336,54 @@
         if (e.target === modal) closeModal();
       });
 
-      function editUser(id) {
-        const users = AdminData.getUsers();
-        const user = users.find(u => u.id === id);
-        if (user) {
-          $('#user-id').value = user.id;
-          $('#username').value = user.username;
-          $('#name').value = user.name;
-          $('#status').value = user.status;
+      async function editUser(id) {
+        try {
+          const usersRes = await AdminApiService.getUsers();
+          const users = usersRes.success ? usersRes.data : [];
+          const user = users.find(u => u.id === id);
+          if (user) {
+            $('#user-id').value = user.id;
+            $('#username').value = user.username;
+            $('#name').value = user.display_name || user.name || '';
+            $('#status').value = user.status;
 
-          // Set checkbox for roles (multi-role support)
-          const userRoles = Array.isArray(user.roles) ? user.roles : (user.role ? [user.role] : []);
-          $$('input[name="roles"]').forEach(cb => {
-            cb.checked = userRoles.includes(cb.value);
-          });
+            // Set checkbox for roles (multi-role support)
+            const userRoles = Array.isArray(user.roles) ? user.roles : (user.role ? [user.role] : []);
+            $$('input[name="roles"]').forEach(cb => {
+              cb.checked = userRoles.includes(cb.value);
+            });
 
-          openModal(true);
+            openModal(true);
+          }
+        } catch (error) {
+          Toast.error('Failed to load user data');
         }
       }
 
-      function deleteUser(id) {
+      async function deleteUser(id) {
         if (confirm('Are you sure you want to delete this user?')) {
-          let users = AdminData.getUsers();
-          users = users.filter(u => u.id !== id);
-          AdminData.saveUsers(users);
-          Toast.success('User deleted successfully');
-          loadUsers();
+          try {
+            await AdminApiService.deleteUser(id);
+            Toast.success('User deleted successfully');
+            await loadUsers();
+          } catch (error) {
+            Toast.error('Failed to delete user');
+          }
         }
       }
 
-      $('#btn-save').addEventListener('click', () => {
+      $('#btn-save').addEventListener('click', async () => {
         const id = $('#user-id').value;
         const selectedRoles = Array.from($$('input[name="roles"]:checked')).map(cb => cb.value);
 
         const userData = {
           username: $('#username').value.trim(),
-          name: $('#name').value.trim(),
-          roles: selectedRoles,
+          display_name: $('#name').value.trim(),
+          role_ids: selectedRoles,
           status: $('#status').value
         };
 
-        if (!userData.username || !userData.name) {
+        if (!userData.username || !userData.display_name) {
           Toast.error('Please fill in all required fields');
           return;
         }
@@ -372,29 +393,19 @@
           return;
         }
 
-        let users = AdminData.getUsers();
-
-        if (id) {
-          // Edit existing user
-          const index = users.findIndex(u => u.id === id);
-          if (index !== -1) {
-            users[index] = { ...users[index], ...userData };
-            AdminData.saveUsers(users);
+        try {
+          if (id) {
+            await AdminApiService.updateUser(id, userData);
             Toast.success('User updated successfully');
+          } else {
+            await AdminApiService.createUser(userData);
+            Toast.success('User added successfully');
           }
-        } else {
-          // Add new user
-          users.push({
-            id: AdminData.generateId(),
-            ...userData,
-            createdAt: new Date().toISOString().split('T')[0]
-          });
-          AdminData.saveUsers(users);
-          Toast.success('User added successfully');
+          closeModal();
+          await loadUsers();
+        } catch (error) {
+          Toast.error(error.message || 'Failed to save user');
         }
-
-        closeModal();
-        loadUsers();
       });
 
       // Logout
@@ -406,7 +417,7 @@
         }, 500);
       });
 
-      loadUsers();
+      await loadUsers();
     });
   </script>
 </body>

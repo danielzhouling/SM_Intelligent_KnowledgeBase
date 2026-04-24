@@ -6,9 +6,17 @@
 
 | Bug | 严重程度 | 状态 |
 |-----|---------|------|
-| AdminData未定义 | 🔴 严重 | 待修复 — admin页面JS报错，用户/角色列表为空 |
-| 非管理员可登录管理后台 | 🟡 中等 | 待修复 — hq-admin可登录admin后台 |
+| AdminData未定义 | 🔴 严重 | ✅ 已修复 — admin/index.html/users.html/roles.html改用AdminApiService异步调用 |
+| 非管理员可登录管理后台 | 🟡 中等 | 待修复 — admin页面未校验user.manage/role.manage权限 |
 | Bot权限过滤前端未生效 | 🟡 中等 | 待修复 — store-manager/helpdesk看到3个Bot（应为1/2） |
+
+## Bug修复记录（2026-04-24）
+
+### AdminData未定义 Bug
+- **根因**: admin/index.html, users.html, roles.html 使用了不存在的 `AdminData` 对象，应使用 `AdminApiService`
+- **修复**: 将同步 `AdminData.getXxx()` 调用改为异步 `await AdminApiService.getXxx()`
+- **修复**: 将 `AdminData.saveXxx()` 改为 `AdminApiService.createXxx/updateXxx/deleteXxx` API调用
+- **修复**: admin/index.html 仪表盘统计、recent feedback表格改用异步加载
 
 ## 已知问题
 
