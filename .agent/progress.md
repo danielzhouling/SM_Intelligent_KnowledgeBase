@@ -18,6 +18,15 @@
 - **修复**: 将 `AdminData.saveXxx()` 改为 `AdminApiService.createXxx/updateXxx/deleteXxx` API调用
 - **修复**: admin/index.html 仪表盘统计、recent feedback表格改用异步加载
 
+### Bot C API Key配置
+- **问题**: Bot C在Dify已配置Agent+飞书插件，但数据库无API Key，状态为draft
+- **修复**: 在Dify数据库为Bot C创建API Token `app-NNfmmBgV2X9PWDxcQf9fSLt7`，更新到app数据库
+- **结果**: Bot C现在为active状态，可正常调用Dify Agent
+
+### Bot B数据修复
+- **问题**: Bot B被错误更新为disabled且有Bot C的API Key
+- **修复**: 重置Bot B为draft状态，API Key置空
+
 ## 已知问题
 
 | 问题 | 说明 |
