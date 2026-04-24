@@ -283,6 +283,7 @@
             <td>
               <div class="action-btns">
                 ${b.status === 'draft' ? `<button class="btn-action btn-configure" data-id="${b.id}">Configure</button>` : ''}
+                ${hasKey && b.status === 'active' ? `<button class="btn-action btn-configure" data-id="${b.id}">Edit Key</button>` : ''}
                 ${hasKey && b.status === 'active' ? `<button class="btn-action btn-toggle active" data-id="${b.id}">Disable</button>` : ''}
                 ${hasKey && b.status === 'disabled' ? `<button class="btn-action btn-toggle" data-id="${b.id}">Enable</button>` : ''}
               </div>

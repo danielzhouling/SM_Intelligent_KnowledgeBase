@@ -642,7 +642,12 @@
 
         switch (data.event) {
           case 'message':
-            onChunk(data.content || '');
+            // Dify chat bot 使用 message 事件，答案在 answer 字段
+            onChunk(data.answer || '');
+            break;
+          case 'agent_message':
+            // Dify Agent bot 使用 agent_message 事件，答案在 answer 字段
+            onChunk(data.answer || '');
             break;
           case 'message_end':
             onMeta(data);
