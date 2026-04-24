@@ -346,28 +346,16 @@ async function initBotsPage() {
 
 /**
  * 渲染Bot列表
+ * 注意: /api/bots/available 已由后端按用户权限过滤，前端直接展示
  */
 function renderBots(availableBots, user) {
   const botsGrid = $('#bots-grid');
   botsGrid.innerHTML = '';
 
-  // 获取用户权限列表
-  const allowedBotKeys = new Set();
-  if (user?.role) {
-    const perms = MockData.ROLE_PERMISSIONS[user.role];
-    if (perms?.bots) {
-      perms.bots.forEach(b => allowedBotKeys.add(b));
-    }
-  }
-
-  // 使用API返回的真实Bot数据渲染
+  // 使用API返回的真实Bot数据渲染（后端已按权限过滤）
   availableBots.forEach(bot => {
-    // 检查用户是否有权限访问此bot (权限key格式: 'bot.A', 'bot.*'等)
-    const botPermKey = `bot.${bot.key}`;
-    const isAllowed = allowedBotKeys.has('bot.*') || allowedBotKeys.has(botPermKey) || allowedBotKeys.size === 0;
-
     const card = document.createElement('div');
-    card.className = `bot-card ${isAllowed ? '' : 'bot-card-locked'}`;
+    card.className = 'bot-card';
 
     // 获取MockData中的knowledge和默认图标作为fallback
     const mockBot = MockData.BOT_CONFIG[bot.key] || {};
@@ -394,19 +382,14 @@ function renderBots(availableBots, user) {
       <div class="bot-knowledge">
         ${knowledge.map(k => `<span class="knowledge-tag">${escapeHtml(k)}</span>`).join('')}
       </div>
-      <div class="bot-status ${isAllowed ? 'status-available' : 'status-locked'}">
-        ${!isAllowed ? 'No Permission' : 'Online'}
+      <div class="bot-status status-available">
+        Online
       </div>
       <div class="bot-actions">
-        ${isAllowed
-          ? `<button class="btn btn-ai btn-block" data-bot="${bot.id}">
-              <span>Start Chat</span>
-              <span>→</span>
-            </button>`
-          : `<button class="btn btn-secondary btn-block" disabled>
-              <span>🔒 Restricted</span>
-            </button>`
-        }
+        <button class="btn btn-ai btn-block" data-bot="${bot.id}">
+          <span>Start Chat</span>
+          <span>→</span>
+        </button>
       </div>
     `;
 
@@ -419,7 +402,7 @@ function renderBots(availableBots, user) {
   $('#total-count').textContent = activeCount;
 
   // Add click handlers for available bots
-  $$('.bot-card:not(.bot-card-locked) .btn-block:not([disabled])').forEach(btn => {
+  $$('.bot-card .btn-block').forEach(btn => {
     btn.addEventListener('click', () => {
       const botId = btn.dataset.bot;
       window.location.href = `chat.html?id=${botId}`;

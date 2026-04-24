@@ -47,3 +47,63 @@
 ---
 
 **审查结论**：修复后通过
+
+---
+
+## 2026-04-24 第二次审查
+
+**审计范围**：M4/M5 阶段代码 — SSE流解析、Bots权限、Admin安全
+
+**通过任务**：
+- SSE流解析修复 ✅ — `api-service.js` 正确使用 `data.answer` 处理 `message` 和 `agent_message` 事件
+- Bot权限自动生成 ✅ — `bots.py` 创建Bot时自动生成 `bot.{key}` 权限
+- 流式会话创建 ✅ — `chat.py` 在 `message_end` 事件中正确创建conversation映射
+- TASK-M5-002 ✅ — FastAPI路由层正确实现（`require_permissions` 依赖校验）
+- TASK-M5-003 ✅ — DifyService 流式/阻塞双模式正确实现
+
+**需修复问题 (3项)**：
+
+#### 1. 【严重】管理后台未校验管理员权限
+**文件**: `admin/index.html`, `admin/users.html`, `admin/roles.html`, `admin/bots.html`, `admin/feedback.html`
+```javascript
+if (!AdminSession.isLoggedIn()) {
+  window.location.href = 'login.html';
+  return;
+}
+```
+**问题**: 仅检查是否登录，未校验 `user.manage` / `role.manage` 权限。任何已登录用户都能访问管理后台。
+**建议**: 调用 `/api/users` 接口时若返回 403，提示"无权访问"并跳转
+
+#### 2. 【中等】seed.py 存在冗余 bot.D 权限
+**文件**: `server/seed.py:28-29`
+```python
+"pb_d": PermissionModel(id="pb_d", key="bot.D", name="Bot D", type="bot"),
+```
+**问题**: 数据库只有 Bot A/B/C，但 seed 创建了 bot.D 权限，数据不一致
+**建议**: 删除 `pb_d` 相关代码
+
+#### 3. 【低】前端冗余Bot权限过滤
+**文件**: `demo/js/app.js:354-361`
+```javascript
+const allowedBotKeys = new Set();
+if (user?.role) {
+  const perms = MockData.ROLE_PERMISSIONS[user.role];
+  ...
+}
+```
+**问题**: 前端使用 MockData 过滤，而非使用后端 `/api/bots/available` 真实数据。后端已正确过滤，前端再次过滤是冗余的
+**建议**: 删除前端 `allowedBotKeys` 过滤逻辑，直接展示 API 返回结果
+
+**审查结论**：需要修复
+
+---
+
+### 修复状态 (2026-04-24)
+
+| 问题 | 状态 | 修复文件 |
+|------|------|----------|
+| seed.py 冗余 bot.D | ✅ 已修复 | `server/seed.py` — 删除 `pb_d` 相关代码 |
+| 前端冗余Bot权限过滤 | ✅ 已修复 | `demo/js/app.js` — 移除 `allowedBotKeys` 过滤逻辑 |
+| 管理后台权限校验 | ✅ 已修复 | `js/admin-app.js` — 添加 `checkAdminPermission()` 检查 |
+
+**修复后审查结论**：通过 ✅

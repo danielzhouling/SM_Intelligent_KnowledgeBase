@@ -127,6 +127,23 @@ async function checkExistingAuth() {
   }
 }
 
+/**
+ * 检查管理员权限（user.manage）
+ * 调用 /api/users 接口验证权限，返回 true 表示有权限
+ */
+async function checkAdminPermission() {
+  if (AdminApiService.getMode() === 'mock') {
+    return true; // mock 模式不检查
+  }
+
+  try {
+    await AdminApiService.getUsers();
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 // ============================================
 // Admin Login Page Logic
 // ============================================
@@ -217,6 +234,16 @@ async function initMainPage() {
       window.location.href = 'login.html';
       return;
     }
+  }
+
+  // Check admin permission (user.manage)
+  const hasPermission = await checkAdminPermission();
+  if (!hasPermission) {
+    Toast.error('您没有管理员权限，即将跳转...');
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 2000);
+    return;
   }
 
   if (user) {

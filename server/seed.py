@@ -25,7 +25,6 @@ async def seed_initial_data(db: AsyncSession) -> None:
         "pb_a": PermissionModel(id="pb_a", key="bot.A", name="Bot A - 故障处理", type="bot"),
         "pb_b": PermissionModel(id="pb_b", key="bot.B", name="Bot B - 操作指南", type="bot"),
         "pb_c": PermissionModel(id="pb_c", key="bot.C", name="Bot C - 版本指南", type="bot"),
-        "pb_d": PermissionModel(id="pb_d", key="bot.D", name="Bot D", type="bot"),
     }
 
     # --- Roles (with permissions wired before adding to session) ---
