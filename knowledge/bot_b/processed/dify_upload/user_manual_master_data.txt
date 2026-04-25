@@ -1,0 +1,239 @@
+============================================================
+[Master Data]
+
+Operation steps:
+
+1.Click[Export] to export all brand list information.
+2. Input brand name and click[Query] to check the brand information, Click[Reset] to remove the  the filtered content.
+Article master data-Brand Mgt
+
+Article master data-Article Master Data Mgt
+Operation steps:
+
+1.Click[Export] to export all article list information.
+2. Click[Add article image] to upload picture per article which will be applied to print price tag.
+3.Click[Batch Edit] to edit multiple article information.
+4. Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+5. Click[Edit] to edit single article data.
+6.Click[View] to review single article data details.
+
+Article Master Data Mgt-Add article Images
+Operation steps:
+
+1.Choose image type , it’s a single choice.
+2.Click[Choose] to open the local file and choose picture to upload.
+3.Click[Cancel]to stop the upload and will close the popup window.
+4.Click[Ok] to confirm the upload behavior.
+
+Article Master Data Mgt-Batch Edit
+Operation steps:
+
+1.Choose field which can be modified in article master data module（ Only field which are maintained in the system can be modified).
+2.Click[Choose] to download the chosen article file and upload modified data.
+3.Click[Cancel]to stop the upload and will close the popup window.
+
+============================================================
+[Article master data-Store Article Mgt]
+
+Article master data-Store Article Mgt
+Operation steps:
+
+1.Click[Export] to export all store article list information.
+2. Click[Import] to upload store article list to manually trigger article master data and store article master data integration.
+3. Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+4. Input keyword to find store.
+
+Article master data- BOM Article Mgt
+Operation steps:
+
+1.Click[Create] to create SM eat BOM relationship.
+2.Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+3.Click[Abolish]to stop using the BOM relationship.
+4.Click single voucher highlighted with blue to check BOM details.
+
+Article master data- TP BOM Article config
+Operation steps:
+
+Find the base unit configuration that needs to be converted (the dummy unit after conversion).
+Click "Create" and fill in or import the pre-conversion unit and the conversion relationship between units.
+Click "Edit" to modify existing units and conversion relationships.
+You can export the configuration.
+After modifying or creating a new configuration, be sure to click "Save" and wait for 5 minutes for it to take effect.
+
+BOM Article Mgt-Create SM Eat article
+Operation steps:
+
+1.Input BOM name.
+2.Chose article to be the parent article.
+3.Input mark up ratio %, default to be 0.
+4.Click + to add article.
+5. Choose corresponding article group.
+6. Input quantity.
+7.Click[Save] to save the setting.
+
+============================================================
+[Article Group Mgt]
+
+Article Group Mgt
+Operation steps:
+1.Click[Add group] to create new article group.
+2.Input group name to check information. Click[Query] to check data, Click[Reset] to remove the filtered content.
+3.Click [Edit] to edit article group information.
+4.Click [Delete] to delete article group.
+5. Click[Add article] to add article in the article group.
+6. Choose articles and click[Delete] to delete articles in the article group.
+7. Click[Query] to check data, Click[Reset] to remove the filtered content.
+
+Article master data-Scale Code Mgt
+Operation steps:
+
+1.Click[Sync to the Scale] to apply the scale code information.
+2. Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+
+Article master data-Category Mgt
+Operation steps:
+
+1.Click[Export] to export all category list information.
+2. Input keyword to find category.
+
+Article master data-Retail Price Query Mgt
+Operation steps:
+
+1.Click[Import] to upload store article list that change the sell price( PLU by request).
+2.Click[Export] export site articles list with current sell price.
+3.Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+
+APP-Article Mgt
+Operation steps:
+
+1.Click[Article Mgt] ，user can scan the article barcode and check article information.
+
+APP-Article Mgt-Article Query
+Operation steps:
+
+1. user can scan the article barcode and check article information.
+
+============================================================
+[Purchase File-Vendor Archives]
+
+Purchase File-Vendor Archives
+Operation steps:
+
+1. Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+2.Click[View] to check single vendor details. Click vendor code can also check the details.
+3.Click [Edit] to edit vendor information(Only fields maintained in the system can be modified).
+
+Purchase File-Purchase Info Mgt
+Operation steps:
+
+1. Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+2.Click[View] to check single purchase information（Vendor + Article) details.
+
+Purchase File- Source Information
+Operation steps:
+
+1. Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+2.Click[View] to check single source information( Vendor + Article +Site) details.
+
+Site Master data-Site Mgt
+Operation steps:
+
+1.Click [Import] to download site creation template and upload filled file.
+2.Click[Export] to export all site master data.
+3. Click[Batch Edit] to edit site information.
+4.Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+5.Click [View] to check single site information.
+6. Click[Edit] to edit site information.
+7. Click[Create] to add new site.
+
+Site Mgt-Create site master data
+Operation steps:
+
+1. Fill in mandatory and optional required field in the site module.
+2.Click[Save] to save the filled in data.
+
+============================================================
+[Site Master data-Inventory Site Mgt]
+
+Site Master data-Inventory Site Mgt
+Operation steps:
+
+1.Click [Create] to add new storage location.
+2.Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+3. Click[Edit] to edit storage location information.
+
+Site Master data-Site Hierarchy Mgt
+Operation steps:
+
+1. Input keyword to find site hierarchy.
+2.Click [Import] to download site hierarchy creation template and upload filled file.
+3.Click[Export] to export all site hierarchy master data.
+4. Click[Create] to add new site hierarchy.
+5. Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+ 6.Click[Edit] to edit site hierarchy information.
+7.Click[Delete] to delete the site hierarchy.
+
+============================================================
+[Account Mgt]
+
+Account Mgt
+Operation steps:
+
+1. Click [Import] to download new account creation and role authorization template, then upload the filled file（only for new account).
+2.Click[Export] to export all account list.
+3. Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content.
+4. Click[Reset password] to resend the new password to the account.
+5.Click[Show] to check single account information.
+6.Click[Edit] to modify the single account data. Including: name、email address、original site、phone number.
+ 7.Click[Authorize] to authorize the account to different modules and can operate bulk authorization.
+8.Click[Create] to add new account.
+
+Account Mgt-Create account
+Operation steps:
+
+1.Choose available terminal, multiple choices.
+2.  Fill in account name ， email phone number and original site.Fill in account expiration date if account expiration is Yes.
+3. Click[Cancel] to stop the action and close the popup window.
+4.Click[Save] to save the filled in data.
+
+Account Mgt-Bulk Authorization(step1)
+Operation steps:
+
+
+
+When you want to copy the role and data permissions of the current account, etc，to other accounts。Select the current account and then click“Authorize”.
+
+Account Mgt-Bulk Authorization(step2)
+Operation steps:
+Click“Bulk Authorization”
+
+============================================================
+[Account Mgt-Bulk Authorization(step3)]
+
+Account Mgt-Bulk Authorization(step3)
+Operation steps:
+
+Choose roles  
+From List: Choose accounts from the list, can select multiple accounts.
+3.From files: Upload files with multiple accounts 
+4. Click Cancel to stop the bulk authorization
+5. Click [Save] , then the chosen accounts  will be authorized the same roles of the selected account.
+
+============================================================
+[Role Mgt]
+
+Role Mgt
+Operation steps:
+
+1. Chose data in the condition filter and click[Query] to check data, Click[Reset] to remove the filtered content. 
+2.  Click[Edit] to modify single role data.
+3. Click[Create] to add new role.
+
+Role Mgt-Create role
+Operation steps:
+
+Fill in role name, applied terminal and original site(HQ/Store/DC). 
+Attention: “terminal”and”original site "only can edited when created Role.
+2.  Remove or add the authorize function and authorize account
+3. Click[Cancel] to stop the creation.
+4. Click[Save] to save the filled in data.

@@ -1,0 +1,353 @@
+============================================================
+[Data Dashboard]
+
+「SM」_「Phase 1」_「Data Dshboard」_V1.0.2
+
+Editor： | Jack Xian | Edit date： | 28/12/2023
+Approver： | Approve date：
+
+Copyright Reserved
+
+Document Information
+
+Document Source
+
+This document is intended to present the Business process design from SM. Business rules and Dmall system design based on the RFP captured by SM. This document will be available in SM’s SM Market SharePoint directory.
+
+Revision History
+
+Version | Date | Responsible | Change Summary
+1.0.0 | 23/10/2023 | Jack Xian | Init Version
+1.0.1 | 25/11/2023 | Jack Xian | Updated from SM view
+1.0.2 | 14/12/2023 | Jack Xian | Updated after BP go through
+
+============================================================
+[1. Blueprint Document Scope > Background Introduction]
+
+This overall project from SM retail group and Dmall technology aims to achieve digital transformation of SAP Systems. Dmall system solution works for strategic imperatives of competitive technology, enhanced store efficiency and quick reflection on data display.
+
+Among all the Phase1A streams that Dmall supported, this blueprint is solely prepared for the Data Dashboard working stream to state Dmall solution and cover requirements from As-Is and Wishlist Analysis.
+
+In the second section of this document, rough information of Data Dashboard will be provided, at the same time, the important access limitation function will be included which can support the future SM standard reporting work.
+
+In the third section of this document, based on the statistical analysis of As-is & Wishlist scenarios collected from various departments, corresponding reporting solution will be provided. This will facilitate a comprehensive review by the business department of SM retail group, culminating in the sign-off of the blueprint.
+
+Department | Total Report Collection | As-Is | Wishlist | Representer
+Store Operations | 117 | 77 | 40 | Judith
+Marketing | 16 | Lana
+Finance & Acctg | 19 | Melody
+Picking | 7 | Daniel & Carl
+FSC | 4 | Sean
+MBU | 11 | 10 | 1 | Miel
+Master Data | 6 | Jonna
+Supply Chain | 12 | Leath
+Merchandising | 28 | 18 | 10 | Aymah & Cheng
+ITS | 9 | Cathy
+Logistics | 1
+Total | 220 | 169 | 51
+
+============================================================
+[1. Blueprint Document Scope > Standard Reports Overview]
+
+Standard Data Dashboard provides management analysis report and operational detail reports. Those standard reports are designed with industry best practice to support day-to-day management. It helps the management team to gain visibility of the whole business from different granularities. It enables the operation team to identify the cause of the problem and make accurate decisions.
+
+Standard reports are classified into following domains:
+
+Commercial (for HQ use)
+
+Supply Chain
+
+Inventory Management
+
+Vendor Reports
+
+Store Operation (for single store use)
+
+POS Detail Reports
+
+Big Screen & App Support
+
+Picking Performance
+
+eCommerce Reports (Not covered in this document)
+
+============================================================
+[1. Blueprint Document Scope > New Functionalities Requirements]
+
+Diverging from the conventional standard reports, our examination of SM Company's retail operations has emphasized the requirement for customized services. By tailoring reporting solutions to align seamlessly with the distinctive demands of the retail sector, our objective is to streamline processes, ultimately fostering operational efficiency. This not only contributes to a more time-effective workflow but also results in tangible resource savings for SM Company.
+
+============================================================
+[1. Blueprint Document Scope > New Functionalities Requirements]
+
+New request/function | SM Definition | Solution
+Active Article | Create more than 3 months Include only (Fresh, Food, Dry Goods) Listed to the site Exclude the status (01, YD, ZD, ZM, ZP, ZC) Exclude the promo pack, seasonal item, one-time buy Major con – Consider the dummy article maintained in SAP only (1 per MajorCon Vendor) | Create the special indictor for active article in report
+Non-moving | Based on active article, count past 3 full months, with inventory record but no sales. Always focus on the non-moving (last day of 3 months) inventory value. | Built the non-moving report and indicator
+Finance budget | HeTS budget should be set up for different purpose (by store level / by category level) | Build two sets of rules for one budget in related reports.
+Bags Qty monitor | Monitor different bags usage (green bag, eco bag, paper bag) | Build corresponding measures in store reports
+Bagger related sales | Monitor the baggers related sales (more than P1000) | Build the bagger view in store reports to record
+OSA report | Show the result of every OSA task finished | Build the real-time OSA report
+Different inventory qty | SLOC 0001 Selling Area SLOC 0025 Dark Inventory SLOC 0031 Backroom SLOC 0002 Offsite Warehouse SLOC 0007 STDR from DC & Store SLOC 0003 Bad Order Location Non-moving: SLOC 0001+0025+0031+0002 Total Inventory: by store level, count all SLOCs | Non-moving report will follow the non-moving SLOC rule Other reports will record all SLOCs by site-article level Real-time inventory report can provide the each SLOC inventory recording
+Sales, DPP & Margin | [Sales W/VAT] [Sales W/O VAT] DPP = [Sales W/VAT] - MAV Margin = DPP/ [Sales W/VAT] * 100% Turns = Sales at cost / Inventory value (recent 30 days, sum up sales qty * MAV = sales at cost) | Build two sets of sales and add DPP, Margin in related reports
+
+============================================================
+[1. Blueprint Document Scope > Customization]
+
+Department | Related As-Is Reports | Requirement & Solution
+Master data | ManCom Report: Article Delisted Created Article Active Article Non-Moving Article | Article Delist: Special request for monitoring timeslot when the article status changed (by month level) Created article: Different with new items (within 6 months after creating), this report only focuses the 3 months newly created Active Article: Built the active article indicator also including the generic and variant rules to calculate the article count Non-Moving Article: Based on active article, built fixed format and count corresponding as-of time stock value and non-moving stock value at one time Should all follow the PGroup and fixed format same as As-Is report
+Finance & Acctg | CMSR Report | Caused by Mall based request for some purpose use, we should follow its fixed format and logic.
+Finance & Acctg | Budget | Different department owns their views of budget separation (Finance & Store Ops – By store level Merchandising, FSC & MBU – By Category level) Dmall will support two views of budget in different report and help split those budgets to daily level by SM unique calculation rule
+Merchandising | Group Performance | ManCom report request Special PGoup & fixed format required View the different companies at same time DPP calculation
+
+============================================================
+[2. Data Dashboard Introduction > 2.1 Final Solution Format]
+
+Dmall Data Dashboard Stream is operated with SM guidance and Dmall technology. It aims to serve all the management and analytical data needs with product formats not limited to performance report, operation detail reports, big screen, app reports and other customized requests.
+
+In comparison to operational reports, Performance reporting's audience is targeted to be management level and data analysts.
+
+The application data service focuses on master data hierarchies including store hierarchy, merchandise hierarchy and vendor hierarchy level, rather than transaction level entries which are accessible in corresponding modules.
+
+The data sources would be merging data from multiple domains for cross-sectional analysis. Trend analysis of historical data is supported with historical data migration project accomplished.
+
+Functionality wise, Performance reports have rich presentation of descriptive statistics with comprehensively structured layout, auto aggregation and visualizations.
+
+============================================================
+[2. Data Dashboard Introduction > 2.2 User Accessibility Matrix]
+
+All reports that Dmall provides contain the whole dimensions and suitable measures according to different scenarios analysis (exclude some customized reports which the fixed format required). Compared with SM existing many reports, Dmall offers a clearer and simple solution by generating similar purpose within one chart to display on the system.
+
+Consider the strict control over data access and acknowledging the high sensitivity of data permission requirements. Dmall designed the user access matrix function to match the SM policy. By utilizing this feature, Dmall’s reports enable administrators to configure various roles and, through role-based data permissions, systematically control the streamlined version of reports visible to different accounts in a batch manner.
+
+Based on our current understanding of business, our data control extends support to individual stores, categories and movement types. Additionally, Dmall can implement strict restrictions on viewing for each column as needed.
+
+============================================================
+[3. SM Data Dashboard Solution > 3.1 Reports Design > 3.1.1 Common functionalities]
+
+A standard report consists of time filter, dimension/attribute filter, reset button, LFL checkbox, column editor, download button, query button and data table section. The functions above are subject to be tailored for each standard report.
+
+============================================================
+[3. SM Data Dashboard Solution > 3.1 Reports Design > 3.1.1 Common functionalities > 3.1.1.1 Time Filter]
+
+Data Dashboard provides two types of time filters.
+
+Absolute time range
+
+In the Time Calendar, we can select range by Day / Week / Month / Year.
+
+Relative time range (Fixed cannot define)
+
+For corresponding TP time selection, the current day would be set as default, the same days last year is set as default in SPLY(same period last year).
+
+============================================================
+[3. SM Data Dashboard Solution > 3.1 Reports Design > 3.1.1 Common functionalities > 3.1.1.2 Dimension/Attribute Filter]
+
+For each report, there are multiple dimensions/attributes depending on the design of report. It may include master data dimensions as merchandise hierarchy, site hierarchy, vendor hierarchy and attributes such as article status, brand, sales type etc.
+
+All the dimensions/attributes are enabled for data filtering in Data Dashboard standard report.  The data shown in corresponding table would be set by the dimension/attribute filter.
+
+The filter is provided in two ways.
+
+Dropdown list with search box and multiple selection enabled.
+
+Text search box if option quantity is huge (now support max 50 options)
+
+============================================================
+[3. SM Data Dashboard Solution > 3.1 Reports Design > 3.1.1 Common functionalities > 3.1.1.4 LFL checkbox]
+
+LFL is the short form of like-for-like. When a store has transactions in all the last full 15 months, the store's status is considered as 'LFL' from the 1st of the next month.
+
+LFL checkbox is basically a filter option for LFL stores. While the box is unchecked, there is no filtering from this checkbox. While the box is checked, it is equivalent to filter LFL stores' data only.
+
+============================================================
+[3. SM Data Dashboard Solution > 3.1 Reports Design > 3.1.1 Common functionalities > 3.1.1.5 Column Editor / Summary Method]
+
+Column editor button is on the top right corner of the data table.  It enables users to show/hide/change orders of some fields in the data table section.
+
+Light blue shaded headers are dimension/attributes and aggregation supportable. The hidden dimension will be aggregated.
+
+Headers with no shading are measures/dimension/attributes without aggregation. The hidden dimension will not be aggregated.
+
+The column freeze button is supported.
+
+============================================================
+[3. SM Data Dashboard Solution > 3.1 Reports Design > 3.1.1 Common functionalities > 3.1.1.8 Drill Down Function]
+
+In certain reports, highlighted data in blue offers a special interactive feature. Upon clicking, users can choose to drill down and analyze the data from different perspectives, such as transitioning from stores to products or from products to trend analysis. The drill-down feature may involve a pop-up window or a direct transition to another report, carrying the same filtering conditions for seamless analysis.
+
+============================================================
+[3. SM Data Dashboard Solution > 3.1 Reports Design > 3.1.1 Common functionalities > 3.1.1.9 Data Table Section]
+
+Data Dashboard standard report layout is well tuned in formats. The adjustment includes but not limited to:
+
+Number format = #，## 0.00
+
+Percentage format = 0.00%
+
+Number/percentage aligns to right
+
+Text aligns to left
+
+Colored fonts for vs. and (ppt) measures
+
+Other functions supported:
+
+Measure sorting click (none, ascending, descending) applies for continuous value.
+
+The data table section has a left/right scroll bar for data viewing.
+
+Next page buttons are available in the bottom left area.
+
+============================================================
+[3. SM Data Dashboard Solution > 3.1 Reports Design > 3.1.2 Reports Detail – Department View]
+
+For this part, to better serve and help SM users transfer to Dmall reports smoothly, introduction by comparing with the As-Is from each department is necessary.
+
+Department | Total | Pending (*) | Partially Cover | Fully Cover | Not supplied in Phase 1A
+Store Ops | 79 | 3 | 29 | 27 | 20
+Marketing | 16 | 15 | 1
+Finance & Acctg | 19 | 8 | 4 | 7
+Picking | 7 | 1 | 5 | 1
+FSC | 5 | 3 | 2
+MBU | 11 | 7 | 4
+Master Data | 6 | 3 | 2 | 1
+Supply Chain | 12 | 6 | 3
+Merchandising | 18 | 4 | 8 | 2 | 4
+ITS | 9
+Logistics | 1
+Total | 183 | 7 | 55 | 68 | 53
+% percentage | 3% | 31% | 37% | 29%
+
+Pending (*)
+
+Store Ops – Marketing Redemption (Ongoing marketing team discussion)
+
+Store Ops – BOM article cost vs. Sales (Ongoing discussion)
+
+Store Ops – OSA% with sales (Ongoing discussion)
+
+Merchandising – Brand Performance (Solution wait for discussing) - (brand under corresponding vendor)
+
+Merchandising – Bagsakan 3 reports (Ongoing discussion) - (site-article-hourly level sales)
+
+Merchandising – Slow moving (Solution wait for discussing) - (Non-moving replace?)
+
+Store Ops | 「Department」Store Ops.xlsx
+Marketing | 「Department」Marketing.xlsx
+Finance & Acctg | 「Department」Finance & Acctg.xlsx
+Picking | 「Department」Picking.xlsx
+FSC | 「Department」FSC.xlsx
+MBU | 「Department」MBU.xlsx
+Master Data | 「Department」Master Data.xlsx
+Supply Chain | 「Department」Supply Chain.xlsx
+Merchandising | 「Department」Merchandising.xlsx
+
+============================================================
+[3. SM Data Dashboard Solution > 3.2 Additional Reports – Inventory Management Report]
+
+Inventory Function # | Inventory Function | Related Reports
+3.2 | Good receiving from vendor (DSA) | Receiving and Return Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.3 | Good receiving from DC/Store | Receiving and Return Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.4 | Store transfer discrepancy report from DC/Store | STDR Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.5 | Transfer to vendor/warehouse | Receiving and Return Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.6 | Store transfer to store | Receiving and Return Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.7 | OSA | OSA Report
+3.8 | Stock take (Inventory count) | Stock Take Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.10 | Gap Check | Gap Check Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.11 | Store Inventory movement Process | Stock Transfer Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.12 | SM Eat | SM Eat Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.13 | Dismatle | Dismantle Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.14 | In store bundle | In store bundle Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.15 | TP article | TP article Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+3.16 | Stock adjustment | Stock Adjustment Report Real-time Inventory Inventory Flow Stock Summary Movement Summary
+
+============================================================
+[3. SM Data Dashboard Solution > 3.3 Addtional Reports – POS report]
+
+POS Function # | POS Function | Report
+3.3.2 | Adding article approaches | Store Performance Analysis
+3.3.2 | Adding article approaches | Hourly Customers Analysis
+3.3.2 3.3.9 | Adding article approaches Item Void & Cancel order | Cashier Productivity
+3.3.2 3.3.14 3.3.16 | Adding article approaches Shopping Bag Bagger ID | POS Real-time Sales
+3.3.4 3.3.5 | Article price override Order price override | Price Adjustment Details
+3.3.8 | Suspend/recall order | Suspend Order Details
+3.3.9 | Item Void & Cancel order | Void Reason Analysis Void Transaction Details
+3.3.12 | Pre-order | Return Reason Analysis POS Return Details POS Tender Summary POS Payment Details
+3.3.13 | Govt Deduction (BIR waiting confirmation) | Sales Summary Report Senior Citizen Sales Report Persons with Disability Sales Report National Athletes and Coaches Sales Report Solo Parent Sales Report
+3.4.1 | Promotion Trigger | Promotion Performance
+3.8.4 | Open Cashdrawer | Cashier Open Cashdrawer
+3.8.8 | PVT | Employee Attendance
+
+============================================================
+[3. SM Data Dashboard Solution > 3.4 Addtional Function – Email Push & Print]
+
+Dmall's advanced features include a robust system for email distribution and printing, offering administrators a streamlined approach to disseminating reports. Through this functionality, managers can effortlessly push reports to predefined email groups in a consistent format.
+
+What sets this system apart is its intelligent backend mechanism. When reports are sent out, the system dynamically adjusts the content based on the data permissions of each recipient. This ensures that individuals only receive information that aligns with their specific access levels, maintaining data integrity, confidentiality, and relevance.
+
+Furthermore, this multifaceted functionality extends to both email distribution and physical printouts, providing flexibility to accommodate diverse user preferences. The seamless integration of these features not only enhances the efficiency of report sharing within the organization but also upholds a high standard of data security and accessibility tailored to individual needs.
+
+============================================================
+[3. SM Data Dashboard Solution > 3.5 Addtional Product – Big Screen]
+
+For all big screen products, will prepare the measures that SM focuses after Dmall & JWD receive the feedback from the interview of management in the future time.
+
+============================================================
+[3. SM Data Dashboard Solution > 3.5 Addtional Product – Big Screen > 3.5.1 HQ Real-time Sales Monitoring]
+
+Usage Scenario
+
+Monitor and display daily sales performance of merchants
+
+Target Role
+
+HQ
+
+Timeliness
+
+Real Time
+
+Key Measures
+
+Measures | Description
+Sales | Sales This Period. Actual revenue including tax from sales. including the amount cancelled or refunded after the transaction. Based on sale time
+Sales Budget | Budget: budget provided by business
+Sales MTD | MTD: Month to Date
+Transaction Count | Transaction Count This Period. Distinct count of all transactions from all articles
+ABS | ABS This Period. Average sales value per transaction. [ABS] = [Sales] / [Transaction Count]
+Refund % | Refund % This Period. [Refund %] = [Refund] / ([Sales] + [Refund]) * 100%
+OOS% | OOS% This Period. OOS Count against Valid Count. [OOS%] = [OOS Count] / [Valid Count] * 100%
+
+Sample (For reference only, there may be some differences from the final solution.)
+
+============================================================
+[3. SM Data Dashboard Solution > 3.5 Addtional Product – Big Screen > 3.5.2 Store Operation Monitoring]
+
+Usage Scenario
+
+Monitor and display the daily sales performance of the store
+
+Target Role
+
+Store Manager
+
+Timeliness
+
+Real Time
+
+Key Measures
+
+Measures | Description
+Sales | Sales This Period. Actual revenue including tax from sales. including the amount cancelled or refunded after the transaction. Based on sale time
+Sales Budget | Budget: budget provided by business
+Sales MTD | MTD: Month to Date
+Transaction Count | Transaction Count This Period. Distinct count of all transactions from all articles
+ABS | ABS This Period. Average sales value per transaction. [ABS] = [Sales] / [Transaction Count]
+Refund % | Refund % This Period. [Refund %] = [Refund] / ([Sales] + [Refund]) * 100%
+OOS% | OOS% This Period. OOS Count against Valid Count. [OOS%] = [OOS Count] / [Valid Count] * 100%
+
+Sample (For reference only, there may be some differences from the final solution.)
+
+============================================================
+[3. SM Data Dashboard Solution > 3.6 Addtional Product – App Data Dashboard]
+
+For all App products, will prepare the measures that SM focuses after Dmall & JWD receive the feedback from the interview of management in the future time.

@@ -1,0 +1,1906 @@
+============================================================
+[Master Data]
+
+「SM」_「Phase 1」_「Master data Module」_V1.0.0
+
+Editor： | Stacey Zhou | Edit date： | 18/12/2023
+Approver： | Approve date：
+
+Copyright Reserved
+
+Document InformCLE on
+
+Document Source
+
+This document is intended to present the Business process design from SM. Business rules and DMALL system design based on the RFP captured by SM. This document will be available in SM’s SM Market SharePoint directory.
+
+============================================================
+[Master Data]
+
+BP Chapter | Module | User Case | SM Corresponding Department | SM Corresponding Business Leader | Jonna | Aymah | Cheng | Judith | Cathy Cruz | Cathy Canlas | Miel
+3.1.1 | Site Master Data | Site masterdata create and update process | Master Data | Jonna
+3.1.2 | Site Master Data | Site hierarchy maintanence process | Master Data & Store Ops & Merchandise | Jonna, Judith, Aymah, Cheng
+3.1.3 | Site Master Data | Inventory location by site | Master Data & Store Ops | Jonna & Judith
+3.2.1 | Article Master Data | Article MasterData Integration Details | Master Data & IT | Jonna & Cath Canlas
+3.2.2.1 | Article Master Data | PLU by Request | Master Data & Merchandise | Jonna & Aymah, Cheng
+3.2.2.2 | Article Master Data | Bom Article | Master Data & Store Ops & Merchandise | Jonna, Judith, Aymah, Cheng
+3.2.2.3 | Article Master Data | Combi Article | Master Data & IT | Jonna & Cath Canlas
+3.2.2.4 | Article Master Data | Upload picture (applied to TPS) | IT | Cath Cruz & Cath Canlas
+3.2.2.5 | Article Master Data | Consignment with/without inventory | Master Data & Store Ops & Merchandise | Jonna, Judith, Aymah, Cheng
+3.3 | MajorCon | Master Data & IT & MBU | Jonna & Cathy Canlas & Miel
+3.4.1 | Vendor Master Data | Vendor master data Integration details | Master Data & IT | Jonna & Cath Canlas
+3.4.1.1 | Vendor Master Data | Vendor | Master Data | Jonna
+3.4.1.2 | Vendor Master Data | Purchase information | Master Data | Jonna
+3.4.1.3 | Vendor Master Data | Source information | Master Data | Jonna
+3.4.2 | Vendor Master Data | Vendor return maintenance | Master Data & Merchandise | Jonna, Judith, Aymah, Cheng
+
+============================================================
+[1.Blueprint Document Scope > 1.1 Background Introduction]
+
+Master data maintenance in phase 1A
+
+Promotion, site and inventory master data will be managed in DMALL system, the other master data will be interfaced to DMALL OS system.
+
+No. | Master data | Interface | Is management (add, delete, edit, etc.) in DMALL in Phase1A?
+1 | Article | SAP interface to DMALL merchandising system. | ❌
+2 | Order/vendor | SAP interface to DMALL merchandising system. | ❌
+3 | Member | Keep in SM original system, not interface to DMALL | ❌
+4 | Promotion | ✅
+5 | Site | ✅
+6 | Contract | Keep in SM original system, not interface to DMALL | ❌
+
+============================================================
+[2. Business Requirement List]
+
+Check full list of the SM AS-IS Business Process Framework here
+
+DMALL Master data Module covers   items in the list, which is shown in below table.
+
+Main scenario | Module/ Sub scenario | User Case | As-Is Description | As-Is Doc | To Be Description | Impact To SM | Remarks
+Site master data | Site hierarchy | Support to create multiple levels of site hierarchy. | 2 levels site hierarchy in SAP system | / | User can create site hierarchy in DMALL system | Add new feature
+Site master data | Inventory location | Support to set different inventory sites per site. | Total 7 inventory locationsntory locations in SA、P ed in SAP | / / | 1.User can create site hierachy in DMALL system 2.Totally 7 inventory locations | Add new feature
+Site master data | Site creation | Support to maintain contact information, address information, tax related information per site. | There are basic information of site saved in SAP system | / | User can create site hierarchy in DMALL system | Add new feature
+Article master data | Fields mapping and integration | Integration of article master data includes Merchandise Hierarchy, Brand, Article Base Info, Article Package, Article Package Barcode, BOM Article, Site-Article, Site-Article-Price, Vendor, Purchase Information and Source Information | This information are saved in SAP system | / | Necessary fields will be interfaced from SAP to DMALL and these fields will be saved in DMALL system and review by users | No change
+Article master data | Top N flag | Top 888; Top 4k; Top 32 vendor; Top SME Flag can be checked in article master. | One article can have multiple top N flags | / | Flag will be interfaced to DMALL and user can check the flag information by article | No change
+
+============================================================
+[2. Business Requirement List]
+
+Article master data | SC/PWD | Majorcon code=025, items flag can be checked in article master | Majorcon code=025, and with certain items are PWD,article list refers to 7.2 | / | Majorcon information will be interfaced to DMALL and user can check the flag per article | No change
+Article master data | 1.Value pack 2.Medicines item 3.SC/PWD items 4.RTE item 5.Single parent tag | Special articles to be maintained in system | Different articles will have special flag according to the symbol included in article name | / | Articles will be interfaced from SAP to DMALL, analyze an saved according to the symbol in article name VP:value pack +:SC/PWD item @:medicine item #:RTE item : single parent tag | No change
+Article master data | Price change | Support PLU By Request change flow and to be applied to POS. | There are two price change flows, regular and emergency | / | User can upload store articles which required emergency price change to be effective immediately | Simply business flow
+Article master data | Generic/Variantartcles | Multiple attributes can be maintained for variant articles in article master. | There is generic an variant articles maintained in the system | / | DMALL will add new field”attribute” to support the scenario | No change
+Article master data | Article status | Mapping article status and business control | Different article status will have impact on ordering, sales and other aspects | / | All the available status and business control will be interfaced to DMALL and user can check it in configuration center | No change
+Article master data | Barcodes analyze rules | Support POS and inventory business requirement to barcode analyze rules. | Weight based and price based article will have different barcodes analyze rules | / | Scan the code and system will analyze to different module of information | No change
+
+============================================================
+[2. Business Requirement List]
+
+Article master data | Combi articles | To satisfy the same article, same vendor, in different stores, one is consignment, the other is outright. | There is combi articles relationship set up in SAP system | / | Articles will be interfaced from SAP to DMALL and saved in source information | No change
+Vendor master data | Top N | Add top 32 vendor flag and can checked in vendor master. | Top 32 vendors maintained in SAP | / | Information will be interfaced from SAP to DMALL and user can check the flag in vendor master data | No change
+Vendor master data | Returnable flag | Support to maintain vendor level returnable flag to control store return order creation process. | There is no vendor level return flag | / | User can maintain vendor returnable flag in vendor master | New feature
+Vendor master data | Centralized return | Some articles will returned to DC, then returned to vendor | When store create RTV, if the article is in the list (which defined vendor, store and DC relationship), all the articles will be returned to DC, then DC returned to vendor | / | User can check vendor, store and DC relationship in store article mgt User can find return DC information by store by article, if no value under return DC system will take source vendor as return vendor | No change
+Vendor master data | Alternative return vendor | Some articles in the store need to be returned to other vendor instead of source vendor | When store create RTV, if there’s multiple vendors, user choose one vendor to return | / | User can choose vendor to return for some articles when create RTV in the store | No change
+
+============================================================
+[3. Function Design Solution > 3.1 Site Master data system design and structure > 3.1.1 Site master data create and update process]
+
+Site master data will be maintained in DMALL system. Users need to fill in the required fields in the site module and site information will be applied to downstream systems.
+
+1.AS-IS Overview
+
+Site master data is maintained in SAP
+
+2.To-Be Overview
+
+All the site master data will be maintained in DMALL system, user can create new site,update  the site information.
+
+3.To-Be Flow
+
+4.To-Be Description:
+
+Page screenshot | Function Description
+Click 【Create】to add new store
+1.Fill in necessary information in basic information，offline and online business information modules.Site information maintenance 2. Below information are required 2.1Store class When creating a new store, the user needs to identify premier 1, premier 2 or regular store, one store can only be allocated to one of the above values. 2.2 Size When creating a new store, the user needs to identify small, medium, large, extra small or express store, one store can only be allocated to one of the above values. 2.3 Opening date It’s the date that store opened or plan to open 2.4 Closure date The closure date of the store 2.5 Branch TIN It’s the tax code by store
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Site master data is maintained in SAP | Site mater data will be maintained in DMALL system | New | Master data team | All companies in scope.
+
+============================================================
+[3. Function Design Solution > 3.1 Site Master data system design and structure > 3.1.2 Site hierarchy maintenance process]
+
+Site hierarchy will be ranged from at least 2 levels to maximum 6 levels, the last level will be default as store, dc or distribution center. Retailers can self-define each site hierarchy information: country/region, brand, format, city.
+
+1.AS-IS Overview
+
+Site hierachy information is maintained in SAP
+
+2.To-Be Overview
+
+Site hierarchy will be maintained in DMALL system, it can support 2 to 6 levels.
+
+3.To-Be Flow
+
+4. TO-BE Description
+
+Page screenshot | Function Description
+Click 【Create】to add new site hierachy
+Fill in site hierachy information and click save, site hierachy will be created in the system
+
+Site hierarchy information maintenance
+
+Field | Mandatory | Can be changed
+Parent data | Y
+Data type | Y | N
+Data code | Y | N
+Data name | Y | N
+Contact | N | Y
+
+SM market site hierarchy
+
+Level | Description | Definition | Sample
+1 | SM Group | SM Markets
+2 | Company | SVI, SMCo, SSM | Supervalue, Inc.
+3 | Region | NCR, North Luzon, South Luzon, Visayas, Mindanao | NCR
+4 | Type | Mall Based, Condo Based, Stand Alone, DC, Depot, ColdRoom | Mall Based
+5 | Site | Store or DC or Depot | Makati
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Site hierarchy is maintained in SAP | Site hierarchy will be maintained in DMALL system | New | Master data team | All companies in scop e.
+
+============================================================
+[3. Function Design Solution > 3.1 Site Master data system design and structure > 3.1.3 Inventory location by site]
+
+1.AS-IS Overview
+
+Inventory sites are managed in SAP
+
+2.To-Be Overview
+
+Inventory sites will be managed in DMALL system, total 7 inventory sites
+
+3.To-Be Flow
+
+In the DMALL system, the store will be divided into 7 inventory locations. And each store operation function/ movement action will operate in a specific inventory location. Each inventory location has its own inventory data. It will not be mixed up together so that we can clearly identify the current inventory situation and make smart decisions.
+
+SLOC 0001 Selling Area: selling area inventory indicates the sales floor goods quantity. When POS selling, inventory should be deducted from the selling area.
+
+SLOC 0025 Dark Inventory: This location is used for storing goods for online order picking. And the location is on the sales floor.
+
+SLOC 0031 Backroom: Backroom inventory indicates the quantity of storage goods when goods are replenished into sales floor shelves, users should perform the stock transfer function to adjust the inventory
+
+SLOC 0002 Offsite Warehouse: This location indicates the storage goods quantity in the outside warehouse
+
+SLOC 0007 STDR from DC&Store: claim location is only used for delivery discrepancy report scenario. these stock should not be sellable or used for any business. Stores should separate an individual area for displaying these goods.
+
+SLOC 0003 Bad Order Location: bad order location is only used for return scenario.
+
+SLOC 0024 Holding location. These inventories should not be sellable or used for any business.store should separate an individual area for displaying these goods.
+
+SLOC0001 selling area, SLOC 0025 Dark Inventory, SLOC 0031 backroom will be applied to picking system.
+
+Inventory location can be set up by store level
+
+Inventory site to be maintained in advance.
+
+4. TO-BE Description
+
+Page screenshot | Function Description
+Create inventory site and fill in necessary information
+Choose existing inventory sites to be applied when maintaining the new site
+
+============================================================
+[3. Function Design Solution > 3.1 Site Master data system design and structure > 3.1.3 Inventory location by site]
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Inventory locations are maintained in SAP | User can create inventory locations in DMALL system,it will keep same with the setting in SAP system | New | Master data team/store operation team | All companies in scope.
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+1.AS-IS Overview
+
+Currently, all the article master data is maintained in SAP，user can only add, delete, edit article information in SAP and interface to other systems.
+
+2.To-Be Overview
+
+1.Some fields existed in SAP and necessary to be interfaced in phase 1A still will be maintained in SAP and interfaced to DMALL system, data will be transformed and saved in DMALL database, user can only review the data, can’t edit or delete.
+
+2.Some fields which existed in DMALL but not available in SAP, user can manage in DMALL system, data can be reviewed and edited. The data will be applied to inventory and POS.
+
+3.Some modules like emergency price change, Bom articles process will be managed in DMALL system, user can review and edit and the data, the data will be applied to inventory and POS.
+
+3.To-Be Flow
+
+4. TO-BE Description
+
+Integration:
+
+Integration after phase 1A switch involves systems such as SAP, Retail Affiliates MMS, DAC, ARC, BIR, e-Treasury, Credit Info System, and Mall sales etc. In the following sub chapters, these integrations are categorized into master data, Inventory and EOD.
+
+Master-data includes Merchandise Hierarchy, Brand, Article Base Info, Article Package, Article Package Barcode, BOM Article, Site-Article, Site-Article-Price, Vendor, Purchase Information and Source Information. Most of these data should be loaded from SM SAP to DMALL Master data System, with some exceptions:
+
+Major consigner master data should be loaded from Retail Affiliates MMS.
+
+Saleset will be maintained in SAP and interface to DMALL system.
+
+The other Bom articles like dismantle article, SM Eats article and TP article can be maintained in DMALL OS system.
+
+SAP
+
+1.Merchandise Hierarchy
+
+Background: Merchandise hierarchy is applied to define the article belongs to which category level; user can check business data according to different category.
+
+All the fields can only be reviewed, can’t be edited.
+
+Integration Approach: JCo API (FM: ZRFC_RETRIEVE_MERCAT)
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+File naming Format (If SFTP)：N/A
+
+Frequency & Rules: Daily (1:15 AM)
+
+Integration Detail Content:
+
+There are 4 levels of categories as below.
+
+Division
+
+Sub division
+
+Department
+
+Merchandise category
+
+The merchandise category is the last category.
+
+Example:
+
+Div | Div Desc. | Sub-Div | Sub-Div Desc. | Department | Department Desc. | Mdse.Cat. | Mdse.Cat. Desc.
+1st 2 digits | Text | 1st 2+next2 | Text | Next 3 digits | Text | 8 digits | Text
+01 | Dry goods | 0101 | Shoes | 0101102 | Men's Shoes | 01011021 | Sandals
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+1.If the category is created or changed in SM SAP system, it needs to be synchronized to DMALL system by API.
+
+2.If the category is removed in SM SAP system, it needs to be synchronized to DMALL system by API.
+
+2.Brand
+
+Background: Brand information is optional to be interfaced to the DMALL system, no logic control for the current phase.
+
+All the fields can only be reviewed, can’t be edited.
+
+Integration Approach: JCo API(ZRFC_GET_BRANDS)
+
+File naming Format (If SFTP)：N/A
+
+Frequency & Rules:  Daily (1:15 AM）
+
+Integration Detail Content:
+
+No. | SAP Field | DMALL Filed | Type | Length/Enum Value | Remark
+1 | BRAND_CODE | Brand code | CHAR | 7
+2 | BRAND_Name | Brand name | CHAR | 30
+
+3.Article Base Info
+
+Background: Article basic information contains necessary fields to be applied for POS and inventory system.
+
+All the fields can only be reviewed, can’t be edited.
+
+Integration Approach: JCo API (FM:  ZRFC_GET_ARTICLE_MASTER)
+
+File naming Format (If SFTP)：N/A
+
+Frequency & Rules: Daily (1:15 AM)
+
+Integration Detail Content:
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+No. | SAP Field | DMALL Field | Table Name | Description | Type | Length/Enum Value | Remark
+1 | MATNR | Article Code | MARA | Article/Material Code | String | 64 | -
+2 | MAKTX | Article Name | MAKT | Article/Material Description | String | 255 | -
+3 | MAKTM | Article Short Name | MAMT | A | String | 18 | This field can be applied to POS
+4 | MATKL | Merchandise Hierarchy | MARA | Material Group | String | 50 | -
+5 | Brand Code | - | String | 64
+6 | Brand Name | - | String | 100
+7 | MTART | Article Type | MARA | Material Type | Enum | There are 4 kinds of article types as below 1. Outright/consignment with inventory 3.non trade. 4.trade related(service) 8.consignment without inventory- | -
+8 | ATTYP | Article class | MARA | Matl Category | Enum | 1.Single 2.Saleset 5.Generic/Variant | -
+9 | - | Attribute | - | String | It's to identify the variant article need the attribute information, like color,size.,etc.
+10 | MEINS | Sales Format | MARA | Base Unit of Measure | Enum | There are 2 values as below 10: Standard 11Weighted | If the UOM is kg, it will be weighted If the UOM is non kg, it will be standard
+11 | MEINS | Inventory Unit | MARA | Base Unit of Measure | String | 64 | -
+12 | MEINS | Inventory Unit Desc | MARA | Base Unit of Measure | String | 64 | -
+13 | TAKLV | Output tax code | MARA/ | Tax class. | String | 1 = Vat / 0 = Nonvat | If the tax class. =0, then output tax rate =0
+14 | /EKGRP | Purchase group | MARA/MARC | Purch.Group | CHAR | 001 Nonfood(trade) 002 Food(trade) 003 Fresh(trade) 004 FA&Supplies(NT) 005 Services (NT)
+15 | INHME | Display unit | MARA | Content unit | -
+16 | INHAL | Display quantity | MARA | Net content | -
+17 | - | Specification | - | It will show the combination of display`=C quantity and display unit, like 30 ml
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+3.1 For Top items.  User will maintain in DMALL and be saved in Article master data＞basic information＞Extended information
+
+Article tags can be overlapped, such as one article can be top 888 and top 4k at the same time
+
+Top 888
+Top 4k
+SME ARTICLES (Small and Medium Enterprise)
+
+3.2 For special items, system will tag it by article name
+
+If one article is Value pack, it will not be other tag anymore and will not allow to be involved in promotion.
+
+The other tags can be overlapped, such as one article can be SC/PWD and medicine item at the same time
+
+VP: Value Pack
++: SC/PWD item
+@: medicine item
+#: RTE Item
+^: single parent tag
+
+3.3 SPU articles
+
+The information will be included in integration. Here's to describe more details related to the SPU articles scenario.
+
+Item may have multi specification, like different color and size will be managed by clothes. Currently in SAP there's generic and variant structure to identify the other item and child item.
+
+There's new article category in DMALL will be generic/variant
+
+Different attributes can be different article code, if there's multi- package, then system will also have different packages
+
+One package can have multiple barcodes, but one barcode can only belong to one package
+
+There's no store article range for generic items
+
+Variant item+package is the smallest sales unit, selling price can be different per variant+package, inventory deduction will be pc
+
+Example
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+Article base Info
+Article Code | Article Name | Article Type | Article Category | Attributes
+12345678 | Butter | Trading Goods | Generic/variant
+12345678001 | Butter | Trading Goods | Generic/variant | {"001":"001001"} ，001：flavor，001001：peach
+12345678002 | Butter | Trading Goods | Generic/variant | {"001":"001002"} ，001：flavor，001001：apple
+Article Package
+Article Code | Package Unit | Package Coefficient | Sale Price
+12345678 | PC | 1 | 3.23
+12345678 | 24PC | 24 | 73.1
+12345678001 | PC | 1 | 3.23
+12345678001 | 24PC | 24 | 73.1
+12345678002 | PC | 1 | 3.3
+Article Package Barcode
+Article Code | Package Unit | Package Coefficient | Barcode | Default Barcode Flag
+12345678 | PC | 1 | 4000001 | 1
+12345678 | PC | 1 | 4000002 | 0
+12345678 | 24PC | 24 | 4000003 | 1
+12345678 | 24PC | 24 | 4000004 | 0
+12345678001 | PC | 1 | 4000005 | 1
+12345678001 | 24PC | 24 | 4000006 | 1
+12345678002 | PC | 1 | 4000007 | 1
+Site Article Price
+Site Code | Article Code | Package Unit | Package Coefficient | Sale Price
+1000 | 12345678 | PC | 1 | 3.5
+1000 | 12345678 | 24PC | 24 | 75.1
+1000 | 12345678001 | PC | 1 | 3.6
+1000 | 12345678001 | 24PC | 24 | 76.1
+1000 | 12345678002 | PC | 1 | 3.4
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+4.Article Package
+
+Background: Article can have multiple package unit, it's applied to purchase order to have different unit.
+
+All the fields can only be reviewed, can’t be edited.
+
+Integration Approach: JCo API(FM : ZRFC_GET_ARTICLE_MASTER )
+
+File naming Format(If SFTP)：N/A
+
+Frequency & Rules: Daily (1:15AM)
+
+Integration Detail Content:
+
+No. | SAP Field | DMALL Field | Table Name | Description | Type | Length/Enum Value | Remarks
+1 | MATNR | Article Code | MARM | Article/Material Code | String | 64 | -
+2 | MEINS | Package Unit | MARM | Alternative Unit of Measure | String | 64 | - MEINS is the out parameter of FM: ZRFC_GET_ARTICLE_MASTER, and MARM-MEINH is used in the backend process.
+3 | MSEHL | Package Unit Desc | T006A | Alternative Unit of Measure Description | String | 64 | Keep same as alternative unit of measure
+4 | UMREZ | Package Coefficient | MARM | packaging | Decimal | (20,3)，Integer20，decimal3 | -
+5 | BREIT | Width | MARM | Width | Decimal | (10,3)，Integer10，decimal3 | Width in SAP.
+6 | HOEHE | Height | MARM | Height | Decimal | (10,3)，Integer10，decimal3 | Height in SAP
+7 | LAENG | Depth | MARM | Length | Decimal | (10,3)，Integer10，decimal3 | Length in SAP.
+8 | VOLUM | Volume | MARM | Volume | Decimal | (20,3)，Integer20，decimal3 | -
+9 | NETPR | Sale Price | CALP | Regular price | Decimal | Sales price with tax Only regular price
+10 | BRGEW | Gross weight | MARA | Gross weight
+11 | NTGEW | Net weight | MARA | Net weight
+
+Weight unit default is kg both in SAP and DMALL system.
+
+5.Article Package Barcode
+
+Background: Each article can have multiple barcodes if there is multiple package unit, one barcode can only belong to one article.
+
+All the fields can only be reviewed, can’t be edited.
+
+Integration Approach: JCo API (FM: ZRFC_GET_ARTICLE_MASTER)
+
+File naming Format (If SFTP) ：N/A
+
+Frequency & Rules: Daily (1:15 AM)
+
+Integration Detail Content:
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+No. | SAP Field | DMALL Filed | Table Name | Description | Type | Length/Enum Value | Remarks
+1 | MATNR | Article Code | MEAN | Article/Material Code | String | 64 | -
+2 | MEINS | Package Unit | MEAN | Alternative Unit of Measure | String | 64 | - MEINS is the out parameter of FM: ZRFC_GET_ARTICLE_MASTER, and MARM-MEINH is used in the backend process. -
+3 | UMREZ | Package Coefficient | EINA | Packaging | Decimal | (20,3) ，Integer20，decimal3 | -
+4 | EAN11 | Barcode | MEAN | EAN/Barcode | String | 64 | -
+5 | EANTP | EAN category | /MEAN | EAN Category | Enum | Z1 Weight EAN Z2 SourceMart EAN Z3 Inhouse EAN Z4 SourceMart EAN Z5 SourceMart Barcode Z6 MCI Promotion Z7 SourceMark Barcode2 ZA SourceMart EAN ZB SourceMart EAN ZC SourceMart EAN ZD SourceMart EAN ZE SourceMart EAN ZF SourceMart EAN ZG SVI Combi Article | Create new field in the system by DMALL
+6 | HPEAN | Default Barcode Flag | MEAN | Additional EAN | Enum | 1 YES, -1 NO | If one article has multiple barcodes, it can be identified as the main barcode to be displayed and searched in the system in the first place
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+5.1 Barcode analyze rule
+
+This will follow current as is rule, no change to current practice
+
+There are two barcodes analyze rule, one is for standard item with price, the other is weighted items with weight, price and weight will not be included in one barcode at the same time.
+
+Barcode service to Inventory& POS
+
+POS | When POS scan the code, need to analyze the article code, package information and scale information（total weight and total price）
+Inventory | Scan article code to perform SM Eat, Dismantle, inventory adjustment and inventory movement
+Picking | Scan the scale code to analyze the article code for fresh count and weight articles Scan the barcode and analyze the article code
+
+b.Barcode analyze rules for weighted items.
+
+1.1st 2 digits-28-weight based;27-price based
+
+2.Next 5 digits is item code
+
+3. Weight-5 digits
+
+4.Price (Total price)- 5 digits
+
+5.Check digit-1 digit
+
+Sample:
+
+c.Special scenarios
+
+6.BOM
+
+Background: BOM article relationship can be maintained and applied to inventory system for processing. Inventory deduction and sales can be recorded according to the ratio set up in the system. It’s only applied to saleset( in store bundling), the Bom relationship is maintained in SAP and interfaced to DMALL, the data can only be reviewed and can’t be edited, Bom relationship will be applied to inventory for operation.
+
+Saleset will be integrated from SAP to Dmall system, and saved as in store bundle and dismantle relationship at the same time.
+
+Other Bom articles like SM Eats and conversion can be managed in the system and the data can be reviewed and edited, Bom relationship will be applied to inventory for operation.
+
+Integration Approach: N/A
+
+File naming Format (If SFTP) ：N/A
+
+Frequency & Rules: N/A
+
+Integration Detail Content:
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+No. | SAP Field | DMALL Field | Table Name | Description | Type | Length/Enum Value | Remarks
+1 | ATTYP | BOM Type | MARA | Saleset | CHAR | 2 | - num value in SAP is 10: Sales Set.-
+2 | - | BOM Name | - | String | 50 | Short description of this BOM entry Default value to "BOM of <Parent Article Code>"
+3 | - | Group Code | - | String | 32 | - Used in Calling-side, to search by Code.-
+4 | MATNR | Parent Article Code | MARA | Material code | CHAR | 64 | -
+5 | IDNRK | Child Article Code | - | Component Material | CHAR | 64 | COMPONENT! A1 No SAP table for the field
+6 | MAKTC | Article name | - | Description | No SAP table for the field
+7 | CPQTY | Factor | - | Component qty | NUMC | No SAP table for the field
+8 | CMPME | Inventory unit | - | Component unit | - | No SAP table for the field
+9 | - | Rounding Rule | - | Enum | Default value: Rounding Up
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+7.Site-Article
+
+Background: Site article defines the article scope per site. All the fields can only be reviewed, can’t be edited.
+
+Integration Approach: JCo API (FM: ZRFC_GET_ITEMMAST)
+
+File naming Format (If SFTP) ：N/A
+
+Frequency & Rules: Daily (1:15AM)
+
+Integration Detail Content:
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+No. | SAP Field | DMALL Field | Table Name | Description | Type | Length/Enum Value | Remarks
+1 | WERKS | Site Code | T001W /KALP | Plant | String | 64 | -
+2 | MATNR | Article Code | EINA | - | Article/Material Code | String | -
+3 | MMSTA | Article Life Cycle | MARC | P-S matl status | Enum | 01 For Archiving YD Delist Deplete Z1 New Article ZA Conversion ZC Complete Block ZD Delist Pull Out ZM Component ZP Partial Block ZR Merchandsng Replenishmnt ZV Canvass Article ZZ Implementation | -
+4 | - | Change The Price of the Scale | - | Enum | Default to be -1 No 1 YES, -1 NO | Default to be -1 No
+5 | - | Allow Sales Returns | - | Enum | Default to be 1 YES 1 YES, -1 NO | Default to be 1 YES
+6 | - | Allow Transfer | - | Enum | Default to be 1 YES YES, -1 NO | Manually to be 1 YES
+7 | VMSTA | Allow Sales | MVKE | DChain-spec. | Enum | Blank means allow sales.Blank=1 YES Z1 means blocked for sales. Z1=-1 NO
+8 | - | Whether To Manage the Inventory | - | Enum | 1 YES, -1 NO | If the article type type=consignment without inventory, trade related(service)the value will be -1 NO If the article type=outright, consignment with inventory, non trade, the value will be 1 YES PS:Non trade in the system is outright and manage the inventory.
+9 | - | Price Change Mode | - | Enum | 10.Fixed Selling Price 11.Allow Price Changed | Default to be fixed selling price kg
+10 | VKWRK | Site code | RMMW1 | Plant | Enum | Blank means all stores in the format
+11 | - | Price required | Enum | 1-allow 0-not allow | If the material type=trade related (service),Price required=1, then the system will pop out a window in POS to let cashier manually input price. Then the price change mode will =11.Allow Price Changed
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+12 | MTART | Business Mode | - | Enum | Outright Consignment | ZTRT=Trade Related Service） and ZNRT=Non trade will be regarded as Outright business mode ZTRA = Outright ZTRS = Consignment without inventory ZRTS+container03=Consignment with inventory Consignment without inventory and consignment with inventory will be regarded as Consignment
+13 | - | Allow Discount | - | Enum | Default to be 1 YES 1 YES, -1 NO | If the article is value pack, allow discount value will be –1 No
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+If article status is Z1 new article, then it means item in all stores should not be allowed to sell.
+
+7.1 Article status and business control
+
+Below table defines the available status and functionalities and the setting can be checked as article lifecycle in achieves setting module in DMALL system.
+
+For majorcons items, the article status will be blank during the integration.
+
+Article status control in DMALL system
+
+No. | Article status | Description
+1 | Allow transfer | To create transfer order between store to Store
+2 | PI Doc | Allow store to perform stock take PI=Physical inventory.
+3 | Returns | Can create return order
+4 | PO Auto | System can generate suggested order quantity and release PO automatically, it includes of store to DC STO, store PO to vendor or DC PO to vendor
+5 | PO Man | Manual input order quantity by site by article and create order, it includes of store to DC STO, store PO to vendor or DC PO to vendor
+6 | Allow sales returns | Even an article is sold out, it can be returned to the merchant
+7 | Sales | Article can be sold in store
+8 | Is terminate lifecycle | The final status of an article, no business control
+9 | Is start lifecycle | The initial status of an article, no business control
+10 | Allow adjustment | Adjust the article’s inventory
+11 | Blank | No Restriction, article will be regularly ordered via automated replenishment, this one will keep same
+12 | Manual out/auto out | Delivery Note (DN) can be created for the automatic STO for the tagged article/store Manual Out - Delivery Note (DN) can be created for manual STO for the tagged article/store
+
+After DMALL receives the article status, it will be saved and tagged Yes or No for each business control and the result will be applied to POS and inventory system when perform certain operation.
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+No. | Code | Name | Allow transfer | PI Doc | Returns | PO Auto | PO Man | Allow sales returns | Sales | Is terminate lifecycle | Is start lifecycle | Allow adjustment | Manual out/auto out
+1 | 01 | For Archiving | No | Yes | No | Yes | No | Yes
+2 | YD | Delist Deplete | Yes | No | Yes | No | Yes
+3 | Z1 | New Article | No | Yes | No | Yes
+4 | ZA | Conversion | Yes | No | Yes | No | Yes
+5 | ZC | Complete Block | Yes | No | Yes | No | Yes
+6 | ZD | Delist Pull Out | Yes | No | Yes
+7 | ZM | Component | Yes | No | Yes | No | Yes
+8 | ZP | Partial Block | Yes | No | Yes | No | Yes
+9 | ZR | Merchandsng Replenishmnt | Yes | No | Yes | No | Yes
+10 | ZV | Canvass Article | Yes | No | Yes | No | Yes
+11 | ZZ | Implementation | Yes | No | Yes | No | Yes
+12 | Blank | Yes
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.1 Article Master Data Integration details]
+
+When store performs stock adjustment and the article status equal to ZZ implementation need to verify that only movement types=309_TP article to article,949_GR and 950_GI Conversion can allow to do adjustment, or else not allowed.
+
+8.Site-Article-Price
+
+Background: Site article price indicates the selling price per site per article.
+
+All the fields can only be reviewed, can’t be edited.
+
+Integration Approach: JCo API (FM: ZRFC_GET_ITEMMAST)
+
+File naming Format (If SFTP) ：N/A
+
+Frequency & Rules: Daily (1:15AM), As Needed (when emergency update needed)
+
+Integration Detail Content:
+
+No. | SAP Field | DMALL Field | Table Name | Description | Type | Length/Enum Value | Remarks
+1 | WERKS | Site Code | RMMW1 | Plant | String | 64 | -
+2 | MATNR | Article Code | MAMT | Article/Material Code | String | 64 | -
+3 | MEINH | Package Unit | MAMT | Alternative Unit of Measure | String | 64 | -
+4 | UMREZ | Package Coefficient | EINA | Packaging | Decimal | (20,3) ，Integer20，decimal3 | -
+5 | PLVKP then NETPR | Sale Price | CALP | Final price | Decimal | Sell price with tax prefer PLVKP (Promo price) first, then NETPR (Regular price) if PLVKP is not available.
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+All the fields will be maintained in SAP and applied to POS and inventory system | Articles will be maintained in SAP, after integrated to DMALL system and saved in article master data, they will be applied to POS and inventory system | Follow current SAP original value | Master data team | All companies in scope.
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.2 More Description with article master data scenario > 3.2.2.1 PLU by request change flow]
+
+1.AS-IS Overview
+
+There are two price change flow. Regular price change and PLU by request, all the price change will be complete in SAP system.
+
+2.To-Be Overview
+
+Regular price change: keep current practice and integrate to DMALL system before cutting off time: This will be included in integration.
+
+Real time interface: For PLU by request, user need to change store article price in SAP, then log in DMALL system to upload store article list, then the latest price will be reflected for POS.--This will be maintained in DMALL system, it requires user to manually operate.
+
+3.To-Be Flow
+
+Description:
+
+No. | System | Node | Description | Remark
+1 | SAP | Upload | Upload all store article price change information in SAP system
+2 | DMALL price file management | Logging | There will be a new menu which provided for the users to upload store article list which require price change
+3 | DMALL price file management | Synchronize | After uploading the store article list and confirmation, the task will be executed to catch the new price from SAP by store article level.
+4 | DMALL price file management | Data query | User can check the latest selling price in the module: Article retail price
+
+4. TO-BE Description
+
+Page screenshot | Function Description
+User can upload by store by article to confirm to catch the latest price change Check the latest selling price in the module: Article retail price
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Emergency price change is completed in SAP | Users need to manual upload store article list to trigger catching the latest price change | New | Master data team | All companies in scope.
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.2 More Description with article master data scenario > 3.2.2.2 Bom article]
+
+There are 4 kinds of Bom articles type in DMALL system, user can maintain in article master and the logic can be applied to inventory system .
+
+For saleset, Bom relationship will be maintained in SAP and interface to Dmall, saved as in store bundle and dismantle at the same time.
+
+The others Bom articles will be created in Dmall.
+
+Overview of DMALL Bom types
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.2 More Description with article master data scenario > 3.2.2.2 Bom article]
+
+BOM | Business scenario | Relationship type | Master data article type limit | Manage inventory | Allow sales | Logic
+In store bundle | This function can be used for handling raw material articles and processed articles inventory transfer. It requests to maintain the Bill of materials (BOM) first.store staff create a bundle document to record the bundle process and system will transfer the inventory based on it.Both raw material articles and processed articles inventory can be managed in the system. The scenarios for production may include:bundle ,saleset,valuepack and other regular production in store,e.g gift box. | Father article | No article type limits | No | Yes | 1.Sales of a in store bundle article, inventory of finished article and component article will be deducted automatically. 2.Both finished article and component article can be sold independently.
+In store bundle | This function can be used for handling raw material articles and processed articles inventory transfer. It requests to maintain the Bill of materials (BOM) first.store staff create a bundle document to record the bundle process and system will transfer the inventory based on it.Both raw material articles and processed articles inventory can be managed in the system. The scenarios for production may include:bundle ,saleset,valuepack and other regular production in store,e.g gift box. | Children article | No article type limits | Yes | 1.Sales of a in store bundle article, inventory of finished article and component article will be deducted automatically. 2.Both finished article and component article can be sold independently.
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.2 More Description with article master data scenario > 3.2.2.2 Bom article]
+
+SM eat | 1.This function can be used for handling raw material articles and processed articles inventory transfer. It requests to maintain the Bill of materials（BOM） first.store staff create a SM Eat document to record the SM Eat process and system will transfer the inventory based on it 2.The scenario for SM Eats may include:bundle ,saleset,valuepack and other regular SM Eat in store,e.g turon、fruit/vegetable cuts. | Father article | No article type limits | Yes | 1.Article master data: there will be article group for different types of raw materials 2. Article master data: There is relationship between the article group and multiple ordinary articles 3. Article master data: Specified articles group as components with corresponding ratios
+SM eat | 1.This function can be used for handling raw material articles and processed articles inventory transfer. It requests to maintain the Bill of materials（BOM） first.store staff create a SM Eat document to record the SM Eat process and system will transfer the inventory based on it 2.The scenario for SM Eats may include:bundle ,saleset,valuepack and other regular SM Eat in store,e.g turon、fruit/vegetable cuts. | Children article | No article type limits | Yes | 1.Article master data: there will be article group for different types of raw materials 2. Article master data: There is relationship between the article group and multiple ordinary articles 3. Article master data: Specified articles group as components with corresponding ratios
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.2 More Description with article master data scenario > 3.2.2.2 Bom article]
+
+Dismantle | 1.This function can be used for handling raw material articles and processed articles inventory transfer. It requests to maintain the Bill of materials (BOM) first.store staff create a Dismantle document to record the Dismantle process and system will transfer the inventory based on it.Both raw material articles and processed articles inventory can be managed in the system. 2. The scenarios for dismantle may include: Articles bundled at the DC, if unsold at the store, are dismantled and sold as individual components. （ In case for the same article number, certain stores articles are bundled at the DC, while others are bundled at the store. In that case, those bundled at the store article can only use Inventory adjustment module to support dismantling scenario. ） | Father article | No article type limits | Yes | 1.Both pack article and Dismantle article have and manage inventory 2.Both pack article and Dismantle article can be sold independently
+Dismantle | 1.This function can be used for handling raw material articles and processed articles inventory transfer. It requests to maintain the Bill of materials (BOM) first.store staff create a Dismantle document to record the Dismantle process and system will transfer the inventory based on it.Both raw material articles and processed articles inventory can be managed in the system. 2. The scenarios for dismantle may include: Articles bundled at the DC, if unsold at the store, are dismantled and sold as individual components. （ In case for the same article number, certain stores articles are bundled at the DC, while others are bundled at the store. In that case, those bundled at the store article can only use Inventory adjustment module to support dismantling scenario. ） | Children article | No article type limits | Yes | 1.Both pack article and Dismantle article have and manage inventory 2.Both pack article and Dismantle article can be sold independently
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.2 More Description with article master data scenario > 3.2.2.2 Bom article]
+
+TP article | 1.This function can be used for handling inventory adjustment of different articles. It also requests to maintain the Bill of materials (BOM) first and system will transfer the inventory based on it. 2.The scenarios for conversion may include: 2.1 New/old package for same vendor article with different article code (If article code does not change, it should follow the current logic and not perform this function) 2.2 Large packaging articles are damaged, and they are being sold individually by breaking them down, transferring the inventory of large packaging articles to its smaller packaging | Father article | No article type limits | Yes | 1.Both material article and finished article have and manage inventory 2.Both material article and finished article can be sold independently
+TP article | 1.This function can be used for handling inventory adjustment of different articles. It also requests to maintain the Bill of materials (BOM) first and system will transfer the inventory based on it. 2.The scenarios for conversion may include: 2.1 New/old package for same vendor article with different article code (If article code does not change, it should follow the current logic and not perform this function) 2.2 Large packaging articles are damaged, and they are being sold individually by breaking them down, transferring the inventory of large packaging articles to its smaller packaging | Children article | No article type limits | Yes | 1.Both material article and finished article have and manage inventory 2.Both material article and finished article can be sold independently
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.2 More Description with article master data scenario > 3.2.2.2 Bom article]
+
+a.In store bundle article
+
+Finished article and component article can manage the inventory separately
+
+b.SM Eat article
+
+SM Eats article and component article can manage the inventory separately
+
+Mark up% can be configured and be 0
+
+When store create SM eat, after choosing the process articles, system will prompt out all available BOM list to create a SM Eat order
+
+c.Dismantle article
+
+Dismantle article and component article can manage the inventory separately
+
+One dismantle process can only handle one pack article
+
+One pack article can have multiple BOM relationships
+
+d.TP article
+
+A maximum one line is allowed to be added as convert article
+
+Convert article will manage inventory separately
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.2 More Description with article master data scenario > 3.2.2.3 Combi articles]
+
+1.AS-IS Overview
+
+Same Item, 2 article code, same vendor needs to be treated in store A as Outright and store B as Consign. 1 barcode can only belong to one article.
+
+This is managed by assigning the sourcemarked barcode to Outright Article and a dummy barcode to Consign Article.
+
+2.To-Be Overview
+
+In the article master data, outright article and combi article will be two article code in the system and In the store article mangement,user can check the combi articles and outright articles information
+
+3.To-Be Flow
+
+4. TO-BE Description
+
+Combi article maintenance and update will be complete inside SAP system, then integrated to
+
+DMALL system, saved in article master data and site article information module.
+
+4.1 Article master data
+
+Article code
+00001 | Outright
+00002 | Consignment
+
+4.2 Site article management:
+
+Store code | Real Article code | Real barcode | Business mode | Dummy barcode
+Site 1 | 00001 | 10000001 | Outright
+Site 2 | 00002 | 10000001 | Consignment | 10000002
+
+Condition filter can be provided for user to check dummy article information.
+
+Dummy barcode will not be visible on POS
+
+When scanning the real article barcode which has dummy barcode, article site price of 0002 should be captured.
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Combi article is set up in SAP, there are two tables to define the relationship | In DMALL system, there will be two source information, one is outright, the other is consignment | Follow current relationship | Master data team | All companies in scope.
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.2 More Description with article master data scenario > 3.2.2.4 Upload picture (applied to TPS)]
+
+1.AS-IS Overview
+
+Shelf tag with picture will be printed in TPS system, all the pictures are saved at local folder, not maintained in SAP.
+
+2.To-Be Overview
+
+After articles are integrated in DMALL system. Users can upload a picture per article.
+
+3.To-Be Flow
+
+4. TO-BE Description
+
+Each article can upload one picture, and the picture will be applied to TPS system.
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Pictures are saved in local folder, not maintained in SAP system | Users can upload picture per article and the information will be applied to TPS | New | Master data team | All companies in scope.
+
+============================================================
+[3. Function Design Solution > 3.2 Article master data design > 3.2.2 More Description with article master data scenario > 3.2.2.5 Consignment with/without inventory]
+
+1.AS-IS Overview
+
+Articles which are consignment with inventory or without inventory will be managed in SAP system and integrated to DMALL system,
+
+2.To-Be Overview
+
+Articles will be integrated to DMALL system, at the same time, there will be a new section in the configuration center to let user upload site article list which are consignment with/without inventory, the data will be applied to inventory system to decide whether the article manage inventory or not.
+
+E.g., If the article is consignment without inventory during integration, but needs to manage the inventory, then user can upload the store article list and tick manage inventory.
+
+3.To-Be Flow
+
+Upload process
+
+4. TO-BE Description
+
+Page screenshot | Function Description
+Users can download the template and upload the store articles list in the configuration center. The upload information are as below: a.Store code b.Article code c.Mange inventory: Yes/No
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Consignment with inventory articles is maintained in SAP system | Users can maintain consignment with inventory article list in DMALL system, and system will take the configuration as the result to be applied to inventory system | New | Master data team/store team | All companies in scope.
+
+============================================================
+[3. Function Design Solution > 3.3 Majorcon]
+
+This chapter is designated for the Majorcon master data integration.
+
+Note that the Majorcon data should be Read-Only in DMALL system.
+
+1.AS-IS Overview
+
+Majorcon(like MINISO) articles are managed by MMS, without inventory, only use by POS system for sales, but in SAP maintained by a unified item code for each vendor.
+
+2.To-Be Overview
+
+Strictly follow the as-is design, not allowed to be managed in DMALL master data system, because of the large amount of articles coming from majorcon that may pollute the regular articles pool.
+
+There are two proposals in the document and only solution 2 is adopted to be released in Phase 1A.
+
+3. To-Be Flow
+
+Solution 2:
+
+An item tag logic will be created in article master data to logically separate majorcon and regular articles.
+
+A sales code transfer logic will be created between POS order and Omnichannel order.
+
+Only 1 site price record for site articles if the price is the same for all stores.
+
+Majorcon article codes: It will be MJ+majorcon article code, user can separate the majorcon articles by the prefix MJ
+
+Duplicate barcode between majorcon and outright articles: The data will be filtered and regarded as abnormal data; it won’t be saved in article master data. Exception messages will be included in the integration exception report.
+
+Delete majorcon articles: To avoid too much outdated majorcon data staying in the system, SM will provide majorcon DELETE files periodically to remove the outdated data.
+
+User can still find the article in the system with the status: Deleted. Delete majorcon articles will not be available to do business.
+
+Sales：All the sales will be counted in the major article code.
+
+4.To Be description
+
+There are 6 Majorcons maintained in Affiliate system and will be integrated to DMALL system
+
+Majorcon name | Majorcon code | EAN category
+Supplies Station | 25 | Z2
+Toy World | 33 | Z2
+Nursery Care | 35 | Z7
+Miniso | 339 | ZH
+Japan Home | 479 | Z2
+
+============================================================
+[3. Function Design Solution > 3.3 Majorcon]
+
+Once the majorcon code=025, items will be tagged as SC/PWD items, the information will be saved in Article master data＞basic information＞Extended information There’s drop down list for user to check. The tag can’t be edited, only can be reviewed for phase 1A.
+
+All majorcon items are VATable, tax rate will be 12% for all majorcon items.
+
+Majorcon vendors don’t manage inventory
+
+The article status of Majorcon items default to be blank, some are already discontinued/delisted in other stores and they will either be tagged ZD or 01
+
+MajorCon Article | MC Description | Majorcon vendor code | Majorcon Name
+2159260 | JAPAN-HOME | 100495 | JAPAN HOME, INC.
+20001839 | NC-NURSERY_CARE | 144002 | NURSERY CARE CORPORATION
+2156433 | SUPPLIES-STATION _INC_(VATABLE) | 193635 | SUPPLIES STATION INC
+2156434 | INTER_NATIONAL-TOYWORLD | 94001 | INTERNATIONAL TOYWORLD INC
+20460993 | MINISO | 240651 | MINI DEPATO CORP.
+
+============================================================
+[3. Function Design Solution > 3.3 Majorcon]
+
+Integration:
+
+Background: For Majorcon the data source is Retail Affiliates MMS and files are sent to DMALL through FTP, also note that the Japan Home is also included here in this chapter.
+
+Integration Approach: FTP
+
+File naming Format (If SFTP) ：N/A
+
+Frequency & Rules: Daily (1:15AM) and On Demand if needed.
+
+Integration Detail Content: See bellow
+
+1. Majorcon Merchandise hierarchy
+
+Div | Division Desc. | Sub-Div | Sub-Division Desc. | Dept | Department Desc. | Mdse Cat. | Mdse Catgry Desc. | MajorCon Article | MC Description | MajorCon Code | MajorCon Name
+1 | Dry Goods | 106 | Home Furnishing | 106158 | Majorcon | 1061582 | Japan Home | 2159260 | JAPAN-HOME | 100495 | JAPAN HOME, INC.
+1 | Dry Goods | 110 | Miscellaneous | 110206 | Infants' Accessories | 1102061 | Baby Company | 20001839 | NC-NURSERY_CARE | 144002 | NURSERY CARE CORPORATION
+1 | Dry Goods | 110 | Miscellaneous | 110208 | Stationery | 1102083 | Supplies Station | 2156433 | SUPPLIES-STATION _INC_(VATABLE) | 193635 | SUPPLIES STATION INC
+1 | Dry Goods | 110 | Miscellaneous | 110212 | Toys | 1102121 | Toys Express | 2156434 | INTER_NATIONAL-TOYWORLD | 94001 | INTERNATIONAL TOYWORLD INC
+1 | Dry Goods | 110 | Miscellaneous | 110216 | Others | 1102165 | Miniso | 20460993 | MINISO | 240651 | MINI DEPATO CORP.
+
+2.Brand
+
+No Brand information for majorcon
+
+3.Article Base Info
+
+Background: Purchase information defines vendor and item relationship to create purchase order.One item can be purchased by multiple vendors.
+
+Integration Approach: SFTP
+
+File naming Format(If SFTP) :  CCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules: Daily(1:15AM)
+
+Integration Detail Content:
+
+Majorcon Masterfile IM
+
+============================================================
+[3. Function Design Solution > 3.3 Majorcon]
+
+No. | Field | DMALL Filed | Description | Type | Length/Enum Value | Remark
+1 | STK_CODE | Article Code | Stock code | A | 12 | -
+2 | STK_DESC | Article Name | Stock Description | A | 50 | -
+3 | STK_DESC | Article Short Name | Stock Description | A | 50 | -
+4 | - | Merchandise Hierarchy | - | String | 50 | -
+5 | - | Brand Code | - | N | No brand information will be interfaced to DMALL, these two fields will be kept blank. | -
+6 | - | Brand Name | - | String | No brand information will be interfaced to DMALL, these two fields will be kept blank. | -
+7 | - | Article Type | - | Enum | Default value 8.consignment without inventory-trade without inventory | -
+8 | - | Article category | - | Enum | Default value Single | -
+9 | UOMC DESC | Sales Format | UM cost | Enum | Default value 10: Standard | If the UOM is kg, it will be weighted If the UOM is non kg, it will be standard Logic will keep same with SAP
+10 | UOMC DESC | Inventory Unit | UM cost | A | 3 | -
+11 | UOMC DESC | Inventory Unit Desc | UM cost | A | Default to be same with inventory unit | -
+12 | INUMBER | Output tax code | Stock Number | A | if value here = 164024 then VAT, OTHERWISE NON-VAT | -
+13 | INUMBER | Output Tax Rate | Stock Number | A | if value here = 164024 then VAT, OTHERWISE NON-VAT | -
+
+============================================================
+[3. Function Design Solution > 3.3 Majorcon]
+
+4.Article Package
+
+Background: Purchase information defines vendor and item relationship to create purchase order.One item can be purchased by multiple vendors.
+
+Integration Approach: SFTP
+
+File naming Format (If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules: Daily (1:15AM)
+
+Integration Detail Content:
+
+No. | Field | DMALL Field | Description | Type | Length/Enum Value | Remarks
+1 | STK_CODE | Article Code | Stock code | A | 12 | -
+2 | UOMC_DESC | Package Unit | UM cost | A | 3 | -
+3 | UOMC_DESC | Package Unit Desc | UM cost | A | 3 | -
+4 | - | Package Coefficient | - | Decimal | Default to be 1 | -
+5 | - | Width | - | Decimal | Default to be blank | -
+6 | - | Height | - | Decimal | Default to be blank | -
+7 | - | Depth | - | Decimal | Default to be blank | -
+8 | - | Volume | - | Decimal | Default to be blank | -
+9 | UNIT RETAIL | Sale Price | Unit Retail | N | 10 | Sales price with tax
+
+Weight unit default is g in SAP, will be converted to KG in DMALL system.
+
+5.Article Package Barcode
+
+Background: Purchase information defines vendor and item relationship to create purchase order.One item can be purchased by multiple vendors.
+
+Integration Approach: SFTP
+
+File naming Format(If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules: Daily(1:15M)
+
+Integration Detail Content:
+
+No. | Field | DMALL field | Description | Type | Length/Enum Value | Remarks
+1 | STK_CODE | Article Code | Stock code | A | 12 | -
+2 | UOMC_DESC | Package Unit | UM cost | A | 3 | -
+3 | - | Package Coefficient | - | Decimal | Default value: 1 | -
+4 | BARCODE | Barcode | UPC code | N | 13 | -
+5 | - | EAN category | - | Enum | Default value Z3 Inhouse EAN | Create new field in the system by DMALL
+6 | - | Default Barcode Flag | - | Enum | 1 YES, -1 NO If one article has multiple barcodes, the first line will be regarded as default barcode, tag 1 | -
+
+============================================================
+[3. Function Design Solution > 3.3 Majorcon]
+
+If the barcode is found both in SAP and majorcon article master data,  system will take priority to SAP article barcode.
+
+6.Bom article
+
+No Bom article for majorcon.
+
+7.Site
+
+No site information for majorcon
+
+8. Site-Article
+
+Background: It defines the article scope of each store
+
+Integration Approach: SFTP
+
+File naming Format(If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules: Daily (1:15M)
+
+Integration Detail Content:
+
+No. | Field | DMALL Filed | Description | Type | Length/Enum Value | Remarks
+1 | - | Site Code | - | Site code will be identified by last 4 digits of interface file for majorcon | -
+2 | STK_CODE | Article Code | Stock code | A | 12 | -
+3 | - | Article Life Cycle | - | Enum | 01 For Archiving YD Delist Deplete Z1 New Article ZA Conversion ZC Complete Block ZD Delist Pull Out ZM Component ZP Partial Block ZR Merchandsng Replenishmnt ZV Canvass Article ZZ Implementation | -
+4 | - | Change The Price Of The Scale | - | Enum | Default to be -1 No 1 YES, -1 NO | -
+5 | - | Allow Sales Returns | - | Enum | Default to be 1 YES 1 YES, -1 NO | Default to be 1 YES
+6 | - | Allow Transfer | - | Enum | Default to be 1 YES 1 YES, -1 NO | Manually to be 1 YES
+7 | - | Allow Sales | - | Enum | Default value: Blank Blank means allow sales.Blank=1 YES | -
+8 | - | Whether To Manage the Inventory | - | Enum | Default value: -1 1 YES, -1 NO | -
+9 | - | Price Change Mode | - | Enum | Default to be fixed selling price 10.Fixed Selling Price 11.Allow Price Changed | -
+10 | - | Site code | - | Enum | Blank means all stores in the format | -
+11 | - | Price required | - | Enum | Default to be 0-not allow 1-allow 0-not allow | -
+12 | - | Business Mode | - | Enum | Default value: ZTRS ZTRS = Consignment | -
+13 | - | Allow Discount | - | Enum | Default value:1 1 YES, -1 NO | -
+
+============================================================
+[3. Function Design Solution > 3.3 Majorcon]
+
+9. Site-Article-Price
+
+Background: Purchase information defines vendor and item relationship to create purchase order.One item can be purchased by multiple vendors.
+
+Integration Approach: SFTP
+
+File naming Format (If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules: Daily (:15 AM)
+
+Integration Detail Content:
+
+No. | Field | DMALL Field | Description | Type | Length/Enum Value | Remarks
+1 | - | Site Code | - | Site code will be identified by last 4 digits of interface file for majorcon | -
+2 | STK_CODE | Article Code | Stock code | A | 12 | -
+3 | UOMC_DESC | Package Unit | UM cost | A | 3 | -
+4 | - | Package Coefficient | - | Decimal | Default value: 1 | -
+5 | UNIT Retail | Sales price | Unit Retail | N | 10 | -
+
+10.Vendor
+
+Background: Purchase information defines vendor and item relationship to create purchase order.One item can be purchased by multiple vendors.
+
+Integration Approach: SFTP
+
+File naming Format (If SFTP) ：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules: Daily (1:15AM)
+
+Integration Detail Content:
+
+No. | Field | DMALL Field | Description | Type | Length/Enum Value | Remarks
+1 | VENDOR_CODE | Vendor Code | A | 6 | -
+2 | - | Vendor Name | -
+
+11.Purchase information
+
+Background: Purchase information defines vendor and item relationship to create purchase order.One item can be purchased by multiple vendors.
+
+Integration Approach: SFTP
+
+File naming Format (If SFTP) ：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules: Daily (1:15AM)
+
+Integration Detail Content:
+
+According to Majorcon Codes and article code vendor code in the file to analyze the purchase information
+
+bbbb-4 digits branch code
+
+mmm-3 digits majorcon code
+
+Toy World-033
+
+Nursery Care-035
+
+Miniso-339
+
+Kultura-125
+
+Japan Home-479
+
+============================================================
+[3. Function Design Solution > 3.3 Majorcon]
+
+No. | Field | DMALL Field | Description | Type | Length/Enum Value | Remarks
+1 | VENDOR_CODE | Vendor Code | A | 6 | -
+2 | STK_CODE | Article Code | Stock code | A | 12 | -
+3 | - | Vendor Refer Article Code | - | String | Default to be blank | -
+4 | UOMC DESC | Purchase unit | UM cost | A | 3 | -
+5 | - | Return Allowed | - | Enum | Default value: 1 1 YES, -1 NO | -
+
+============================================================
+[3. Function Design Solution > 3.3 Majorcon]
+
+12 Source information
+
+Background: Source information identifies the relationship among site+article+vendor, also indicates the distribution type of article movement.
+
+Integration Approach: SFTP
+
+File naming Format(If SFTP) ：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules: Daily (2:30AM)
+
+Integration Detail Content:
+
+According to Majorcon Codes and branch code+vendor code in the file to analyze the source information
+
+bbbb-4 digits branch code
+
+mmm-3 digits majorcon code
+
+Toy World-033
+
+Nursey Care-035
+
+Miniso-339
+
+Kultura-125
+
+Japan Home-479
+
+No. | Field | DMALL Field | Description | Type | Length/Enum Value | Remarks
+1 | - | Site Code | - | Site code will be identified by last 4 digits of interface file for majorcon | -
+2 | STK_CODE | Article Code | Stock code | A | 12 | -
+3 | VENDOR_CODE | Vendor Code | A | 6 | -
+4 | - | Distribution Type | - | Enum | Default value: 2 0: Conventional 1: Flow-thr 2: DSP 12: Cross Dock | -
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Not applicable
+
+============================================================
+[3. Function Design Solution > 3.4 Vendor master data design > 3.4.1 Vendor master data Integration details]
+
+1. AS-IS Overview
+
+Vendor master data is maintained in SAP
+
+2. TO-BE Overview
+
+Vendor information which is necessary in phase 1A will be interfaced from SAP to DMALL system.
+
+3. TO-BE Flow
+
+4. TO-BE Description
+
+============================================================
+[3. Function Design Solution > 3.4 Vendor master data design > 3.4.1 Vendor master data Integration details > 3.4.1.1 Vendor]
+
+Background: Vendor contains vendor name and vendor code, it's mandatory to create purchase order.
+
+Integration Approach: JCo API (FM: ZRFC_RPOSTORE_MFVENDOR)
+
+File naming Format (If SFTP) ：N/A
+
+Frequency & Rules: Daily (1:15AM)
+
+Integration Detail Content:
+
+No. | SAP Field | DMALL Field | Table Name | Description | Type | Length/Enum Value | Remarks
+1 | LIFNR | Vendor Code | LFA1 | Vendor Code | String | 64 | -
+2 | NAME1 | Vendor Name | LFA1 | Vendor Name | String | 255 | -
+
+Top32 vendor
+
+Special items will be interfaced from SAP to DMALL and identify the vendor is the top 32
+
+vendors, flag can be checked in supplier archives-supplier basic information.
+
+============================================================
+[3. Function Design Solution > 3.4 Vendor master data design > 3.4.1 Vendor master data Integration details > 3.4.1.2 Purchase information]
+
+Background: Purchase information defines vendor and item relationship to create purchase order. One item can be purchased by multiple vendors.
+
+Integration Approach: JCo API (FM:  ZRFC_GET_ARTICLE_MASTER)
+
+File naming Format (If SFTP) ：N/A
+
+Frequency & Rules: Daily (1:15AM)
+
+Integration Detail Content:
+
+No. | SAP Field | DMALL Field | Table Name | Description | Type | Length/Enum Value | Remarks
+1 | LIFNR | Vendor Code | LFA1 | Vendor Code | String | 64 | -
+2 | MATNR | Article Code | MARA | Article/Material Code | String | 64 | -
+3 | BISMT | Vendor Refer Article Code | NAW# | Old matl number | String | 64 | -
+4 | MEINS | Purchase unit | EINA | Order Unit | String | 32 | -
+5 | RUECK | Return Allowed | EINA | Return amgt | Enum | 1 YES, -1 NO | -
+
+============================================================
+[3. Function Design Solution > 3.4 Vendor master data design > 3.4.1 Vendor master data Integration details > 3.4.1.3 Source information]
+
+Background: Source information identifies the relationship among site+article+vendor, also indicates the distribution type of article movement.
+
+Integration Approach: JCo API (FM: ZRFC_GET_ITEMMAST)
+
+File naming Format (If SFTP)：N/A
+
+Frequency & Rules: Daily (1:15AM)
+
+Integration Detail Content:
+
+No. | SAP Field | DMALL Field | Table Name | Description | Type | Length/Enum Value | Remarks
+1 | WERKS | Site Code | RMMW1 | Plant | String | 64 | -
+2 | MATNR | Article Code | MARA | Article/Material Code | String | 64 | -
+3 | LIFNR | Vendor Code | LFA1 | Vendor | -
+4 | BWSCL | Distribution Type | MARC | Supply source | Enum | 0: Conventional 1: Flow-thr 2: DSP 12: Cross Dock | -
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Not applicable
+
+============================================================
+[3. Function Design Solution > 3.4 Vendor master data design > 3.4.2 Vendor return maintenance]
+
+1. AS-IS Overview
+
+There’s only vendor article level return control, no vendor level return control in SAP
+
+2. TO-BE Overview
+
+User can maintain vendor level return in DMALL system and whether one article can be return or not will apply vendor level and vendor article level verification
+
+Only both vendor level and vendor+item level are returable,then the item can be returned.
+
+Example:
+
+Vendor | Article | Returnable | Can create return order
+Alpha | Returnable
+1 | Returnable | Yes
+2 | NonReturnable | No
+Beta | NonReturnable
+3 | Returnable | No
+4 | NonReturnable | NO
+
+3. TO-BE Flow
+
+There’s no field to indicate whether the vendor can be returned or not currently, for phase 1A, user can maintain vendor level return flag in vendor master module in DMALL system.
+
+4. TO-BE Description
+
+Page Screenshot | Function Description
+Whether an item can be returned or not will be decided by vendor returnable flag maintained in DMALL and vendor+item returnable flag maintained in SAP which will be interfaced to DMALL system
+
+5. Exceptional Scenario
+
+Not applicable
+
+6. Related Reports
+
+Not applicable
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+There’s only vendor article level return control, no vendor level return control in SAP | User can maintain vendor level return in DMALL system and whether one article can be return or not will apply vendor level and vendor article level verification | New | Master data team /Inventory team | All companies in scope.
+
+Remark: Aligned fields contained in will be maintained  in Dmall system: Integration Documents to SM mapping.xlsx
+
+============================================================
+[5.  Appendix]
+
+Additional fields which are not available in SAP and user need to maintain in DMALL system,Below is fields for reference.
+
+Article master data
+
+No. | DMALL field | Mandatory in DMALL | Length/Enum value | Description | SAP Field
+Merchandise Hierarchy | Merch Cat
+1 | Hierarchy Code | Y | 50 | The code of hierarchy | Merch Cat
+2 | Hierarchy Name | Y | 60 | The name of hierarchy | Merch Cat
+3 | Parent Hierarchy Code | Y | 50 | The upper-level hierarchy of the current hierarchy | Merch Cat
+4 | Level | Y | The level of current hierarchy | Merch Cat
+5 | Leaf Flag | Y | 1 YES, -1 NO | Is the current hierarchy the last level hierarchy For example, there are 5 levels of hierarchy, the Class is leaf hierarchy Division Department Category Sub-Category Class | Merch Cat
+6 | Status | Y | 10-Active, 20-Inactive | The status of each hierarchy, only active hierarchy can be used.
+Brand
+1 | Brand Code | Y | 64 | The code of brand
+2 | Brand Name | Y | 100 | The name of brand | BRAND_NAME
+3 | Owned Brand Tag | Y | 1 YES, -1 NO | Is this brand the merchant's own brand
+Article Base Info
+1 | Article Code | Y | 64 | The code of article | MATNR
+2 | Article Name | Y | 255 | The name of article | MAKTM
+3 | Article Short Name | Y | 18 | Short article name used in limited locations, such as price tags | MAKTX
+4 | Merchandise Hierarchy | Y | 50 | Which last level hierarchy does the article belong to | MATKL
+5 | Brand Code | N | 64 | The brand code of each article
+6 | Brand Name | N | 100 | The brand name of each article | BRAND_NAME
+7 | Season Code | N | 64 | Is this article a seasonal article, such as ice cream
+8 | Article Type | Y | 1: Trading Goods2: Virtual Goods3: Non-tradable Manage Inventory Goods4: External Service Goods5: Internal Service Goods6: Raw Material Goods7: Gift Card Goods8: Trading Not Managing Inventory Goods9: Non-tradable Not Manage Inventory Goods | The type of article | MTART
+
+============================================================
+[5.  Appendix]
+
+9 | Article category | Y | 1: Common 2: Combination 3: Processed 4: Generic and variant | The category of article | ATTYP
+10 | Sales Format | Y | 10: Standard 11: Scale 12: Count | How the article is sold
+11 | Inventory Unit | Y | 64 | The unit of inventory | MEINS
+12 | Inventory Unit Desc | N | 64 | The description of Inventory Unit， used for display
+13 | Output tax code | Y | 32 | The output tax code of article | TAKLV
+14 | Output Tax Rate | N | The output tax rate of article, to calculate the sale price within tax
+15 | Specification | N | 100 | The specification of article, for example, one bottle of water, 350 ml
+16 | Origin | N | 100 | The origin of article
+17 | Shelf Life | N | The shelf life of article
+18 | Shelf Life Unit | N | 1: Hour 2: Day | The unit of Shelf Life, hour/day
+19 | Storage condition | N | What temperature conditions should the article be stored at
+20 | Warning Shelf Life | N | The warning shelf life of article, If the shelf life is less than the warning shelf life, the system will prompt the user to note that the article is about to expire
+21 | Recycle Article Flag | Y | 1 YES, -1 NO | Does this article support recycling. For example, merchants can recycle bottles of alcohol
+22 | Display Unit Coefficient | N | The coefficient of Display, which use for price tags
+23 | Display Unit | N | 64 | The display unit, which use for price tags
+24 | Evaluation | Y | 64 | Financial field, which evaluation does the article belong to
+25 | Allergens | N | 1000 | What allergens are included in the article
+26 | Attributes | N | json（{"001":"001001"} ），001：flavor，001001：peach | This is newly created in DMALL for generic and variant article to identify the attribute like color, size
+Article package
+1 | Article Code | Y | 64 | This package belongs to which article
+2 | Package Unit | Y | 64 | The package unit of package, such as box,dozen
+3 | Package Unit Desc | N | 64 | The description of Package Unit
+
+============================================================
+[5.  Appendix]
+
+4 | Package Coefficient | Y | (20,3)，Integer20，decimal3 | The coefficient of Package Unit, How many inventory units of articles are included in packaging, like 1 pack=24 bottles of water, 24 is the coefficient value.
+5 | Gross Weight | Y | (10,3)，Integer10，decimal3 | The gross weight of package
+6 | Net Weight | Y | (10,3)，Integer10，decimal3 | The net weight of package
+7 | Width | Y | (10,3)，Integer10，decimal3 | The width of package
+8 | Height | Y | (10,3)，Integer10，decimal3 | The height of package
+9 | Depth | Y | (10,3)，Integer10，decimal3 | The depth of package
+10 | Volume | Y | (20,3)，Integer20，decimal3 | The volume of package
+11 | Ti | N | Tier, For logistics, to calculate the truckload capacity
+12 | Hi | N | Height, For logistics, to calculate the truckload capacity
+13 | Sale Price | N | The price for selling in this packaging, can be applied to reference price when opening a new store.
+14 | Membership Price | N | The membership price for selling in this packaging, can be applied to reference price when open a new store.
+15 | Wholesale Price | N | The wholesale price for selling in this packaging can be applied to reference price when open a new store.
+Article package Barcode
+1 | Article Code | Y | 64 | This barcode belongs to which package
+2 | Package Unit | Y | 64 | The package unit of package, such as box, dozen
+3 | Package Coefficient | Y | (20,3)，Integer20，decimal3 | The description of Package Unit
+4 | Barcode | Y | 64 | The barcode of package
+5 | Barcode Type | Y | 1: International Barcode2: Custom Code | The type of barcode
+6 | Default Barcode Flag | Y | 1 YES, -1 NO | Is this barcode the main barcode， if one article has multiple barcodes, the main barcode can be displayed and searched in the first place.
+Bom article
+1 | BOM Type | Y | 1: Combination 2: Processed 3: Disassemble 4: Convert | This BOM article belong to which BOM type
+2 | Bom Name | Y | 50 | The name of BOM
+3 | Group Code | Y | 32 | Bom document No.
+
+============================================================
+[5.  Appendix]
+
+4 | Parent Article Code | Y | 64 | The parent article code of BOM
+5 | Child Article Code | Y | 64 | The child article code of BOM
+6 | Markup Ratio | N | Users can set up the markup ratio on the processed articles to cover more cost when performing the processing.
+7 | Rounding Rule | Y | 1: Rounding Up | When calculating the component article quantity, if there's decimals , the system will round up to integer.
+8 | Factor | Y | conversion ratio | How many child articles need to be consumed in parent article
+9 | Cost Proportion | Y | Only required for process ware | How much cost ration should be counted for component items
+Site
+1 | site Code | Y | 64 | Site code
+2 | Site Name | Y | 64 | Site name
+3 | Site Format | Y | 60-store,70-Delivery Center | Defines it's a store or DC or other format
+4 | Status | Y | 0: In Preparation 1: In Operation 2: Renovation 3: Pre-Shut Down 4: Shut Down | Identify the site status, different status will have impact on supply chain
+5 | Province | N | 120 | Address information of site
+6 | City | N | 120 | Address information of site
+7 | District | N | 120 | Address information of site
+8 | Address | N | 255 | Address information of site
+9 | Longitude | N | For O2O business to identify the location
+10 | Latitude | N | For O2O business to identify the location
+11 | Nation Region Code | Y | 64 | Address information of site
+12 | Nation Region Name | Y | 128 | Address information of site
+13 | Contact Name | N | 64 | Contact information of site
+14 | Contact Phone Number | N | 64 | Contact information of site
+15 | Contact Country Code | N | 16 | Contact information of site
+16 | Post Code | N | 20 | Contact information of site
+17 | Legal Entity Code | Y | 50 | Financial information of site
+18 | Local Currency Code | Y | 50 | Financial information of site
+19 | Transaction Currency Code | Y | 50 | Financial information of site
+20 | Open Store Date Utc | N | Operation information of site
+21 | Shut Down Store Date Utc | N | Operation information of site
+
+============================================================
+[5.  Appendix]
+
+22 | Business Start Time Utc | N | Operation information of site
+23 | Business End Time Utc | N | Operation information of site
+24 | Renovation Start Time Utc | N | Operation information of site
+25 | Renovation End Time Utc | N | Operation information of site
+26 | Pre Shut Down Start Time Utc | N | Operation information of site
+27 | Pre Shut Down End Time Utc | N | Operation information of site
+28 | Online Business Status | N | 0: Not Opened1: In Preparation2: In operation3: Out Of Business4: Shut Down | Operation information of site
+29 | Online Non-Business Start Time Utc | N | Operation information of site
+30 | Online Non-Business End Time Utc | N | Operation information of site
+31 | Customer Service Phone | N | 64 | Contact information of site
+32 | Customer Service Email | N | 100 | Contact information of site
+33 | Customer Service Country Code | N | 16 | Contact information of site
+34 | Is 24 Hours Service | Y | 1 YES, 0 NO | identify whether the store is 24-hour store
+Site Article
+1 | Site Code | Y | 64 | This site article belongs to which site
+2 | Article Code | Y | The code of site article
+3 | Article Life Cycle | Y | 1: New Goods 2: Normal 3: Suspend 4: Pre-Elimination 5: Elimination 6: Deactivate | The Life Cycle of site article
+4 | Change The Price of The Scale | Y | 1 YES, -1 NO | Is it allowed to change the price when selling on the scale
+5 | Allow Sales Returns | Y | 1 YES, -1 NO | Is it allowed to return after sales
+6 | Allow Transfer | Y | 1 YES, -1 NO | Is it allowed to transfer from DC to DC or DC to store
+7 | Allow Sales | Y | 1 YES, -1 NO | Is it allowed to sale
+8 | Whether To Manage the Inventory | Y | 1 YES, -1 NO | Does this article manage inventory
+9 | Price Change Mode | Y | 10: Fixed Selling Price11: Allow Price Changed12: Custom Price | How to change prices during POS sales
+10 | Business Mode | Y | 1: Outright 2: Consignment 3: Concession 4: Service | The business mode of article
+
+============================================================
+[5.  Appendix]
+
+11 | Allow Discount | Y | 1 YES, -1 NO | Is it allowed to join promotions
+Site Article Price
+1 | Site Code | Y | 64 | This price belongs to which site article
+2 | Article Code | Y | 64 | This price belongs to which site article
+3 | Package Unit | Y | 64 | This price belongs to which package of the article
+4 | Package Coefficient | Y | (20,3) ，Integer20，decimal3 | The coefficient of Package Unit
+5 | PLU Type | Y | 0: Article Code1: International Barcode2: Custom Code | The code type used when selling the articles, applied to analyze the barcode
+6 | PLU Code | Y | 64 | The code used when selling articles on a scale
+7 | Sale Price | Y | The price for selling in this packaging
+
+============================================================
+[5.  Appendix]
+
+Vendor&Order
+
+No. | DMALL field | Mandatory in DMALL | Length/Enum value | Description | SAP Field
+Vendor
+1 | Vendor Code | Y | 64 | Vendor ID for purchase, invoice matching and settlement | Vendor Code
+2 | Vendor Name | Y | 255 | If vendor has long name and short name in SAP, this field maps long name. | Vendor Name
+3 | Vendor Type | Y | 1: Local Supplier2: Import Supplier3: Trade Service Provider Supplier4: Non-trading Service Provider Supplier5: Internal Supplier6: Internal Cross-company Supplier7: Van Sale Supplier | Current vendor types are the DMALL's standard definition, the DMALL vendor master data still can apply the SAP definition.
+4 | Business Mode | Y | 1: Outright2: Consigment3: Concession4: Service | Business mode is used for E-contract management and purchase control.
+5 | Status | Y | 2: In Normal Cooperation3: Suspended4: Pre-Terminate5: Terminated | Vendor status is used for purchase and settlement business control.
+6 | Order Allowed | Y | 1 YES, -1 NO | If the order allowed flag is false, the purchase system will limit place orders.
+7 | Return Allowed | Y | 1 YES, -1 NO | If the return allowed flag is false, the purchase system will limit place return orders.
+8 | Minimum Order Value | Y | Vendor level minimum order value used for PO generation check. | Minimum Order Value
+9 | Settlement Cycle | Y | weekly: Settlement by Weekly quarterly: Settlement by Quarterly monthly: Settlement by Monthly Daily: Settlement by Daily annual: Settlement by Yearly | When to pay to vendor
+10 | Tax Registration No. | Y | 64 | Tax registration number
+11 | Bank Name | Y | 255 | Name of bank | Name of Bank
+12 | Bank Account Name | Y | 255 | Holder name of bank account | Bank Name
+13 | Bank Account | Y | 128 | Bank account number | Bank Account
+14 | Business Registration No. | Y | 255 | Business registration number
+15 | Allow Manually Update PO Price | Y | 1 YES, -1 NO | If the value is 1, the purchase system allows users to change PO price at PO level
+
+============================================================
+[5.  Appendix]
+
+16 | Allow Manually Update GR Price | Y | 1 YES, -1 NO | If the value is 1, the purchase system allows users to change GR price at GR level
+17 | Allow Manually Update Return PO Price | Y | 1 YES, -1 NO | If the value is 1, the purchase system allows users to change return PO price at PO level
+18 | Company Name | Y | 255 | Name of register company | Company Name
+19 | Company Short Name | Y | 255 | Short name of company
+20 | Country Code | Y | 16 | Address information of vendor company | Country
+21 | Country Name | Y | 64 | Address information of vendor company | Country
+22 | Province | N | 64 | Address information of vendor company | Province/City
+23 | City | N | 64 | Address information of vendor company | City
+24 | Address | N | 255 | Address information of vendor company | Street/House number
+25 | Post Code | N | 64 | Address information of vendor company | Postal Code
+26 | Payment Type | Y | 10: Cash Payment20: Bank Transfer30:Cheque40: T/T (Telegraphic Transfer)50: Prepayment Clearing From | Payment method aligned with vendor | Payment Methods
+27 | Payment Terms | Y | 64 | Payment terms is used to calculate payment due date of supplier invoices, debit notes and credit notes | Payt Terms / Terms of paymnt
+28 | Settlement Company | Y | 64 | Legal entity company code to do financial settlement
+29 | Currency | Y | 50 | Currency
+30 | Incoterms | N | 1: EXW-Ex works2: FCA-Free Carrier3: FAS-Free Alongside Ship4: FOB-Free on Board5: CFR-Cost&Freight6: CIF-Cost Insurance&Freight7: CIP-Carriage Insurance Paid to8: DAP-Delivered at Place9: DPU-Delivered at Place Unloaded10: DDP-Delivered Duty Paid | Indent vendor default incoterms | Incoterms
+31 | Bank Swift Code | Y | 255 | Bank information of vendor company
+32 | Bank Identification Code | Y | 255 | Bank information of vendor company
+33 | Bank Identification Type | Y | 32 | Bank information of vendor company | Bank Type
+34 | Bank Key | Y | 64 | Bank information of vendor company | Bank Key
+
+============================================================
+[5.  Appendix]
+
+35 | Bank Address | Y | 255 | Bank information of vendor company | Bank Address
+36 | Bank Country Code | Y | 16 | Bank information of vendor company | Ctry
+37 | Bank Country Name | Y | 64 | Bank information of vendor company
+Vendor contact
+1 | Vendor Code | Y | 64 | Vendor code | Vendor Code
+2 | Contact Type | Y | 1: Company Contact2: Financial Contact3: Operation Contact | Contract type
+3 | Contact Name | Y | 64 | Vendor contract contact information | Contact Person
+4 | Phone Country Code | N | 16 | Vendor contract contact information
+5 | Phone | N | 64 | Vendor contract contact information | Telephone
+6 | E-mail | N | 100 | Vendor contract contact information | E-mail
+7 | Fax | N | 64 | Vendor contract contact information | Fax
+Purchase information
+1 | Article Code | Y | 64 | Article code | Article/Material Code
+2 | Vendor Code | Y | 64 | Vendor code | Vendor Code
+3 | Vendor Refer Article Code | N | 64 | article code in the vendor current system | Old matl number
+4 | Income Tax Code | Y | 32 | Input tax code
+5 | Income Tax Rate | Y | Input tax rate, to calculate purchase cost within tax
+6 | Minimum Order Quantity | Y | Vendor+article level minimum order qty, that is used for PO generation check. | Minimum Qty
+7 | Purchase Price Strategy | Y | 1: Order Price2: Best Price3: Re-pricing based on receipt date | It's a strategy that defines which cost to be applied | Please clarify
+8 | Over-Receiving Rule | Y | -1: Not Allowed1: Limited Over-receiving Ratio2: Unlimited Over-receiving Ratio | It's for weight items
+9 | Over-receiving ratio | Y | set the % of over receiving ratio
+10 | Purchase Price | Y | Purchase cost without tax
+11 | Purchase Unit | Y | 32 | Purchase unit, like PC or pack
+12 | Return Allowed | Y | 1 YES, -1 NO | Allow to create return order | Return Agmt
+13 | Order Allowed | Y | 1 YES, -1 NO | Allow to create purchase order
+
+============================================================
+[5.  Appendix]
+
+14 | Mode Of Transportation | N | 1: Container 202: Container 403: Container 40 High4: Reefer 205: Reefer 406: Reefer 40 High7: Airfreight8: Loose Container Load9: Truck Non-Palletized10: Truck Palletized11: Rice | Vendor's different article may have different mode of transportation
+Source Information
+1 | Site Code | Y | 64 | Site code | Plant Code
+2 | Article Code | Y | 64 | Article code | Article/Material Code
+3 | Vendor Code | Y | 64 | Vendor code | Vendor Code
+4 | Order Unit | Y | 64 | Order unit of store article per vendor | Order Unit
+5 | Distribution Type | Y | Goods movement type like DSP means direct shipping to store | Supply source
+
+============================================================
+[5.  Appendix]
+
+Online articles
+
+No. | DMALL field | Mandatory in DMALL | Length/Enum value | Description | SAP Field
+Online article
+1 | Article Online Name | Y
+2 | Article Information | Y
+3 | Article Image | Y | Upload article pictures
+4 | Temperature Layer | N | Drop down values come from article master data, can be changed per article
+5 | Weight | N | Value comes from offline article master data, can be edited per article
+6 | Title | N | It's warning information to be maintained and shown to customers in article detail information if there's law or age restriction.
+7 | Content | N
+8 | Status | Y | Two values: sellable and Nt sellable.
+Display category management
+1 | Previous category name | Y | The upper level of display category
+2 | Display category name | Y | Display category name to customers
+3 | Image | Y | Images to be displayed
+4 | SKU ID | Y | 1 SKU, 1 package unit
+5 | Article code | Y | 1 article code can have multiple package units
+6 | Status | Y | Two values: classified and unclassified
+EC store article Mgt
+1 | On shelves | Y | Article is on the APP
+2 | Off shelves | Y | Article is off the APP
+3 | Sell out | Y | N inventory for the article
+4 | Sellable | Y | The article is sellable
+5 | Price | Y | Online selling price
+Inventory
+1 | Inventory | Y | Available inventory
+2 | Safety stock | Y | Safety stock for online sales
+
+Selected articles to be tagged as SC/PWD for supplies station
+
+============================================================
+[5.  Appendix]
+
+No. | Article code | Descritpion
+1 | 10000005 | JUMBO PENCIL WITH ERASER 3PCS PER PACK
+2 | 10025767 | T PENCIL HB NO2 HEXAGONAL 3PCS IN BLIST
+3 | 10027625 | CRAYOLA TWISTABLE #2 PENCIL
+4 | 10029319 | T PENCIL HB NO1 HEXAGONAL 3PCS IN BLIST
+5 | 10029320 | TPENCIL #3 3 PCS
+6 | 10030312 | TPENCIL FOR KIDS #2HEXAROUND BY 3S
+7 | 10075955 | AVANTI ERASEABLE GELPEN BLACK 0.5MM OR
+8 | 10062519 | NATARAJ SURFER BALLPEN ALL BLK 3S
+9 | 10062520 | NATARAJ SURFER BALLPEN BLK BLUE RED 3S
+10 | 10083261 | NATARAJ SURFER BALLPEN BLK BLK RED 3S
+11 | 10000252 | DONG A BLACK MY GEL PEN 05 MM
+12 | 10010683 | FABER CASTELL PENCIL 3PCS PER PACK
+13 | 10014959 | DONG A 0.4 BLACK FINE TECH NEEDLEPOINT
+14 | 10024428 | DONG A BLUE MY GEL PEN 05 MM
+15 | 10024429 | DONG A RED MY GEL PEN 05 MM
+16 | 10024430 | DONG A GREEN MY GEL PEN 05 MM
+17 | 10024431 | DONG A VIOLET MY GEL PEN 05MM
+18 | 10024435 | DONG A 0.3 BLACK FINE TECH NEEDLEPOINT
+19 | 10029182 | FABER CASTELL BP BLACK 2PCS/PK 1423
+20 | 10029184 | FABER CASTELL BP BLK/RED 2PCS/PK 1423
+21 | 10029186 | FABER CASTELL TRI CLICK MECHANICAL PENC
+22 | 10029248 | FABER CASTELL BONANZA PENCIL 2B
+23 | 10032316 | FABER CASTELL GREEN PENCIL NO 2 3PCS PE
+24 | 10034381 | FABER CASTELL GRIP X5 BLACK
+25 | 10034382 | FABER CASTELL GRIP X5 BLUE
+26 | 10034383 | FABER CASTELL GRIP X5 RED
+27 | 10036670 | FABER CASTELL 1419 2PCS BLK (PASTEL)
+28 | 10036671 | FABER CASTEL GRIP XP-5 3PCS BLK RET.(PA
+29 | 10039099 | FC RX5 BP RET 2PCS BLACK
+30 | 10039100 | FC RX5 BP RET.BLK/RED
+31 | 10043589 | PP B DONG A MY GEL 2PCS W/ WHITEE CORRE
+32 | 10059901 | FABER CASTELL TEXTLINER38 HIGHLIGHTER 3
+33 | 10059902 | FABER CASTELL RETRACTABLE BP FINE 5428
+34 | 10059903 | FABER CASTELL SLIM PERMANENT MARKER 156
+35 | 10082076 | DONG A NON-DRY MARKER BLACK BULLET 1126
+36 | 10082079 | DONG A NON-DRY MARKER RED BULLET 112613
+37 | 10082088 | DONG A NON-DRY MARKER BLUE BULLET 11261
+38 | 10082089 | DONG A WHITEBOARD MARKER BLUE BULLET 11
+
+============================================================
+[5.  Appendix]
+
+39 | 10082090 | DONG A WHITEBOARD MARKER RED BULLET 112
+40 | 10082091 | DONG A WHITEBOARD MARKER BLACK BULLET 1
+41 | 10008316 | MONGOL #1 PENCIL 3PCS PER PACK
+42 | 10024401 | MONGOL NO 2 PENCIL 3PCS PER PACK
+43 | 10024402 | MONGOL NO 3 PENCIL 3PCS PER PACK
+44 | 10024409 | MONGOL NO 2 12PCS PER BOX
+45 | 10033381 | MONGOL XL NO. 2 3PCS PER PACK
+46 | 10047513 | TITUS OMG STICK PENS 3 BLK
+47 | 10048826 | TITUS AXIS ALL BLK 3S RETRACTABLE
+48 | 10048827 | TITUS GRIP 0.5 BLK BLU RED 3S
+49 | 10036673 | LOW PRICE HB YELLOW PENCIL 12PCS
+50 | 10001328 | ARTLINE BLACK CHISEL TYPE PERMANENT MAR
+51 | 10001329 | ARTLINE BLACK BULLET TYPE PERMANENT MAR
+52 | 10008448 | BENSIA NON SHARPENING PENCIL 3PCS PER P
+53 | 10008701 | ARTLINE YELLOW FLUORESCENT MARKER NO 66
+54 | 10024328 | ARTLINE BLUE BULLET TYPE PERMANENT MARK
+55 | 10024329 | ARTLINE RED BULLET TYPE PERMANENT MARKE
+56 | 10024330 | ARTLINE BLUE WHITEBOARD MARKER BULLET T
+57 | 10024331 | ARTLINE RED WHITE BOARD MARKER BULLET T
+58 | 10024336 | ARTLINE GREEN FLUORESCENT MARKER NO 660
+59 | 10024338 | ARTLINE ORANGE FLUORESCENT MARKER NO 66
+60 | 10024340 | ARTLINE FUSCHIA PINK FLUORESCENT MARKER
+61 | 10037152 | ARTLINE PROMO BLK WHTBRD MARKER W FREE
+62 | 10043978 | ARTLINE BLK PERM MARKER EK70BK 2S WFREE
+63 | 10000089 | ADVANCE BONDPAPER SUBSTANCE 16 SHORT
+64 | 10000090 | ADVANCE BONDPAPER SUBSTANCE 16 500S LO
+65 | 10000092 | ADVANCE BONDPAPER SUBSTANCE 20 LONG
+66 | 10000093 | ADVANCE BONDPAPER SUBSTANCE 20 SHORT
+67 | 10004622 | MLA PAPER 2PCS PER PACK
+68 | 10008378 | ILLUSTRATION BOARD 5PCS PER PACK SIZE 1
+69 | 10008379 | ILLUSTRATION BOARD 2PCS PER PACK SIZE 1
+70 | 10008783 | ADVANCE HARD COPY MULTI PURPOSE PAPER S
+71 | 10008784 | ADVANCE HARD COPY MULTI PURPOSE PAPER S
+72 | 10008785 | ADVANCE HARD COPY MULTI PURPOSE PAPER S
+73 | 10008786 | ADVANCE HARD COPY MULTI PURPOSE PAPER S
+74 | 10016590 | AVIA COLORS ASSORTED COLORED PAPER 80GS
+75 | 10019170 | ADVANCE MATHEMATICS NOTEBOOK 80L 6X8.5
+
+============================================================
+[5.  Appendix]
+
+76 | 10022989 | LOW PRICE DOCUMENT ENV 200LBS SHORT 5P
+77 | 10022990 | LOW PRICE DOCUMENT ENV 200LBS LONG 5PCS
+78 | 10025649 | ADVANCE EASYWRITE INTERMEDIATE PAD 80LV
+79 | 10025684 | CARTOLINA BLUE 3PCS PER PACK
+80 | 10025685 | CARTOLINA GOLDEN ROD 3PCS PER PACK
+81 | 10025686 | CARTOLINA PINK 3PCS PER PACK
+82 | 10025687 | CARTOLINA GREEN 3PCS PER PACK
+83 | 10025688 | CARTOLINA ORANGE 3PCS PER PACK
+84 | 10029022 | EASYWRITE GRADE 1 PAD 3PCS/PK 80LVS
+85 | 10029023 | EASYWRITE GRADE 2 PAD 3PCS/PK 80LVS
+86 | 10029024 | EASYWRITE GRADE 3 PAD 3PCS/PK 80LVS
+87 | 10029025 | EASYWRITE GRADE 4 PAD 3PCS/PK 80LVS
+88 | 10029026 | CARTOLINA YELLOW 3PCS PER PACK
+89 | 10029028 | EASYWRITE 1/4 QUIZ PAD 4PCS/PK 80LVS
+90 | 10029029 | EASYWRITE 1/2 LENGTHWISE 2PCS/PK 80LVS
+91 | 10029030 | EASYWRITE 1/2 CROSSWISE 2PCS/PK 80LVS
+92 | 10029572 | EASYWRITE YELLOW PAD W/ COVER AND MARGI
+93 | 10030057 | ADVANCE HARD COPY MULTI PURPOSE PAPER S
+94 | 10030058 | ADVANCE HARD COPY MULTI PURPOSE PAPER S
+95 | 10031269 | ADVANCE SKETCH PAD 9X12 25LVS 100GSM
+96 | 10032700 | STATIONERY LOW PRICE COPY PAPER SUB 24
+97 | 10032701 | STATIONERY LOW PRICE COPY PAPER SUB 24
+98 | 10032702 | STATIONERY LOW PRICE COPY PAPER SUB 24
+99 | 10032818 | AVIA COLORS ASSTD COLORED PAPER 80GSM 2
+100 | 10034265 | LOW PRICE GRADE 1 PAD 80LVS 3s
+101 | 10034266 | LOW PRICE GRADE 2 PAD 80LVS 3s
+102 | 10034268 | LOW PRICE GRADE 4 PAD 80LVS 3s
+103 | 10034269 | LOW PRICE GRADE 3 PAD 80LVS 3s
+104 | 10034285 | LOW PRICE WHITE FILE FOLDER LONG 10S
+105 | 10035105 | INDEX CARD WHITE RBS 3X5 100SHEETS PER
+106 | 10035106 | INDEX CARD WHITE RBS 4X6 100SHEETS PER
+107 | 10035107 | INDEX CARD WHITE RBS 5X8 100SHEETS PER
+108 | 10039541 | ADVANCE ADV TIME WRITING NBK 80LVS W PL
+109 | 10039542 | ADVANCE SUPERMAN WRITING NBK 80LVS W PL
+110 | 10039572 | ADVANCE ADV TIME COMPO NBK 80LVS W PLAS
+111 | 10039573 | ADVANCE DORA COMPO NBK 80LVS W PLASTIC/
+112 | 10039574 | ADVANCE SUPERMAN COMPO NBK 80LVS W PLAS
+
+============================================================
+[5.  Appendix]
+
+113 | 10039649 | ADVANCE ADV TIME SPIRAL NBK 80LVS W PLA
+114 | 10039722 | ADVANCE EMOTICON YARN NBK 80LVS W/PLAST
+115 | 10039726 | ADVANCE FANCY NOTES UNIVERSITY NBK 80LV
+116 | 10039784 | LOW PRICE YELLOW PAD 80LVS W PLASTIC
+117 | 10052221 | ADVANCE COLORS OF LIFE YARN NBK W/ PLAS
+118 | 10052222 | ADVANCE COLORS OF LIFE SPIRAL NBK 80LVS
+119 | 10052224 | ADVANCE SPRING LEAF SW NBK CRAFT NOTES
+120 | 10059386 | ADVANCE SPIRAL 80LVS EMOTICON W/PLASTIC
+121 | 10059394 | ADVANCE UNIVERSITY NOTES 80LVS
+122 | 10059529 | ADVANCE MY LITTLE PONY COMPO NBK 80LVS
+123 | 10059530 | ADVANCE TROLLS COMPO NBK 80LVS W PLASTI
+124 | 10059531 | ADVANCE GO GREEN SPIRAL NBK 80LVS W PLA
+125 | 10059532 | ADVANCE COLOR CODING SPIRAL NBK 80LVS
+126 | 10059533 | ADVANCE MY LITTLE PONY WRITING NBK 80LV
+127 | 10059538 | ADVANCE MY LITTLE PONY SPIRAL NBK 80LVS
+128 | 10069189 | ADVANCE COLORS OF LIFE UNIVERSITY YARN
+129 | 10071020 | 685 SPRINGLEAF BINDER NB 9 DIV BATMAN S
+130 | 10071021 | 685 CLIP BINDER NBK 9 DIV MIX PRINT DES
+131 | 10071023 | 685 CLIP BINDER NBK 9 DIV SPRING BLOOM
+132 | 10075445 | ADVANCE WE BARE BEARS WRITING NBK 80LVS
+133 | 10075446 | ADVANCE WE BARE BEARS COMPO NBK 80LVS W
+134 | 10075590 | ADVANCE CLIP BINDER REFILL 685 5PCS PER
+135 | 10080012 | ADVANCE YELLOW CUT SIZE 1/4 PAD 2S
+136 | 10081479 | ADVANCE SPRINGLEAF CLIP BINDER BLACK BO
+137 | 10081480 | ADVANCE SPRINGLEAF CLIP BINDER MAKEASTA
+138 | 10081481 | ADVANCE SPRINGLEAF CLIP BINDER INSPIRE
+139 | 10081482 | ADVANCE SPRINGLEAF CLIP BINDER FILLER 6
+140 | 10081485 | ADVANCE MY LITTLE PONY SPIRAL 80LVS W P
+141 | 10081518 | ADVANCE SPRING LEAF SW NBK BLACK BOOK 6
+142 | 10081520 | ADVANCE SPRING LEAF SW NBK POP ART 685
+143 | 10081521 | ADVANCE SPRING LEAF SW NBK EXPRESS 685
+144 | 10081522 | ADVANCE SPRING LEAF DW NBK DIE CUT 685
+145 | 10033382 | CARTOLINA 3PCS PER PACK NO.IT255 GLORY
+146 | 10033383 | CARTOLINA 3PCS PER PACK NO.IT401 BLACK
+147 | 10039681 | LOW PRICE WRITING NBK 80LVS 5S/PK NO PL
+
+============================================================
+[5.  Appendix]
+
+148 | 10039687 | LOW PRICE COMPO NBK 80LVS W/O MARGIN AN
+149 | 10039691 | LOW PRICE WRITING NBK 80LVS W/O PLASTIC
+150 | 10039692 | LOW PRICE SPIRAL NBK 80LVS W/O PLASTIC/
+151 | 10039693 | LOW PRICE SPIRAL NBK 80LVS 5S/PK NO PLA
+152 | 10069054 | LOW PRICE YARN NBK 80LVS W/O PLASTIC/MA
+153 | 10080573 | LOW PRICE COMPO PACK 7S
+154 | 10080574 | LOW PRICE WRITING PACK 7S
+155 | 10080575 | LOW PRICE SPIRAL PACK 7S
+156 | 10080576 | LOW PRICE YARN PACK 7S
+157 | 10081489 | CONSO YARN GIRL QUOTES 80LVS
+158 | 10081491 | CONSO UNIVERSITY SPIRAL DYNAMIC PATTERN
+159 | 10081493 | CONSO UNIVERSITY YARN PASTEL PRINTS
+160 | 10081494 | CONSO WRITING SWEET PATTERN 7PCS/PK W/O
+161 | 10081495 | CONSO WRITING ROBOTS 7PCS/PK W/O PLSTC
+162 | 10081496 | CONSO COMPO ICONS 7PCS/PK W/O PLSTC
+163 | 10081497 | CONSO SPIRAL GIRL BOSS 7PCS/PK W/O PLST
+164 | 10081498 | CONSO SPIRAL MUSIC QUOTES 7PCS/PK W/O P
+165 | 10081499 | CONSO TRAVEL DIARY YARN 80LVS PK6 W/ PL
+166 | 10015971 | LOW PRICE FILE FOLDER IMPTD WHT 5 PER P
+167 | 10015972 | LOW PRICE FILE FOLDER 5PER PK LEGAL IMT
+168 | 10013385 | KS CONSTRUCTION PAPER 205MMX300MM 20PCS
+169 | 10034260 | LOW PRICE INTERMEDIATE PAD 80LVS BOOK P
+170 | 10034261 | LOW PRICE 1/2 CW 80LVS 2s BOOK PAPER
+171 | 10034262 | LOW PRICE 1/2 LW 80LVS 2s BOOK PAPER
+172 | 10034263 | LOW PRICE 1/4 QUIZ PAD 80LVS 4s BOOK PA
+173 | 10036822 | LOW PRICE PAD SET
+174 | 10000827 | TW/LP OSLO PAPER 20PCS PER PACK
+175 | 10001048 | SPELLING BOOKLET GRADE 4 5 6
+176 | 10001049 | SPELLING BOOKLET GRADE 1 2 3
+177 | 10013359 | TW/LP ART PAPER 20PCS PER PACK
+178 | 10013360 | TW/LP GRAPHING PAPER 20PCS PER PACK
+179 | 10013361 | TW/LP POSTER COLORED PAPER 20PCS PR PK
+180 | 10032897 | STATIONERY LOW PRICE BOND PAPER SUB20 S
+181 | 10032898 | STATIONERY LOW PRICE BOND PAPER SUB20 S
+182 | 10032899 | STATIONERY LOW PRICE BOND PAPER SUB20 L
+183 | 10032900 | STATIONERY LOW PRICE BOND PAPER SUB20 L
+184 | 10067508 | LOW PRICE BOND PAPER S20 A4 20SHEETS PE
+
+============================================================
+[5.  Appendix]
+
+185 | 10067509 | LOW PRICE BOND PAPER S20 A4 50SHEETS PE
+186 | 10008317 | CRAYOLA CRAYONS NO 8
+187 | 10008318 | CRAYOLA CRAYONS NO 16
+188 | 10008319 | CRAYOLA CRAYONS NO 24
+189 | 10008320 | CRAYOLA CRAYONS NO 48
+190 | 10008321 | CRAYOLA CRAYONS NO 64
+191 | 10008322 | CRAYOLA CRAYONS JUMBO 8
+192 | 10011385 | LIL HANDS ARTS AND CRAFTS WATERCOLOR 18
+193 | 10011386 | LIL HANDS COLORING PENS WASHABLE 24 COL
+194 | 10013607 | CRAYOLA 10 LARGE SCHOOL CRAYONS
+195 | 10022492 | CRAYOLA TWISTABLE CRAYONS 8'S
+196 | 10022493 | CRAYOLA TWISTABLE MINI CRAYONS 24'S
+197 | 10022497 | CRAYOLA TWISTABLE COLORED PENCIL 12'S
+198 | 10025691 | LH ARTS AND CRAFTS SCENTED CLAY 5 REGUL
+199 | 10010671 | FABER CASTELL CLASSIC COLOR PENCIL 12PC
+200 | 10083430 | DONG A KIDS MODELING CLAY ASSTD 5'S 115
+201 | 10083431 | DONG A KIDS MODELING CLAY ASSTD 12'S 11
+202 | 10082063 | LOW PRICE POSTER COLOR SET 12C
+203 | 10001332 | TOP DUSTLESS CHALK WHITE 12PCS PER BOX
+204 | 10001333 | TOP DUSTLESS CHALK COLORED 12PCS PER BO
+205 | 10015598 | MAPED COLOR PENCILS TRIANGULAR 12'S (18
+206 | 10004615 | MAGIC TOUCH CORRECTION FLUID
+207 | 10007492 | KW TRIO PENCIL SHARPENER #642
+208 | 10023118 | FABER CASTELL RUBBER ERASER 2 PCS PER P
+209 | 10034083 | FCASTELL SHARPENER 5849 OVAL 2PCS PK SI
+210 | 10034084 | FCASTELL CAPPED SHARPENER SINGLE HOLE N
+211 | 10034085 | FCASTELL ACRYLIC RULER 12 INCHES ITEM N
+212 | 10059541 | PVC BOOK WRAPPER 1/2X3M W CORE
+213 | 10059542 | PVC BOOK WRAPPER 13.5X10M WITH CORE
+214 | 10081950 | PVC BOOK WRAPPER 1MX5M GUAGE 2.6
+215 | 10001474 | MAPED PROTRACTOR 180 NO 242134242180
+216 | 10010055 | MAPED M7 ERASER 2S NO 02110
+217 | 10010843 | MAPED 2 HOLE METAL SHARPENER NO 006700
+218 | 10014542 | MAPED TECHNIC DUO ERASER 2PCS PER PK N
+219 | 10014544 | MAPED SHAKER SHARPENER IN BLITER PK NO
+220 | 10020148 | MAPED RULER 30CM 12INCHES
+221 | 10037492 | MAPED BOOGY 1 HOLE SHARPENER ITEM 0633
+222 | 10037493 | MAPED ERGO FUN ERASER 2PCS PER PACK ITE
+
+============================================================
+[5.  Appendix]
+
+223 | 10035261 | REWRITE CORRECTION TAPE 5MMX8M CT-02
+224 | 10035263 | REWRITE CORRECTION TAPE 5MMX6M CT-01
+225 | 10071433 | ID LACE WITH ID HOLDER VERTICAL SMOKED
+226 | 10079583 | ID HOLDER CLEAR TRANS W FLAT LANYARD VE
+227 | 10079586 | ID HOLDER ACRYLIC W ID CLIP FLAT LANYAR

@@ -1,0 +1,384 @@
+============================================================
+[Data Dashboard]
+
+Data Dashboard
+1. Log In
+Operation steps:
+
+Type in account and password, then type the verification code
+
+Data Dashboard
+1. Menu
+Operation steps:
+
+Click the Data Dashboard Menu Button and view all reports / functions authorized
+
+Data Dashboard
+2. View – Basic filters & Query
+Operation steps:
+
+Choose the report according to user’s analysis purpose
+
+Input the filters based on user’s data access (time, store & category etc.)
+
+Click [Query] button to generate the data in report
+
+Click this button will go the column customization  (next page)
+
+Data Dashboard
+2. View – Column Customization
+Operation steps:
+
+To choose show/hide columns by clicking the checkbox
+
+To choose fixed dimension column or not
+
+To re-order the columns by dragging button
+
+Pre-design KPI grouping according to Dmall retail experience
+
+Data Dashboard
+2. View – Report data analysis
+Operation steps:
+
+Can drill down to deeper analysis ways to view the report by click the blue color data
+
+Can rank the report data (increase/decrease) by click the button
+
+Data Dashboard
+2. View – Data Dictionary
+Operation steps:
+
+Data Dictionary will provide the measure’s detail explanation for current report
+
+Data Dashboard
+3. Export - Operation
+Operation steps:
+
+Can export the current report page via xls. Or xlsx. Format
+
+Export File will include the filter information (Time, Store, Article, LFL etc.)
+
+Operation steps:
+
+Export file header will contain the report name and time (DD_MM_YYY_HH_MM)
+
+Export File will include the filter information (Time, Store, Article, LFL etc.)
+Data Dashboard
+3. Export – Sample file
+
+Data Dashboard
+4. Email - Button
+Operation steps:
+
+Can directly click the Email Button to choose sent out the report via email attachment
+
+User can select to set up the email now or view the email that you have sent out
+
+Data Dashboard
+4. Email – Set (1)
+Operation steps:
+
+By Click the [set] choice of Email function to view this page
+
+User can set up the below information for this email:ToCcSubjectContent
+
+============================================================
+[Data Dashboard]
+
+Data Dashboard
+4. Email – Set (2)
+Operation steps:
+
+User can also preview the attachment before it is been sent out to avoid the mistake
+
+User can choose to [Save] as a task template Or[Send] the email now
+
+Data Dashboard
+4. Email – Set (3)
+Operation steps:
+
+If user want to set up the rule for frequency email push, can open the [Send Rule] button.
+
+Under this function, user can set up :Send FrequencyValid period of this ruleData range for attachment
+
+Click [Save] for this task template
+
+Data Dashboard
+4. Email – Email Mgt
+Operation steps:
+
+User can go [Email Mgt] to view saved [Task] Orsent out [Email]
+
+Data Dashboard
+4. Email – Task List
+Operation steps:
+
+User can see all the [Active] & [Inactive] task under Task List menu
+
+User can do the operation below for corresponding taskView – see the task ruleEdit – change the task ruleRecord – see the history sent out email under this taskInactive – close the task temporarily
+
+Data Dashboard
+4. Email – Email List
+Operation steps:
+
+User can do the operation below for corresponding emailView – see the history email detailEdit Again– change the email content and sent out again
+
+Data Dashboard
+5. Report View Mgt - Menu
+Operation steps:
+
+Report View Mgt is to manage different users’ purposes for same report. It will authorize same report with different measures to different users.
+
+Data Dashboard
+5. Report View Mgt – Operation Example
+Operation steps:
+
+User need to [create] a view under the selected report
+
+Data Dashboard
+5. Report View Mgt – Operation Example
+Operation steps:
+
+User select the corresponding report and create the view nameFor exampleSelect [Commercial Summary]View name [Jack]
+
+Click [Create View] button to start creating the view
+
+Data Dashboard
+5. Report View Mgt – Operation Example
+Operation steps:
+
+User select the corresponding dimension & measures for table and line chartFor exampleSelect [Site Name] / [Site Code] / [Sales TP] / [Sales Qty TP]
+Click [Confirm]
+
+============================================================
+[Data Dashboard]
+
+Click [Save] to save the view with name [Jack]
+
+Data Dashboard
+5. Report View Mgt – Operation Example
+Operation steps:
+
+User can view the created view in the beginning page, and can do he operation below:View – see the report view detailEdit – change the view detailAuthorize – authorize the view to corresponding roleDelete – Delete the viewAfter Creation, we should do the [Authorize] Step
+
+Data Dashboard
+5. Report View Mgt – Operation Example
+Operation steps:
+
+User should authorize the view to some roles then it can be reflected on the users who own this role function.For exampleAuthorize the view to [Jack Test] roleBackground: Already authorize the [Jack Test] role to this account
+
+Data Dashboard
+5. Report View Mgt – Operation Example
+Operation steps:
+
+After authorize step, user can view the role which has been given this view
+
+Data Dashboard
+5. Report View Mgt – Operation Example
+Operation steps:
+
+Then user go to view the [Commercial Summary] via this account, it will only display the result that controlled by this viewFor exampleOnly [Site Name] / [Site Code] / [Sales TP] / [Sales Qty TP]
+
+Data Dashboard
+6. Budget Management - Upload
+Operation steps:
+
+According to SM customization, we provide 3 types of budget format to different groups work
+     a. Store Ops –  Month + Store
+     b. Merchandising – Month + Sub-division
+     c. MBU – Month + Store + Sub- division
+
+Data Dashboard
+6. Budget Management – Upload step
+Operation steps:
+
+After select the department budget, to import the budget successfully, two steps are required:
+      A. Download the template and input the budget data 
+      B. Upload the template file back and system will automatically record the data inside.
+
+Data Dashboard
+6. Budget Management - View
+Operation steps:
+
+System will automatically separate the monthly budget into daily pieces according to logic provided by SM
+
+After upload, can check the daily and original monthly  budget in budget view page
+
+============================================================
+[Data Dashboard]
+
+Data Dashboard
+7. Merchandising Label Management – Label View
+Operation steps:
+
+Merchandising Label source:a. Preset (Pre-designed label which cannot be edit manually)b. Manual (created by user)
+
+User can have a whole view of all labels (even created by others) Also can filter out the label by the name or status
+
+Data Dashboard
+7. Merchandising Label Management – Preset Label Article (1)
+Operation steps:
+
+Can use label filter to type and find the label article list immediately
+
+Article in some preset labels (top_N, SC/PWD etc.) are integrated from SAP which means can not be edited. Users only have the view authority.
+
+Data Dashboard
+7. Merchandising Label Management – Preset Label Article (2)
+Operation steps:
+
+Article in other preset labels (Hardline MBU etc.) are manually maintained by users which can be changed from Dmall label system directly
+
+Data Dashboard
+7. Merchandising Label Management – Create Label
+Operation steps:
+
+Click the [Create] button to start manual label set up
+Fill up the information a. Label Nameb. Label Code (can auto generate)c. Entity Level (by article or by site-article)d. Valid period button (limit the article validation in this label or not)e. Description
+
+Data Dashboard
+7. Merchandising Label Management – Article Bind for create label
+Operation steps:
+
+Find the create label in view page, it will display the created information.
+
+Next step is to bind the article for this label, click [Article Bind] button.Also user can edit or disable this label according to the business requirement.
+
+Data Dashboard
+7. Merchandising Label Management – Article Bind for create label
+Operation steps:
+
+User can choose import the article list or manually add the article for this label
+
+After article bind, user can go back this page to view the article list.
+
+Data Dashboard
+7. Merchandising Label Management – Label influence for reports
+Operation steps:
+
+User can see the label performance in related reports immediately
+
+============================================================
+[Data Dashboard]
+
+Data Dashboard
+7. Merchandising Label Management – Important Label (1)
+Operation steps:
+
+All preset labels are closely connected with SM business, please take notice before maintain it.(some cannot be maintained caused by integrated from SAP or recognized by article name)
+
+Data Dashboard
+7. Merchandising Label Management – Important Label (2)
+Operation steps:
+
+All bags related labels should be maintained according to business change:Green BagEco BagFree Paper BagFree Shopping BagCustomer Bag
+
+Data Dashboard
+8. Easy Analysis
+Operation steps:
+
+Please check the attachment PowerPoint for detail
+
+============================================================
+[｜ Overview]
+
+01 ｜ Overview
+02 ｜ Core Function
+03 ｜ Go live Plan
+
+Easy Analysis Architecture
+01 Overview
+start user
+Application
+Self-Built Report
+Dynamic Chart
+Synchronization
+Share
+Pie/Trend/Bar Chart
+Freely combination
+Data Access Control
+Article Hierarchy
+Vendor
+Data source - Measure
+Inventory Analysis Data
+Marketing Analysis Data
+Data source - Filter
+Site Hierarchy
+Article Hierarchy
+Time – Day / Month
+
+01 ｜ Overview
+02 ｜ Core Function
+03 ｜ Go live Plan
+
+02 Core Function
+Dimension
+Measure
+Filter
+Store
+Vendor
+Article
+Sales
+Contribution
+Inventory
+Self-Built Report
+Freely generate out own reports under users’ data authority
+Time
+Store
+Article
+
+Self-Built Report
+02 Core Function
+Choose Dimension
+For example (store name + category)
+
+Self-Built Report
+02 Core Function
+Choose Measure
+For example (Sales AMT + Sales Qty + SOH Qty)
+
+Self-Built Report
+02 Core Function
+Choose Filter
+For example (Date range is Apr + store code is 0003)
+
+Self-Built Report
+02 Core Function
+Report Generate
+
+Dynamic Chart
+02 Core Function
+For example: Trend Chart
+
+Dynamic Chart
+02 Core Function
+Select the X & Y axis 
+For example: X = Category, Y = Sales AMT
+
+Dynamic Chart
+02 Core Function
+Generate the chart
+
+============================================================
+[Synchronization]
+
+Synchronization
+02 Core Function
+Save & Share the Report by clicking the corresponding button
+
+Synchronization
+02 Core Function
+Can do view/share/edit/delete operation for own report
+
+Synchronization
+02 Core Function
+Can share report to group level or account level
+Only people who are shared can access this report under their own data authority
+
+01 ｜ Overview
+02 ｜ Core Function
+03 ｜ Go Live Plan
+
+Go Live Plan
+03 Go Live Plan

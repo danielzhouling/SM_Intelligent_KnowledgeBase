@@ -1,0 +1,2099 @@
+============================================================
+[System Integration]
+
+「SM」_「Phase 1A」_「System Integration Blueprint」_V1.0.0
+
+Editor： | James You | Edit date： | 12/29/2023
+Approver： | Approve date：
+
+Copyright Reserved
+
+Document Information
+
+Document Source
+
+This document is intended to present the Integration design, business rules and DMALL system design based on the RFP captured by SM. This document will be available at SM’s SM Market SharePoint directory.
+
+Blueprint Chapter | Module | Catherine Canlas | Katherine Lim | Chanda Osinsao | Romyr Crisolo
+3 | High-Level Integration Solution
+4.1.2.1 | Master data Detail Integration Design
+4.1.2.2 | Store Operations Process Flow
+4.1.2.3 | EOD Detail Integration Design
+
+Revision History
+
+Version | Date | Responsible | Change Summary
+1.0.0 | 10/18/2023 | DMALL | For Review
+
+1. Blueprint Document Scope
+
+1.1 Background Introduction
+
+This document is for SM digitalization transformation project. This project is divided into 4 phases, and this document is for Phase 1A, and in this phase, DMALL will help SM to switch POS and Inventory related systems. As defined in the project scope, the proposed solution includes feature support for POS, Inventory, Master data structure, Picking and Dashboard.
+
+To support these features, system integrations are needed to provide data exchange between DMALL OS and multiple SM Legacy systems, this document will provide solutions for the system integrations, which will be mainly focusing on these aspects:
+
+Master data, which is the basis for the project.
+
+Inventory(Store Operations Interaction flow), which is for inventory related support features.
+
+End of Day(EOD), for compatibilities with Legacy or External system interactions.
+
+============================================================
+[System Integration]
+
+Note: For more business processes and details, please refer to different blueprint documents for the specific modules. Also, these blueprint documents may be mentioned in this document as [X], for example [Master Data], [Inventory] etc. For integration field mapping during the development, user SHOULD follow the mapping excel file since the file will be up-do-date in the process of development.
+
+2. Definitions
+
+ARC: Data report of SM sales data, without other affiliates sales.
+
+BCP: Business Continuity Plan.
+
+BIR: Bureau of Internal Revenue of Philippines.
+
+BOM: Bill of Materials.
+
+DAC: Digital Advantage Corporation, previously known as MCI(Marketing Convergence Inc, Member point system.
+
+FRS: Food Retail System.
+
+NHO: National Head Office, means headquarters, during communication it’s interchangeable with HQ, or HO. MMS(Retail affiliates MMS): Merchandise Management System, the MajorCon's Masterfile System, User portal for Consigners.
+
+OCCS: Online Contract Creation System.
+
+PCA: Price Change Adjustment.
+
+PDT: Portable Data Terminal.
+
+PIMS: Physical Inventory Management System.
+
+PVT: Price Verification Terminal.
+
+STDR: Stock Transfer Discrepancy Report.
+
+TPS: Tag Printing System.
+
+WS: Weighing Scale.
+
+IBMS: Integration Business Management System (DMALL), also means DMALL Middle Layer.
+
+POS – Point of Sale System.
+
+3. High-Level Integration Solution
+
+3.1 AS-IS System Integration Architecture Diagram
+
+============================================================
+[System Integration]
+
+The diagram above is the original architecture provided by SM for reference, and the following is an AS-IS  diagram based on the current status quo.
+
+As show in the AS-IS Diagram currently system architecture of SM contains the following components:
+
+SAP and related system around the SAP system at HQ, in which several components are used: Master Data Supply Chain System, WMS and FICO etc.
+
+3rd party systems, normally they are SM Group scope systems or external systems such as BDO, Retail Affiliates MMS, Marketing, DAC, Credit Info System, e-Treasury, BIR etc.
+
+Telnet Server at Store, which acts as a key component that exchange data directly or in-directly between Store POS Servers and SAP/NON-SAP systems at HQ, and the Telnet Server also provide utility services for store daily operations, EOD processes, PVT and so on.
+
+POS related software and hardware at Store, includes POS Terminals and different POS Servers(Regular POS Server, Online POS Server, and Roving POS Server, in which the Regular POS Server is run in primary/secondary mode), Weighing Scale, EFT devices etc.
+
+3.2 TO-BE System Integration Architecture Diagram
+
+(Note: Workforce HR Suite is Out of Scope, just for references from the AS-IS.)
+
+As shown in the TO-BE architecture above, the components marked as gray are replacements of old components, and red components are newly introduced, the following is a list of the key components, for more detail please reference different Business Module Blueprint separately:
+
+DMALL OS Service(SM Private Cloud)
+
+Omni-channel Master Data. Includes mainly the Article Base Info, Merchandise Hierarchy, Brand, Article Package, Article Package Barcode, BOM, Site, Site-Article, Site-Article-Price, Vendor, Purchase Information and Source Information.
+
+Promotion Management. Includes related promotion settings, rules and different promotion price algorithms that should be applied in the sales process.
+
+============================================================
+[System Integration]
+
+Inventory Management. Includes Goods Receiving, Goods Issuance, STDR, Store-To-Store Transfer, OSA, Stock Take, Expiry, Gap Check, Stock Transfer, Production, Dismantle, Conversion, Stock Adjust.
+
+Big Data & Dashboard. Includes the Big Data and BI reports features provided by DMALL OS.
+
+Omni-channel Inventory. Includes the real-time inventory data result.
+
+Omni-channel Sales Order. Includes the real-time sales order data that processed in DMALL OS.
+
+POS Service(Realtime Data & Report EOD Online). Includes different POS services for DMALL Cloud based POS system.
+
+TPS, please note that in the diagram it shows as a replacement component of the AS-IS in the same place, but it will be a DMALL Cloud Service in the TO-BE phase, user can access it through DMALL partner web user interfaces.
+
+DMALL partner
+
+PC Web Browser UI, to support Store and HQ daily operations in web browser on a Personal Computer.
+
+PDT, to support Store daily operations on Mobile Devices(Android and iOS).
+
+In-Store POS Servers, more features listed:
+
+Data Backup
+
+BCP USB Copy after Download from Cloud
+
+EOD USB Copy then Upload to Cloud
+
+IBMS(Also known as: DMALL Middle Layer) Includes JCo client/gateway components and FTP. It is the main components that deployed between DMALL OS and the exist SAP and Non SAP Legacy systems.
+
+============================================================
+[System Integration]
+
+Picking. Includes Picking, Delivery and related Online to Offline fulfillment features to support online sales.(Integration of Picking and new e-Commerce will be in the new e-Commerce stage, Picking will not integrate with legacy e-Commerce, so Picking is described separately here).
+
+3.3 Integration Gap Analysis
+
+Legacy POS and FRS will be taken offline after DMALL OS goes online. The original features of Legacy POS and FRS are replaced by the systems of DMALL OS. The original integration of SM with systems such as SAP, Retail Affiliates MMS, DAC, ARC, BIR, e-Treasury, Credit Info System, Mall sales and so on will be switched to the integration of DMALL OS with these systems.
+
+For the “No.” column in the table below, refer to 3.1 AS-IS System Architecture Diagram.
+
+============================================================
+[System Integration]
+
+No. | SM Legacy System | Data Content | Data Flow (AS-IS) | Data Flow (TO-BE) | Integration Approach | Integration Status
+- | POS | SM POS Service | DMALL OS (POS) | Not Involved | Integration deletion
+- | FRS | SM FRS | DMALL OS (Store Ops) | Not Involved | Integration deletion
+① | Retail Affiliates MMS | Consignment Master Data | Retail Affiliates MMS -> SM POS Service | Retail Affiliates MMS -> DMALL OS | SFTP | Integration modification
+② | Retail Affiliates MMS | T1/Japan Home Consales | SM POS Service -> Retail Affiliates MMS | DMALL OS -> Retail Affiliates MMS | SFTP | Integration modification
+③ | E-Treasury | SM POS Service -> E-Treasury | DMALL OS -> E-Treasury | SFTP | Integration modification
+④ | ARC | SM POS Service -> In House EOD Program(Store) ->ARC | DMALL OS -> In House EOD Program(HQ) -> ARC | SFTP | Integration modification
+⑤ | SMAC(DAC) | DAC | SM POS Service -> SMAC(DAC) | DMALL OS -> SMAC(DAC) | SFTP | Integration modification
+⑥ | SAP | Orders & OBD (PO/STP/RPO/DN) | SAP -> FRS Store | SAP -> DMALL OS | SAP JCo | Integration modification
+⑦ | SAP | Inventory Ops (GR/GI/ROR/ Transfer Posting/Inventory Difference) | FRS Store -> SAP | DMALLOS -> SAP | SAP JCo | Integration modification
+⑧ | SAP | Master Data | SAP -> SM POS Service | SAP -> DMALL OS | SAP JCo | Integration modification
+⑨ | SAP | Sales&Tender | SM POS Service -> SAP | DMALL OS -> SAP | SFTP | Integration modification
+⑩ | Credit Info System | Credit Info (Bankcard) | SM POS Service -> Credit Info System | DMALL OS -> Credit Info System | SFTP | Integration modification
+⑪ | BIR | EIS | N/A | DMALL OS -> FTP -> BIR | SFTP | Integration addition
+- | POS | Legacy POS Captured Files | POS -> * (Source of other EOD files) | DMALL OS -> In House EOD Program(HQ) | SFTP | Integration modification
+- | Mall Sales | EOD (Mall Sales file daily) | SM POS Service -> In House EOD Program(Store) -> Mall Sales | DMALL OS -> In House EOD Program(HQ) -> Mall Sales | SFTP | Integration modification
+
+============================================================
+[System Integration]
+
+- | Ad Hoc Reports | EOD | SM POS Service -> In House EOD Program(Store) -> Ad Hoc Reports | DMALL OS -> In House EOD Program(HQ) -> Ad Hoc Reports | SFTP | Integration modification
+
+============================================================
+[System Integration]
+
+3.4 Technical Considerations for To-Be Integration Design
+
+3.4.1 Data Integration Approach：
+
+SFTP (Secured File Transfer Protocol)
+
+For the compatibilities with SM existing systems and data flows, DMALL will follow SM existing FTP conventions as long as they are considered safe and secure.
+
+SM provides the SFTP Server for data integration.
+
+For the new FTP based data exchange, we suggest both SM and DMALL follow the following rules:
+
+No. | Rules contents
+1 | Both parties agree to the file uploading directory, such as /upload/business.
+2 | The party who writes the data, first creates a temp directory in the above directory.
+3 | Write all the data files in the temp directory or its subdirectories.
+4 | After all the files are written, the operator needs to rename the temp directory to the final directory.
+5 | Both parties agree on the data reading time (UTC+8). Data modification is allowed before the reading time. Data updates after the reading time need to be manually processed after the data reading party confirms the updates.
+6 | Before the data is read, add the current processing timestamp as a prefix for all files in the final directory, and then move the files to the bak directory to prevent the data from being modified during the reading process, the files which timestamp is before 31 days in the bak directory will be archived to ./bak/${YYYYMM} directory early morning on the first day of every month, and the retention period is half a year. After the data is processed, if there is still content to be processed in the final directory, the content is considered as a change after the file reading and needs to be processed manually.
+7 | If multiple files need to be uploaded, it is recommended to compress the files first before uploading. The .zip compression format is recommended.
+8 | Unified UTF-8 encoding is required for files.
+9 | Merchants who want to access the SFTP server need to apply for an account and whitelist from DMALL.
+
+SAP Connector
+
+============================================================
+[System Integration]
+
+DMALL Middle Layer should offer this capability. And to maintain maximized security and audition, the JCo Client env(multiple nodes/instances for failover) should be a single access point that access any SM SAP services.
+
+SM has 3 different SAP env, dev/QA/Prod.
+
+100 JCo(to replace the old FRS) user ids for 300 stores; (1 sap key for 1 FRS user id)
+
+For now an SAP-Frontend connects to a pre-assigned App Server on a pre-allocated store/region basis, and the DMALL system should follow the existing SM server routing rule to maintain stability.
+
+3.4.2 Performance &  Stability Consideration
+
+Running performance & stability monitoring:
+
+Each DMALL OS system will add event tracking and monitoring in key links such as interface interaction, database access and file transfer, collect relevant performance indicators in real time.
+
+And will notify the IT maintainer of DMALL OS system through a unified alarm mechanism if the link exceeds the threshold, so as to intervene in troubleshooting problems and eliminate hidden dangers at the first time.
+
+============================================================
+[System Integration]
+
+DMALL IT maintainers will operate on the issues as soon as possible when the situation occurs. And we will notify SM the first time to solve the problem together if necessary.
+
+The interaction of interface data and transmission of file contents needs to be completed within the time limit agreed by both parties, subject to the detailed integration plan.
+
+3.4.3 Security Consideration
+
+SFTP:
+
+As SM provides the SFTP server, we recommend that SM IT team ensure the security and high availability of SFTP server, including but not limited to creating individual username/password or SSL certificate for integration to authenticate.
+
+Encrypted communication based on SSH protocol can ensure the communication content will not be eavesdropped on by the third party.
+
+Where applicable, DMALL will follow SM IT standards utilizing Service Accounts.
+
+Https: Use the SSL/TLS protocol for encryption and authentication. And Https Use port 443 by default instead of HTTP's port 80.
+
+JSON based API adopts OAuth user authentication and authorization rules.
+
+3.4.4 Exception Handling Consideration
+
+Under the premise that all the infrastructure such as hardware, network and others work normally, the Exception Retry Mechanism will be applied for the following scenarios automatically:
+
+API Interface failure
+
+SFTP files transfer failure
+
+JCo interface failure
+
+Monitoring matrix for the kinds of API Interface failure:
+
+============================================================
+[System Integration]
+
+No. | Code | Description | Explanation & Solution
+1 | 0000 | Success | Response Success
+2 | GW4000 | Bad Request | Request Error
+3 | GW4010 | Parameter Error | Header Parameters are missing or incorrect, please check the parameters according to General Guide Line and Integration Rules.
+4 | GW4011 | Unauthorized | Authentication failure, please check the correct API path and requesting Token.
+5 | GW4013 | Token is invalid | Invalid Token, please check Token is correct or not.
+6 | GW4014 | Token is invalid | Token expired, client should refresh the token.
+7 | GW4015 | Appkey is invalid | Check if appKey is correct.
+8 | GW4016 | Signature is invalid | Check if the process of signature is correct or not.
+9 | GW4017 | token refresh is fail | Check the parameters to refresh the token is correct.
+10 | GW4030 | Unauthorized | Client app is not authorized to use this API.
+11 | GW4070 | Unauthorized | The accessing IP address of the client app is not in the white list.
+12 | GW4040 | Not Found | No API path found, please check the accessing path.
+13 | GW4290 | Too Many Requests | Access too frequently, contact DMALL Support to increase the quota or limit the access rate.
+14 | GW5000 | Internal Server Error | Error in Gateway, contact DMALL tech support.
+15 | GW5020 | Internal Server Error | No Service provider, contact DMALL tech support.
+16 | GW5021 | Internal Server Error | No Service provider, contact DMALL tech support.
+17 | GW5030 | Service Unavailable | Service provider busy, normally retry can solve this error.
+18 | GW5040 | Gateway Timeout | Service provider busy, normally retry can solve this error.
+19 | GW5050 | Internal Server Error | Gateway error contact DMALL tech support.
+
+============================================================
+[System Integration]
+
+The integrated module is connected to the DMALL OS monitoring platform, triggering real-time alarm in case of abnormal transmission.
+
+Both sides of the integration should support retry of the transmission process to ensure that abnormal data can be retransmitted.
+
+3.4.5 Monitoring
+
+During the data exchange processes, when Master Data are sent from SAP to DMALL OS and Inventory related API call from DMALL OS to SAP, the summaries should be logged. And for EOD files(any periodically sent files), when data are sent from DMALL to SAP the summaries should also be logged. During these data transmissions, errors might occur, any abnormalities, failures and exceptions should be caught, logged and sent in an email. The recipient should include the related email groups of business and IT team members.
+
+For JCo API the following KPI will be recorded
+
+StoreId | Interface Name | Direction | Line Count | Success/Failure
+<StoreId> | <FM Name> | SAP -> DMALL or DMALL -> SAP | <Line Count> | Success/Failure
+
+All the API based monitoring should cover integration details in 4.1.1 SAP API List.
+
+For file based transfer The following KPI will be recorded
+
+StoreId | File Link Name | Direction | Size | Line Count | Time | Src/Destination Path | Success/Failure
+<StoreId> | <Data Link Name or short description> | DMALL -> SAP or SAP -> DMALL | Size | <Line Count> | Time | Full Path | Success/Failure
+
+All the file based monitoring should cover integration details in 4.1.2.3 EOD Detail Integration Design and 4.1.2.1.14 Majorcon Master Data.
+
+Here is a suggested process to follow when Alarm raised.
+
+4. To-Be Detail Integration Design
+
+4.1 SM To-Be Design
+
+4.1.1 API List
+
+The SAP related API/FMs will be maintained in separated Mapping lists:
+
+============================================================
+[System Integration]
+
+(SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Config)_ver1.0, (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0 and (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0.
+
+4.1.2 Detail Integration Design
+
+Integration after phase 1A switch involves systems such as SAP, Retail Affiliates MMS, DAC, ARC, BIR, e-Treasury, Credit Info System, and Mall sales etc. In the following sub chapters, these integrations are categorized into master data, Inventory and EOD.
+
+4.1.2.1 Master data Detail Integration Design
+
+Master-data includes Merchandise Hierarchy, Brand, Article Base Info, Article Package, Article Package Barcode, BOM Article, Site-Article, Site-Article-Price, Vendor, Purchase Information and Source Information. Most of these data should be loaded from SM SAP to DMALL Master data System, with some exceptions:
+
+Major consignor master data, should be loaded from Retail Affiliates MMS.
+
+For BOM, Saleset/Valuepack(`In store bundle` and `Dismantle`) will be maintained in SAP and interface to DMALL system, the BOM articles relationship of SM Eats will be maintained in DMALL OS system.
+
+Note: In the following chapters related to Master Data, after the confirmation between SM and DMALL, the `Frequency & Rules` can be changed in the future based on different business or technical considerations, for example a change of source update time changed, or server load optimization etc.
+
+============================================================
+[System Integration]
+
+4.1.2.1.1 Site
+
+Reference Business Definition: [Master Data] 3.1 Site Master data system design and structure .
+
+Background: Site information will not be integrated into DMALL system. Site code and site name MUST be the same as the setting in DMALL system. Users can upload batch insert/update in DMALL system.
+
+4.1.2.1.2 Merchandise Hierarchy
+
+Reference Business Definition:  [Master Data] 3.2.1 Article Master Data Integration details Section 1.
+
+Background: Merchandise hierarchy is applied to defined the article belongs to which category level, user can check business data according to different category.
+
+Integration Approach: JCo API
+
+File naming Format(If SFTP)：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user..
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named ` Merch Hierarchy`.
+
+SAP Function Module:
+
+ZRFC_RETRIEVE_MERCAT
+
+There are 4 level of categories as below
+
+Division
+
+Sub division
+
+Department
+
+Merchandise category
+
+Merchandise category is the last category
+
+Example:
+
+Div | Div Desc. | Sub-Div | Sub-Div Desc. | Department | Department Desc. | Mese.Cat. | Mese.Cat. Desc.
+1st 2 digits | Text | 1st 2+next2 | Text | Next 3 digits | Text | 8 digits | Text
+01 | Dry goods | 0101 | Shoes | 0101102 | Men's Shoes | 01011021 | Sandals
+
+If the category is created or changed in SM SAP system, it needs to be synchronized to DMALL system by API.
+
+If the category is removed in SM SAP system, it needs to be synchronized to DMALL system by API.
+
+4.1.2.1.3 Brand
+
+Reference Business Definition:  [Master Data] 3.2.1 Article Master Data Integration details Section 2.
+
+Background: Brand information is optional to be interfaced to the DMALL system, no logic control for the current phase.
+
+Integration Approach: JCo API
+
+File naming Format (If SFTP)：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+============================================================
+[System Integration]
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Article Brand Name`
+
+SAP Function Module:
+
+ZRFC_GET_BRANDS
+
+4.1.2.1.4 Article Base Info
+
+Reference Business Definition:  [Master Data] 3.2.1 Article Master Data Integration details Section 3.
+
+Background: Article basic information contains necessary fields to be applied for POS and inventory system
+
+Integration Approach: JCo API
+
+File naming Format(If SFTP)：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named ` Article Basic Information ` and ` Article Addl Tagging`.
+
+SAP Function Module:
+
+ZRFC_GET_ARTICLE_MASTER
+
+ZRFC_GET_TOP888
+
+ZRFC_GET_TOP4K
+
+ZRFC_GET_SME
+
+For Top items. Data will be sync from SAP to DMALL OS as extended information of Article Base Info.DMALL. And the update should be scheduled after the update of Basic Article Information is done.
+
+4.1.2.1.5 Article Package
+
+Reference Business Definition:  [Master Data] 3.2.1 Article Master Data Integration details Section 4.
+
+============================================================
+[System Integration]
+
+Background: Article can have multiple package unit, it's applied to purchase order to have different unit.
+
+Integration Approach: JCo API
+
+File naming Format(If SFTP)：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Article Basic Information`
+
+SAP Function Module:
+
+ZRFC_GET_ARTICLE_MASTER
+
+Weight unit default is kg in SAP and DMALL system.
+
+4.1.2.1.6 Article Package Barcode
+
+Reference Business Definition:  [Master Data] 3.2.1 Article Master Data Integration details Section 5.
+
+Background: Each article can have multiple barcode if there is multiple package unit, one barcode can only belong to one article.
+
+Integration Approach: JCo API
+
+File naming Format(If SFTP)：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Article Basic Information`
+
+SAP Function Module:
+
+ZRFC_GET_ARTICLE_MASTER
+
+4.1.2.1.7 BOM
+
+Reference Business Definition:  [Master Data] 3.2.1 Article Master Data Integration details Section 6.
+
+Background: BOM article  relationship can be maintained and applied to inventory system for processing. Inventory deduction and sales can be recorded according to the ratio set up in the system. For In-Store Bundling and Dismantle, the BOM relationship will be integrated from SAP and the other will be maintained in DMALL system directly.
+
+Integration Approach: N/A
+
+File naming Format(If SFTP)：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `BOM`
+
+4.1.2.1.8 Site-Article
+
+Reference Business Definition:  [Master Data] 3.2.1 Article Master Data Integration details Section 7.
+
+============================================================
+[System Integration]
+
+Background: Site article defines the article scope per site.
+
+Integration Approach: JCo API
+
+File naming Format (If SFTP): N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content:  Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Site-Article`
+
+SAP Function Module:
+
+ZRFC_GETLISTING_PER_SITE
+
+ZRFC_GET_COMBI
+
+4.1.2.1.9 Site-Article-Price
+
+Reference Business Definition:  [Master Data] 3.2.1 Article Master Data Integration details Section 8.
+
+Background: Site article price indicates the selling price per site per article.
+
+Integration Approach: JCo API
+
+File naming Format (If SFTP) ：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Site-Article-Price`
+
+SAP Function Module:
+
+ZRFC_GET_ITEMMAST
+
+There are two price change flow 
+1-Regular price change: keep current practice and integrate to DMALL system before cut off time 
+2-Ad hoc interface: For emergency scenario, user need to change store article price in SAP, then log in DMALL system to upload store article list, then the latest price will be reflected for POS.
+
+============================================================
+[System Integration]
+
+Emergency price change flow
+
+4.1.2.1.10 Vendor
+
+Reference Business Definition:  [Master Data] 3.4.1.1 Vendor.
+
+Background: Vendor contains vendor name and vendor code, it's mandatory to create purchase order.
+
+Integration Approach: JCo API
+
+File naming Format (If SFTP) ：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Vendor`
+
+SAP Function Module:
+
+ZRFC_RPOSTORE_MFVENDOR
+
+ZRFC_GET_32VENDOR
+
+4.1.2.1.11 Purchase Information
+
+Reference Business Definition:  [Master Data] 3.4.1.2 Purchase information.
+
+Background: Purchase information defines vendor and item relationship to create purchase order. One item can be purchased by multiple vendors.
+
+Integration Approach: JCo API
+
+File naming Format (If SFTP) ：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Article Basic Information` and `Alt Vendor`.
+
+SAP Function Module:
+
+ZRFC_GET_ARTICLE_MASTER
+
+ZRFC_GET_ALTERNATE_VENDOR
+
+ZRFC_RPOSTORE_MFPURCHASINGINFO
+
+4.1.2.1.12 Source information
+
+Reference Business Definition:  [Master Data] 3.4.1.3 Source information.
+
+Background: Source information identify the relationship among site+article+vendor, also indicates the distribution type of article movement.
+
+Integration Approach: JCo API
+
+File naming Format (If SFTP)：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Site-Article-Price` and `RO Table`.
+
+SAP Function Module:
+
+ZRFC_GET_ITEMMAST
+
+ZRFC_GET_RO_TABLE
+
+4.1.2.1.13 MAV Data for Dashboard
+
+Reference Business Definition:  [Dashboard].
+
+============================================================
+[System Integration]
+
+Background: From the requirements from Dashboard, there are reports need Site-Article-MAV values to be sent from SM to DMALL Dashboard on a T+1 basis for references in reports. This FM should be a separated interface only for Dashboard.
+
+Integration Approach: SAP
+
+File naming Format (If SFTP)：N/A
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Article Site MAV`.
+
+SAP Function Module:
+
+ZRFC_GET_SITE_ARTICLE_MAV
+
+4.1.2.1.14 Majorcon Master Data
+
+Solution 2:
+
+An item tag logic will be created in article master data to logically separate majorcon and regular articles.
+
+A sales code transfer logic will be created between POS order and Omnichannel order.
+
+Only 1 site price record for site articles if the price is the same for all stores.
+
+Majorcon article codes: It will be MJ+majorcon article code, user can separate the majorcon articles by the prefix MJ
+
+Duplicate barcode between majorcon and outright articles: The data will be filtered and regarded as abnormal data; it won’t be saved in article master data. Exception messages will be included in the integration exception report.
+
+============================================================
+[System Integration]
+
+Delete majorcon articles: To avoid too much outdated majorcon data staying in the system, SM will provide majorcon DELETE files periodically to remove the outdated data.
+
+User can still find the article in the system with the status: Deleted. Delete majorcon articles will not be available to do business.
+
+Sales：All the sales will be counted in the major article code.
+
+Reference Business Definition:  [Master Data] 3.3 Majorcon.
+
+This chapter is designated for the Majorcon master data integration.
+Note that the Majorcon data should be Read-Only in DMALL system.
+
+Background: For Majorcon the data source is Retail Affiliates MMS and files are sent to DMALL through FTP, also note that the Japan Home is also included here in this chapter.
+
+Integration Approach: FTP
+
+File naming Format (If SFTP)：N/A
+
+Frequency & Rules: Daily (5PM, 10PM for next day update), configurable by user. And As Needed(when emergency update needed)
+
+Integration Detail Content: See bellow
+
+There are 5 Majorcons maintained in Affiliate system and will be integrated to DMALL system :
+
+Majorcon name | Majorcon code | EAN category
+Supplies Station | 25 | Z2
+Toy World | 33 | Z2
+Nursery Care | 35 | Z7
+Miniso | 339 | ZH
+Japan Home | 479 | Z2
+
+Once the majorcon code=025, items will be tagged as SC/PWD items, the information will be saved in Article masterdata＞basic information＞Extended information There’s drop down list for user to check. The tag can’t be edited, only can be reviewed for phase 1A.
+
+All majorcon items are VATable, tax rate will be 12% for all majorcon items.
+
+Majorcon vendors don’t manage inventory
+
+To avoid too much outdated majorcon data staying in the system, SM will provide majorcon DELETE files periodically to remove the outdated data.
+
+============================================================
+[System Integration]
+
+MajorCon Article | MC Description | Majorcon vendor code | Majorcon Name
+2159260 | JAPAN-HOME | 100495 | JAPAN HOME, INC.
+20001839 | NC-NURSERY_CARE | 144002 | NURSERY CARE CORPORATION
+2156433 | SUPPLIES-STATION _INC_(VATABLE) | 193635 | SUPPLIES STATION INC
+2156434 | INTER_NATIONAL-TOYWORLD | 94001 | INTERNATIONAL TOYWORLD INC
+20460993 | MINISO | 240651 | MINI DEPATO CORP.
+
+============================================================
+[System Integration]
+
+Integration details
+
+1. Majorcon Merchandise hierarchy
+
+Div | Division Desc. | Sub-Div | Sub-Division Desc. | Dept | Department Desc. | Mdse Cat. | Mdse Catgry Desc. | MajorCon Article | MC Description | MajorCon Code | MajorCon Name
+1 | Dry Goods | 106 | Home Furnishing | 106158 | Majorcon | 1061582 | Japan Home | 2159260 | JAPAN-HOME | 100495 | JAPAN HOME, INC.
+1 | Dry Goods | 110 | Miscellaneous | 110206 | Infants' Accessories | 1102061 | Baby Company | 20001839 | NC-NURSERY_CARE | 144002 | NURSERY CARE CORPORATION
+1 | Dry Goods | 110 | Miscellaneous | 110208 | Stationery | 1102083 | Supplies Station | 2156433 | SUPPLIES-STATION _INC_(VATABLE) | 193635 | SUPPLIES STATION INC
+1 | Dry Goods | 110 | Miscellaneous | 110212 | Toys | 1102121 | Toys Express | 2156434 | INTER_NATIONAL-TOYWORLD | 94001 | INTERNATIONAL TOYWORLD INC
+1 | Dry Goods | 110 | Miscellaneous | 110216 | Others | 1102165 | Miniso | 20460993 | MINISO | 240651 | MINI DEPATO CORP.
+
+2.Brand
+
+No Brand information for majorcon
+
+3.Article Base Info
+
+Background: Article basic information contains necessary fields to be applied for POS and inventory system.
+
+Integration Approach: SFTP
+
+File naming Format(If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules:  Daily (5PM, 10PM for next day update), configurable by user. And As Needed(when emergency update needed)
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Majorcon Masterfile IM`, `Majorcon Masterfile SOA`, and `Japan Home Masterfile`.
+
+4. Article Package
+
+Background: Article can have multiple package unit, it's applied to purchase order to have different unit.
+
+Integration Approach: SFTP
+
+File naming Format (If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules:  Daily (5PM, 10PM for next day update), configurable by user. And As Needed(when emergency update needed)
+
+============================================================
+[System Integration]
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Majorcon Masterfile IM`, `Majorcon Masterfile SOA`, and `Japan Home Masterfile`.
+
+5. Article Package Barcode
+
+Background: Each article can have multiple barcodes if there is multiple package unit, one barcode can only belong to one article.
+
+Integration Approach: SFTP
+
+File naming Format(If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules:  Daily (5PM, 10PM for next day update), configurable by user. And As Needed(when emergency update needed)
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Majorcon Masterfile IM`, `Majorcon Masterfile SOA`, and `Japan Home Masterfile`.
+
+6.Bom article
+
+No Bom article for majorcon.
+
+7.Site
+
+No site information for majorcon
+
+8. Site-Article
+
+Background: It defines the article scope of each store
+
+Integration Approach: SFTP
+
+File naming Format(If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules:  Daily (5PM, 10PM for next day update), configurable by user. And As Needed(when emergency update needed)
+
+============================================================
+[System Integration]
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Majorcon Masterfile IM`, `Majorcon Masterfile SOA`, and `Japan Home Masterfile`.
+
+9. Site-Article-Price
+
+Background: Purchase information defines vendor and item relationship to create purchase order.One item can be purchased by multiple vendors.
+
+Integration Approach: SFTP
+
+File naming Format (If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules:  Daily (5PM, 10PM for next day update), configurable by user. And As Needed(when emergency update needed)
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Majorcon Masterfile IM`, `Majorcon Masterfile SOA`, and `Japan Home Masterfile`.
+
+10.Vendor
+
+Background: Purchase information defines vendor and item relationship to create purchase order.One item can be purchased by multiple vendors.
+
+Integration Approach: SFTP
+
+File naming Format (If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules:  Daily (5PM, 10PM for next day update), configurable by user. And As Needed(when emergency update needed)
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Majorcon Masterfile IM`, `Majorcon Masterfile SOA`, and `Japan Home Masterfile`.
+
+11.Purchase information
+
+Background: Purchase information defines vendor and item relationship to create purchase order.One item can be purchased by multiple vendors.
+
+Integration Approach: SFTP
+
+File naming Format (If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules:  Daily (5PM, 10PM for next day update) and As Needed(when emergency update needed)
+
+============================================================
+[System Integration]
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Majorcon Masterfile IM`, `Majorcon Masterfile SOA`, and `Japan Home Masterfile`.
+
+According to Majorcon Codes and article code vendor code in the file to analyze the purchase information
+
+bbbb-4 digits branch code
+
+mmm-3 digits majorcon code
+
+Toy World-033
+
+Nursey Care-035
+
+Miniso-339
+
+Kultura-125
+
+Japan Home-479
+
+12 Source information
+
+Background: Source information identifies the relationship among site+article+vendor, also indicates the distribution type of article movement.
+
+Integration Approach: SFTP
+
+File naming Format(If SFTP)：CCCBBBB.zip，CCC：Majorcon code，BBBB：Branch code.
+
+Frequency & Rules:  Daily (5PM, 10PM for next day update), configurable by user. And As Needed(when emergency update needed)
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data Mapping)_ver1.0, worksheet named `Majorcon Masterfile IM`, `Majorcon Masterfile SOA`, and `Japan Home Masterfile`.
+
+According to Majorcon Codes and branch code+vendor code in the file to analyze the source information
+
+bbbb-4 digits branch code
+
+mmm-3 digits majorcon code
+
+Toy World-033
+
+Nursey Care-035
+
+Miniso-339
+
+Kultura-125
+
+Japan Home-479
+
+============================================================
+[System Integration]
+
+4.1.2.2 Store Operations Process Flow
+
+Please note that in process of Bundle and Dismantle, the Premium, The Auto TP process not in Blueprint, but feature will be available in UAT, and for Premium, stay in Store or back to DC, should have master indicator.
+
+for DC, STO manually.
+
+for Store, TP to normal item.
+
+4.1.2.2.1 Goods Receiving from Vendor (DSA)
+
+Reference Business Flow: [Inventory] 3.2 Goods Receiving from Vendor (DSA)
+
+The following are the integration points for this process:
+
+DMALL to retrieve Purchase Order document information from SAP
+
+DMALL to send Goods Receipt information to SAP
+
+a. DMALL to retrieve Purchase Order document information from SAP
+
+Process Flow
+
+Background: Purchase Order (PO’s) documents are created in SAP and the items will be received and recorded in the DMALL system. DMALL system will retrieve all the released PO’s created for the store.
+
+Integration Approach: JCo API
+
+Frequency & Rules:  Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named GR-Vendor-PO).
+
+SAP Function Module:
+
+ZRFC_POSTORE_PODOWNLOAD
+
+ZRFC_POSTORE_HEADERITEMTEXT
+
+b. DMALL to send Goods Receipt information to SAP
+
+Process Flow
+
+Background: After the store receives the goods, synchronize the result data to SAP.  Upon receipt of the data, SAP will create a material document to post the received goods.  SAP will send a return message to DMALL system – status and GR number (if “Success”
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, Upon posting of goods receipt in DMALL
+
+Integration Detail Content:   Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named GR-Vendor-PO GR).
+
+SAP Function Module:
+
+ZRFC_POSTORE_GOODSRECEIPT
+
+4.1.2.2.2 Goods Receiving from DC/Store(DC-Store)
+
+Reference Business Flow: [Inventory] 3.3 Good receiving from DC/Store
+
+============================================================
+[System Integration]
+
+The following are the integration points for this process:
+
+DMALL to retrieve DN and related info from SAP
+
+DMALL to send Goods Receipt information to SAP
+
+a. DMALL to retrieve DN and related info from SAP
+
+Background:   After store orders, the receipt of goods needs to be received, so it is necessary to create the receipt of PO documents simultaneously.
+
+Integration Approach: JCo API
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `GR-DC-Del Note (GI)`.
+
+SAP Function Module:
+
+ZRFC_BAPI_DELIVERY_GETLIST
+
+b. DMALL to send Goods Receipt information to SAP
+
+Background: After the store moves the goods, synchronize the result data to SAP.
+
+Integration Approach: JCo API
+
+Frequency & Rules:  Real Time, Upon posting of goods receipt in DMALL
+
+Integration Detail Content:   Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `GR-DC-Del Note(GR)`.
+
+SAP Function Module:
+
+ZRFC_BAPI_GOODSMVT_CREATE
+
+============================================================
+[System Integration]
+
+4.1.2.2.3 Store Transfer Discrepancy Report
+
+Reference Business Flow: [Inventory] 3.4 Store transfer discrepancy report from DC/Store
+
+The following are the integration points for this process:
+
+Under Served/Wrong Served
+
+Over Served
+
+Damaged
+
+a. Under Served/Wrong Served
+
+Flow:
+
+Background: If it is found that the article quantity obtained is less than the quantity of goods in the documentation when receiving the goods, this processing flow needs to be initiated.
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, Upon posting of TP result in DMALL
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named, `GR-DC-DN-STDR-Under` and `STDR-Underserved (Settlement)`.
+
+SAP Function Module:
+
+ZRFC_CREATE_GOODSMVT
+
+b. Over Served
+
+Flow:
+
+Background: If it is found that the quantity obtained exceeds the quantity of goods in the documentation when receiving the goods, the processing flow needs to be initiated.
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, Upon posting of TP result in DMALL
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `GR-DC-DN-STDR-Over`, ` STDR-Overserved (Settlement)`.
+
+SAP Function Module:
+
+ZRFC_CREATE_GOODSMVT
+
+c.Damaged
+
+Flow
+
+Background: If users found that there are damaged articles when receiving the goods, the processing flow needs to be initiated.
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, Upon posting of TP result in DMALL
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `GR-DC-DN-STDR-Over`, ` STDR-Overserved (Settlement)`, `GR-DC-DN-STDR-Under` and `STDR-Underserved (Settlement)`.
+
+SAP Function Module:
+
+ZRFC_CREATE_GOODSMVT
+
+4.1.2.2.4 Return to Vendor(RTV) And Return to DC(RTW)
+
+============================================================
+[System Integration]
+
+Reference Business Flow: [Inventory] 3.5 Transfer to vendor/warehouse.
+
+The following are the integration points for this process:
+
+DMALL to send Transferring Posting to SAP
+
+DMALL to create return order and send SAP
+
+DMALL to send Goods Issuance information to SAP
+
+a. DMALL to send Transferring Posting to SAP
+
+Process Flow:
+
+Background: Before the approval process starts, goods should be moved from Selling Storage Location to BO Storage Location first; And when the approval process is rejected, a reversal change of Storage Location should be invoked to SAP to move from BO Storage Location to Selling Storage Location.
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, Upon posting of Production result in DMALL
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `RTV-TP to Sloc 0003`, `RTV-Disapproved RPO`.
+
+SAP Function Module:
+
+ZRFC_RPOSTORE_TRANSFERPOSTING
+
+b. DMALL to create return order and send SAP
+
+Background: Once damaged items found, store users should scan article barcodes via PDT and generate RPO in DMALL system. Approval officer should approve the RPO in DMALL system based on current approval matrix.
+
+============================================================
+[System Integration]
+
+Approval officers do not need to do any approval in SAP anymore. SAP should directly generate RPO based on data provided by DMALL and send back the RPO number to DMALL. RPO in SAP is the real return purchase order. RPO in DMALL is like a draft or reference return purchase order. There is a corresponding relationship between RPO in DMALL and RPO in SAP.
+
+Integration Approach: JCo API
+
+Frequency & Rules:  Real Time; Upon posting of goods receipt in DMALL
+
+Integration Detail Content:  Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `RTV-Create Ret PO`.
+
+SAP Function Module:
+
+ZRFC_RPOSTORE_RPOCREATE
+
+c. DMALL to send Goods Issuance information to SAP
+
+Background: After the store issues the goods, synchronize the result data to SAP.
+
+Integration Approach: JCo API
+
+Frequency & Rules:  Real Time; Upon posting of goods receipt in DMALL
+
+Integration Detail Content:  Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named ` RTV-Create Ret PO-GR`).
+
+SAP Function Module:
+
+ZRFC_RPOSTORE_GOODSRECEIPT
+
+Return to Vendor(RTV) : When return to vendor, DMALL system need to send return data to Vendor Portal, for detail please check chapter below: 4.1.2.2.13 GR/GI for Consignment without Inventory.
+
+4.1.2.2.5 Store-to-Store(IBT)
+
+Reference Business Flow: [Inventory] 3.6 Store transfer to store
+
+For Store to store there are 2 options:
+
+Store transfer to store directly
+
+Store transfer to store via DC(The prerequisite is the transfer articles must be listed in DC)
+
+Option 1: Store transfer to store directly
+
+The following are the integration points for this process:
+
+[Issuing Site] DMALL to retrieve IBT STO Order document information from SAP
+
+[Issuing Site] DMALL to check and get IBT SAFETYSTOCK from SAP
+
+[Issuing Site] DMALL to post DELIVERY NOTE document to SAP
+
+[Issuing Site] DMALL to validate posted DELIVERY NOTE against SAP
+
+============================================================
+[System Integration]
+
+[Issuing Site] DMALL to post PICKEDQTY by DN item and then confirm the GOODS ISSUE to SAP
+
+[Receiving Site] DMALL to retrieve IBT DN document information from SAP
+
+[Receiving Site] DMALL to post IBT GR document information to SAP
+
+a. [Issuing Site] DMALL to retrieve IBT STO Order document information from SAP
+
+Background: IBT STO is created in SAP at NHO, DMALL need to pull the open STOs from SAP.
+
+Integration Approach: JCo API
+
+Frequency & Rules:  Manual request
+
+Store can perform ad hoc request to download selected STOs
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0 worksheet named `IBST-Issuing Store`.
+
+SAP Function Module:
+
+ZRFC_BSTSTORE_STODOWNLOAD
+
+b. [Issuing Site] DMALL to check and get IBT SAFETYSTOCK from SAP
+
+Background: DMALL to check SAFETYSTOCK item by item, to get the allowed transfer-out item amount.
+
+Integration Approach: JCo API
+
+Frequency & Rules: Automatically triggered after getting STO.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0 worksheet named `IBST-Issuing Store`.
+
+============================================================
+[System Integration]
+
+SAP Function Module:
+
+ZRFC_BSTSTORE_SAFETYSTOCK
+
+c. [Issuing Site] DMALL to post DELIVERY NOTE document to SAP
+
+Background: After get the allowed transfer-out amt of items, DMALL will generate the DN according to the amt then post to SAP, any Items that with creation errors should be repost as new reference number.
+
+Integration Approach: JCo API
+
+Frequency & Rules:  Automatically triggered after SAFETYSTOCK checking.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `IBST-Issuing Store`..
+
+SAP Function Module:
+
+ZRFC_BSTSTORE_DELIVERYNOTE
+
+d. [Issuing Site] DMALL to validate posted DELIVERY NOTE against SAP
+
+Background: This call is to validate the DELIVERY NOTE created by SAP, to double check the created DN is the same as SAP.
+
+Integration Approach: JCo API
+
+Frequency & Rules: Automatically triggered after DN creation.
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0,worksheet named `IBST-Issuing Store`.
+
+SAP Function Module:
+
+ZRFC_BSTSTORE_DNDOWNLOAD_ISS
+
+e. [Issuing Site] DMALL to post PICKEDQTY by DN item and then confirm the GOODS ISSUE to SAP
+
+Background: DMALL to post the PICKEDQTY of every item for a given DN, then call the FM of GOODSISSUE to end/confirm the GI process of the Issuing site.
+
+Integration Approach: JCo API
+
+Frequency & Rules:  Manual
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0 worksheet named `IBST-Issuing Store`.
+
+SAP Function Module:
+
+ZRFC_BSTSTORE_PICKEDQTY
+
+ZRFC_BSTSTORE_GOODSISSUE
+
+f. [Receiving Site] DMALL to retrieve IBT DN document information from SAP
+
+Background: DMALL to call this FM to get the Receiving plan for the Receiving Site.
+
+Integration Approach: JCo API
+
+Frequency & Rules:  Manual
+
+FM support ad hoc request to download issued selected DN or Issuace Date
+
+============================================================
+[System Integration]
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0 worksheet named `IBST-Receiving Store`.
+
+SAP Function Module:
+
+ZRFC_BSTSTORE_DNDOWNLOAD_RCV
+
+g. [Receiving Site] DMALL to post IBT GR document information to SAP
+
+Background: DMALL to call the SAP FM to confirm the GR and end the process, user can re-post when error occured from SAP side.
+
+Integration Approach: JCo API
+
+Frequency & Rules:  Manual
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0 worksheet named `IBST-Receiving Store`.
+
+SAP Function Module:
+
+ZRFC_BSTSTORE_GOODSRECEIPT
+
+Option 2: Store transfer to store via DC
+
+Option 2 use the same SAP FMs as Option 1.
+
+4.1.2.2.6 Storetake
+
+Reference Business Flow: [Inventory] 3.8 Stock take(Inventory count)
+
+The following are the integration points for this process:
+
+DMALL to send Stocktake result to SAP
+
+a. DMALL to send Stocktake result to SAP
+
+Process Flow:
+
+Background:
+
+(1) Merchants can use the inventory system to establish inventory tasks as needed, and issue inventory tasks to employees. After the inventory task is completed
+
+============================================================
+[System Integration]
+
+(2) After the inventory task is completed, update the commodity inventory data
+
+(3) After the OS inventory data is updated, the data is synchronized to SAP.
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, Upon posting of Stocktake result in DMALL
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named ` Stock Take-Post Count`).
+
+SAP Function Module:
+
+ZRFC_CREATE_GOODSMVT_PCOUNT
+
+4.1.2.2.7 Store Inventory Movement
+
+Reference Business Flow: [Inventory] 3.11 Store Inventory Movement
+
+The following are the integration points for this process:
+
+For this process DMALL won’t send update to SAP, so no integration.
+
+4.1.2.2.8 SM Eats
+
+Reference Business Flow: [Inventory] 3.12 SM Eats
+
+The following are the integration points for this process:
+
+DMALL to send SM Eats result to SAP
+
+a. DMALL to send Production result to SAP
+
+Process Flow:
+
+Background: Production Article, this component will replace the SM system "Merchandising Innovation System".
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, upon posting of Production result in DMALL
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `SM Eats`.
+
+SAP Function Module:
+
+ZRFC_CREATE_GOODSMVT
+
+4.1.2.2.9 Dismantle
+
+Reference Business Flow: [Inventory] 3.13 Dismantle
+
+The following are the integration points for this process:
+
+DMALL to send Dismantle result to SAP
+
+Process Flow:
+
+Background:
+
+(1) Merchants can split the combined products into different sub-products. After the splitting operation is completed, the product data is synchronized to SAP.
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, Upon posting of Stocktake result in DMALL
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `Dismantle`.
+
+SAP Function Module:
+
+============================================================
+[System Integration]
+
+ZRFC_CREATE_GOODSMVT
+
+4.1.2.2.10 In store bundle
+
+Reference Business Flow: [Inventory] 3.14 In store bundle
+
+The following are the integration points for this process:
+
+DMALL to send In store bundle result to SAP
+
+a. DMALL to send Production result to SAP
+
+Process Flow:
+
+Background: Production Article, this component will replace the SM system "Merchandising Innovation System".
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, Upon posting of Production result in DMALL
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `In-store bundle `.
+
+SAP Function Module:
+
+ZRFC_CREATE_GOODSMVT
+
+4.1.2.2.11 TP article
+
+Reference Business Flow: [Inventory] 3.15 TP article
+
+The following are the integration points for this process:
+
+DMALL to send Conversion result to SAP
+
+a. DMALL to send Production result to SAP
+
+Process Flow:
+
+Background:
+
+Merchants can convert goods into goods of the same cost for sale
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, Upon posting of Stocktake result in DMALL
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `TP Article`.
+
+============================================================
+[System Integration]
+
+SAP Function Module:
+
+ZRFC_CREATE_GOODSMVT
+
+4.1.2.2.12 Stock Adjustment
+
+Reference Business Flow: [Inventory] 3.16 Stock adjustment
+
+The following are the integration points for this process:
+
+DMALL to send Stock Adjustment result to SAP
+
+Process Flow:
+
+Background:
+
+(1) Merchant employees can initiate inventory adjust operations. After the inventory adjust   operation is confirmed to be completed, the data will be synchronized to SAP.
+
+Integration Approach: JCo API
+
+Frequency & Rules: Real Time, Upon posting of Stocktake result in DMALL
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `Stock Invty Adj`.
+
+SAP Function Module:
+
+ZRFC_CREATE_GOODSMVT
+
+4.1.2.2.13 GR/GI for Consignment without Inventory
+
+Process Flow:
+
+Background:
+
+(1) For products without inventory management by SAP, the operation of receiving or returning goods can be performed within the OS. After the operation is completed, the data is synchronized to the VP system
+
+Integration Approach: File
+
+File naming Format(If SFTP)：CDR_CompanyCode_BranchCode_DocNumber&VendorCode/CPT_CompanyCode_BranchCode_DocNumber
+
+Frequency & Rules: Real Time
+
+Integration Detail Content: Refer to  (SM)_(Phase 1A)_(System Integration Blueprint)_(Store Operations Mapping)_ver1.0, worksheet named `Consignor Delivery Receiving` and `Consignor Pull Out wout Invty`
+
+4.1.2.3 EOD Detail Integration Design
+
+Integration Process Flow:
+
+Red lines are the new data links provided by DMALL OS that will be sent to target system directly. Grey dotted lines are EOD backup links when exceptions occur and verification from SM, Blue lines are old datalinks.
+
+Integration Detail Design:
+
+============================================================
+[System Integration]
+
+Integration Content | SM Legacy System | Description | Integration Approach | Frequency & Rules
+Sales & Tender | SAP | Sales & Tender data includes sales data in article dimensions and aggregated sales payment data. These will be integrated from DMALL OS to SAP of SM daily | SFTP | Daily
+DAC | SMAC | DAC data is the membership system of SM Group. The DAC (aka SMAC) data will be integrated from DMALL OS to SMAC of SM daily | SFTP | Daily
+Credit Info | Credit Info System | Credit info data is the tender dimension aggregated data of sales. It will be integrated from DMALL OS to Credit Info System of SM monthly | SFTP | Monthly (Every first day of the month)
+T1/Japan Home Consales | Affiliate MMS | T1/Japan Home Consales include two types of sales data in T1 and Japan Home affiliated business. These will be integrated from DMALL OS to Affiliate MMS daily | SFTP | Daily Ref Only: In AS-IS Daily (5:00 pm) - 9pm 2nd run.
+E-Treasury | E-Treasury data is the sales per cashier. It will be integrated from DMALL OS to E-Treasury of SM daily | SFTP | Daily
+EIS | BIR | EIS data that needs to be sent to BIR(Bureau of Internal Revenue) of Philippine goverment. For more information please check https://www.bir.gov.ph | SFTP to SM Then SM to call BIR | Hourly
+ESALES | BIR | ESales will be replaced by EIS JSON files (one file for each valid sales and sales adjustments void and return transaction) for sending to government (BIR) near real time, DMALL will generate for compatible and when EIS is not officially used by SM and BIR. | SFTP to SM Then SM to send to BIR | Monthly
+Mall Sales (Ayala, Araneta, Megaworld, Festival) | Mall Sales | Mall sales include sales data offered to different malls such as Ayala, Araneta, Megaworld, Festival and so on. | SM EOD Program (HQ) | Daily/Hourly
+
+============================================================
+[System Integration]
+
+ARC | ARC data is the report of SM sales data, without other affiliates sales, will be replaced by the Dashboard of DMALL OS, so the old EOD Program can be run at HQ until all store cut-over is done | SM EOD Program (HQ) | Daily
+Marketing/Operations-Requested Ad Hoc Reports | Ad Hoc Reports | Ad hoc Reports will be replaced by the Promotion of DMALL OS, so the old EOD Program can be run at HQ until all store cut-over is done | SM EOD Program (HQ) | Daily
+
+============================================================
+[System Integration]
+
+Integration Detail for Fields:
+
+DMALL will follow the existing rules of file generation and file transferring. SM's existing file field rules will not change. File field rules will be based on the document provided by SM. Details of the provided document will not be covered in Integration Blue Print.
+
+4.1.2.3.1 Sales & Tender To SAP
+
+Integration Process Flow:
+
+Background: Sales & Tender data includes sales data in article dimensions and aggregated sales payment data. These will be integrated from DMALL OS to SAP of SM.
+
+Integration Approach: SFTP
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+WPUUMSbbbbmmddyy.txt | Sales file | WPUUMS0243072523.txt | WPUUMS = prefix | WPUUMS
+WPUUMSbbbbmmddyy.txt | Sales file | WPUUMS0243072523.txt | bbbb = site code | 0243
+WPUUMSbbbbmmddyy.txt | Sales file | WPUUMS0243072523.txt | mmddyy = transaction date | 072523
+WPUUMSbbbbmmddyy.txt | Sales file | WPUUMS0243072523.txt | .txt = extension name | .txt
+ZSVbbbbmmddyy.txt | Tender file | ZSV0243072523.txt | ZSV = prefix | ZSV
+ZSVbbbbmmddyy.txt | Tender file | ZSV0243072523.txt | bbbb = site code | 0243
+ZSVbbbbmmddyy.txt | Tender file | ZSV0243072523.txt | mmddyy = transaction date | 072523
+ZSVbbbbmmddyy.txt | Tender file | ZSV0243072523.txt | .txt = extension name | .txt
+
+Frequency & Rules: Daily after EOD, Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named  `POS Inbound`.
+
+4.1.2.3.2 DAC
+
+Integration Process Flow:
+
+Background: DAC data is the membership system of SM Group. For now, the DAC(aka SMAC) data needs to be sent to the SMAC system daily
+
+Integration Approach: File, valid_SMAC01cccbbbbyymmdd.zip to affiliates via HO FTP server after passing through the SMAC Validator program and sales of inbound and SMAC matches.
+
+File naming Format(If SFTP)：
+
+============================================================
+[System Integration]
+
+File | File Type | Sample | Description | Remarks
+SMAC01cccbbbbyymmdd.zip | Zip file | SMAC011010001120327.zip | SMAC = prefix | SMAC Zip File is the compressed file of Journal Header, Journal Details and Hash File. This file should follow the following format SMACNNCCCBBBBYYMMDD.ZIP as shown in description column. Take note that there's a prefix "VALID-" on FRG's SMAC file. This prefix should be removed first before processing the file.
+SMAC01cccbbbbyymmdd.zip | Zip file | SMAC011010001120327.zip | 01 = batch / file number | SMAC Zip File is the compressed file of Journal Header, Journal Details and Hash File. This file should follow the following format SMACNNCCCBBBBYYMMDD.ZIP as shown in description column. Take note that there's a prefix "VALID-" on FRG's SMAC file. This prefix should be removed first before processing the file.
+SMAC01cccbbbbyymmdd.zip | Zip file | SMAC011010001120327.zip | 101 = establishment number | SMAC Zip File is the compressed file of Journal Header, Journal Details and Hash File. This file should follow the following format SMACNNCCCBBBBYYMMDD.ZIP as shown in description column. Take note that there's a prefix "VALID-" on FRG's SMAC file. This prefix should be removed first before processing the file.
+SMAC01cccbbbbyymmdd.zip | Zip file | SMAC011010001120327.zip | 0001 = site code | SMAC Zip File is the compressed file of Journal Header, Journal Details and Hash File. This file should follow the following format SMACNNCCCBBBBYYMMDD.ZIP as shown in description column. Take note that there's a prefix "VALID-" on FRG's SMAC file. This prefix should be removed first before processing the file.
+
+============================================================
+[System Integration]
+
+SMAC01cccbbbbyymmdd.zip | Zip file | SMAC011010001120327.zip | 120327 = transaction date (YYMMDD) | SMAC Zip File is the compressed file of Journal Header, Journal Details and Hash File. This file should follow the following format SMACNNCCCBBBBYYMMDD.ZIP as shown in description column. Take note that there's a prefix "VALID-" on FRG's SMAC file. This prefix should be removed first before processing the file.
+SMAC01cccbbbbyymmdd.zip | Zip file | SMAC011010001120327.zip | .zip = extension name | SMAC Zip File is the compressed file of Journal Header, Journal Details and Hash File. This file should follow the following format SMACNNCCCBBBBYYMMDD.ZIP as shown in description column. Take note that there's a prefix "VALID-" on FRG's SMAC file. This prefix should be removed first before processing the file.
+JHbbbbyy.mdd.txt | Header | JH000112.C27 | JH = prefix | JH
+JHbbbbyy.mdd.txt | Header | JH000112.C27 | bbbb = site code | 0001
+JHbbbbyy.mdd.txt | Header | JH000112.C27 | yy = Year (2012) | 12
+JHbbbbyy.mdd.txt | Header | JH000112.C27 | m = Month (March) (Where January = A, February = B, March = C and so on) | C
+JHbbbbyy.mdd.txt | Header | JH000112.C27 | dd = Day (27th day of the month) | 27
+JDbbbbyy.mdd.txt | Details | JD000112.C27 | JD = prefix | JD
+JDbbbbyy.mdd.txt | Details | JD000112.C27 | bbbb = site code | 0001
+JDbbbbyy.mdd.txt | Details | JD000112.C27 | yy = Year (2012) | 12
+JDbbbbyy.mdd.txt | Details | JD000112.C27 | m = Month (March) (Where January = A, February = B, March = C and so on) | C
+JDbbbbyy.mdd.txt | Details | JD000112.C27 | dd = Day (27th day of the month) | 27
+HSHbbbbyy.mdd.txt | Hash | HSH000112.C27 | HSH = prefix | HSH
+HSHbbbbyy.mdd.txt | Hash | HSH000112.C27 | bbbb = site code | 0001
+HSHbbbbyy.mdd.txt | Hash | HSH000112.C27 | yy = Year (2012) | 12
+HSHbbbbyy.mdd.txt | Hash | HSH000112.C27 | m = Month (March) (Where January = A, February = B, March = C and so on) | C
+HSHbbbbyy.mdd.txt | Hash | HSH000112.C27 | dd = Day (27th day of the month) | 27
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Daily after EOD, Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named `SMAC`.
+
+4.1.2.3.3 Credit Info
+
+Integration Process Flow:
+
+Background: Credit info data is the tender dimension aggregated data of sales. It will be integrated from DMALL OS to Credit Info System of SM.
+
+Integration Approach:  SFTP
+
+File naming Format(If SFTP)：
+
+BCcccbbbbyymm.zip
+
+File | File Type | Sample | Description | Remarks
+BCcccbbbbyymm.zip | Zip file | BC00700142307.zip | BC = prefix | WPUUMS
+BCcccbbbbyymm.zip | Zip file | BC00700142307.zip | ccc = affiliate company code | 007
+BCcccbbbbyymm.zip | Zip file | BC00700142307.zip | bbbb = site code | 0014
+BCcccbbbbyymm.zip | Zip file | BC00700142307.zip | yy = 2 digits of year | 23
+BCcccbbbbyymm.zip | Zip file | BC00700142307.zip | mm = 2 digits of month | 07
+BCcccbbbbyymm.zip | Zip file | BC00700142307.zip | .zip = extension name | .zip
+
+Compressed directory: \UTILITIES\FRG.BANKCARDTRAN
+
+Files extracted from BCcccbbbbyymm.zip:
+
+============================================================
+[System Integration]
+
+File | File Type | Sample | Description | Remarks
+BCcccbbbbyymm.HSH | Hash | BC00700142307.HSH | BC = prefix | BC
+BCcccbbbbyymm.HSH | Hash | BC00700142307.HSH | ccc = affiliate company code | 007
+BCcccbbbbyymm.HSH | Hash | BC00700142307.HSH | bbbb = site code | 0014
+BCcccbbbbyymm.HSH | Hash | BC00700142307.HSH | yy = 2 digits of year | 23
+BCcccbbbbyymm.HSH | Hash | BC00700142307.HSH | mm = 2 digits of month | 07
+BCcccbbbbyymm.HSH | Hash | BC00700142307.HSH | .HSH = extension name | .HSH
+BCcccbbbbyymm.txt | Details | BC00700142307.txt | BC = prefix | BC
+BCcccbbbbyymm.txt | Details | BC00700142307.txt | ccc = affiliate company code | 007
+BCcccbbbbyymm.txt | Details | BC00700142307.txt | bbbb = site code | 0014
+BCcccbbbbyymm.txt | Details | BC00700142307.txt | yy = 2 digits of year | 23
+BCcccbbbbyymm.txt | Details | BC00700142307.txt | mm = 2 digits of month | 07
+BCcccbbbbyymm.txt | Details | BC00700142307.txt | .txt = extension name | .txt
+
+============================================================
+[System Integration]
+
+Frequency & Rules:  Monthly (Every first day of the month), Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named `Credit Info`.
+
+4.1.2.3.4 T1/Japan Home Consales
+
+Integration Process Flow:
+
+Background:  T1/Japan Home Consales include two types of sales data in T1 and Japan Home affiliated business. These will be integrated from DMALL OS to Affiliate MMS daily.
+
+Integration Approach:  SFTP
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+SLnnnnnnbbbbmmddyy.zip | Japan Home Zip File | SL1004950243082823.zip | SL = prefix | SL
+SLnnnnnnbbbbmmddyy.zip | Japan Home Zip File | SL1004950243082823.zip | nnnnnn = vendor code | 100495
+SLnnnnnnbbbbmmddyy.zip | Japan Home Zip File | SL1004950243082823.zip | bbbb = site code | 0243
+SLnnnnnnbbbbmmddyy.zip | Japan Home Zip File | SL1004950243082823.zip | mmddyy = transaction date | 082823
+SLnnnnnnbbbbmmddyy.zip | Japan Home Zip File | SL1004950243082823.zip | .zip = extension name | .zip
+T1yymmdd.001.nnnbbbb.zip | T1 Zip File | T1230725.001.0250243.zip | T1 = prefix | T1
+T1yymmdd.001.nnnbbbb.zip | T1 Zip File | T1230725.001.0250243.zip | yymmdd = transaction date | 230725
+T1yymmdd.001.nnnbbbb.zip | T1 Zip File | T1230725.001.0250243.zip | 001 = constant | 001
+T1yymmdd.001.nnnbbbb.zip | T1 Zip File | T1230725.001.0250243.zip | nnn = majorcon code | 025
+T1yymmdd.001.nnnbbbb.zip | T1 Zip File | T1230725.001.0250243.zip | bbbb = site code | 0243
+T1yymmdd.001.nnnbbbb.zip | T1 Zip File | T1230725.001.0250243.zip | .zip = extension name | .zip
+
+CONSALES - JAPAN HOMES
+
+Filename Convention:
+
+============================================================
+[System Integration]
+
+File | FILE TYPE | Sample | Description | Remarks
+SL1004950243073023.HDR | Hash | SL1004950243073023 | Prefix | SL
+SL1004950243073023.HDR | Hash | SL1004950243073023 | Vendor Code | 100495
+SL1004950243073023.HDR | Hash | SL1004950243073023 | Branch | 0243
+SL1004950243073023.HDR | Hash | SL1004950243073023 | mmddyyyy | 07302023
+SL1004950243073023.TXT | Details | SL1004950243073023 | Prefix | SL
+SL1004950243073023.TXT | Details | SL1004950243073023 | Vendor Code | 100495
+SL1004950243073023.TXT | Details | SL1004950243073023 | Branch | 0243
+SL1004950243073023.TXT | Details | SL1004950243073023 | mmddyyyy | 07302023
+
+============================================================
+[System Integration]
+
+Note:
+
+These files(HASH/DETAILS) are only for suppliers to Japan HOMES.
+
+Group generate files by store and supplier and sales date, Statistics on sales amount and quantity by article.
+
+All same supplier files (HASH/DETAILS) merge to generate a file ZIP.  A supplier generates a zip file in one day.
+
+CONSALES - T1
+
+Filename Convention:
+
+File | File Type | Sample | Description | Remarks
+T1230815.001.0250743.log | Hash | T1230815.001.0250743 | T1= Prefix | T1
+T1230815.001.0250743.log | Hash | T1230815.001.0250743 | 230815 = yymmdd | 230815
+T1230815.001.0250743.log | Hash | T1230815.001.0250743 | 025 = majorcon Code | 025
+T1230815.001.0250743.log | Hash | T1230815.001.0250743 | 0743 = site code | 0743
+T1230815.001.0250743.dos | Details | T1230815.001.0250743 | T1= Prefix | T1
+T1230815.001.0250743.dos | Details | T1230815.001.0250743 | 230815 = yymmdd | 230815
+T1230815.001.0250743.dos | Details | T1230815.001.0250743 | 025 = majorcon Code | 025
+T1230815.001.0250743.dos | Details | T1230815.001.0250743 | 0743 = site code | 0743
+TC081523.csv | Summary | TC081523 | TC=Prefix | TC
+TC081523.csv | Summary | TC081523 | 081523 = mmddyy | 081523
+
+Frequency & Rules: Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named `T1 Consales` and `Japan Home`.
+
+4.1.2.3.5 E-Treasury
+
+Integration Process Flow:
+
+Background:  E-Treasury data is the sales per cashier. It will be integrated from DMALL OS to E-Treasury of SM daily.
+
+Integration Approach:  SFTP（to affiliate via HO FTP server）
+
+File naming Format(If SFTP)：
+
+Supermarket and Hypermarket：RCcccbbbbyymmddEOD.zip
+
+============================================================
+[System Integration]
+
+File | File Type | Sample | Description | Remarks
+RCcccbbbbyymmddEOD.zip | Zip file | RC0070014230725EOD.zip | RC = prefix | RC
+RCcccbbbbyymmddEOD.zip | Zip file | RC0070014230725EOD.zip | ccc = affiliate company code | 007
+RCcccbbbbyymmddEOD.zip | Zip file | RC0070014230725EOD.zip | bbbb = site code | 0014
+RCcccbbbbyymmddEOD.zip | Zip file | RC0070014230725EOD.zip | yymmdd = date | 230725
+RCcccbbbbyymmddEOD.zip | Zip file | RC0070014230725EOD.zip | EOD = constant value | EOD
+RCcccbbbbyymmddEOD.zip | Zip file | RC0070014230725EOD.zip | .zip = extension name | .zip
+RCcccbbbbyymmddEOD.txt | Details | RC0070014230725EOD.txt | RC = prefix | RC
+RCcccbbbbyymmddEOD.txt | Details | RC0070014230725EOD.txt | ccc = affiliate company code | 007
+RCcccbbbbyymmddEOD.txt | Details | RC0070014230725EOD.txt | bbbb = site code | 0014
+RCcccbbbbyymmddEOD.txt | Details | RC0070014230725EOD.txt | yymmdd = date | 230725
+RCcccbbbbyymmddEOD.txt | Details | RC0070014230725EOD.txt | EOD = constant value | EOD
+RCcccbbbbyymmddEOD.txt | Details | RC0070014230725EOD.txt | .txt = extension name | .txt
+
+============================================================
+[System Integration]
+
+Savemore：yyyymmddRC0001_ccc.bbbb_AT.csv
+
+File | File Type | Sample | Description | Remarks
+yyyymmddRC0001_ccc.bbbb_AT.csv | Details | 20230818RC0001_142.0774_AT.csv | yyyymmdd = date | 20230818
+yyyymmddRC0001_ccc.bbbb_AT.csv | Details | 20230818RC0001_142.0774_AT.csv | RC = prefix | RC
+yyyymmddRC0001_ccc.bbbb_AT.csv | Details | 20230818RC0001_142.0774_AT.csv | 0001 = constant value | 0001
+yyyymmddRC0001_ccc.bbbb_AT.csv | Details | 20230818RC0001_142.0774_AT.csv | ccc = affiliate company code | 142
+yyyymmddRC0001_ccc.bbbb_AT.csv | Details | 20230818RC0001_142.0774_AT.csv | bbbb = site code | 0774
+yyyymmddRC0001_ccc.bbbb_AT.csv | Details | 20230818RC0001_142.0774_AT.csv | _AT = constant value | _AT
+yyyymmddRC0001_ccc.bbbb_AT.csv | Details | 20230818RC0001_142.0774_AT.csv | .csv = extension name | .csv
+
+Frequency & Rules: Daily after EOD; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named `eTreasury`.
+
+4.1.2.3.6 EIS
+
+Integration Process Flow:
+
+Background: EIS (Eletronic Invoice System) is the data that needs to be sent to the Bureau of Internal Revenue (BIR) of Philippine government in JSON format. One file for each valid sales and sales adjustments (such as void and return transaction) for sending to government (BIR) in near real time. The estimated order amount is 6-8K Orders per store per day.  For more information please check https://www.bir.gov.ph.
+
+Integration Approach:  SFTP
+
+File naming Format(If SFTP):
+
+============================================================
+[System Integration]
+
+File | File Type | Sample | Description | Remarks
+cccbbbbrrrsssssssss.json | Sales Invoice | 0070003001000000058.json | ccc - 3 digit company code | 007
+cccbbbbrrrsssssssss.json | Sales Invoice | 0070003001000000058.json | bbbb - 4 digit branch code | 0003
+cccbbbbrrrsssssssss.json | Sales Invoice | 0070003001000000058.json | rrr - 3 digit POS/Terminal number | 001
+cccbbbbrrrsssssssss.json | Sales Invoice | 0070003001000000058.json | sssssssss - 9 digit sales invoice number | 000000058
+cccbbbbrrrsssssssss.json | Sales Invoice | 0070003001000000058.json | .json - extension filename | .json
+cccbbbbrrrtttttttttVoidandReturns.json | Return and Void | 0070003001000011593VoidandReturns.json | ccc - 3 digit company code | 007
+cccbbbbrrrtttttttttVoidandReturns.json | Return and Void | 0070003001000011593VoidandReturns.json | bbbb - 4 digit branch code | 0003
+cccbbbbrrrtttttttttVoidandReturns.json | Return and Void | 0070003001000011593VoidandReturns.json | rrr - 3 digit POS/Terminal number | 001
+cccbbbbrrrtttttttttVoidandReturns.json | Return and Void | 0070003001000011593VoidandReturns.json | ttttttttt - 9 digit transaction number | 000011593
+cccbbbbrrrtttttttttVoidandReturns.json | Return and Void | 0070003001000011593VoidandReturns.json | VoidandReturns – fixed value | VoidandReturns
+cccbbbbrrrtttttttttVoidandReturns.json | Return and Void | 0070003001000011593VoidandReturns.json | .json - extension filename | .json
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Every 1 hour, Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named `EIS`
+
+4.1.2.3.7 ARC
+
+Integration Process Flow:
+
+Background:  ARC files need to be generated and sent to NHO FTP, then posted to the BI.
+
+Entity | ARC Definition & Grain | ARC Analytics
+Sales Invoice | Sales Transaction header Grain: Date, Time, Store, Till, Invoice Number, Invoice Type,Customer, Employee | Customer Analytics Loss Prevention Operations Analytics
+Sales Invoice Level Discounts | Discounts & Promotions information at Invoice Header Level Grain: Date, Time, Store, Till, Invoice Number, Invoice Type,Customer, Employee, Discount Reason , Reason Type | Loss Preventions Operation Analytics
+Sales Tender Details | Tender details for the Transaction Grain: Date, Time, Store, Till, Invoice Number, Invoice Type,Customer, Employee, Tender Type | Operations Analytics Loss Prevention
+Sales Lines | Sales transaction Lines Grain: Date, Time, store,Till,Invoice,Invoice Type, Line Number,SKU | Merchandise Analytics Sales Analytics Customer Analytics
+Sales Line Level Discounts | Discounts & Promotions information at Sales Line Level Grain: Date, Time, store,Till,Invoice,Invoice Type, Line Number,SKU,Discount Type / Promotion id, Discount Reasons | Operation Analytics
+
+Integration Approach:  SFTP（to ARC via NHO FTP server）
+
+File naming Format(If SFTP)：
+
+============================================================
+[System Integration]
+
+File | File Type | Sample | Description | Remarks
+OPR_{sales org}_bbbb_mmddyyyy.zip | Zip file | OPR_3000_0014_07252023.zip: CASHIER_MASTER.txt CASHIER_TRANS.txt TILL_TRANS.txt | OPR = prefix | OPR
+OPR_{sales org}_bbbb_mmddyyyy.zip | Zip file | OPR_3000_0014_07252023.zip: CASHIER_MASTER.txt CASHIER_TRANS.txt TILL_TRANS.txt | sales org = company code | 3000
+OPR_{sales org}_bbbb_mmddyyyy.zip | Zip file | OPR_3000_0014_07252023.zip: CASHIER_MASTER.txt CASHIER_TRANS.txt TILL_TRANS.txt | bbbb = site code | 0014
+OPR_{sales org}_bbbb_mmddyyyy.zip | Zip file | OPR_3000_0014_07252023.zip: CASHIER_MASTER.txt CASHIER_TRANS.txt TILL_TRANS.txt | yymmdd = date | 07252023
+OPR_{sales org}_bbbb_mmddyyyy.zip | Zip file | OPR_3000_0014_07252023.zip: CASHIER_MASTER.txt CASHIER_TRANS.txt TILL_TRANS.txt | .zip = extension name | .zip
+POS_{sales org}_bbbb_mmddyyyy.zip | Zip file | POS_3000_0014_07252023.zip: AUDIT_FILE.txt SALES_INVOICE_DISCOUNT.txt SALES_INVOICE.txt SALES_LINE_DISCOUNT.txt SALES_LINES.txt SALES_TENDER_DETAILS.txt | POS = prefix | POS
+POS_{sales org}_bbbb_mmddyyyy.zip | Zip file | POS_3000_0014_07252023.zip: AUDIT_FILE.txt SALES_INVOICE_DISCOUNT.txt SALES_INVOICE.txt SALES_LINE_DISCOUNT.txt SALES_LINES.txt SALES_TENDER_DETAILS.txt | sales org = company code | 3000
+POS_{sales org}_bbbb_mmddyyyy.zip | Zip file | POS_3000_0014_07252023.zip: AUDIT_FILE.txt SALES_INVOICE_DISCOUNT.txt SALES_INVOICE.txt SALES_LINE_DISCOUNT.txt SALES_LINES.txt SALES_TENDER_DETAILS.txt | bbbb = site code | 0014
+POS_{sales org}_bbbb_mmddyyyy.zip | Zip file | POS_3000_0014_07252023.zip: AUDIT_FILE.txt SALES_INVOICE_DISCOUNT.txt SALES_INVOICE.txt SALES_LINE_DISCOUNT.txt SALES_LINES.txt SALES_TENDER_DETAILS.txt | yymmdd = date | 07252023
+POS_{sales org}_bbbb_mmddyyyy.zip | Zip file | POS_3000_0014_07252023.zip: AUDIT_FILE.txt SALES_INVOICE_DISCOUNT.txt SALES_INVOICE.txt SALES_LINE_DISCOUNT.txt SALES_LINES.txt SALES_TENDER_DETAILS.txt | .txt = extension name | .txt
+
+============================================================
+[System Integration]
+
+Frequency & Rules:  Daily Scheduled Job; Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named `ARC`
+
+4.1.2.3.8 Ad Hoc
+
+Integration Process Flow:
+
+Background: The following table list the Ad Hoc Reports that generated daily for different usages.
+
+Integration Approach: SFTP
+
+FRG.BACK TO SCHOOL
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+PWPROMO_mmddyy_cccc_ssss_DETAILS.csv | FRG.BACK TO SCHOOL | PWPROMO_061723_4142_0323_DETAILS.csv | PWPROMO = prefix | PWPROMO
+PWPROMO_mmddyy_cccc_ssss_DETAILS.csv | FRG.BACK TO SCHOOL | PWPROMO_061723_4142_0323_DETAILS.csv | mmddyy = transaction date | 061723
+PWPROMO_mmddyy_cccc_ssss_DETAILS.csv | FRG.BACK TO SCHOOL | PWPROMO_061723_4142_0323_DETAILS.csv | cccc = company code | 4142
+PWPROMO_mmddyy_cccc_ssss_DETAILS.csv | FRG.BACK TO SCHOOL | PWPROMO_061723_4142_0323_DETAILS.csv | bbbb = Branch Code | 03233
+PWPROMO_mmddyy_cccc_ssss_DETAILS.csv | FRG.BACK TO SCHOOL | PWPROMO_061723_4142_0323_DETAILS.csv | DETAILS = suffix | DETAILS
+PWPROMO_mmddyy_cccc_ssss_DETAILS.csv | FRG.BACK TO SCHOOL | PWPROMO_061723_4142_0323_DETAILS.csv | .csv = extension name | .csv
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.BACK TO SCHOOL’
+
+FRG.BAGGERID REPORT
+
+File naming Format(If SFTP):
+
+============================================================
+[System Integration]
+
+File | File Type | Sample | Description | Remarks
+BaggerID_Report_ccc c_mmddyy_bbbb_DETAILS | FRG.BAGGERID REPORT | BaggerID_Report_4080_090123_0243_DETAILS | BaggerID_Report = prefix | BaggerID_Report
+BaggerID_Report_ccc c_mmddyy_bbbb_DETAILS | FRG.BAGGERID REPORT | BaggerID_Report_4080_090123_0243_DETAILS | cccc = company code | 4080
+BaggerID_Report_ccc c_mmddyy_bbbb_DETAILS | FRG.BAGGERID REPORT | BaggerID_Report_4080_090123_0243_DETAILS | mmddyy = transaction date | 090123
+BaggerID_Report_ccc c_mmddyy_bbbb_DETAILS | FRG.BAGGERID REPORT | BaggerID_Report_4080_090123_0243_DETAILS | bbbb = Branch Code | 0243
+BaggerID_Report_ccc c_mmddyy_bbbb_DETAILS | FRG.BAGGERID REPORT | BaggerID_Report_4080_090123_0243_DETAILS | DETAILS = suffix | DETAILS
+BaggerID_Report_ccc c_mmddyy_bbbb_DETAILS | FRG.BAGGERID REPORT | BaggerID_Report_4080_090123_0243_DETAILS | .csv = extension name | .csv
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.BAGGERID REPORT’
+
+FRG.GREENBAG REPORT
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+GREENBAG_Report_cccc_mmddyy_bbbb_DETAILS | FRG.GREENBAG REPORT | GREENBAG_Report_4080_083123_0243_DETAILS | GREENBAG_Report = Prefix | GREENBAG_Report
+GREENBAG_Report_cccc_mmddyy_bbbb_DETAILS | FRG.GREENBAG REPORT | GREENBAG_Report_4080_083123_0243_DETAILS | cccc = Company Code | 4080
+GREENBAG_Report_cccc_mmddyy_bbbb_DETAILS | FRG.GREENBAG REPORT | GREENBAG_Report_4080_083123_0243_DETAILS | mmddyy = Date | 083123
+GREENBAG_Report_cccc_mmddyy_bbbb_DETAILS | FRG.GREENBAG REPORT | GREENBAG_Report_4080_083123_0243_DETAILS | bbbb = Branch Code | 0243
+GREENBAG_Report_cccc_mmddyy_bbbb_DETAILS | FRG.GREENBAG REPORT | GREENBAG_Report_4080_083123_0243_DETAILS | DETAILS = suffix | DETAILS
+GREENBAG_Report_cccc_mmddyy_bbbb_DETAILS | FRG.GREENBAG REPORT | GREENBAG_Report_4080_083123_0243_DETAILS | .csv = extension name | .csv
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.GREEN BAG REPORT’
+
+FRG.PWPPromoReportSM FAN
+
+File naming Format(If SFTP):
+
+============================================================
+[System Integration]
+
+File | File Type | Sample | Description | Remarks
+PWPROMO_mmddyy_cccc_bbbb_DETAILS | FRG.PWPPromoReportSM FAN | PWPROMO_032823_4080_0243_DETAILS | PWPROMO = Prefix | PWPROMO
+PWPROMO_mmddyy_cccc_bbbb_DETAILS | FRG.PWPPromoReportSM FAN | PWPROMO_032823_4080_0243_DETAILS | mmddyy = transaction date | 061723
+PWPROMO_mmddyy_cccc_bbbb_DETAILS | FRG.PWPPromoReportSM FAN | PWPROMO_032823_4080_0243_DETAILS | cccc = company code | 4142
+PWPROMO_mmddyy_cccc_bbbb_DETAILS | FRG.PWPPromoReportSM FAN | PWPROMO_032823_4080_0243_DETAILS | bbbb = Branch Code | 03233
+PWPROMO_mmddyy_cccc_bbbb_DETAILS | FRG.PWPPromoReportSM FAN | PWPROMO_032823_4080_0243_DETAILS | DETAILS = suffix | DETAILS
+PWPROMO_mmddyy_cccc_bbbb_DETAILS | FRG.PWPPromoReportSM FAN | PWPROMO_032823_4080_0243_DETAILS | .csv = extension name | .csv
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.PWPPromoReportSM FAN’
+
+FRG.SODEXO
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.SODEXO | HOMECREDIT_4142_2456_DAILY_090123 | HOMECREDIT = Prefix | HOMECREDIT
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.SODEXO | HOMECREDIT_4142_2456_DAILY_090123 | cccc = Company Code | 4142
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.SODEXO | HOMECREDIT_4142_2456_DAILY_090123 | bbbb = Branch Code | 2456
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.SODEXO | HOMECREDIT_4142_2456_DAILY_090123 | DAILY = SUFFIX | DAILY
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.SODEXO | HOMECREDIT_4142_2456_DAILY_090123 | mmddyy = Date mmddyy | 090123
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.SODEXO | HOMECREDIT_4142_2456_DAILY_090123 | .csv = extension name | .csv
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.SODEXO’
+
+FRG.TURON
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+bbbb_Turon_mmddyyyy | FRG.TURON | 0139_Turon_09012023 | bbbb = Branch Code | 0243
+bbbb_Turon_mmddyyyy | FRG.TURON | 0139_Turon_09012023 | Turon = SUFFIX | Turon
+bbbb_Turon_mmddyyyy | FRG.TURON | 0139_Turon_09012023 | mmddyyyy = Date | 09012023
+bbbb_Turon_mmddyyyy | FRG.TURON | 0139_Turon_09012023 | .csv = extension name | .csv
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.TURON’
+
+FRG.Express.Store.Sales
+
+File naming Format(If SFTP):
+
+============================================================
+[System Integration]
+
+File | File Type | Sample | Description | Remarks
+Sales_bbbb_mmddyyyy_Details | FRG.Express.Store.Sales | Sales_0229_08302023_Details | Sales = Prefix | Sales
+Sales_bbbb_mmddyyyy_Details | FRG.Express.Store.Sales | Sales_0229_08302023_Details | bbbb = Branch Code | 08302023
+Sales_bbbb_mmddyyyy_Details | FRG.Express.Store.Sales | Sales_0229_08302023_Details | mmddyyyy = Date | 0229
+Sales_bbbb_mmddyyyy_Details | FRG.Express.Store.Sales | Sales_0229_08302023_Details | Details = SUFFIX | Details
+Sales_bbbb_mmddyyyy_Details | FRG.Express.Store.Sales | Sales_0229_08302023_Details | .csv = extension name | .csv
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.Express.Store.Sales’
+
+FRG.SMACPROMODISC
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+SPDisc_cccc_mmddyy_bbbb_DETAILS | FRG.SMACPROMODISC | SPDisc_4142_090123_0779_DETAILS | SPDisc = Prefix | SPDisc
+SPDisc_cccc_mmddyy_bbbb_DETAILS | FRG.SMACPROMODISC | SPDisc_4142_090123_0779_DETAILS | cccc = Company Code | 4142
+SPDisc_cccc_mmddyy_bbbb_DETAILS | FRG.SMACPROMODISC | SPDisc_4142_090123_0779_DETAILS | mmddyy = Date | 090123
+SPDisc_cccc_mmddyy_bbbb_DETAILS | FRG.SMACPROMODISC | SPDisc_4142_090123_0779_DETAILS | bbbb = Branch Code | 0779
+SPDisc_cccc_mmddyy_bbbb_DETAILS | FRG.SMACPROMODISC | SPDisc_4142_090123_0779_DETAILS | DETAILS = SUFFIX | DETAILS
+SPDisc_cccc_mmddyy_bbbb_DETAILS | FRG.SMACPROMODISC | SPDisc_4142_090123_0779_DETAILS | .csv = extension name | .csv
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.SMACPROMODISC’
+
+FRG.HOME CREDIT
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.HOME CREDIT | HOMECREDIT_4142_2456_DAILY_090123 | HOMECREDIT = Prefix | HOMECREDIT
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.HOME CREDIT | HOMECREDIT_4142_2456_DAILY_090123 | cccc = Company Code | 4142
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.HOME CREDIT | HOMECREDIT_4142_2456_DAILY_090123 | bbbb = Branch Code | 2456
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.HOME CREDIT | HOMECREDIT_4142_2456_DAILY_090123 | DAILY = SUFFIX | DAILY
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.HOME CREDIT | HOMECREDIT_4142_2456_DAILY_090123 | mmddyy = Date | 090123
+HOMECREDIT_cccc_bbbb_DAILY_mmddyy | FRG.HOME CREDIT | HOMECREDIT_4142_2456_DAILY_090123 | .csv = extension name | .csv
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.HOMECREDIT’
+
+FRG.SMAC DAILY FREQUENCY REPORT
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+SmacDaily{bbbb}_mmddyyyy | FRG.SMAC DAILY FREQUENCY REPORT | SmacDaily0229_08172023 | SMAC = Prefix | SMAC
+SmacDaily{bbbb}_mmddyyyy | FRG.SMAC DAILY FREQUENCY REPORT | SmacDaily0229_08172023 | bbbb = Branch Code | 0229
+SmacDaily{bbbb}_mmddyyyy | FRG.SMAC DAILY FREQUENCY REPORT | SmacDaily0229_08172023 | mmddyyyy = Date | 08172023
+SmacDaily{bbbb}_mmddyyyy | FRG.SMAC DAILY FREQUENCY REPORT | SmacDaily0229_08172023 | .csv = extension name | .csv
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.SMAC DAILY FREQUENCY REPORT’
+
+FRG.FSC
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+FRG.FSCReportccccssss_mmddyyyy.TXT | FRG.FSC | FRG.FSCReport41420779_09052023.TXT (or xls? xlsx?) | FRG.FSCReport = Prefix | FRG.FSCReport
+FRG.FSCReportccccssss_mmddyyyy.TXT | FRG.FSC | FRG.FSCReport41420779_09052023.TXT (or xls? xlsx?) | cccc = Company Code | 4142
+FRG.FSCReportccccssss_mmddyyyy.TXT | FRG.FSC | FRG.FSCReport41420779_09052023.TXT (or xls? xlsx?) | bbbb = Site code | 0779
+FRG.FSCReportccccssss_mmddyyyy.TXT | FRG.FSC | FRG.FSCReport41420779_09052023.TXT (or xls? xlsx?) | mmddyyyy = Date | 08172023
+FRG.FSCReportccccssss_mmddyyyy.TXT | FRG.FSC | FRG.FSCReport41420779_09052023.TXT (or xls? xlsx?) | .TXT = extension name | .TXT
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.FSC.File
+
+FRG.SMACHAM
+
+naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+SMAC_HAM_PROMO_MMDDYY_CCCC_BBBB_DETAILS_XX.CSV | FRG.SMACHAM CREDIT | SMAC_HAM_PROMO_110923_4070_1389_DETAILS_PF | SMAC_HAM_PROMO | FIXED VALUE
+SMAC_HAM_PROMO_MMDDYY_CCCC_BBBB_DETAILS_XX.CSV | FRG.SMACHAM CREDIT | SMAC_HAM_PROMO_110923_4070_1389_DETAILS_PF | mmddyy= transaqction date | 110923
+SMAC_HAM_PROMO_MMDDYY_CCCC_BBBB_DETAILS_XX.CSV | FRG.SMACHAM CREDIT | SMAC_HAM_PROMO_110923_4070_1389_DETAILS_PF | cccc-company code | 4070
+SMAC_HAM_PROMO_MMDDYY_CCCC_BBBB_DETAILS_XX.CSV | FRG.SMACHAM CREDIT | SMAC_HAM_PROMO_110923_4070_1389_DETAILS_PF | bbbb-branch code | 1389
+SMAC_HAM_PROMO_MMDDYY_CCCC_BBBB_DETAILS_XX.CSV | FRG.SMACHAM CREDIT | SMAC_HAM_PROMO_110923_4070_1389_DETAILS_PF | DETAILS=fixed value CSV.-e xtension name | DETAILS csv
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)_ver1.0, worksheet named ‘FRG.SMAC HAM
+
+4.1.2.3.9 Mall Sales
+
+Integration Process Flow:
+
+Background: There are 5 malls with 4 different report formats that need to be sent.
+
+Integration Approach: SFTP
+
+AYALA: AYALA SALES REPORT
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+CNMMDD.TXT | Daily File | 60000000000070831.TXT | CN = Contract Number(13 digits) | 6000000000007
+CNMMDD.TXT | Daily File | 60000000000070831.TXT | mm = month | 08
+CNMMDD.TXT | Daily File | 60000000000070831.TXT | dd = date | 31
+CNMMDD.TXT | Daily File | 60000000000070831.TXT | .TXT = extension name | .TXT
+CNMMDDH.TXT | Hourly File | ZSV0243072523.txt | CN = Contract Number(13 digits) | 6000000000007
+CNMMDDH.TXT | Hourly File | ZSV0243072523.txt | mm = Month | 08
+CNMMDDH.TXT | Hourly File | ZSV0243072523.txt | dd = Date | 31
+CNMMDDH.TXT | Hourly File | ZSV0243072523.txt | H = Suffix | H
+CNMMDDH.TXT | Hourly File | ZSV0243072523.txt | .TXT = extension name | .TXT
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named ‘Mall_Ayala’
+
+ARANETA: ARANETA SALES REPORT
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+mmddyyyy.txt | Txt File | 09012023.txt | mmddyy = Date | 09012023
+mmddyyyy.txt | Txt File | 09012023.txt | .txt = extension name | .txt
+Zmmddyy.FLG | FLG File | Z09012023.FLG | Z = Prefix | Z
+Zmmddyy.FLG | FLG File | Z09012023.FLG | mmddyy = Date | 09012023
+Zmmddyy.FLG | FLG File | Z09012023.FLG | .FLG = extension name | .FLG
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named ‘Mall_Araneta’
+
+MEGAWORLD: FESTIVE WALK MEGAWORLD and VILLAGE SQUARE MEGAWORLD
+
+File naming Format(If SFTP):
+
+============================================================
+[System Integration]
+
+File | File Type | Sample | Description | Remarks
+SNNNNTTB.X99 | Daily Sales Data | SFMSA011.901 | S = Prefix, To Identify this is a SALES file | S
+SNNNNTTB.X99 | Daily Sales Data | SFMSA011.901 | NNNN = First four-digit of Tenants ID | FMSA
+SNNNNTTB.X99 | Daily Sales Data | SFMSA011.901 | TT= POS Terminal Number * | 01
+SNNNNTTB.X99 | Daily Sales Data | SFMSA011.901 | B = Batch Number (No. of EOD) | 1
+SNNNNTTB.X99 | Daily Sales Data | SFMSA011.901 | X = Month (1-9 / A-C), Hex value. | 9
+SNNNNTTB.X99 | Daily Sales Data | SFMSA011.901 | 99 = Day | 01
+HNNNNTTB.X99 | Daily Hourly Sales Data | HFMSA011.901 | H = Prefix, To Identify this is an HOURLY SALES file | H
+HNNNNTTB.X99 | Daily Hourly Sales Data | HFMSA011.901 | NNNN = First four-digit of Tenants ID | FMSA
+HNNNNTTB.X99 | Daily Hourly Sales Data | HFMSA011.901 | TT= POS Terminal Number * | 01
+HNNNNTTB.X99 | Daily Hourly Sales Data | HFMSA011.901 | B = Batch Number (No. of EOD) | 1
+HNNNNTTB.X99 | Daily Hourly Sales Data | HFMSA011.901 | X = Month (1-9 / A-C), Hex value. | 9
+HNNNNTTB.X99 | Daily Hourly Sales Data | HFMSA011.901 | 99 = Day | 01
+DNNNNTTB.X99 | Daily Discount Data | DFMSA011.901 | D = Prefix, To identify this is a DISCOUNT DETAIL file | D
+DNNNNTTB.X99 | Daily Discount Data | DFMSA011.901 | NNNN = First four-digit of Tenants ID | FMSA
+DNNNNTTB.X99 | Daily Discount Data | DFMSA011.901 | TT= POS Terminal Number * | 01
+DNNNNTTB.X99 | Daily Discount Data | DFMSA011.901 | B = Batch Number (No. of EOD) | 1
+DNNNNTTB.X99 | Daily Discount Data | DFMSA011.901 | X = Month (1-9 / A-C), Hex value. | 9
+DNNNNTTB.X99 | Daily Discount Data | DFMSA011.901 | 99 = Day | 01
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named ‘Mall_Megaworld’
+
+FESTIVAL: FESTIVAL MALL REPORTS
+
+File naming Format(If SFTP):
+
+File | File Type | Sample | Description | Remarks
+SSAVE{TT}?.X99 | Daily Sales | SSAVE491.901 | S = Prefix, Daily Sales | S
+SSAVE{TT}?.X99 | Daily Sales | SSAVE491.901 | SAVE = Fixed value | SAVE
+SSAVE{TT}?.X99 | Daily Sales | SSAVE491.901 | TT | 01
+SSAVE{TT}?.X99 | Daily Sales | SSAVE491.901 | X = Month (1-9 / A-C), Hex value. | 9
+SSAVE{TT}?.X99 | Daily Sales | SSAVE491.901 | 99 = Day | 01
+HSAVE{TT}?.X99 | Hourly Sales | HSAVE491.901 | H = Prefix, Hourly Sales | S
+HSAVE{TT}?.X99 | Hourly Sales | HSAVE491.901 | SAVE = Fixed value | SAVE
+HSAVE{TT}?.X99 | Hourly Sales | HSAVE491.901 | TT | 01
+HSAVE{TT}?.X99 | Hourly Sales | HSAVE491.901 | X = Month (1-9 / A-C), Hex value. | 9
+HSAVE{TT}?.X99 | Hourly Sales | HSAVE491.901 | 99 = Day | 01
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named ‘Mall_Festival’
+
+4.1.2.3.10 ESALES
+
+Integration Process Flow:
+
+Background: ESales will be replaced by EIS JSON files (one file for each valid sales and sales adjustments void and return transaction) for sending to government (BIR) near real time, DMALL will generate for compatible and when EIS is not officially used by SM and BIR.
+
+Integration Approach: SFTP
+
+File naming Format(If SFTP):
+
+============================================================
+[System Integration]
+
+File | File Type | Sample | Description | Remarks
+pos_sales_{TIN}_mmyyyy_F001.csv | ESALES | pos_sales_14497600714_062023_F001.csv | pos_sales = Prefix, Daily Sales | pos_sales
+pos_sales_{TIN}_mmyyyy_F001.csv | ESALES | pos_sales_14497600714_062023_F001.csv | TIN = Taxpayer Identification Number | 14497600714
+pos_sales_{TIN}_mmyyyy_F001.csv | ESALES | pos_sales_14497600714_062023_F001.csv | mmyyyy = Month and Year | 062023
+pos_sales_{TIN}_mmyyyy_F001.csv | ESALES | pos_sales_14497600714_062023_F001.csv | F001 = Suffix | F001
+pos_sales_{TIN}_mmyyyy_F001.csv | ESALES | pos_sales_14497600714_062023_F001.csv | .csv = extension name | .csv
+
+============================================================
+[System Integration]
+
+Frequency & Rules: Schedule is configurable by user.
+
+Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapping)_ver1.0, worksheet named ‘eSales’
+
+5. Change Requirement Summary
+
+If there are some new requirements after reviewing the BP, we can list here and provide some solution.
+
+6. Appendix

@@ -1,0 +1,2446 @@
+============================================================
+[Inventory]
+
+「SM」_「Phase 1」_「Inventory Module」_V1.0.0
+
+Editor： | Luisa Liu Liana Li | Edit date： | 26/12/2023
+Approver： | Approve date：
+
+Copyright Reserved
+
+Inventory Sign off page
+
+BP Chapter | Mod | User Case | SM Dep’t | SM Corresponding Business Leader | Judith | Cathy Canlas | Melody | Aymah | Cheng | Miel | Rey | Leath | Abbey
+3.1 | Inventory Design | Ops/IT | Judith/Cathy Canlas
+3.2 | Good receiving from vendor(DSA) | Ops/IT/FIN/Merch | Judith/Miel/Cathy Canlas/Melody/Aymah/Cheng
+3.3 | Good receiving from DC/Store | Ops/IT/FIN/Merch/DC | Judith/Miel/Cathy Canlas/Rey/Melody/Aymah/Cheng
+3.4 | Store transfer discrepancy report from DC/Store | Ops/IT/DC | Judith/Cathy Canlas/Rey
+3.5 | Transfer to vendor/warehouse | Ops/IT/Merch/DC/SC | Judith/Miel/Cathy Canlas/Aymah/Cheng/Rey/Leath
+3.6 | Store transfer to store | Ops/FIN/SC | Judith/Melody/Leath/Cathy
+3.7 | OSA | Ops | Judith
+3.8 | Stock take(Inventory count) | Ops/FIN | Judith/Melody
+3.9 | Expiry date management | Ops | Judith
+3.10 | Gap check | Ops | Judith
+3.11 | Store Inventory movement process | Ops | Judith/Cathy
+3.12 | SM Eat | Ops/IT/FIN/Merch | Judith/Cathy Canlas/Melody/Aymah/Cheng
+3.13 | Dismantle | Ops/IT | Judith/Cathy Canlas
+3.14 | In store bundle | Ops/IT/Merch | Judith/Cathy Canlas/Aymah/Cheng
+3.15 | Conversion | Ops | Judith
+3.16 | Stock adjustment | Ops/FIN | Judith/Melody
+3.17 | TPS | OPS/IT | Judith/Abbey
+
+Document Information
+
+Document Source
+
+This document is intended to present the Business process design from SM. Business rules and DMALL system design based on the RFP captured by SM. This document will be available at SM’s SM Market SharePoint directory.
+
+Revision History
+
+Version | Date | Responsible | Change Summary
+1.0.0 | 23/10/2023 | Luisa Liu & Liana Li | Draft
+1.1.0 | 10/11/2023 | Luisa Liu & Liana Li | Add exceptional scenario for each section
+
+============================================================
+[1. Blueprint Document Scope]
+
+1.1 Background Introduction
+
+Inventory management, a critical element of store operations, is essentially the practice of ensuring store businesses have the right articles, in the right quantity, at the right time. This includes knowing when the store will receive and return articles from/to DC and/or suppliers, how much stock the store has on hand, how to decide when and what to order, and accurately track articles, all the while bearing store operation process.
+
+Good inventory management will not only support the store, but also help headquarters successfully manage and monitor the inventory and improve store performance.
+
+For store activities on a daily basis, staff need to perform goods receiving, return, gap check and perhaps stock adjustments if variance on articles available SOH is found.
+
+More importantly, all store activities are recorded and can be generated in reports for supervisors or headquarters to review. Well-organized reports show the store's performance, which can help headquarters with further group decisions.
+
+1.2 Business Process Overview
+
+Business scenario overview
+
+In DMALL OS inventory management module, a whole set of features can support goods receiving, returns and stock adjustment and monitoring.
+
+============================================================
+[1. Blueprint Document Scope > 2. Business Requirement List]
+
+As-Is process mapping with blueprint processes (major changes)
+
+List the function list of each module
+
+Main scenario | Module/ Sub scenario | User Case | As-Is Description | As-Is Doc | To Be Description | Impact To SM | Remarks
+Receiving | Receiving from warehouse | Store receive goods from distribution center | Perform itemized receiving | Page 4 | Perform itemized receiving and auto trigger STDR process based on different discrepancy type | Simplify Business Flow | Link with STDR process
+Receiving | Receiving from vendor | Store receive goods from vendor | Perform itemized receiving | Page 4 | Perform itemized receiving and support to input expiry date for monitoring | Simplify Business Flow,Add New Feature | Expiry date input during the receiving process
+Receiving | Consignor without inventory articles receiving | Store receive goods which is without Purchase order | Record purchase quantity via offline tools | / | Inventory can be adjusted to specific locations in store through a stock adjustment order | Add New Feature | /
+Returns | Return to vendor/warehouse | Store raise RTV order for returning to vendor/warehouse | Store raise a complicated RTV process and return to vendor/warehouse. based on pre-align logic to charge to vendor and disposal the unclaimed RTV order | Page 7 | Return goods based on source information, or return to assigned vendor. Can pre-set approval matrix. Support to return to warehouse | Simplify System Operation,Simplify Business Flow | Return approval will be completed in DMALL system. RTV order will be auto posted if over ETA date in To-Be, and RTV order will be disposed based on pre-align logic in As-Is.
+
+============================================================
+[1. Blueprint Document Scope > 2. Business Requirement List]
+
+Returns | Store transfer to warehouse | Good goods return to warehouse | NHO team create STO in SAP for store users to dispatch the goods | / | Support create return item lines and send back to SAP for generating the RPO Support dispatch the goods | Simplify Business Flow | As-Is: NHO team create the STO in SAP system To-Be: Store can create the STO in DMALL system and post to SAP to generate the RPO
+Returns | Backload | Store raise backload application for returning unsellable goods to distribution center | Use excel document to apply backload and upload to shared folders for pending approval | Page 5 | Support create return item lines and send back to SAP for generating the RPO Support dispatch the goods | No Change | If the backload goods are assets or something not maintained in system. store should follow the current logic to do the backload. If they are sellable goods, it should be handled as "store transfer to warehouse" process
+Inventory count | Physical count | Annual physical count for all goods at store closure time | Perform paper count offline | Page 9 | Create inventory count plan-> assign/create count task to assigned person-> execute counting -> spot check -> approve -> posting | Simplify Business Flow | Store can execute the counting via PDA in To-Be
+Inventory count | Cycle count | Cycle count for specific goods or category at store closure time | Perform paper count offline | Page 9 | Create inventory count plan-> assign/create count task to assigned person-> execute counting -> spot check -> approve -> posting | Simplify Business Flow | Store can execute the counting via PDA in To-Be
+Store to store transfer | Store request supply chain to create the store to store transfer. and store perform corresponding GI and GR | / | Obtain SAP store to store STO and perform issuing and receiving via DMALL | No Change | /
+
+============================================================
+[1. Blueprint Document Scope > 2. Business Requirement List]
+
+Removal&Transfer | Stock transfer | Storage location transfer in same site | - | / | Inventory can be adjusted between different locations in same store through a stock transfer order | Add New Feature | Stock will be managed in location level.
+Removal&Transfer | Gap check | Find empty shelf and trigger replenishment task | - | / | Store can use this function to check the empty shelf and complete the replenishment. it can make sure the shelf is full and will not out of stock when customer shopping. | Add New Feature | Provide a tools to do the replenishment
+Removal&Transfer | OSA | OSA is used to check the completeness of Top888 and Top40 articles display. | - | / | DMALL will customize this function based on FRS-OSA. According to the summary report, users will manually perform replenishment from backroom to selling area. | No Change | /
+Removal&Transfer | Dismantle | DC bundles/sale sets: Selling at stores for some promotion. After the promotion, bundles and sale sets will not be available for selling anymore and they could be dismantled. | Store perform mutiple GI process to handle it | / | 1.Get the BOM relationship from SAP (if in-store bundle, need to maintain the BOM in DMALL) 2.user create a dismantle order. 3.system will transfer the inventory based on dismantle order. | Simplify System Operation,Add New Feature | One dismantle process to handle the parent items and child items. Reduce operation process. For In-store bundle, it will be maintained as "In-Store Bundling" in DMALL and managed the inventory in component level. there is no need to do the 'combine' and ' dismantle ' for in-store bundle.
+
+============================================================
+[1. Blueprint Document Scope > 2. Business Requirement List]
+
+Removal&Transfer | SM Eat | For handling raw material articles and processed articles inventory transfer. | SM Eat: System can manage the recipe of processed item, the purchase quantity and remaning quantity of raw material, the consume quantity of raw material, the diposal quantity of processed item. Store need to seperately create GI/GR to adjust the inventory of raw material and processed item. | / | Simplify System Operation,Add New Feature | One SM Eat process to handle the parent items and child items. Reduce operation process. DMALL can not support to mange the whole article life cycle of processed item.
+Removal&Transfer | TP article | To handle the inventory adjustment of different articles. New/old package for same vendor article with different article code (If article code does not change, it should follow the current logic and not perform this function) | Store need to seperately create GI/GR to adjust the inventory of new/old package. | / | 1.Need to maintain the BOM in DMALL first 2.user create a TP article order. 3.system will transfer the inventory based on TP article order. | Simplify System Operation,Add New Feature | One TP article process to handle the parent items and child items. Reduce operation process.
+Throw Away & Surplus | Stock adjustment | 1)Stock adjustment function can be used for any scenario which needs to adjust store inventory for various reasons. 2)No PO receiving,, inter consumption, SM Eat consumption, goods temporarily taken out.scrapping.e.g. | Store can perform GI/GR process to adjust inventory. | / | 1.inventory can be adjusted to specific locations in store through a stock adjustment order 2.user can select specific adjustment reason for mapping order inventory variation and TP with movement type in SAP | Simplify System Operation | Stock will be manged in location level. Reduce operation process.
+
+============================================================
+[1. Blueprint Document Scope > 2. Business Requirement List]
+
+Expiry date mgt | Expiry date input | Expiry date input when receiving or daily inspection | Offline tools management | / | Support input expiry date by article level at any time | Simplify Business Flow,Add New Feature | Store can input and save the expiry date data in DMALL system anytime.
+Expiry date mgt | Expiry date monitor | Expiry date monitor rule setting and alert/ monitor | Offline tools management | / | Support maintain monitoring rules setting Monitor and alert users the list of about to expiry goods | Simplify Business Flow,Add New Feature | DMALL will monitor and alert the expiry date based on the pre-set rules
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+In phase 1, DMALL system only manages the inventory and cost is managed by SAP system. Inventory module and corresponding inventory report (under dashboard module) will NOT show any relative cost information.
+
+After phase 1 go live, no stock adjustment be done in SAP. All inventory adjustment should be done via DMALL system。
+
+3.1 Inventory design
+
+1) Design Background
+
+DMALL system will pre-define 8 inventory locations for stores. And each store operation function/movement action will operate in a specific inventory location.
+
+Each inventory location has its own inventory data. It will not be mixed up together so that we can clearly identify the current inventory situation and make proper decisions.
+
+Each inventory location will be mapped with SAP system location.
+
+2) Key design
+
+Inventory location definition
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Inventory location code | Inventory location name | Definition
+SLOC 0001 | Selling Area | Selling area inventory indicates the sales floor articles quantity. when POS selling, inventory should be deducted from the selling area.
+SLOC 0002 | Offsite Warehouse | This location indicates the storage articles quantity in the outside warehouse
+SLOC 0003 | Bad Order Location | Bad order location is only used for return scenario. these inventory should not be sellable or used for any business.store should separate into an individual area for display these articles.
+SLOC 0007 | STDR from DC&Store | STDR location is only used for delivery discrepancy report scenario. these stocks should not be sellable or used for any business. Stores should separate an individual area for display these articles.
+SLOC 0024 | Holding location of articles | Subject for Insurance Claim, evidence for Court Hearings
+SLOC 0025 | Dark Inventory | This location is used for storing articles for online order picking. And the location is on the sales floor.
+SLOC 0030 | Advance Order | Storage location for reserved items for advance orders
+SLOC 0031 | Backroom | Backroom inventory indicates the storage articles quantity. when articles are replenished into sales floor shelves, users should perform the stock transfer function to adjust the inventory.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Inventory locations can be set up per store.
+
+5 stores will have 6 inventory locations, which have SLOC 0025 Dark Inventory for online business. (it needs to confirm certain stores in the UAT phase)
+
+Other stores will have 5 inventory locations. (except the SLOC 0025 Dark Inventory)
+
+Terminology Description:
+
+Noun | Description
+Book Quantity | The inventory quantity on store records.
+Reservation Quantity | The inventory quantity that has been reserved by orders, but has not yet been deducted from the store's accounting books，also known as locked quantity.
+Available Quantity | Book Quantity take away Reservation Quantity
+
+Quantity calculation dimension:  Site+ Inventory location + Article.
+
+Logic of Quantity Calculation:
+
+Beginning Quantity (The Ending Quantity of the previous period） | Book Quantity
+Beginning Quantity (The Ending Quantity of the previous period） | Reservation Quantity
+Beginning Quantity (The Ending Quantity of the previous period） | Available Quantity
+Mobile Quantity | Book Quantity | The quantity of inbound and outbound documents
+Mobile Quantity | Reservation Quantity
+Mobile Quantity | Available Quantity | Book Quantity take away Reservation Quantity
+Ending Quantity （Begining+Mobile） | Book Quantity
+Ending Quantity （Begining+Mobile） | Reservation Quantity
+Ending Quantity （Begining+Mobile） | Available Quantity | Book Quantity take away Reservation Quantity
+
+Receiving
+
+3.2 Good receiving from vendor (DSA)
+
+1.AS-IS Overview
+
+In SM current practice, RDU users will receive the DN, download and print out the PO document from SAP and perform itemized receiving. RDU users will perform the first check and note down the receiving quantity on the PO document. Counter checker will perform the second check and input the receiving quantity into FRS system. If there is differ between the first check and second check, manager will be involved to do the double check.
+
+2.TO-BE Overview
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Goods Receiving from Vendor is the physical inbound movement of goods from an external vendor, either without PO or with PO, which results in an increase of stock on hand(SOH). In this section, it focuses on receiving with PO, including outright goods receiving, consignor with inventory goods receiving and receiving on non trade PO's for goods, supplies, collaterals, signages and services. Consignor without inventory good receiving please refer to stock adjustment function to increase the SOH.
+
+One DSA PO, can be multiple received in the DMALL system. For articles from a vendor to stores, the receiving store performs a detailed physical count, checks and accepts the article based on PO for goods receiving, which article could be rejected if the article is not in the receiving PO or in poor conditions.
+
+Over-receiving is NOT allowed based on business practice and system design. DMALL System only allows receiving goods less than or equal to PO quantity.
+
+Free goods, which are performed GR as store stock but with zero value, will be shown on the PO as an individual article line. The receiving process of free goods is the same as normal articles.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+3.TO-BE Flow
+
+4.TO-BE Description
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Download PO data from SAP | DMALL | / | PO data
+2 | Receive and save the PO data in DMALL system | DMALL | /
+3 | Secure truck and stocks, record time-in | / | Security dept. | / | Security logbook
+4 | Delivery with DS and TS | / | Trucker | DS, TS | /
+5 | Input or scan PO number to query PO | DMALL | RDU | PO number | PO data | If delivery with PO barcode, users can directly scan the barcode to query PO data. Or input the PO number to query the PO data.
+6 | Does it exist incomplete reference order | / | PO data | / | DMALL will validate it is first delivery or second delivery
+7 | Complete the 2nd check (2nd scan count) | DMALL | RDU | PO number | Alert notice | If there is an incomplete reference order, that means the reference order is under 2nd check. Please proceed with step 10 In this scenario, DMALL will not allow store to receive the 2nd delivery. They need to finish the previous delivery first.
+8 | Generate reference order | DMALL | RDU | PO number | Reference order | If there is not any incomplete reference order, DMALL will automatically create a new reference order for store to receive.
+9 | 1st Scan: Count physical goods and input actual quantity and other receiving info. | DMALL | RDU | DS, TS | Receiving data | Count physical goods and input below information: actual receive quantity, Time In/Out, Truck Type, Plate Number, Driver Name, Helper Name, Invoice No., DR No., Truck No., Support inputting the expiry date for monitoring. Support inputting multiple expiry date data per article. (optional) Actual receive quantity default empty
+10 | 2nd Scan: Count physical goods and input actual quantity | DMALL | Counter checker | DS, TS | Receiving data | Counter checker need to perform the second scan checking and input the receiving quantity
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+11 | Qty of 1st = Qty of 2nd? | DMALL | / | Qty of 1st, Qty of 2nd | Receiving data | DMALL system will validate Qty of 1st is equal to Qty of 2nd or not. If not, RDU needs to double check. If yes, reference order will be completed when counter checker submitted.
+12 | Double check, verify and amend the Qty of 2nd | DMALL | RDU | / | The final confirmed receive quantity | RDU double check and amend the receiving quantity
+13 | Submit receiving | DMALL | RDU | Receiving info. | Completed reference order | Save it and order will be received. Inventory will be added to the backroom site.
+14 | Post and update invty to SAP(101) | SAP | / | Reference order | / | DMALL system will proceed with the final confirmed receive quantity and post it to SAP. Movement type:101
+15 | Generate GR | SAP | / | Reference order | Posted GR | SAP should generate the real GR
+16 | Receive the received DS from RDU | / | Trucker | Received DS | /
+17 | Record the trucker time out | / | Security dept. | / | Security logbook
+18 | Replenishment to shelves | DMALL | Selling | Received goods | Replenish to selling area | Perform store transfer function: transfer stock from backroom to selling area
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1）End to End
+
+In phase 1, PO creation happens in SAP system. DMALL will download previous day’s PO data at 5AM every day from SAP and save it in database. The reference order in DMALL is just a reference for SAP to generate the real good receipt. The reference order will be created when stocks arrive at the store.
+
+DMALL only supports receiving goods existed in the Purchase order. Over-receiving and extra articles that do not exist in PO are NOT allowed in DMALL design. Stores need to handle the above situations offline.
+
+For free gifts, it will be reflected in the PO. The store can receive it like normal articles. For free gifts which are not in PO, please refer to current business practice(SOP) to handle them. DMALL system only support receiving articles existing in the PO(in phase 1).
+
+Purchase price is strictly controlled by merchandising department. Stores are NOT allowed to amend purchase price when receiving and DMALL also do NOT support it.
+
+In phase 1, DMALL system only manages the inventory, and cost is managed by SAP system. DMALL system will NOT show any relative cost information.
+
+For DSA order, if it is consignor with inventory PO, allow store team to receive it within 14 days after delivery date(PO ETA). If others POs, from DMALL system perspective, users can only receive before or on the expected arrivals date(ETA date). After the ETA date, stores are NOT allowed to receive. Actual receiving is only allowed by default on ETA, which will be controlled by SOP
+
+2)  Function design
+
+DMALL support receiving via PC side and APP side(Application can be installed on mobile phone and PDA). The screen layout will be impacted by different device resolution. DMALL will present the best layout with the agreed terminal device as the standard.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+When receiving the goods via system, inventory will be added into SLOC 0031 Backroom and store users can move the goods to each sector/each bay/each shelf in the backroom. If they want to move the stock from backroom to selling area, users can perform stock transfer function to adjust the inventory between different inventory locations.
+
+For outright&consignor with inventory: Store will not receive more than PO order quantity. Actual receive quantity must be equal to or less than PO order quantity.
+
+For outright items, DMALL will post to SAP with movement code 101/0001 selling area, for consignor with inventory, DMALL will post to SAP with movement code 101/vendor location. For supplies, Dmall will post to SAP with movement code 101/0001 selling area too.
+
+For one DSA PO with multiple delivery within same day, DMALL system could support creating the second reference order. Each reference order will be posted to SAP when completion. Each reference order can be printed out the reference order note. One DSA PO can have multiple reference orders. The new good reference order can be created only after the previous reference order has been received.
+
+PO quantity: 30 | Receive quantity | Remaining quantity
+First receiving—reference order 1 (delivery qty:10) | 10 | 20 | Post to SAP with 10 quantity-- GR1
+Second receiving-- reference order 2 (delivery qty:20) | 20 | 0 | Post to SAP with 20 quantity-- GR2
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+For multiple POs receiving, Dmall will support users scan or input multiple PO number and group them into a draft reference order. RDU users and counter checker should perform scan 1 and scan 2 receiving.
+
+If delivery quantity is less than PO quantity, the article on the first series of PO must be fully received to be able to receive the same article on the second PO and so on and so forth.
+
+If an article has regular item and free item, users should manually input the receive quantity of regular and free.
+
+Not allow to over-receive
+
+Not allow to receive article does not exist on the PO
+
+When post to SAP, Dmall will generate corresponding multiple GRs.
+
+3) Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Receiving Note: all reference order orders can be checked and supported to filter by below criteria.
+
+Status: Pending to receive, Received
+
+Operation type:  APP receiving, PC receiving
+
+Document type: DSP Ref Order, STO Ref Order and IBT Ref Order
+
+DSP is equal to DSA in DMALL system terminology. IBT(Inter branch transfer) is store to store transfer order
+
+Receiving Note: input and complete the receiving.
+
+Receive one line by one line.
+
+When performing 1st scan, only the receive quantity and Expiry date can be edited.
+
+Receive quantity should be less than or equal to plan quantity
+
+Expiry date can be input multiple dates. Input value should be later than today
+
+When performing 2nd scan, only the receive quantity can be edited.
+
+Receive quantity should be less than or equal to plan quantity
+
+Receiving Note(APP):
+
+Reference order format:
+
+Signature will be prefilled by system depending on account name
+
+5.Exceptional Scenario
+
+If receiving quantity more than plan quantity, system will block the operation. Users need to adjust the receiving quantity less than or equal to plan quantity.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+If physical goods does not exist on the receiving reference order. It is not allow to receive. Please create a purchase order for receiving.
+
+If system prompt that there still have an incomplete reference order when submit the data, please receive the previous one and then perform the next receiving.
+
+If cannot find the PO data. Please check the purchase order whether exists on the SAP system. If yes, please input the purchase order number in DMALL and re-pull the data. (Aligned with Sir Romil, re-pull data function is not in the scope of phase 1. if happens, users can receive it by paperwork first and contact Dmall IT team for help) If no, it means the goods are not ordered by SM.
+
+To prevent network unstable, Dmall will download PO data and store in local database everyday morning (PDA).
+
+1) Receiving information can be input if network does not work and information will be saved in local database. Receiving information will be automatically uploaded to cloud when connecting to the network.
+
+2) If users need to print out the GR note immediately, they can download into PDA and copy it to PC device for printing.
+
+3) Offline mode receiving only support 1 step receiving. Please perform scan 1 and scan 2 receiving by paperwork and keyin the final receiving quantity via PDA.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+6.Related Reports
+
+Receiving and Return Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7.Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Receiving the goods and note down the expiry date on yellow sticker and attached outside the box | Receiving the goods and input the expiry date information in DMALL system. System will monitor goods shelf life | New function. Expiry date management change from offline to online | RDU | All companies in scope.
+During the receiving, first check is noted down on the PO document. And second check is recorded in FRS | First check and second check are recorded in DMALL system. If there is any differ, manager will need to double check and confirm the final receiving quantity in DMALL | Receiving change from offline to online. Each receiving quantity will be recorded in system and it can be traced | RDU, counter checker | All companies in scope.
+Users need to perform the posting in FRS system after receiving. | DMALL will auto post the receiving data to SAP after users completing the goods receiving | Posting is automatically in the future. | RDU | All companies in scope.
+
+3.3 Good receiving from DC/Store
+
+1.AS-IS Overview
+
+In SM current practice, RDU users will receive the DN, download and print out the STO document from SAP and perform itemized receiving. RDU users only need to perform one time receiving and input the receiving quantity into FRS system. If there is any differ between STO plan quantity and actual receiving quantity, users can check in STDR report and raise the STDR process separately.
+
+2.TO-BE Overview
+
+Goods Receiving from DC is the physical inbound movement of goods from DC or stores to the store, which results in an increase of stock on hand.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+For conventional articles received from DC(s) or stores, goods receiving will be based on DC/store Outbound Delivery (OBD) to perform itemized receiving. Each delivery carries a DN. Multiple OBDs for one order for one store are possible, where articles will be loaded in multiple deliveries after DC pick and pack.
+
+3.TO-BE Flow
+
+4.TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Get OBD data from SAP | DMALL | / | OBD
+2 | Receive and save it in DMALL | DMALL | / | OBD | /
+3 | Secure truck and stocks, record time-in | / | Security dept. | / | Security logbook
+4 | Delivery with DS and TS | / | Trucker | DS, TS | /
+5 | Scan the seal number provided by trucker | DMALL | RDU | Seal Barcode | Receiving data
+6 | Generate reference order | DMALL | / | Barcode number | Reference order | When scanning the barcode stuck on the pallet, DMALL system will auto show the corresponding receiving order
+7 | Input actual receive quantity and submit | DMALL | RDU | DS, TS | Receiving data | Unpack the pallet and count physical goods. Users should input the actual receive quantity
+8 | Post and update invty to SAP (mvm type:101) | SAP | / | Reference order | / | DMALL system will proceed with delivery quantity and post it to SAP. Movement type:101
+9 | Generate GR | SAP | / | Reference order | Posted GR
+10 | Receive the received DS from RDU | / | Trucker | Received DS | /
+11 | Record the trucker time out | / | Security dept. | / | Security logbook
+12 | Perform stock transfer | DMALL | Selling | Received goods | Replenish to selling area | If they need to replenish the goods to selling area shelves. They should perform store transfer function: transfer stock from backroom to selling area
+13 | Expiry date input | DMALL | Selling | Goods | Expiry date | Check, write down the expiry data on stickers and attach it to boxes. Input the expiry date via Expiry date management function
+14 | delivery discrepancy? | /
+15 | Auto trigger delivery discrepancy report | DMALL | / | Input data | Discrepancy type | Please refer to delivery discrepancy report process
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1）End to End
+
+In phase 1, DMALL will download previous day’s OBD data at 5AM every day from SAP and save it in database. Each reference order will be posted to SAP when completing the receiving. One STO can be delivered multiple times with multiple OBD(s). So one STO can be linked to multiple GR in SAP.
+
+DMALL only supports receiving goods exist in Purchase order. Over-receiving and extra articles that do not exist in PO are NOT allowed in DMALL design. Stores need to handle the above situations offline.
+
+No free gifts delivered from DC or stores. DMALL can NOT support it also.
+
+Purchase price is strictly controlled by merchandising department. Stores are NOT allowed to amend purchase price when receiving and DMALL also do NOT support it.
+
+In phase 1, DMALL system only manages the inventory and cost is managed by SAP system. DMALL system will NOT show any relative cost information.
+
+For STO orders from DC or stores, no receiving timing limit, users can receive them at any time.
+
+2)  Function design
+
+DMALL support receiving via PC side and APP side(Application can be installed on mobile phone and PDA). The screen layout will be impacted by different device resolution. DMALL will present the best layout with the agreed terminal device as the standard.
+
+When receiving the goods via system, inventory will be added into SLOC 0031 Backroom and store users can move the goods to each sector/each bay/each shelf in the backroom. If they want to move the stock from backroom to selling area, users can perform stock transfer function to adjust the inventory between different inventory locations.
+
+For outright&consignor with inventory: Store will not receive more than PO order quantity.Actual receive quantity must be equal to or less than PO order quantity.
+
+Expiry date inputting for STO order, users should use the expiry date management function to record the expiry date.
+
+System will auto trigger STDR process based on the different receiving situation.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+3) Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Reference order format
+
+Signature will be prefilled by system depending on account name
+
+5.Exceptional Scenario
+
+If receiving quantity more than plan quantity, system will block the operation. Users need to adjust the receiving quantity less than or equal to plan quantity.
+
+If physical goods do not exist on the reference order. It is not allowed to receive. Please create a purchase order for receiving.
+
+If cannot query the specific DN data. Please check the DN data whether exists on the SAP system (whether deliver or not). If yes, please input the GI date and store code in DMALL and re-pull the data. (Aligned with Sir Romil, re-pull data function is not the scope of phase 1. if happens, users can receive it by paperwork first and contact Dmall IT team for help) If no, it means the goods are not ordered by SM.
+
+To prevent network unstable, Dmall will download PO data and store in local database everyday morning (PDA).
+
+1) Receiving information can be input if network does not work and information will be saved in local database. Receiving information will be automatically uploaded to cloud when connecting to the network.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+2) If users need to print out the GR note immediately, they can download into PDA and copy it to PC device for printing.
+
+6.Related Reports
+
+Receiving and Return Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7.Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+If there is any differ between STO plan quantity and actual receiving quantity, users can check in STDR report and raise the STDR process separately. | If there is any differ between STO plan quantity and actual receiving quantity, DMALL will auto trigger STDR process. | STDR process will be more intelligent and automated. Users don’t need to do it separately. | RDU | All companies in scope.
+Users only need to input receiving quantity | Besides the receiving quantity, DMALL system will request users to select the discrepancy type and input the discrenpancy quantity based on different situation. | Receiving process will be more specific | RDU | All companies in scope.
+Users need to perform the posting in FRS system after receiving. | DMALL will auto post the receiving data to SAP after users completing the goods receiving | Posting is automatically in the future. | RDU | All companies in scope.
+
+3.4 Store transfer discrepancy report from DC/Store
+
+1.AS-IS Overview
+
+If there is any differ between STO plan quantity and actual receiving quantity, users can check in STDR report and raise the STDR process separately.
+
+2.TO-BE Overview
+
+Goods Receiving from DC/store is the physical inbound movement of goods from DC or stores to the store, which results in an increase of stock on hand. If the receiving quantity is not equal to PO quantity, it should have corresponding process to handle it and ensure the inventory is correct between the issuance site and receiving site.
+
+3.TO-BE Flow
+
+4.TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot
+1 | Scan article barcode, show article receiving details | DMALL | RDU | barcode | Item detail | If users scan the wrong article barcode, system will alert them article is not exist
+2 | Input the total physical quantity of this article | DMALL | RDU | Receive quantity | / | If it is 'underserved' or 'wrong served' or 'expiry' or 'damaged', store users need to input the total physical quantity
+3 | Select the corresponding discrepancy type | DMALL | RDU | discrepancy type | / | Select 'underserved' or 'wrong served' or 'expiry' or 'damaged'
+4 | Input shipping note quantity | DMALL | RDU | Receive quantity | / | If it is 'overserved', store users should input the shipping note quantity
+5 | Select 'Overserved' and input overserved quantity | DMALL | RDU | Overserved quantity | /
+6 | Input PO quantity | DMALL | RDU | Receive quantity | / | If no discrepancy, input the actual receive quantity/ PO quantity
+7 | Normal receiving process | DMALL | RDU | Receive quantity | Completed receiving order | If no discrepancy, no need to select discrepancy type, just perform the normal receiving process
+8 | Submit and complete the receiving | DMALL | RDU | Receive quantity | Completed receiving order | Receive article one by one and complete the receiving.
+9 | GR Post and update invty to SAP(mvm type:101) | SAP | / | GR | Posted GR | Post to SAP with movement type 101
+10 | Return to vendor process | DMALL | RDU | Expiry good | Return process | If expiry, manually perform return to vendor process
+11 | Auto trigger stock adjustment process | DMALL | RDU | Damaged good | Store adjustment process | If damaged, system will auto trigger stock adjustment process
+12 | GI Post to SAP(mvm type:937) | SAP | / | GI | Posted GI | Post to SAP with movement type 937
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+13 | Auto trigger STDR application | DMALL | / | Discrepancy type | STDR process | If 'underserved' or 'overserved' or 'wrong served', system will auto trigger STDR application
+14 | Move stock from backroom to specific location | / | Selling | Received goods | Replenish to selling area
+15 | Approve? | DMALL | DC staff | STDR application | Approve result | DC users need to approve it
+16 | GI937 Post to SAP(deduct invty from store0007 ) | SAP | / | GI | Posted GI | If rejected, DMALL will post to SAP with movement type 937
+17 | Auto trigger stock adjustment order | DMALL | / | Approved STDR | STDR process | If approved, DMALL will auto trigger stock adjustment order to adjust inventory of store 0007
+18 | TP301 Post to SAP(from store0007 to DC0007) | SAP | / | TP | Posted TP | DMALL will post to SAP with movement type TP301
+19 | Perform transfer order to adjust inventory from DC0007 to DC0001 | SAP | DC staff | Approved STDR | Transfer order | DC users need to perform transfer order to adjust inventory from DC0007 to DC0001
+20 | Auto increase the overserved quantity of store0007 via stock adjustment function | DMALL | / | Discrepancy type | Store adjustment process | If it is overserved, system will auto increase the overserved quantity of store0007 via stock adjustment order
+21 | TP301 Post and update invty to SAP(from DC0007 to store0007) | DMALL | / | TP | Posted TP | DMALL will post to SAP with movement type TP301
+22 | Perform transfer order to adjust inventory from DC0001 to DC0007 | SAP | DC staff | Approved STDR | Transfer order | If approved, DC users need to perform transfer order to adjust inventory from DC0001 to DC0007
+23 | Auto trigger store transfer order(from store0007 to store0031) | DMALL | / | Approved STDR | Stock transfer order | DMALL will auto trigger store transfer order(from store0007 to store0031) to adjust inventory
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+24 | TP311 Post and update invty to SAP(from store0007 to store0031) | SAP | / | TP | Posted TP | DMALL will post to SAP with movement type TP311
+25 | Auto trigger store transfer order(from store0007 to store0031) | DMALL | / | Rejected STDR | Stock transfer order | DMALL will auto trigger store transfer order(from store0007 to store0031) to adjust inventory
+26 | TP301 Post to SAP(from store0007 to DC0007) | SAP | / | TP | Posted TP | DMALL will post to SAP with movment type TP301
+27 | GR955 Post to SAP(increase inventory of store0031) | SAP | / | GR | Posted GR | DMALL will post to SAP with movment type GR955
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1）End to End
+
+STDR process only handles store range articles. If the article is not in the range of stores, users should manually handle it offline.
+
+2)  Function design
+
+DMALL support receiving via PC side and APP side(Application can be installed on mobile phone and PDA). The screen layout will be impacted by different device resolution. DMALL will present the best layout with the agreed terminal device as the standard.
+
+When receiving the goods via system, normal goods inventory will be added into SLOC 0031 Backroom and discrepancy goods inventory will be added into SLOC 0007 STDR from DC&Store
+
+When a STDR application is created, approver will receive an approval notification email and they need to login to the system via PDA or PC to check the details and approve it. When DC approves or rejects the application, store users will receive the approval message via PDA or PC, they can go to task center to check the details approval. Approval page of task center will show time stamp of each operation. Please refer to the key function page。
+
+System will default no discrepancy when receiving. If there is any discrepancy, store users need to select the discrepancy type by article line level.
+
+Discrepancy type for selection: Underserved, Overserved, Expiry, Damaged, Wrong served.
+
+For underserved and overserved, STDR should be approved after issuance site investigation
+
+For expiry, store users need to receive all goods, including expiry goods. And then they need to manually perform the return process.
+
+For damaged, store users need to receive all goods, including damaged goods. System will auto trigger GI937 to charge 3rd party trucker vendor.
+
+For Wrong served,
+
+For the 'correct article', if it is 'underserved', then follow the underserved process.
+
+For wrong article:
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+If store wants to absorb it, store users should manually adjust the inventory of store side with TP311(from store0007 to store0031) via stock adjustment function. And DC should manually adjust the inventory of DC side via TP301(from DC0007 to store0007).
+
+If store does not want to absorb it, they need to return to DC offline without using the system.
+
+For Underserved,
+
+DC to store STDR and Store to store STDR workflow are consistent except for the different operation of issuance site.
+
+If issuance site is DC, they will perform transfer order in SAP system after approving the STDR.
+
+If issuance site is store, they will perform TP311 post to SAP via DMALL system (inventory from issue site0007 to issue site0031)
+
+For Overserved,
+
+Based on the result of STDR approval, system will trigger corresponding process to adjust DC site inventory. On the store side, no matter if the approval is approved or rejected, the overserved goods need to be received (if store wants to absorb, then they need to receive. if store does not want to absorb it, then they need to receive it and perform an extra return process).
+
+DC to store STDR and Store to store STDR workflow are consistent except for the different operation of issuance site.
+
+If issuance site is DC, they will perform transfer order in SAP system after approving the STDR.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+If issuance site is store, they will perform TP311 post to SAP via DMALL system (inventory from issue site0031 to issue site0007)
+
+3) Inventory change flow (STDR from DC to store)
+
+Underserved:
+
+Process | PO quantity | DC0001 （refer to SAP） | DC0007 （refer to SAP） | Store 0031 （refer to SAP and DMALL） | Store 0007 （refer to SAP and DMALL） | Procedure
+Create PO | 10
+DC outbound | -10
+Store receiving (auto trigger STDR process) | +9 | +1 | DMALL side: 9 quantities will be added into store 0031, and 1 quantity will be added into store 0007
+Store receiving (auto trigger STDR process) | +9 | +1 | SAP side: Twice GR101 Post to SAP. 9 quantities for store0031 and 1 quantity for store0007
+Pending approval | No change
+DC approved: Store auto return | -1 | DMALL side: 1 quantity will be released from store 0007
+DC approved: Store auto return | +1 | -1 | SAP side: TP301 post to SAP ( 1 quantity from store 0007 to DC 0007)
+DC approved: DC auto receive | DMALL side: no change
+DC approved: DC auto receive | +1 | -1 | SAP side: DC users perform transfer orders from DC 0007 to DC 0001 in SAP system
+DC rejected: | +1 -1 | -1 | DMALL side: released 1 quantity from store 0007 to store 0031.deduct 1 quantity via stock adjustment from store 0031
+DC rejected: | -1 | SAP side: GI937 post to SAP( 1 quantity deducted from store 0007)
+
+Overserved:
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Process | PO quantity | DC0001 （refer to SAP） | DC0007 （refer to SAP） | Store 0031 （refer to SAP and DMALL） | Store 0007 （refer to SAP and DMALL） | Procedure
+Create PO | 10
+DC outbound | -10
+Store receiving (actual arrive quantity is 11, system auto trigger STDR) | -1 | +10 | +1 | DMALL side: add 1 quantity into store 0007 via stock adjustment function(adjust reason:TP301)
+Store receiving (actual arrive quantity is 11, system auto trigger STDR) | -1 | +10 | +1 | SAP side: GR101 (with 10 quantities) Post to SAP. TP301(with 1 quantity) post to SAP from DC 0007 to store 0007
+Pending approval | No change
+DC approved (over delivery): DC auto delivery 1 quantity | DMALL side: no change
+DC approved (over delivery): DC auto delivery 1 quantity | -1 | +1 | SAP side: DC users perform transfer orders from DC 0001 to DC 0007 in SAP system
+DC approved (over delivery): store auto receive | +1 | -1 | DMALL side: store transfer from store 0007 to store 0031
+DC approved (over delivery): store auto receive | +1 | -1 | SAP side: TP311 post to SAP from store 0007 to store 0031
+DC rejected (NO over delivery): | +1 | -1 | DMALL side: store transfer from store 0007 to store 0031
+DC rejected (NO over delivery): | +1 | -1 | SAP side: TP301 post to SAP from store0007 to DC 0007
+DC rejected (NO over delivery): | +1 | SAP side: GR955 Post to SAP to increase 1 quantity into store 0031
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Damaged:
+
+Process | PO quantity | DC0001 （refer to SAP） | DC0007 （refer to SAP） | Store 0031 （refer to SAP and DMALL） | Store 0007 （refer to SAP and DMALL） | Procedure
+Create PO | 10
+DC outbound | -10
+Store receiving(actual arrival quantity is 10, but 1 quantity is damaged) | +10 | DMALL side: Receive 10 quantities in Store 0031
+Store receiving(actual arrival quantity is 10, but 1 quantity is damaged) | -1 | DMALL side: Auto trigger stock adjustment function to deduct 1 quantity from store 0031
+Store receiving(actual arrival quantity is 10, but 1 quantity is damaged) | +10 | SAP side: GR101 (with 10 quantities) post to SAP
+Store receiving(actual arrival quantity is 10, but 1 quantity is damaged) | -1 | SAP side: GI937 (with 1 quantity) post to SAP to deduct from store 0031
+
+4) Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Receiving Note: input and complete the receiving.
+
+Receive quantity will be default empty, users should input it. If receive quantity is different from plan quantity, discrepancy type must be selected.
+
+If discrepancy type is overserved/damaged, overserved quantity/damaged quantity needs to be input.
+
+Receiving Note(APP):
+
+Approval page(PC)
+
+The approval page will show STDR related information. Created time, created by, approved by, approved time etc,.
+
+5.Exceptional Scenario
+
+STDR only happens during the receiving. If users miss the chance to perform the STDR. They can only use the stock adjustment function to correct the inventory.
+
+6.Related Reports
+
+STDR Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7.Key Changes
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Check the STDR report and manually perform TP311/301 posting to adjust the inventory | Basedn on different receiving situation, DMALL will auto trigger STDR process and auto perform TP311/301, GI937, GR955 posting. | STDR process will be more intelligent and automated. Users don’t need to do it separately. | RDU | All companies in scope.
+If there is any differ during the receiving. Users need to offline communicate with warehouse and ask them approval | The communication will be performed as task in DMALL system. DMALL system will automatically perform the following procedure based on the approval result. | New function: The communication move from offline to online and it is traced. | RDU, Warehouse | All companies in scope.
+Users need to perform the posting in FRS system. | DMALL will auto post the data to SAP system | Posting is automatically in the future. | RDU | All companies in scope.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Dispatch
+
+3.5 Transfer to vendor/warehouse
+
+1.AS-IS Overview
+
+Store raises a complicated RTV process and return to vendor/warehouse. based on pre-align logic to charge to vendor and dispose the unclaimed RTV order
+
+2.TO-BE Overview
+
+Goods transfer to Vendor/DC is the physical outbound movement of goods from store to Vendor/DC which results in a decrease in available SOH. It can be applied to below scenarios:
+
+For outright and consignment with inventory articles should be returned to vendor (discentralized returns) or warehouse(centralized returns) in some cases, such as expired goods, damaged goods,etc,. To ensure all the return business online, we will support all the return order creation and approval online.
+
+Some good goods need to be transferred to warehouse for some business purpose, NHO team should create the STO for store in SAP system. And store should perform the good issuance.
+
+For backload with inventoried articles, NHO team should create the STO for store in SAP system. And store should perform the good issuance. (For backload with non-inventoried articles, need to follow the current practice to complete the good transfer).
+
+For some special case, like SM bonus 5-gallon container return, store team can create the RPO in DMALL system and perform the good issuance.
+
+Each article item line should choose the corresponding return reason, DMALL system can support to maintain different reason code for clarifying the business purpose.
+
+For returnable articles, the store could return the article back to Vendor/DC, and to be approved by the approval officer with a certain threshold quantity.
+
+Once the goods are issued from the return store, stock will be deducted from the store and the Store available SOH will be updated.
+
+For non-returnable articles and consignors without inventory articles, users should perform stock adjustment function to adjust inventory
+
+3.TO-BE Flow
+
+4.TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Find damaged items | / | Selling | Damaged items | /
+2 | Scan item , returnable or not? | DMALL | Selling | barcode | Returnable or not | DMALL will validate item is returnable or not based on some master data criteria. If it is a non-returnable item, system will pop up warning and not allow users to proceed. They need to use stock adjustment function to scrap it with movement type-551
+3 | Input return information | DMALL | Selling | barcode | Article information | If an item is returnable, system will auto show the item details, users need to input: Return quantity Return reason Return description Source location. Images Return unit will be default as base unit, users can change to other package units.
+4 | Generate Return purchase reference(RPO) | DMALL | Selling | Return goods | RPO in DMALL | Click multiple return item lines, and generate DMALL RPO. Inventory transfer from specific to bad order location in DMALL
+5 | TP311/412 post to SAP(from store0031 to store0003) | SAP | / | TP | Posted TP | After DMALL generating RPO, DMALL should post to SAP with movement type TP311 or 412 to adjust inventory from store 0031 to store 0003 (outright: 311; consignor with inventory: 412)
+6 | Cluster head Approve? | DMALL | Cluster head | Pending approval RPO | Approve result | Cluster head should approve DMALL RPO in DMALL system. If there is not enough evidence to make the approval decision. They can leave comments and return to the previous level for supplement. If the RPO is rejected, inventory will be released to original location and store users should perform the stock adjustment to scrap the damaged goods. Reject reason will be shown on the approval page. And there will be a page to check all DMALL RPO data. Users can check the details.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+7 | AVP/SAVP/VP approve? | DMALL | AVP/SAVP/VP and merchandising | Pending approval RPO | Approve result | If return quantity of each item lines is equal to or more than 1 case, approver should approve DMALL RPO in DMALL system. If there is not enough evidence to make the approval decision. They can leave comments and return to the previous level for supplement. If reject the RPO, inventory will be released to original location and store users should perform the stock adjustment to scrap the damaged goods.
+8 | President approve | DMALL | President | Pending approval RPO | Approve result | If return quantity of each item lines is equal to or more than 5 cases, approver should approve DMALL RPO in DMALL system. If there is not enough evidence to make the approval decision. They can leave comments and return to the previous level for supplement. If reject the RPO, inventory will be released to original location and store users should perform the stock adjustment to scarp the damaged goods.
+9 | Merchandising approve? | DMALL | Merchandising | Pending approval RPO | Approve result | If return quantity of each item lines is more than 1 case, approver should approve DMALL RPO in DMALL system. If there is not enough evidence to make the approval decision. They can leave comments and return to the previous level for supplement. If reject the RPO, inventory will be released to original location and store users should perform the stock adjustment to scarp the damaged goods.
+10 | TP311 post to SAP(from store0003 to store0031) | SAP | / | TP | Posted TP | If approval office rejected the RPO, DMALL should post to SAP with movement type TP311 to re-adjust inventory from store 0003 to store 0031
+11 | Pass RPO item lines data to SAP | DMALL | / | Approved RPO item lines | / | When RPO in DMALL system is approved, DMALL will pass the data to SAP for generating their own RPO
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+12 | Move stock and seal RTV items | / | Selling | Return goods | / | RDU staff should move the stock to bad order location, put them in the box and seal it.
+13 | SAP generate RPO based on DMALL RPO item lines | SAP | / | Approved RPO item lines | RPO in SAP | SAP will generate their own RPO and send back the RPO number to DMALL
+14 | Save the SAP RPO No. for mapping | DMALL | / | RPO number | Mapping relation
+15 | Release RPO to vendor portal | DMALL | / | Released RPO | /
+16 | Generate Return to vendor order | DMALL | / | Released RPO | RTV order | If the RPO type is decentralized, DMALL will generate the return to vendor order based on released RPO in DMALL. So that RDU can perform the issuance
+17 | Generate Return to warehouse order | DMALL | / | Released RPO | RTW order | If the RPO type is centralized, DMALL will generate the return to vendor order based on released RPO in DMALL. So that RDU can perform the actual stock transfer of the RTV to DC for vendor pick up
+18 | Go to store and pick up the goods | / | Vendor/driver | / | Vendor or DC driver should come to pick up the goods before the expected time of arrivals.
+19 | Claim return to vendor order | DMALL | RDU | Pending to deliver RTV order | Completed RTV order | If vendor pick up in advance or on time, RDU staff perform the issuance in DMALL system. [go to step20] If vendor does not come to pick up before the disposal date, system will auto-issue and auto post it. [go to step21]
+20 | Claim return to warehouse order | DMALL | RDU | Pending to deliver RTW order | Completed RTW order | DC driver should pickup the good and store user will perform good issuance in DMALL system.
+21 | Post to SAP(mvm type:161) | SAP | / | GI | Posted GI | When return to vendor order is issued, DMALL will pass the data to SAP for posting with movement type 161
+22 | Post to SAP(mvm type:933) | SAP | / | GI | Posted GI | When return to vendor order is auto-issued, DMALL will pass the data to SAP for posting with movement type 933
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+23 | Return the goods to driver | / | RDU | Non complete order | / | If vendor does not come to pick up before the disposal date, RDU staff need to manually communicate with DC and request them to pick up for disposal
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1) End to End
+
+In phase 1, RPO creation happens in DMALL system and SAP system. Once damaged items found, store users should scan article barcodes via PDT and generate RPO in DMALL system. Approval officer should approve the RPO in DMALL system based on current approval matrix. Approval officers do not need to do any approval in SAP anymore. After approving the RPO, DMALL system will send RPO item lines to SAP system. SAP should directly generate RPO based on data provided by DMALL and send back the RPO number to DMALL. RPO in SAP is the real return purchase order. RPO in DMALL is like a draft or reference return purchase order. There is a corresponding relationship between RPO in DMALL and RPO in SAP.
+
+An article is returnable or not is a combination validation in DMALL system and it will integrates with SAP master data. Validation condition one: Vendor is returnable or not; Validation condition two: Vendor Item is returnable or not in purchase information. Only meet the above 2 conditions, DMALL system will regard it as returnable.
+
+Only outright, consignor with inventory articles can be returned. Consignor without inventory cannot be returned.
+
+Normally, return supplier is default as the supplier of source information. For some selected vendor, they request to return to DC first and vendor will pick it up in the DC. For this case, DMALL will integrate the special/selected return supplier table from SAP and map into source information table for clarifying the purchase vendor and return supplier.
+
+Besides,DMALL system also support return to specific supplier which have purchase information. These suppliers are all integrated with SAP system vendor master data.
+
+DMALL system only allow users to return returnable items.
+
+Over-delivery and extra articles that do not exist in RPO are NOT allowed in DMALL design.
+
+In phase 1, DMALL system only manages the inventory and cost is managed by SAP system. DMALL system will NOT show any relative cost information.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+2)  Function design
+
+When users scan damaged items to return, they should select the return source location. The locations can be SLOC 0001 Selling Area, SLOC 0025 Dark Inventory and SLOC 0031 Backroom, 0002 offsite warehouse. When store return to warehouse/vendor, inventory should be deducted from the assigned location.
+
+When scanning damaged article, if it is decentralized returns, DMALL will designate the return vendor from source information. If it is centralized returns, DMALL will list out the vendor list for user’s selection. They should pick up the correct vendor and proceed with it.
+
+When scanning damaged article, return unit will be defaulted as base unit for convenience. Users can change to other package units, depending on the actual business. System will allow users to return different package units in same time.
+
+When generating RPO, the same article will different package units will be considered as one return item. DMALL will group article item lines by vendor, site, category and return reason level and split them into different RPOs. Each return reason will be mapped to one Doc Type and applied when generating the RPO. The mapping relationship please refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(Master Data-Config)_ver1.0.xlsx Table<Master List> Line No.13 Order Reason
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+When Dmall generates the RPO, approvers will receive an approval notification email. And they need to login in dmall system to handle it.
+
+When DMALL generates the RPO and posts to SAP, for outright items, should post with TP311, for consignor with inventory items, should post with TP412
+
+When DMALL get the true RPO number from SAP, users can print out the RPO label from DMALL system. The RPO label will be the same as current format.
+
+DMALL system will support to return to previous level with comments/documents/images during the RPO approval process.
+
+When vendor/warehouse trucker claim the RPO, store users need to scan case barcode or item barcode to add up the quantity for release.Dmall system will not allow users to input the return quantity for release directly.
+
+DMALL system will follow the below rule to auto-disposal the goods and charge to the vendor (DMALL will post to SAP with 933).  store users need to offline communicate with warehouse and deliver the goods to them for disposal.
+
+Fresh | Approval date + 7 days
+Food | Approval date + 15 days
+Drygoods | Approval date + 30 days
+
+Dmall will execute the auto disposal programme to handle the Un-claimed RPO at midnight everyday.
+
+Example:
+
+RPO for fresh approval time: Jan 1st 2023,14:23:00
+
+Dmall will auto dispose it at Jan 9th 2023,00:00:00 and disposal date is Jan 9th 2023
+
+If damaged item is a consignment item or non-returnable, store users should perform stock adjustment function to adjust the inventory.
+
+Return reason can be configured by merchant. Aligned as below:
+
+Reason reason code | Return reason description
+001 | Manufacturing Defect above 1 case
+002 | Customer Return
+003 | Others
+004 | Mdsg Approved (Expired/Near Expiry)
+005 | ZD_Vendor Pullout
+006 | Change in Packaging
+007 | Mdsg Approved (DTI/BFAD etc)
+008 | Article Conversion
+009 | Returnable Packaging
+010 | Special Scenarios Aprvd by Mdsg Below 1cs
+011 | Manufacturing Defect below 1 case
+012 | Empty Gallon
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+If Return quantity is less than 1 case, only show code 010 and 011 for users' selection. Otherwise, system will show 001 to 009 for them selection.
+
+Approval matrix:
+
+For articles (except appliance and furniture)
+
+Return quantity (article level) | Cluster head | AVP/SAVP/VP | President | Merchandising Dept.(could be senior manager)
+Return Qty < 1 case | ✓ | ×
+1 case <= Return Qty < 5 cases | ✓ | × | ✓
+5 cases < Return Qty | ✓
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Since approval is per RTV order and approval matrix is based on article level. If there are multiple articles in one RTV order, Dmall will apply the largest return quantity to proceed with the approval process.
+
+Since we can support return by piece or case, and approval matrix is based on article level. Dmall will sum up and validate return quantity based on case unit by article level and proceed with the approval process.
+
+For appliance and furniture
+
+Return amount ( based on SRP without promotion) | Cluster head | AVP/SAVP/VP | President | Merchandising Dept.(could be senior manager)
+Below P2,000 | × | ✓
+P2,000 to P5,000 | ✓ | × | ✓
+P5,001 to P30,000 | ✓ | × | ✓
+Above P30,000 | ✓
+
+3) Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Create store manual return: create damaged return goods
+
+When create return item line, article code, return quantity, return unit, return source of location, supplier and reason for return is mandatory.
+
+Real time inventory means the book quantity of return source of location.
+
+Delivery Note: all good delivery orders can be checked and supported to filter by below criteria.
+
+Status: Pending to deliver, Delivered
+
+Add: disposal date, to filter the disposal order
+
+Operation type:  APP Delivery, PC Delivery
+
+Document type: DSP RTV Order, STO RTW Order and IBT Delivery Order
+
+DSP is equal to DSA in DMALL system terminology. IBT(Inter branch transfer) is store to store transfer order
+
+Delivery note details:
+
+Delivery Qty: must be input by users
+
+GI format:
+
+Signature will be prefilled by system depending on account name
+
+Order Query: Users can check the status of RPO and filter the rejected RPO to perform the scrapping.
+
+5.Exceptional Scenario
+
+Our software needs network to operate and perform the data transmission. If the network is unstable or no network connection, PDA will not work. Please return when the network available.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+If damaged physical goods more then the return plan quantity. Please raise another RPO for returning.
+
+For deletion RPO, operation team can manually check the RPO document in DMALL system and prepare the report to clear the RPO monthly via offline approval.
+
+For closing, operation team should separately check the issue quantity in DMALL system and receiving quantity in WMS system, then compare the difference.
+
+6.Related Reports
+
+Receiving and Return Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7.Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+RTV process is complicated: prepare the ROR, prooflist, scan the article.... | Any returnable article can be returned via simple return function | Simply the process. DMALL will validate the article is returnable or not based on SM current business logic | Selling | All companies in scope.
+RPO approval handle offline | RPO will be approved via DMALL system. | New function | Approving officer | All companies in scope.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+3.6 Store transfer to store
+
+1.AS-IS Overview
+
+NHO team create STO in SAP system. Issuance site performs the dispatch in FRS system and handover the goods to trucker. Trucker will deliver to warehouse, then delivery to Receiving site. Receiving site performs the receiving in FRS system.
+
+2.TO-BE Overview
+
+Store transfer to store happens within same company. It can be called inter branch transfer (IBT). The STO creation happens in SAP in phase 1. Dmall will follow the AS IS process, for the issuance site and receiving site, they only perform the good issuance and good receiving.
+
+Cause the trucker can not deliver the goods from store to store. They can only deliver the goods to the warehouse first. Then the warehouse request the trucker to delivery to the receiving site. To keep the order data flow the same as the physical goods transfer flow. IBT will be handled as 2 individual procedures in DMALL system.
+
+3.TO-BE Flow
+
+Dmall will support below two options
+
+Option 1: Store transfer to store directly
+
+Option 2: Store transfer to store via DC (The prerequisite is the transfer articles must be listed in DC)
+
+4.TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Generate 2 STOs (from out-store to warehouse, from warehouse to in-store) | SAP | Supply chain | / | 2 STOs | Create 2 STOs in SAP: From Issuance site to DC and DC to Receiving site
+2 | Generate corresponding delivery note for the first STO | SAP | OBC | The transfer out STO | Delivery note
+3 | Obtain STO/DN data from SAP and save in Dmall | DMALL | / | STO/DN | Dmall will obtain STO/DN data from SAP at 5AM everyday
+4 | Generate Dispatch order (good issuance) | DMALL | / | STO | Dispatch order | Generate a Dispatch order of transfer out store in DMALL
+5 | Pick actual stocks based on GI order | / | RDU | Dispatch order | Packed dispatch goods
+6 | Key in actual transfer quantity | DMALL | RDU | Transfer quantity | / | RDU users key in actual transfer quantity in DMALL system
+7 | Complete issuance | DMALL | RDU | Dispatch order | Completed Dispatch order | Complete all goods issuance in DMALL system. Inventory will be deducted from backroom location
+8 | Post to SAP (mvm type:921) | SAP | / | GI | Posted GI | DMALL will post it to SAP with movement type-921
+9 | Deliver goods | / | Driver | /
+10 | Perform goods receiving | SAP | Warehouse | IBD | GR
+11 | Perform goods issuance | SAP | Warehouse | OBD | GI
+12 | Get OBD data | DMALL | / | OBD
+13 | Generate a goods receipt order | DMALL | / | Reference order | Generate a goods receipt order of transfer in store in DMALL
+14 | Receive actual quantity | DMALL | RDU | Reference order | Completed reference order | Users keyin actual receive quantity.Inventory will be added into backroom location
+15 | Post to SAP (mvm type:101) | DMALL | / | GR | Posted GR | DMALL will post it to SAP with movement type-101
+16 | Actual transfer qty = receive qty? | / | If not, system will auto trigger STDR process
+17 | Auto trigger STDR process | DMALL | / | STDR process
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1）End to End
+
+STO creation is in SAP system, stores perform goods issuance and goods receipt in DMALL.
+
+DMALL only supports issuing/receiving goods exist on the Purchase order. Over-delivery, over-receiving and extra articles that do not exist in STO are NOT allowed in DMALL design. Stores need to handle the above situations offline.
+
+2)  Function design
+
+DMALL support receiving via PC side and APP side(Application can be installed on mobile phone and PDA). The screen layout will be impacted by different device resolution. DMALL will present the best layout with the agreed terminal device as the standard.
+
+Good issuance and good receipt will default operate on SLOC 0031 Backroom
+
+Delivery quantity can not be greater than Plan quantity
+
+3) Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Delivery Note: issuance site should perform delivery
+
+Delivery quantity will be default as plan quantity, allow users to deliver less than plan quantity
+
+Receiving Note: input and complete the receiving. Please refer to 3.4 good receiving from DC/store
+
+5.Exceptional Scenario
+
+N/A
+
+6.Related Reports
+
+Receiving and Return Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7.Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+N/A
+
+Inventory handling
+
+3.7 OSA
+
+1.AS-IS Overview
+
+OSA is used to check the completeness of Top888, Top4k, SME, FSC Top100 and MBU Top articles display. According to the summary report, users will manually perform replenishment from backroom to selling area.
+
+2.TO-BE Overview
+
+Design Background
+
+OSA is used to check the completeness of Top888, Top4k, SME, FSC Top100 and MBU Top articles display. According to the summary report, users will manually perform replenishment from backroom to selling area.
+
+3.TO-BE Flow
+
+4.TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot
+1 | Select article type (Top888,Top4k,SME) | DMALL | Selling | / | Confirm article type | Users should confirm which article type they plan to scan
+2 | Select category | DMALL | Selling | / | Confirm assigned category | Users should confirm which category they plan to scan
+3 | Scan aisle number | DMALL | Selling | / | Record aisle number
+4 | Scan available articles one by one | DMALL | Selling | / | Record article code
+5 | Is it the assgined category? | DMALL | / | Article information | / | Dmall system will validate the article is the assigned category or not. If not, prompt that: It does not belong to assined catgory
+6 | Does it exist in DMALL? | DMALL | / | Article information | / | DMALL system will validate the article exist in DMALL or not
+7 | Record it as INF(Item not found) | DMALL | / | Record | If article does not exist in DMALL, it will be tagged as INF
+8 | Is it in the store article range? | DMALL | / | Article information | / | DMALL system will validate the article is in the store article range or not. If not, it will be tagged as INF
+9 | Is it the right article type? | DMALL | / | Article information | / | DMALL system will validate the article is the right article type or not
+10 | Record it as Non scope article | DMALL | / | Non scope article | If article is not the right article type, it will be tagged as Non scope article
+11 | Record it as in scope article | DMALL | / | Top article | If article is the right article type, it will be tagged as in scope article
+12 | Print out the summary report | DMALL | Selling | Scanned article | Summary report | According to scanning, system will generate 2 summary reports
+13 | manually perform the replenishment from backroom to selling area | DMALL | Selling | Summary report | / | Based on the summary report, users can manually perform stock transfer function to adjust inventory from backroom to selling area to finish the replenishment
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1）End to End
+
+Top888, Top4k and SME articles will be defined in the merchandise master data. FSC Top100 and MBU Top 115 will be managed in Dmall dashboard module.
+
+OSA function relies on the master data.
+
+Each OSA checking will generate the corresponding summary reports, they are under dashboard module. For more report details, please refer to dashboard blueprint.
+
+2)  Function design
+
+Only support infrared scanning or camera scanning to record Top articles.
+
+Before starting the OSA, users should confirm the scanning article scope and category first, and system will alert if it is the right category and in scope or not and show corresponding article information
+
+If article is not in the store article range, system will alert users and record it. If article does not exist in DMALL system, system will alert users and record it too. They will be tagged as “items not found” in OSA report.
+
+3) Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+5.Exceptional Scenario
+
+Our software needs network to operate and perform the data transmission.If the network is unstable or no network connection, PDA will not work. Please use it when the network available.
+
+6.Related Reports
+
+OSA Report
+
+7.Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+N/A This is a customized requirement.
+
+3.8 Stock take(Inventory count)
+
+1.AS-IS Overview
+
+Two kinds of stock take: Physical count and cycle count
+
+Operation DA users prepare the article list and get the approval from manager. Accounting department will create the Pcount order in current system. Count check will finish the counting and note down the count quantity in the finish sticker. Store officer will input the count quantity in current system. Accounting department will do the spot check by bay.
+
+2.TO-BE Overview
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Stock take is a physical inspection of all inventory's articles to verify their quantity and condition which encompasses all physical products that can be sold from the store and are under the store's ownership.
+
+DMALL system can support physical count for all articles, cycle count for selected articles.
+Accounting team create the inventory plan, each staff member should be responsible for a specific sector/bay to perform the counting execution and DMALL system will summarize the counting details.
+
+3.TO-BE Flow
+
+4.TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Prepare list of articles for inventory count | / | DA | / | Inventory count article list | DA prepares list of articles for inventory count
+2 | Approve the list of articles | / | Store manager | Inventory count article list | Approved Inventory count article list | Store manager approves the list of articles
+3 | Set inventory count plan | DMALL | Accounting | Approved Inventory count article list | Inventory count order | Accounting sets inventory count plan as follows: Inventory site: designated one inventory site, support to click all to select all inventory site. Stocktake mode: Store stocktake, 3rd party count Operation mode: Inventoy disply (show SOH when counting) Blinding count (hide SOH when counting) Over-range counting: Yes (can count articles out of the plan article lists) No (can not count articles out of the count article lists) Un-counted processing: Perform 0 inventory check (mandatory request users to count missing counted articles, otherwise not allowed to submit for approval) Auto count as 0 inventory (alert users missing counted articles will be regarded as 0 when submitting for approval) Choose inventory count date (multiple) Choose stores (multiple) Choose count article lists: All , by article , by category. support upload article list
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+4 | Count articles | DMALL | Selling | Inventory count order | Counting tasks and counted quantity | Before counting the articles, we should create the counting tasks first. 2 methods to create counting tasks: Accounting department or store manger to create and assign the counting task in the PC side. Counting staff members create the counting task by themselves on the PDA Staff login DMALL application/DMALL system(PC) to create count sheet by themshelves. Input Bay number first, scan article to count and input count quantity then submit. Each counted article should attach a finish sticker on the shelf to simply identify article is counted or not. Suggestion: each staff should be responsible for an assigned sector/bay to perform the counting execution.
+5 | Monitoring counted situation | DMALL | Store manager | Counting tasks and counted quantity | / | Store supervisor can login to DMALL system(PC) to check count details. They can also download the count details in excel format.
+6 | Spot check (re-count) | DMALL | Accounting | Inventory count details | Re-count task | Accounting assistant can create a re-count task to do spot check and adjust the count quantity
+7 | Check completeness of count article lists | DMALL | Accounting | Inventory count details | / | Accounting supervisor can login to DMALL system(PC) to check final count details. They can also download the count details in excel format.
+8 | Check the variance | DMALL | Selling | Inventory count details | Pending approval inventory count order | Check articles with high variance based on the count detail page. If no exception, then submit for approval
+9 | Amend count quantity (Edit count quantity) | DMALL | Accounting | Inventory count details | Edited Inventory count details | Inform accounting to amend the count quantity if the counting result is not correct
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+10 | Submit for approval | DMALL | Selling | Inventory count details | Pending approval inventory count | After the financial department spot check and internal check, selling staff should submit the inventory count order for approval. Users can provide some evidence for approval (pictures, documents.,)
+11 | Approve the variance | DMALL | Store manager | Pending approval inventory count order | Approval result | Store supervisor approves the count order. If rejected, count order will be turned back for checking.
+12 | Approve the variance | DMALL | Approving officer | Pending approval inventory count order | Approval result | Approving officer approve the count order. If rejected, count order will be turned back for checking.
+13 | Post inventory difference to SAP(955/956) | SAP | / | GI/GR | Posted GI/GR | After approval, DMALL will post count variance per stock take order to SAP with movement type-955/956
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1）End to End
+
+Stocktake function relies on merchandise master data and inventory data in DMALL. Only after approving the stocktake document, the counting variance will be posted to SAP.
+
+All inventoried articles (‘Whether to manage inventory’ tag in merchandising master data is Yes) can be counted except below scenarios:
+
+In merchandising master data, article is NOT allowed to perform counting
+
+Article exists on the inventory count blacklist
+
+Article without source information in master data
+
+2)  Function design
+
+Support counting during business hour:
+
+Usually, stock take will be performed at store closure. But for 24 Hour Store on some special holidays, stock take can be performed during business hours if needed.
+
+Either before or after physical stock take, stock movements may occur during business hours. These orders need to be closed by the store before the stock take. DMALL system will capture the stock movements which will impact the counting result.
+
+When start the counting, DMALL will capture the stock SOH as reference(control group). DMALL system will also capture all stock movement happening before the counting, which will impact the counting result. DMALL system will not capture the stock movement after the counting because these stock movements will not impact the counting result.
+
+System will list out the stock movement happening before the counting, and users need to accept or reject the impact. If accepted, count quantity will be adjusted. Otherwise, count quantity will not be changed.
+
+Based on different purpose of counting, DMALL system has 3 types of count methods.
+
+Primary count(can be called as initial count): count by count staff member. One article is displayed in different location and counted by different staff member. The counting result will be accumulated.
+
+Re count: usually for supervisor or accounting department to do the re-count or spot check. The re-count quantity will override the primary count quantity.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Edit count quantity: usually for supervisor or senior manager to directly amend the count quantity after variance investigation. The count quantity will override the count quantity of above 2 types of count methods. (highest priority)
+
+articles | Before count quantity | Count quantity | After count quantity
+Primary count 1 | / | 20
+Primary count 2 | 20 | 10 | 30
+Recount 1 | 30 | 35
+Edit count quantity | 35 | 38 | Highest priority
+Recount 2 | 38 | 40 | 38
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Support 3rd party inventory count mode. 3rd party inventory count in DMALL system is just a count mode record. 3rd party users need to offline count the physical goods and upload the count quantity in excel format by article level to update the count result into DMALL system. And DMALL can continue counting approval and posting.
+
+Support maintain inventory count article blacklists. When creating the inventory count order, system will filter out articles from the blacklists and these articles can not be counted.
+
+Support maintaining the Location code dictionary by inventory location to manage the shelves in the store location. When performing counting, users can follow the location code to count. DMALL system will capture the location information and corresponding count quantity of articles.
+
+When scanning an INF article, users can still input the counted quantity. Dmall will record and generate an INF article count report for users checking. They can download the report too. These articles will not be posted to SAP.
+
+When users submit the inventory count order for approval, they can provide/upload some pictures or documents as evidence for explaining the high variance.
+
+Approval matrix: The approval matrix shall be implemented based on the net amount(based on EOD MAV of stock take date) of adjustment per cycle count date.
+
+SVI
+
+Amount of adjustment (per inventory count) | Store manager | Cluster Head | AVP Operations | Mylene Mendoza | President
+Below P5,000 | ✓ | ×
+P5,000 to P40,000 | ✓ | ×
+P40,001 to P200,000 | ✓ | ×
+Above P200,000 | ✓
+
+SMCO
+
+Amount of adjustment (per inventory count) | Store manager | Cluster Head | AVP Operations | Athena Cajucom | President
+Below P5,000 | ✓ | ×
+P5,000 to P40,000 | ✓ | ×
+P40,001 to P200,000 | ✓ | ×
+Above P200,000 | ✓
+
+SSM
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Amount of adjustment (per inventory count) | Store manager | Cluster Head | AVP Operations | Vacancy (Replaced by President) | President
+Below P5,000 | ✓ | ×
+P5,000 to P40,000 | ✓ | ×
+P40,001 to P200,000 | ✓ | ×
+Above P200,000 | ✓
+
+When Dmall posts to SAP, SAP will feedback the posting result to Dmall. Dmall will generate a corresponding Unposted Article Reports.
+
+3) Key function layout
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Add stocktake plan:create the stocktake plan.
+
+Stocktake date can be today or the future day. But it cannot be the past day.
+
+Stocktake order: query and manage all stock take order
+
+Status:
+
+Data preparing: when creating the stock take order, system will run a programe to obtain the aritcle and filter out some invalid article. After preparing, status will change to ‘stock take preparation’
+
+Stock take preparation: stock take order is not active. Once users lock the inventory to capture the stock information, status will change to ‘Locking stock’
+
+Locking stock: system is capturing the stock information as a copy for counting. Once completion, status will change to ‘Ongoing’
+
+Ongoing: stock take order is active, users can operate related stock take operation. Once order is submitted, status will change to ‘pending approval’
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Pending approval: stock take order is pending approval office approval. Once order is finally approved, status will change to  ‘posting’
+
+Posting: system is handling the posting. This procedure will not take too much time. Once order is posted, status will change to ‘completed’
+
+Completed: final status. It means the stock take order is completed and posted.
+
+Canceled: if there is no valid article when system preparing the data, stock take order will be auto canceled. Or users can cancel the order if they want. Canceled Stock take order cannot be renewed.
+
+Stock take order details: Manage and check count details
+
+Article summary table is by article + inventory site + location code level.
+
+DMALL will create 2 more tables under the 'Article summary' to sort out articles by article level or article-location code level.
+
+Support query by below criteria:
+
+Article
+
+Category: follow the merchandise hierarchy
+
+Status: counted, un-count, miss count
+
+Types: stock loss, stock gain, no difference.
+
+MAV: 0, negative and positive. ( EOD MAV of stock take date)
+
+Add count task: store manager or supervisor can create count task and assign to specific count checker
+
+Input Task name to describe the counting is for which location code
+
+Select the unique stock count checker
+
+Store manager can assign specific articles to the checker. (optional)
+
+When checker receive the task, they can perform the counting
+
+Create count sheet: count checker can create counting tasks by themselves
+
+Input Task name to describe the counting is for which location code
+
+Select the unique stock count checker (themselves)
+
+Scan location code first, and then scan article one by one and input counted quantity
+
+Scan the next location code and proceed with the counting as previous step.
+
+Period change record: sales transaction which might impact on the counting result will be listed out in this table. Users should check and approve or reject it.
+
+5.Exceptional Scenario
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+If the network is unstable or no network connection, users can switch to offline mode and perform the counting. Counting results will be updated to backend when network connecting. (only available for annual count/physical count)
+
+If users find out the stock take plan is wrong during the stock take. Managers can download the counted result and create a correct stock take plan and upload the counted result. This solution is only for stocktake during the cloure time. It is not applicable for stock take during business time.
+
+6.Related Reports
+
+Stock Take Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7.Key Changes
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Count checker note down the count quantity in the finish sticker, accounting department follow the prooflist to check the finish sticker is correct or not (spot check) | Count check and accounting department perform the counting and spot check via DMALL system. | Counting process change from offline to online. | Count check, Accounting department | All companies in scope.
+During the counting, count checker need to scan start code, scan articles and scan end code to finish the bay counting | During the counting, count checker only need to scan start code, scan articles. When they scan the next start code, system will auto complete the previous bay counting | Simple the process | Count check | All companies in scope.
+Accounting department need to do posting. | Posting will be auto perform after the inventory count is approved. | Simple the process | Accounting department | All companies in scope.
+Inventory count approval handle offline | Inventory count will be approved via DMALL system. | New function | Approving officer | All companies in scope.
+Cannot support inventory count during business hour | Support inventory count during business hour | New function | / | All companies in scope.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+3.9 Expiry date management
+
+1.AS-IS Overview
+
+Store users will note down the expiry date on the yellow sticker and attached outside the box. They will manually check the expiry date and perform the corresponding procedure.
+
+2.TO-BE Overview
+
+To avoid treading on brand reputation or causing customer complaints, store staff should check the shelf life of the goods on a daily basis and deal with the expired goods on time. This function is mainly for groceries or goods with long shelf-life. It is not suitable for monitoring goods with short shelf life.
+
+3.TO-BE Flow
+
+4.TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Setup the expiry monitoring rules for store | DMALL | NHO | / | Expiry monitoring rules | Setup monitoring rules as follows: Handle method: Sold out Disposal (auto trigger adjustment) Notice config: Alert X days in advance Alert time (xx:xx) Monitoring item scope: All By category By item
+2 | Input the expiry date when receiving | DMALL | Selling | Expiry date | / | Input expiry date when receiving from vendor
+3 | Find out Item not recorded expiry date | / | Selling | New expiry date batch | / | During the daily checking, they can input the expiry date data in any time. Or use this tool to input the expiry date when receiving from warehouse.
+4 | Input expiry date by item | DMALL | Selling | Expiry date | / | Query by item code and input the new expiry date
+5 | System will run a programe to capture goods that are about to expire | DMALL | / | pending checking item list | System will run a programe to capture the goods which hit the expiry monitoring rules every day
+6 | Alert users pending checking item list | DMALL | / | pending checking item list | Notices | Check the pending list
+7 | Find the about to expiry date goods | / | Selling | pending checking item list | / | Find out the specific goods
+8 | Select handle method | DMALL | Selling | / | Handle method | Disposal, return, sold out or handle it next time
+9 | Input quantity | DMALL | Selling | pending checking item list | Disposed quantity | If the goods need to be disposed, users need to input the disposal quantity. if they can't find any stock, they need to select sold out. System will not monitor this expiry date anymore until users input the same expiry date again.
+10 | Auto trigger stock adjustment | DMALL | / | Disposal | Stock adjustment order | If the goods need to be disposed, system will auto trigger stock adjustment order and auto approve it.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+11 | Post to SAP (mvm type: 551) | SAP | / | GI | Posted GI | After approval, DMALL will pass the data to SAP with movement type 551
+12 | Input quantity | DMALL | Selling | pending checking item list | Return quantity | If the goods need to be returned, users should input the return quantity for recording.
+13 | Manually perform return process | DMALL | Selling | Return quantity | RTV process | Users should manually perform RTV process via DMALL system
+14 | Pending execution next alert time | DMALL | Selling | pending checking item list | Notices | If users can not decide the handle method right now, they can choose to handle next alert time
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1) End to End
+
+Expiry date management function needs expiry date data to do monitoring. It relies on receiving function to collect the expiry date data, otherwise users need to input expiry date data manually in daily basis.
+
+2)  Function design
+
+Expiry date monitoring rules is by merchant level and it should be managed by NHO team.
+
+Alert messages will be sent to designated roles which can be configured in system.
+
+System support setup multiple monitoring rules. Each monitoring rule can apply to multiple or all articles.
+
+When system runs the procedure to calculate the pending check item list, DMALL system will follow the below priority settings to generate the item list.
+
+Rule | Item scope | Notice days | Process method | Priority | Result
+A | Only for Item 123456 | 30 | Sold out, diposal | 1 | Hit
+B | For all items | 15 | Disposal | 2 | No Hit
+
+2 rules apply to item 123456. The priority of ruleA is higher than ruleB. DMALL will take rule A to generate the item list. Item 123456 will be warned before 30 days and they can decide to ‘disposal’ or ‘sold out’.
+
+When setup the monitoring rules, system support to maintain the second alert time. Second alert time will start from the time when users confirm to check later. (confirmation time of check late + X days)
+
+3) Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Edit Freshness rules: create freshness rules
+
+The re-alert function is optional. Re-alert time starts from the first notice time. And users have one chance to delay the handling. The re-alert time value must be smaller than the first notice days value. (Aligned with Sir Romil: remove from the phase 1 scope)
+
+Freshness Query: can review the checking status of each expiry date data by article level
+
+Status: Check later (not hit the monitoring rules), To check (Hitted the monitoring rules ), Checked (completed checking).
+
+Filter by : site, article, status, expiry on, enter on, check on
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Support to query no more than 90 days data.
+
+5.Exceptional Scenario
+
+Our software needs network to operate and perform the data transmission.If the network is unstable or no network connection, PDA will not work. Please use it when the network available.
+
+6.Related Reports
+
+N/A
+
+7.Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Note down the expiry date on the yellow sticker and attached outside the box. Users need to check expiry date offline and manually. | When receiving from Vendor, they can input the expiry date in DMALL system. DMALL system will monitor the article and alert the users an article list that near expiry. The offline handling can be kept also. | New function | Selling RDU | All companies in scope.
+Expiry date monitoring rules is offline management | DMALL system can pre-set and execute the monitoring rules | New function | Selling RDU | All companies in scope.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+3.10 Gap check
+
+1.AS-IS Overview
+
+In SM current practice, the stock of selling area and backroom will mix up together. Dicer will move the goods from backroom to selling area for replenishment without any record or system involved.
+
+2.TO-BE Overview
+
+Gap Check is a regular daily routine of the store. Store Staff will have to identify article inventory with gaps and perform stock replenishment manually.
+
+Store Staff detect the gap checks on shelves for defined article range according to the store planogram. They should proceed with manual replenishment to fill up the empty shelf slot and update the Store SOH of the article if any discrepancies have been found. If no stock can be found in the store, Store Staff should put on empty shelves and set the Store SOH(stock on hand) to zero to ensure the system SOH record is accurate.
+
+For merchandiser replenishment, Dmall will provide a simple way for them. They can use the store inventory movement process function to finish the goods replenishment. (Business flow chart please refer to below, and function design please refer to 3.11 Store Inventory movement process)
+
+3.TO-BE Flow
+
+Flow chart with role
+
+Standard Gap check flow:                                                                     Selling area replenishment flow for merchandiser
+
+4.TO-BE Description (Standard Gap check)
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot APP
+1 | Pre-set the gap check rules | DMALL | NHO | / | Gap check rules | Headquarter users should set the gap check rules: Assign specific roles to grab the checking task Checking task closure time configuration: Close it after X hr(s), start from creation time Close it at xx:xx:xx article with SOH=0 filter out configuration: If this configuration turns on, system will auto filter articles with SOH=0 and not generate the checking task.
+2 | Find a gap on the shelf | / | Selling | / | Empty shelf | Selling area staff find an article is out of stock on the shelf
+3 | Scan the shelf label | DMALL | Selling | Shelf label | Article information | Scan the shelf label or input article code
+4 | Submit and create tasks | DMALL | Selling | Scanned articles | Replenishment task | The system will show the bin location number on the screen for reference. Based on the SOH, users can recommend the replenishment quantity and submit for creating checking task.
+5 | Grab the checking task | DMALL | Selling | Replenishment task | Pending execution replenishment task | Someone who has the authority can grab/receive the checking task
+6 | Check physical goods in the backroom | / | Selling | Pending execution replenishment task | / | Someone who grabbed the checking task should go to the backroom to check the physical goods
+7 | Mark as out of stock | DMALL | Selling | Pending checking article | OOS | If an article is out of stock in the backroom(can not find any stock), users should mark it as out of stock
+8 | Manually perform stock adjustment/cycle count to correct inventory | DMALL | Selling | OOS article | Stock adjustment order | If they find out the inventory is not correct, they should manually perform stock adjustment or cycle count to correct the inventory
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+9 | Perform replenishment via PDA | DMALL | Selling | Pending checking article | / | If they can find stock in the backroom, they should replenish the stock to the selling area and input the replenishment quantity. Inventory will be transfered from backroom location to selling area location
+10 | Auto trigger storage location transfer | DMALL | / | Replenishment | Stock transfer order | DMALL system will auto trigger storage location transfer function to adjust the inventory
+11 | Move stock from backroom to selling area | / | Selling | /
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1) End to End
+
+N/A
+
+2)  Function design
+
+The above process is a manually checking process. System has 2 kinds of auto-trigger replenishment tasks as below:
+
+articles are out of stock in picking area location when picking task creation (This function will be available when Dmall picking function go live)
+
+articles are out of stock in picking area location when pickers cannot find available stock (This function will be available when Dmall picking function go live)
+
+Note: when completing the replenishment task, inventory should be transferred from backroom location to picking area location in above cases.
+
+Recommend replenish quantity is by package unit. system will use base unit as default. Users can switch to other package unit and key in the quantity.
+
+article | Package unit | Unit can be chosen
+article A | Piece, case
+article B | Piece
+
+3) Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+5.Exceptional Scenario
+
+Our software needs network to operate and perform the data transmission.If the network is unstable or no network connection, PDA will not work. Please use it when the network available.
+
+6.Related Reports
+
+Gap Check Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7.Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Dicer move the goods from backroom to selling area without any record | Stock will be divided into selling area and backroom. Dicer can use this function to replenish. Besides, they can use the stock transfer posting function to adjust the inventory | New function | Selling Dicer | All companies in scope.
+
+3.11 Store Inventory movement Process
+
+1.AS-IS Overview
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+In SM FRS system, there is a TP posting function to adjust inventory from one site-one location to another site or the same site – another location. Based on different scenarios, there are different movement types to handle it. Article stock dose not divided into selling area and backroom.
+
+2. TO-BE Overview
+
+This function is for storage location transfer which happens in one store. It can be performed by store users at any time.The scenarios for stock inventory transfer may include: replenishment for selling area from backroom, moving goods from offsite warehouse to selling are and other regular transfers in store. Not include the STDR scenario.
+
+3. TO-BE Flow
+
+Flow chart with role
+
+4. TO-BE Description
+
+Step | Operation | System | role | input | output | Details | Screenshot PC | Screenshot APP
+1 | Create a stock transfer order | DMALL | Store staff | site transfer-in location、department transfer-out location、department article Transfer quantity | transfer order draft created | Select store first, and then select transfer-out location and transfer-in location Select transfers items and key in transfer quantity
+2 | Submit the order | DMALL | Store staff | Click save button | transfer order created
+3 | Auto Approval | DMALL | System | Task center receives transfer order request from user and pending approval by approver | transfer order to be approved | The system will perform an auto approval procedure.
+4 | Update inventory in DMALL | DMALL | System | Transfer order is approved | Inventory adjustment | Transfer-out location inventory will be deducted Transfer-in location inventory will be increased
+5 | Post to SAP | DMALL | System | Inventory adjustment | Posted data | If involves 0030 advanced orders location, Dmall will post to SAP with movement type 311
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1)End to End
+
+dependent on upstream data：site master data（include location management）、merchandise master data、inventory  data
+
+2)Function design
+
+The inventory transfer does not support SLOC 0003 Bad Order location and SLOC 0007 STDR from DC&Store location.Transfer-in and transfer-out location could be SLOC 0001 Selling Area, SLOC 0025 Dark Inventory, SLOC 0031 Backroom, SLOC 0002 Offsite Warehouse, SLOC 0030 Advanced Orders.
+
+Transfer-out location default as backroom, and transfer-in location default as sell ing area. Users can click ‘Reverse’ button to quickly flip transfer-out location and transfer-in location.
+
+If users are merchandiser, after submitting the document, system will re-direct to create new order page.
+
+Merchandisers are not allowed to see article SOH and article cost.
+
+If approval matrix is needed, the system can support setup transfer quantity as approval criteria.
+
+When input the transfer quantity, users can choose to input by barcode and then key in the quantity by barcode unit. Transfer quantity will be shown by piece.
+
+Supporting the management of inter-departmental information in handling adjusting inventory processes.
+
+3)Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Transfer order at PC:
+
+order editing
+
+format
+
+Transfer order at APP:
+
+5.Exceptional scenario
+
+If the inventory location configured for the 'transfer out' operation does not allow negative stock, the system will prevent the execution of the transfer when the quantity to be transferred exceeds the current stock quantity at that location.
+
+in such a scenario, to proceed with the transfer, you have two options:
+
+Adjust the transfer quantity: User can modify the quantity to be transferred to ensure it does not exceed the available stock at the current location.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Adjust the configuration of the transfer-out inventory location: If it is essential to transfer the originally specified quantity, you may consider allowing negative stock in the configuration of the transfer-out inventory location. This adjustment would permit the system to execute the transfer even if the outgoing quantity exceeds the current stock, allowing for negative stock levels in the specified location.
+
+6. Related Reports
+
+Stock Transfer Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+N/A
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+3.12 SM Eat
+
+1. AS-IS Overview
+
+When As is performing a SM Eat in the SAP system, it is required to create two Goods Issue (GI) documents separately for the goods being transferred out and the goods being transferred in. Use the movement type to indicate that the current document corresponds to inventory adjustment related to SM Eat
+
+2. TO-BE Overview
+
+This function can be used for handling raw material articles and processed articles inventory transfer. It requests to maintain the Bill of materials(BOM) first.store staff create an SM Eat document to record the SM Eat process and system will transfer the inventory based on it.Both raw material articles and processed articles inventory can be managed in the system.The scenarios for production may include:bundle ,saleset,valuepack and other regular production in store,e.g turon、fruit/vegetable cuts.
+
+The key points of the process design include:
+
+The central manufacturing team maintains the production ratio of ingredients and finished articles.
+
+The store checks if the raw materials inventory quantity is available as per SM Eat requirement .
+
+BOM relationship management function is in article master data module, for detailed BOM information, please refer to the master data blueprint.
+
+3. TO-BE Flow
+
+Flow chart with role
+
+4. TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Configure BOM | DMALL | Merchandise staff | Processed article Component article Component ratio | BOM master data | Create article group for different types of raw materials Establish the relationship between the article group and multiple ordinary articles Maintain specified article groups as components with corresponding ratios. | N/A
+2 | Create a SM Eat order | DMALL | Store staff | site Processed article | BOM list | Select store first, then select processed article System will show available BOM list
+3 | Select Bom | DMALL | Store staff | BOM Processed article quantity | Component quantity | Select one particular BOM from BOM list
+4 | Submit the order | DMALL | Store staff | Click save button | SM Eat order draft | Click save button The system will create a new SM Eat order
+5 | Auto Approval | DMALL | system | Task center receives adjustment order request from user and pending approval by approver | Adjustment order to be approved | Approvers who have the authority should check and approve it If rejected, order will be rejected and inventory will not be changed. If approved, order will be approved and inventory will be updated.
+6 | Update inventory in DMALL | DMALL | system | SM Eat order is approved | Processed article SOH increase Component article SOH reduce | The system updates order & increase/decrease available SOH
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+7 | Post to SAP | SAP | system | site、article、TP type、location、quantity | Adjustment data is transferred back to SAP | After approval, DMALL will post it to SAP with assigned movement type Raw material (except consumption) of inventory deduct with Mvt type: 957 Process articles of inventory increase with Mvt type: 958 If component is fruit (consignor without inventory), we will assign a new movement code and post to SAP system, SAP will create a new table to save it for vendor settlement. the new movement code is 981 for raw material and 982 for process article
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1)End to End
+
+dependent on upstream data：site master data（include location management）、merchandise master data、BOM relationship、inventory  data
+
+2）Function design
+
+One SM Eat process can only handle one SM Eat article.
+
+One SM Eat article can have multiple BOM relationships.
+
+Both raw material and processed articles' inventory quantity belong to SLOC 0001 Selling Area
+
+When creating a SM Eat document, first choose a recipe, and then select the ingredients for each recipe. Optionally, consider providing ratios for each ingredient. Specify the exact item from the raw material inventory list for each ingredient.
+
+Calculate the maximum producible quantity of the processed article based on the available inventory of existing component articles, display it on the page, and provide a user prompt
+
+For disposal of SM Eat finished article, users should perform stock adjustment function to deduct inventory and post to SAP with movement type 959.
+
+Can support key in site cost-center for each document(Liana 23/12/12)
+
+3）Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+SM Eat order at PC:
+
+Format：
+
+SM Eat order at APP:
+
+5. Exceptional Scenario
+
+When the network is disconnected, unsaved/unsubmitted documents in the editing process can not be saved or submitted.
+
+If it is determined that the network downtime will not be lengthy (recoverable within a day), you can keep the operation interface open（PC/APP） and save the documents once the network is restored.
+
+If it is determined that the network downtime will be prolonged, please use the offline SOP to manually record the content. Subsequently, create the documents in the system as a supplement.
+
+6. Related Reports
+
+SM Eat Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7. Key Changes
+
+7. Key Changes
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Manage recipes offline mannually | Centralized managing recipes nine in DMALL system | new | Merchandise Operation
+Transfer the inventory quantity of each raw material article to the finished article through goods issue one by one in SAP. | Create an SM Eat order for each production; the system will transfer the inventory quantity of all raw material items to finished articles in batches | Change process | Operation
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+3.13 Dismantle
+
+1. AS-IS Overview
+
+When As is performing a dismantle in the SAP system, it is required to create two Goods Issue (GI) documents separately for the goods being transferred out and the goods being transferred in. Use the movement type to indicate that the current document corresponds to inventory adjustment related to dismantle
+
+2. TO-BE Overview
+
+This function can be used for handling raw material articles and processed articles inventory transfer. It requests to maintain the Bill of materials(BOM) first. Store staff create an dismantle document to record the dismantle process and system will transfer the inventory based on it.Both raw material articles and processed articles inventory can be managed in the system.
+
+The scenarios for dismantle may include: Articles bundled at the DC, if unsold at the store, are dismantled and sold as individual components. （ This functionality is only applicable to disbundle with a fixed BOM relationship. For disbundle without a fixed BOM relationship, the disbundle needs to be performed using the inventory adjustment feature and completed with movement type 949/950 for the TP process.
+
+The key points of the process design include:
+
+The central manufacturing team maintains the dismantle ratio of depack and pack articles.
+
+The store checks if the raw materials inventory quantity is available as per dismantle requirement .
+
+BOM relationship management function is in article master data module, for detailed BOM information, please refer to the master data blueprint.
+
+3. TO-BE Flow
+
+4. TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Configure BOM | DMALL | Merchandise staff | dismantle article pack article pack ratio | BOM master data | Select pack article first, then select dismantle articles key in pack quantity | N/A
+2 | Create a dismantle order | DMALL | Store staff | site dismantle article | BOM list | Select store first, then select pack article System will show available BOM list
+3 | Select Bom | DMALL | Store staff | BOM pack article quantity | Dismantle quantity | Select one particular BOM from BOM list
+4 | Submit the order | DMALL | Store staff | Click save button | Dismantle order draft | Click save button The system will create a new dismantle order
+5 | Auto Approval | DMALL | system | Task center receives adjustment order request from user and pending approval by approver | Adjustment order to be approved | Approvers who have the authority should check and approve it If rejected, order will be rejected and inventory will not be changed. If approved, order will be approved and inventory will be updated.
+6 | Update inventory in DMALL | DMALL | system | Dismantle order is approved | pack article SOH reduce dismantle article SOH increase | The system updates order & increase/decrease available SOH
+7 | Post to SAP | SAP | system | site、article、TP type、location、quantity | Adjustment data is transferred back to SAP | After approval, DMALL will post it to SAP with assigned movement type 319（both ingredients and finished goods）
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+3)End to End
+
+dependent on upstream data：site master data、merchandise master data、BOM relationship、inventory data
+
+4）Function design
+
+Both pack article and dismantle articles' inventory quantity belong to SLOC 0001 Selling Area
+
+One dismantle process can only handle one pack article.
+
+One pack article can have multiple BOM relationships.
+
+5）Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Dismantle order at PC:
+
+Format:
+
+Dismantle order at APP:
+
+5. Exceptional Scenario
+
+When the network is disconnected, unsaved/unsubmitted documents in the editing process can not be saved or submitted.
+
+If it is determined that the network downtime will not be lengthy (recoverable within a day), you can keep the operation interface open（PC/APP） and save the documents once the network is restored.
+
+If it is determined that the network downtime will be prolonged, please use the offline SOP to manually record the content. Subsequently, create the documents in the system as a supplement.
+
+6. Related Reports
+
+Dismantle Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7. Key Changes
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Dismantle article relationship is managed manually offline | Dismantle article relationship is managed manually by BOM master data | New | merchandise
+Transfer the inventory quantity of each raw material article to the finished article through goods issue one by one in SAP. | Create an Dismantle order for each depack; the system will transfer the inventory quantity of all raw material items to finished articles in batches | Change process | Store staff
+Manage recipes offline mannually | Centralized managing recipes nline in DMALL system | new | Merchandise Operation
+
+3.14 In store bundle
+
+1. AS-IS Overview
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+When As is performing a bundle in the SAP system, it is required to create two Goods Issue (GI) documents separately for the goods being transferred out and the goods being transferred in. Use the movement type to indicate that the current document corresponds to inventory adjustment related to bundle.
+
+2. TO-BE Overview
+
+This function can be used for handling raw material articles and processed articles inventory transfer. It requests to maintain the Bill of materials(BOM) first.store staff create an bundle document to record the bundle process and system will transfer the inventory based on it.Both raw material articles and processed articles inventory can be managed in the system.The scenarios for production may include:bundle ,saleset,valuepack and other regular production in store,e.g gift box.
+
+BOM relationship management function is in article master data module, for detailed BOM information, please refer to the master data blueprint.
+
+3. TO-BE Flowchart
+
+4. TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Configure BOM | DMALL | Merchandise staff | Processed article Component article Component ratio | BOM master data | Select processed article first, then select component articles key in process quantity | N/A
+2 | Create a bundle order | DMALL | Store staff | site Processed article | BOM list | Select store first, then select processed article System will show available BOM list
+3 | Select Bom | DMALL | Store staff | BOM Processed article quantity | Component quantity | Select one particular BOM from BOM list
+4 | Submit the order | DMALL | Store staff | Click save button | SM Eat order draft | Click save button The system will create a new SM Eat order
+5 | Auto Approval | DMALL | system | Task center receives adjustment order request from user and pending approval by approver | Adjustment order to be approved | Approvers who have the authority should check and approve it If rejected, order will be rejected and inventory will not be changed. If approved, order will be approved and inventory will be updated.
+6 | Update inventory in DMALL | DMALL | system | bundle order is approved | Processed article SOH increase Component article SOH reduce | The system updates order & increase/decrease available SOH
+7 | Post to SAP | SAP | system | site、article、TP type、location、quantity | Adjustment data is transferred back to SAP | After approval, DMALL will post it to SAP with assigned movement type Raw material (except consumption) of inventory deduct with Mvt type: 317 Process articles of inventory increase with Mvt type: 317
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+1
+
+)End to End
+
+dependent on upstream data：site master data、merchandise master data、BOM relationship 、inventory initial data
+
+2）Function design
+
+One bundle process can only handle one bundle article.
+
+One bundle article can have multiple BOM relationships.
+
+Both raw material and processed articles' inventory quantity belong to SLOC 0001 Selling Area
+
+Calculate the maximum producible quantity of the processed article based on the available inventory of existing component articles, display it on the page, and provide a user prompt
+
+3）Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Bundle order at PC:
+
+Format：
+
+Bundle order at APP:
+
+5. Exceptional Scenario
+
+When the network is disconnected, unsaved/unsubmitted documents in the editing process can not be saved or submitted.
+
+If it is determined that the network downtime will not be lengthy (recoverable within a day), you can keep the operation interface open（PC/APP） and save the documents once the network is restored.
+
+If it is determined that the network downtime will be prolonged, please use the offline SOP to manually record the content. Subsequently, create the documents in the system as a supplement.
+
+6. Related Reports
+
+In store bundle Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7. Key Changes
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Manage bundle relationship offline mannually | Centralized managing bundle relationship online in DMALL system | new | Merchandise Operation
+Transfer the inventory quantity of each raw material article to the finished article through goods issue one by one in SAP. | Create an bundle order for each production; the system will transfer the inventory quantity of all raw material items to finished articles in batches | Change process | Operation
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+3.15 TP article
+
+1. AS-IS Overview
+
+When As is performing a TP article in the SAP system, it is required to create two Goods Issue (GI) documents separately for the goods being transferred out and the goods being transferred in. Use the movement type to indicate that the current document corresponds to inventory adjustment related to TP article.
+
+2. TO-BE Overview
+
+This function can be used for handling inventory adjustment of different articles.It also requests to maintain the Bill of materials(BOM) first and system will transfer the inventory based on it. The scenarios for TP article may include:1) New/old package for same vendor article with different article code (If article code does not change, it should follow the current logic and not perform this function) ;2)Large packaging articles are damaged, and they are being sold individually by breaking them down, transferring the inventory of large packaging articles to its smaller packaging
+
+The TP article process is more efficient. They used to separtely operate material and finished articles.
+
+BOM
+
+BOM relationship management function is in article master data module, for detailed BOM information, please refer to the master data blueprint.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+BOM ratio
+Material article | article A | 1
+Finished article | article B | 2
+
+3. TO-BE Flow
+
+Flow chart with role
+
+4. TO-BE Description
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Configure BOM | DMALL | Merchandise staff | material article finished article | BOM master data | Select material article first, then select finished articles key in finished quantity | N/A
+2 | Create a SM Eat order | DMALL | Store staff | site material article | BOM list | Select store first, then select material article System will show available BOM list
+3 | Select Bom | DMALL | Store staff | BOM material article quantity | finished quantity | Select one particular BOM from BOM list
+4 | Submit the order | DMALL | Store staff | Click save button | depack order draft | Click save button The system will create a new TP article order
+5 | Auto Approval | DMALL | system | Task center receives TP article order request from user and pending approval by approver | TP article order to be approved | No need manually approve
+6 | Update inventory in DMALL | DMALL | system | TP article order is approved | material article SOH reduce finished article SOH increase | The system updates order & increase/decrease available SOH
+7 | Post to SAP | SAP | system | site、article、TP type、location、quantity | Adjustment data is transferred back to SAP | After approval, DMALL will post it to SAP with assigned movement type 935
+
+1)End to End
+
+dependent on upstream data：site master data、merchandise master data、BOM relationship 、inventory initial data
+
+2）Function design
+
+Both material article and finished articles' inventory quantity belong to SLOC 0001 Selling Area
+
+Both material article and finished article can have multiple BOM relationships.
+
+3）Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+TP article order at PC:
+
+input material quantity
+
+format sample
+
+TP article order at APP:
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution]
+
+5. Exceptional Scenario
+
+When the network is disconnected, unsaved/unsubmitted documents in the editing process can not be saved or submitted.
+
+If it is determined that the network downtime will not be lengthy (recoverable within a day), you can keep the operation interface open（PC/APP） and save the documents once the network is restored.
+
+If it is determined that the network downtime will be prolonged, please use the offline SOP to manually record the content. Subsequently, create the documents in the system as a supplement.
+
+6. Related Reports
+
+TP article Report
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7. Key Changes
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+Decide the TP article relationship manually offline | Manage TP article relationship online in DMALL system | New | Merchadise Operation
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.16 Stock adjustment]
+
+1. AS-IS Overview
+
+When SM as is performing inventory adjustments in the SAP system, it is necessary to create a Goods Issue (GI) document. For each document, input the corresponding movement type number to identify different reasons for inventory adjustments.
+
+2. TO-BE Overview
+
+In the process of running stores, staff need to constantly monitor the accuracy of store inventory. When the physical inventory of  articles doesn't match the system's records, staff need to initiate the inventory adjustment process.
+
+The scenarios for inventory adjustments may include: No PO receiving,goods from heaven,throw away,surplus,scrapping ,product expiration, product quality issues, internal and external theft,  product compensation, store-initiated inventory adjustments, inventory calibration etc.
+
+Since inventory adjustments can affect inventory costs and performance calculations, store operators need tools to assist with their daily inventory adjustments.At the same time, the management of the business needs to control the limits of inventory adjustments. They approve inventory adjustment forms submitted by internal staff, review the data records of inventory adjustments, and conduct issue tracing.
+
+In total, the current design for the stock adjustment has two functions:
+
+1) stock adjustment reason mapping with movement type;
+
+2) stock adjustment order management,which includes creating,deleting,searching and editing.
+
+3. TO-BE Flow
+
+4. TO-BE Description
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.16 Stock adjustment]
+
+Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP
+1 | Create a stock adjustment order | DMALL | user | site、adjustment type、adjustment reason、remark（optional） article、quantity | Adjustment order draft created | Select store first, then select adjustment type, inventory location and adjustment reason (mandatory) Select articles and key in adjustment quantity
+2 | Submit the order | DMALL | user | Click save button | Adjustment order created | Click save button After Input all required fields
+3 | Approval | DMALL | approver | Task center receives adjustment order request from user and pending approval by approver | Adjustment order to be approved | Approvers who have the authority should check and approve it If rejected, order will be rejected and inventory will not be changed. If approved, order will be approved and inventory will be updated.
+4 | Update inventory in DMALL | DMALL | Inventory system | Adjustment order is approved | Adjustment order is adjusted, and available SOH changed | The system updates adjustment order & increase/decrease available SOH
+5 | Post to SAP | SAP | site、article、TP type、location、quantity | Adjustment data is transferred back to SAP | After approval, DMALL will post it to SAP with assigned movement type
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.16 Stock adjustment]
+
+1)End to End
+
+dependent on upstream data：site master data、merchandise master data、inventory initial data
+
+2）Function design
+
+Each location in DMALL must be mapped with  one location in sap
+
+store staff can select adjustment location by each order
+
+Adjustment location has no default. It could be SLOC 0001 Selling Area, SLOC 0025 Dark Inventory, SLOC 0031  Backroom, SLOC 0002 Offsite Warehouse
+
+Adjustment reason will cover a specific scenario from one movement type
+
+If specific adjustment reason needs to be restricted to certain roles, additional authorization configuration is required.
+
+If specific functionality needs to be limited to a specific range of articles, users can follow SOP manually,the system will not control it.
+
+Article status will control one article can be adjusted or not by adjustment reason which is mapping with movement type 949\950
+
+Approval matrix： The approval matrix shall be implemented based on the net amount(based on cost/MAV of creation date) of adjustment per cycle count date.
+
+SVI
+
+Amount of adjustment (per inventory count) | Store manager | Cluster Head | AVP Operations | Mylene Mendoza | President
+Below P5,000 | ✓ | ×
+P5,000 to P40,000 | ✓ | ×
+P40,001 to P200,000 | ✓ | ×
+Above P200,000 | ✓
+
+SMCO
+
+Amount of adjustment (per inventory count) | Store manager | Cluster Head | AVP Operations | Athena Cajucom | President
+Below P5,000 | ✓ | ×
+P5,000 to P40,000 | ✓ | ×
+P40,001 to P200,000 | ✓ | ×
+Above P200,000 | ✓
+
+SSM
+
+Amount of adjustment (per inventory count) | Store manager | Cluster Head | AVP Operations | Vacancy (Replaced by President) | President
+Below P5,000 | ✓ | ×
+P5,000 to P40,000 | ✓ | ×
+P40,001 to P200,000 | ✓ | ×
+Above P200,000 | ✓
+
+Business scenarios supported by stock adjustment
+
+Headquarter personnel need to configure inventory adjustment reasons in advance and associate each movement type with an inventory adjustment reason .All supported adjustment reasons are listed:
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.16 Stock adjustment]
+
+Module adjustment reason） | Description | Adjustment type | TP type | authorized roles | Movement type from SM As Is
+1 | GI Adv. to Supplier | case1:damaged in transit for BST deliveries from DC, articles affected will be charged to trucker. case2:pest damages articles, it should be charged to pest controller and not for return to the Vendor or under store cost center. case3:shoplifted articles which are not monitored /guarded properly of security in charge in the selling, affected articles are subject for charging to security agency or assigned guard due to NOD thru GI-937 | Adjust reduce | NEGATIVE (-) | 937
+2 | Re GI adv to Supplier | GR 938 – reversal only of posted GI-937 | Adjust increase | POSITIVE (+) | 938
+3 | Re GR PO/STO/RO | reversal only of receiving of PO & STO documents for Trade & Non Trade | Adjust reduce | NEGATIVE (-) | HQ level only | 102
+4 | Re GI Claimed RO | reversal only of Goods Return /GI of CLAIMED RPO document either completely or partially processed including centralized return | Adjust increase | POSITIVE (+) | HQ level only | 162
+5 | GI for Reg Supplies | case1:Goods Issue of regular supplies for Internal Consumption (Request by Dept thru FASRS). case2:GI posting for regular supplies articles based on FAS Master list (usually per consumption of requesting department) | Adjust reduce | NEGATIVE (-) | 913
+6 | Rev GI for Reg Supl | 914 – Reversal only of posted 913 | Adjust increase | POSITIVE (+) | REVERSAL /CORRECTION is c/o manager level | 914
+7 | GR Excess Premium | case1:reported excess premium at store (ex: demo power) with approval of Mktg NHO case2:free gift delivered by vendor, not shown on PO. can perform this positive inventory adjustment to do receiving | Adjust increase | POSITIVE (+) | 911
+8 | Re GR Excess Prem | 912 – reversal only of posted 911 | Adjust reduce | NEGATIVE (-) | manager level | 912
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.16 Stock adjustment]
+
+9 | GR for LBC | case1:Goods Receipt of the following scenarios: - article left by customer - Safe Kept articles returned to Selling Area. - Any Goods Receipt from heaven case2: GR for articles without ref documents w/c are for display/return/ retain at store; ex: ILC, Safe Kept Mdse | Adjust increase | POSITIVE (+) | 906
+10 | Re for LBC | 905 – reversal only of posted 906 | Adjust reduce | NEGATIVE (-) | manager level | 905
+11 | GI Chrge to IO w/MA | case1:Goods Issue of regular merchandise to be used as premium article for bundling, Valuepack and other promotion with corresponding budget or Marketing Agreement (MA). (Not saleset. buy1take1, the "free one" need to be deducted inventory via code201, and charge to someone based on the marketing agreement) | Adjust reduce | NEGATIVE (-) | 201
+12 | Re GI Chrg to IOw/MA | 202 – reversal only of posted 201 | Adjust increase | POSITIVE (+) | manager level | 202
+13 | GI to CCtr for Promo | case1:Goods Issue of articles (Outright) used for Promo Activity without budget charged to company expense.(with reference EPAS/PAF) case2:Goods Issuance process for articles w/ promotion announcement as advised by MKTG but without MA (Marketing Agreement) - store expense and w/ ref EPAS /PAF case3: GI of articles for promotion which are identified as WITHOUT MAREKTING-VENDOR AGREEMENT (cost center of Store) | Adjust reduce | NEGATIVE (-) | 901
+14 | Re GI CCtr Promo | GR 902 – reversal only of posted GI 901 | Adjust increase | POSITIVE (+) | manager level | 902
+15 | GI for Stor Supplies | non regular supplies articles which are not part in the FAS Master list | Adjust reduce | NEGATIVE (-) | 917
+16 | Re GI for Stor Supplies | 918 – Reversal only of posted 917 | Adjust increase | POSITIVE (+) | manager level | 918
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.16 Stock adjustment]
+
+17 | GI to scrap | Goods Issuance of articles approved for scrapping - for store expense; case1: damages (valid like non-ret, no personnel mishandling issue) case2:pilferages (rat bites-not covered for the charging agreement of contractor) case3:shrinkages -unsold /BO from SM Eats articles/CLQ, case4:shoplifted articles (for case file -as evidence) | Adjust reduce | NEGATIVE (-) | 551
+18 | Re GI to scrap | 552 – Reversal only of posted 551 | Adjust increase | POSITIVE (+) | manager level | 552
+19 | GI to Scrap MBU | GI 953 – Goods Issuance process exclusive for disposal or scrapping of MBU articles only which are valid, documented and within allowable store budget based on released matrix for the OPER level of approval | Adjust reduce | NEGATIVE (-) | 953
+20 | GR to Scrap MBU | GR 954 – reversal only of posted GI 953 | Adjust increase | POSITIVE (+) | MBU manager level | 954
+21 | GI to Scrap - SM Eats | 959- GI (Goods Isuuance) Disposal of SM Eats articles (from unsold /left over of the day) for SM Eats articles for as long as will not fall as NOD of personnel in-charge (a separate charging process will be handled for this scenario) | Adjust reduce | NEGATIVE (-) | 959
+22 | GR to Scrap - SM Eats | 960 – GR (Goods Receipt) is a reversal process only for 959 | Adjust increase | POSITIVE (+) | manager level | 960
+23 | GI Damage - SEAFD Cons | Recording of scrapping/damages for Seafood Consingnor (Seafood Project) This is not used by our regular seafood vendor (consignment without inventory). This movement type was used before for special projects for seafoods outright and consignment selling or frozen seafoods article (thawout) 973- used to monitor the damaged or left over /unsold articles for Disposal process ad | Adjust reduce | NEGATIVE (-) | 973
+24 | GR Damage - SEAFD Cons | GR 974 – reversal only of posted GI 973 | Adjust increase | POSITIVE (+) | manager level | 974
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.16 Stock adjustment]
+
+25 | GI Shrink - SEAFD Cons | Recording of shrinkage for Seafood Consingnor (Seafood Project) 973 - GI for Damaged consignment seafood articles, while for 975 it is used for shrinkage 975- to monitor the shrinkage articles from frozen box to thawed process articles | Adjust reduce | NEGATIVE (-) | 975
+26 | GR Shrink - SEAFD Cons | GR 976 – reversal only of posted GI 975 | Adjust increase | POSITIVE (+) | manager level | 976
+27 | GI Damage - SEAFD OUTR | Recording of scrapping/damages for Seafood Outright (Seafood Project) | Adjust reduce | NEGATIVE (-) | 977
+28 | GR Damage - SEAFD OUTR | GR 978 – reversal only of posted GI 977 | Adjust increase | POSITIVE (+) | manager level | 978
+29 | GI Shrink - SEAFD OUTR | Recording of shrinkage for Seafood Outright (Seafood Project) while for 979 it is used for shrinkage | Adjust reduce | NEGATIVE (-) | 979
+30 | GR Shrink - SEAFD OUTR | GR 980 – reversal only of posted GI 979 | Adjust increase | POSITIVE (+) | manager level | 980
+31 | GI Adv. to Employee | GI 907 – Goods Issuance of articles subject for charging to store personnel due to negligence /POS process for consignment articles; ex: pilferages found at whse, damaged due mishandling, w/ lapses of store in charge or no proper monitoring (expired not reported article) based SOP, missing articles etc. | Adjust reduce | NEGATIVE (-) | 907
+32 | Re GI adv to Employ | GR 908 – reversal only of posted TP 907 (deactivated at store level) | Adjust increase | POSITIVE (+) | manager level | 908
+33 | GI Representation | Goods Issue of Outright articles used for representation Expenses (ex. Gift to Mayors, BIR etc.) and also donation to charity GI 909- GI for outright articles subject for donation, charity, gift to mayors etc. /POS process for consignment articles | Adjust reduce | NEGATIVE (-) | 909
+34 | Re GI Representatn | GR 910 – reversal only of posted GI-909 | Adjust increase | POSITIVE (+) | manager level | 910
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.16 Stock adjustment]
+
+35 | GI ICS | Posting of Inter Company Sales Companies within the SM Markets may purchase merchandise and supplies from one another when Vendors are unable to meet the delivery requirements and inventory is critically needed (transfer of inventory from one company to another) | Adjust reduce | NEGATIVE (-) | 947
+36 | Re GI ICS | GI 948 – reversal only of posted GI-947 | Adjust increase | POSITIVE (+) | manager level | 948
+37 | GI Conversion Adj. | Inventory Adjustment not directly related to inventory gain or loss such as conversion of article with different UOM. GI 950 – to less or deduct system inventory /GI for articles with NHO advised/announcement; article conversion with diff uom (cannot process via TP935) EX: buy 1 take1 promo of MKTG, for kalinga pack components using not sales set article | Adjust reduce | NEGATIVE (-) | 950
+38 | GR Conversion Adj | GR 949 – to add system inventory /corresponding GR process for articles with conversion announcement based on posted GI 950 /GR for bundled articles (featured and not tagged as sales set) to be used for DONATION /KALINGA PACK etc | Adjust increase | POSITIVE (+) | manager level | 949
+39 | GI to COS | Issuance of Outright articles used on the following project: SM HETS Project (ex. Produce of the Season) Seafoods (Purchase as outright but sell as consignment) GI 951 (Goods Issuance) – is used for recorded articles from sampling, shrinkage, water loss, trimmings (to deduct system inventory -) | Adjust reduce | NEGATIVE (-) | 951
+40 | GR to COS | GR 952 (Goods Receipt) – example process is Fruits of the Season where we will buy articles directly from small farmers and stores are required to process GR-952 to document the inventory bought without ref PO DOC before selling to customers (to add system invty +) | Adjust increase | POSITIVE (+) | manager level | 952
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.16 Stock adjustment]
+
+41 | TP Centralized RO | Goods Issue for Centralized RO in DC (From Store to DC) TP 303 – Creation of 303 movement type is applicable to DC sites only and select SMCO stores. DC is allowed to use this movement type but exclusive for loose articles and documented excess articles from premium (disbunled promo article) only and required to have supporting documents especially for the receiving site where the loose articles will be transferred /delivered. | Adjust reduce | NEGATIVE (-) | 303
+42 | Re TP Centr. RO | TP 304 – reversal only of posted TP 303 | Adjust increase | POSITIVE (+) | manager level | 304
+43 | TP Stock Transfer | Goods Receipt for Centralized RO in DC TP 305 – stores are continuously receiving loose items from DC which cannot be transferred using STO DOC. . | Adjust reduce | NEGATIVE (-) | 305
+44 | Re TP Stock Transfer | TP 306 – reversal only of posted TP 305 | Adjust increase | POSITIVE (+) | manager level | 306
+45 | Consignment without inventory vendor pullout | In business process，there is no 'RTV' process for consignment goods. Adding a consignment inventory adjustment is required to modify the inventory quantity，without TP process | Adjust reduce | NEGATIVE (-) | Consignment articles don't need TP
+46 | Consignment without inventory GR | Consignment without inventory receiving without PO | Adjust increase | POSITIVE (+) | Consignment articles don't need TP
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.16 Stock adjustment]
+
+If adjustment reason is Consignment GR, data will not be posted to SAP and it will be transmitted to Vendor portal for vendors checking.
+
+If adjustment reason is for reversal, user could key in original order number to reverse specific document (Liana 23/12/12)
+
+3）Key function layout sample
+
+Note: this is just for explaining the function and logic. It might be changed when developing.
+
+Adjustment order at PC:
+
+format
+
+Adjustment order at APP:
+
+5.Exceptional scenario
+
+If the inventory location configured for inventory adjustment does not allow negative stock, the system will not permit the execution of the inventory adjustment when the adjusted quantity becomes less than 0
+
+In such a scenario, to proceed with inventory adjustment, you can either modify the quantity being adjusted (reduce it further) or adjust the configuration of the inventory location to allow negative stock.
+
+6. Related Reports
+
+Real-time Inventory
+
+Inventory Flow
+
+Stock summary
+
+Movement summary
+
+7. Key Changes
+
+Almost same function as creating GI/GR manually in SAP
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+N/A
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.17 TPS]
+
+System background introduction
+
+To provide key information for customers to decide, article information, promotion information and price information will be displayed by price tag, according to different scenarios, it can be put on the shelf or directly tag on the articles.
+
+TPS system provides Shelf tag to manage price tag information, simplify the price tag print and paster operation.
+
+1. AS-IS Overview
+
+Currently, the SM TPS system supports printing shelf label price tag and other tags like location rack, pallet ID, employment ID. Each price tag template is programed in the system in advance.
+
+There are regular PCA, promotion PCA and Majorcon price label types, different label templates will be auto mapped by outright and majorcon articles.
+
+Billing from the vendor by quantity when printing the price labels for consignment vendors.
+
+2. TO-BE Overview
+
+DMALL APP can be provided for store users to submit price label requests and below price labels will be supported to be managed in TPS system. Below is the TPS scope to be supported in DMALL.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.17 TPS]
+
+No. | Tag label | Included in phase 1A | RFP | Remark
+1 | Shelf tag | Y
+2 | Shelf with picture | Y
+3 | Value pack | Y
+4 | Item barcode with price printed by 3's | Y
+5 | Item barcode with price and season code printed by 3's | Y
+6 | Item barcode without price printed by 3's | Y
+7 | Item barcode without price and season code printed by 3's | Y
+8 | Case barcode | Y
+9 | Carton tag with price(printed by 2's) | Y
+10 | Carton tag without price(printed by 2's) | Y
+11 | Half kilo tag | Y
+12 | 1 kilo tag | Y
+13 | Majorcon Item Barcode without price printed by 3’s | Y
+14 | Majorcon Item Barcode with price printed by 3’s | Y
+15 | Majorcon shelf tag | Y
+16 | Customized Tags – Location Physical Inventory Location | Y | N | Follow current SOP
+17 | Customized Tags – Location BIN | Y | Not included in RFP, DMALL need to develop to support
+18 | Customized Tags – Location Rack | N | Manually input
+19 | Customized Tags – Pallet ID | N | No need in phase 1A, applied to WMS
+20 | Customized Tags – Cashier Barcode | N | Manually input
+21 | Customized Tags – Others | N | Manually input
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.17 TPS]
+
+3. TO-BE Flow
+
+4. TO-BE Description
+
+4.1 Basic configuration
+
+Set price tag types which will be used for the merchant
+
+Set maximum number of prints: it's to avoid paper waste if manually input too large numbers per single price tag
+
+Set by store level or account level
+
+4.2 Paper configuration
+
+Define paper name and choose paper type: shelf price label or value pack
+
+It can be available to all stores or selected stores, so the corresponding data can be found when query by stores
+
+Set paper size(mm), width and height
+
+Set paper Margin(mm), Left and top margin
+
+Set label size(mm), width and height
+
+Set the columns and rows for the label. For example, one row-two price tags, one paper -8 price tags.
+
+Enabling Status to control whether apply the paper or not
+
+Quick copy of current paper format to edit and save to be a new paper.
+
+4.3 Template Mgt
+
+Define template name
+
+Choose label type: shelf label or clearance price tag
+
+Choose template type: Promotion or normal
+
+Choose print paper: which is created in advance
+
+Enabling Status to control whether apply the template or not
+
+Quick copy of current paper format to edit and save to be a new template
+
+Visible canvas to let suer design the template, components like text, image, QR code, rectangle, barcode, line are provided and can be easily dragged to combine
+
+Preview to continue editing or saved
+
+4.4 Print request
+
+When there's missing, damaged or wrong information price tag, store staff can scan the articles via DMALL APP and batch submit print out applications, the records can be found in the system.
+
+Print request menu in PC
+
+4.5 Full store label
+
+When a new store opens, all store articles price tags information can be checked under the tab, user can choose certain or all line articles to be printed out.
+
+Query condition filters like store code, article code, category code and price type are provided.
+
+Download the excel template file from the panel by clicking the Import button.
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.17 TPS]
+
+Fill in the excel template file with articles and print count
+
+Upload the file to system via the panel open by clicking the Import button
+
+Choose to print all articles or print all the articles just uploaded.
+
+Export (This feature is available in both Full Store Label/Changed Label/To be changed Label)
+
+Export articles in excel form. (not for printing, just a list of articles)
+
+Print log (This feature is available in both Full Store Label/Changed Label/To be changed Label)
+
+Previous print operations history. A short-cut for users to re-print.
+
+4.6 Changed label
+
+If the article or promotion information is changed, updates will be showed under this tab, after comparison, changed data will be recorded and generate pending printing data for the store staff.
+
+If the user only has one store authority, the system will auto display all the data of the store, if user has multiple stores’ authority, system will take one of the stores to display data, user can user condition filter to check other stores.
+
+Multiple condition filters are provided for user to easily check
+
+Print status: unprinted and printed data to be identified for user to easily check
+
+============================================================
+[1. Blueprint Document Scope > 3. Function Design Solution > 3.17 TPS]
+
+Change time: Date range
+
+Price type: valid price or invalid price
+
+Changed Reason：
+
+Promotion start
+
+Promotion end
+
+Promotion info changed
+
+Article info change
+
+Article price change
+
+4.7 To be changed label
+
+If there's pending effective promotion or pending effective article changes, user can apply this module to generate pending print out records, so the store staff can print out the price tag in advance, normally, it applied to big event promotion, the price tag changed quantity is very large and require store to prepare in advance scenario.
+
+If the user only has one store authority, the system will auto display all the data of the store, if user has multiple stores’ authority, system will take one of the stores to display data, user can user condition filter to check other stores.
+
+Multiple condition filters are provided for user to easily check
+
+Print status: unprinted and printed data to be identified for user to easily check
+
+Change time: Date range
+
+Price type: valid price or invalid price
+
+Changed Reason：
+
+Promotion start
+
+Promotion end
+
+Article price change
+
+5. Exceptional Scenario
+
+The TPS system
+
+6. Related Reports
+
+7. Key Changes
+
+Key Changes
+Current State: As Is | Future State: To Be | Impact / New / Remove / Change Process | Roles or Teams Impacted | Company / Organization
+
+============================================================
+[1. Blueprint Document Scope > 4. Reporting]
+
+4.1 Report Types
+
+Receiving and Returns Report
+
+STDR/Claim Report
+
+Stock Transfer Report
+
+Stock Adjustment Report
+
+Stock Take Report
+
+SM Eat Report
+
+Dismantle Report
+
+Convert Report
+
+Gap Check Report
+
+OSA report
+
+Real-time Inventory
+
+Inventory Flow
+
+============================================================
+[1. Blueprint Document Scope > 8. TODO]
+
+Task | Responsible | Log time | Deadline | Status | Remarks
+Confirm: Can vendor portal contain the PO barcode and send to vendor? | Cathy | 9th Nov | Completed. | Vendor will develop this function in 2024. DMALL no need to support PO sticker printing function
+Provide the DSA GR slip, STO GR slip, GI slip sample to DMALL team to compare the format | Dennis | 9th Nov | 2023/11/10 | Completed.
+Need to support notify the approval user to handle the task by email | DMALL | 9th Nov | 2023/11/14 | Completed. | DMALL will build this function to support the business.
+Confirm with James about the TP311 integration (RPO and STDR ‘s creation and rejected) | Luisa | 9th Nov | 2023/11/14 | Completed. | DMALL internally aligned and updated the integration blueprint.
+Confirm: can approval users return back the approval order to creator for supplementing other information and submit it for approval | DMALL | 9th Nov | 2023/11/14 | Completed. | Support to return back to previous level approver
+Provide the backroom Bin location table sample | Dennis | 9th Nov | 2023/11/10 | Completed.
+Provide the excel file which indicate the display information/display rules/planogram rules of each article/ top article | Dennis | 9th Nov | 2023/11/10 | completed
+Provide movement types need inter-department association | Cathy | 9th Nov | Completed
+Figure out a solution if SM team need to create a new movement type in future. | 9th Nov | Discuss it on Friday
+Provide the configuration list that might be created in SAP in future | SM | 9th Nov
+Confirm: when receiving form consignor with inventory, DMALL will post GR101 to SAP with assigned location, please confirm the specific location code | Cathy | 9th Nov | Provide later
+Provide GR numbering rule to DMALL for GR No. generation | Cathy | 16th Nov | Completed
+Expiry date input when goods receiving, Organize discussion with Judith on business process management | Shawn | 16th Nov | 2023/11/30
+
+============================================================
+[1. Blueprint Document Scope > 8. TODO]
+
+Update the partial receiving process: DMALL system will auto validate the if it is the first delivery and friendly guide the users to corresponding page for receiving. | Luisa | 16th Nov | Completed
+E2E process and solution of inventory and sales transaction for combined article and child article | Liana | 16th Nov | Discuss it on Friday Covered in BOM topic
+Confirm the movement code: we aligned that if component is fruit(consignor without inventory), we will assign a new movement code and post to SAP system, SAP will create a new table to save it for vendor settlement. please help to confirm the new movement code | Cathy | 16th Nov | End of Nov.
+Disposal day document | Lizha | 22th Nov | Completed

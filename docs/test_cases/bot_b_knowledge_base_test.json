@@ -1,0 +1,247 @@
+[
+  {
+    "id": "BOTB-001",
+    "category": "POS",
+    "question": "How does POS handle cashier login and logout?",
+    "expected_topic": "Cashier Login/logout process",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-002",
+    "category": "POS",
+    "question": "What payment methods are supported at POS?",
+    "expected_topic": "Payment methods (Cash, EFT, GCASH, QRPH, SMAC point)",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-003",
+    "category": "POS",
+    "question": "How to suspend and recall an order in POS?",
+    "expected_topic": "Suspend/recall order",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-004",
+    "category": "POS",
+    "question": "What happens during End of Day (EOD) process?",
+    "expected_topic": "EOD reconciliation and data posting",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-005",
+    "category": "POS",
+    "question": "How does POS handle void items and cancel orders?",
+    "expected_topic": "Item Void & Cancel order",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-006",
+    "category": "POS",
+    "question": "POS怎么处理预订单?",
+    "expected_topic": "Pre-order process",
+    "language": "zh"
+  },
+  {
+    "id": "BOTB-007",
+    "category": "POS",
+    "question": "What is the offline mode in POS and when to use it?",
+    "expected_topic": "Offline mode / network mode",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-008",
+    "category": "POS",
+    "question": "How to add an article in POS sales page?",
+    "expected_topic": "Adding article approaches (scan, search, manual)",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-009",
+    "category": "Inventory",
+    "question": "How does goods receiving from vendor work?",
+    "expected_topic": "Goods Receiving from Vendor with/without PO",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-010",
+    "category": "Inventory",
+    "question": "What is the stock adjustment process?",
+    "expected_topic": "Stock adjustment (inventory count correction)",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-011",
+    "category": "Inventory",
+    "question": "How to perform stock transfer between stores?",
+    "expected_topic": "Stock transfer / Goods Dispatch",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-012",
+    "category": "Inventory",
+    "question": "How does the inventory counting (stocktake) work?",
+    "expected_topic": "Stock counting / Regular inventory",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-013",
+    "category": "Inventory",
+    "question": "What is TPS (Third Party Sales) in inventory?",
+    "expected_topic": "TPS Third Party Sales process",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-014",
+    "category": "Inventory",
+    "question": "库存调拨怎么操作?",
+    "expected_topic": "Stock transfer operation",
+    "language": "zh"
+  },
+  {
+    "id": "BOTB-015",
+    "category": "Inventory",
+    "question": "What is the dismantle function in inventory management?",
+    "expected_topic": "Dismantle (BOM articles)",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-016",
+    "category": "Inventory",
+    "question": "How to use PDA for goods receiving?",
+    "expected_topic": "PDA goods receiving operation",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-017",
+    "category": "Master Data",
+    "question": "How is site master data created and maintained?",
+    "expected_topic": "Site master data create and update process",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-018",
+    "category": "Master Data",
+    "question": "What is a BOM article and how does it work?",
+    "expected_topic": "BOM article relationship and processing",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-019",
+    "category": "Master Data",
+    "question": "How does vendor master data integrate from SAP?",
+    "expected_topic": "Vendor master data integration",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-020",
+    "category": "Master Data",
+    "question": "商品主数据如何管理?",
+    "expected_topic": "Article master data management",
+    "language": "zh"
+  },
+  {
+    "id": "BOTB-021",
+    "category": "Master Data",
+    "question": "What are inventory locations by site?",
+    "expected_topic": "Store inventory locations (7 types)",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-022",
+    "category": "Master Data",
+    "question": "How to manage article groups?",
+    "expected_topic": "Article Group Mgt operation",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-023",
+    "category": "Promotion",
+    "question": "What types of promotions are supported?",
+    "expected_topic": "Promotion types (Regular, Points, Bank, E-voucher, etc.)",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-024",
+    "category": "Promotion",
+    "question": "How does the promotion approval process work?",
+    "expected_topic": "Promotion Creation and Approval Process",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-025",
+    "category": "Promotion",
+    "question": "How does pricing work with promotion vouchers?",
+    "expected_topic": "Pricing Logic with Promotion Voucher",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-026",
+    "category": "Promotion",
+    "question": "What is the E-voucher management process?",
+    "expected_topic": "E-voucher creation, distribution, and redemption",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-027",
+    "category": "Promotion",
+    "question": "促销活动如何在POS执行?",
+    "expected_topic": "POS promotion execution process",
+    "language": "zh"
+  },
+  {
+    "id": "BOTB-028",
+    "category": "Promotion",
+    "question": "What is the stacking rule for promotions?",
+    "expected_topic": "Promotion stacking rule and priority",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-029",
+    "category": "Promotion",
+    "question": "How to create a marketing activity with reward upon POS order?",
+    "expected_topic": "Marketing Toolset - Reward Upon POS Order",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-030",
+    "category": "Data Dashboard",
+    "question": "What reports are available in the Data Dashboard?",
+    "expected_topic": "Standard reports and department view",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-031",
+    "category": "Data Dashboard",
+    "question": "How does the drill down function work in reports?",
+    "expected_topic": "Drill Down Function in reports",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-032",
+    "category": "Data Dashboard",
+    "question": "What is the HQ Real-time Sales Monitoring big screen?",
+    "expected_topic": "Big Screen - HQ Real-time Sales Monitoring",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-033",
+    "category": "System Integration",
+    "question": "How does master data integration between SAP and DMALL work?",
+    "expected_topic": "Master data integration design SAP <-> DMALL",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-034",
+    "category": "System Integration",
+    "question": "What is the EOD data posting process?",
+    "expected_topic": "EOD data posting SAP integration",
+    "language": "en"
+  },
+  {
+    "id": "BOTB-035",
+    "category": "System Integration",
+    "question": "How does the EIS (Electronic Invoice System) integration work?",
+    "expected_topic": "EIS integration with BIR",
+    "language": "en"
+  }
+]

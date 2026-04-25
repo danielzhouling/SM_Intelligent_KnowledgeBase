@@ -1,0 +1,1803 @@
+============================================================
+[. POS installation]
+
+1. POS installation
+1. Installation application
+Steps/Explanation
+Find and double click this Startup file (.exe) on desktop to start the application
+
+1. POS installation
+1. Installation application
+Steps/Explanation
+Click [Next] to next step
+
+1. POS installation
+1. Installation application
+Steps/Explanation
+Select the destination folder; Recommend to use the default folder.
+
+Key point:
+The folder must be on the D drive.
+
+1. POS installation
+1. Installation application
+Steps/Explanation
+Wait for installation to complete, then click [Next]
+
+1. POS installation
+1. Installation application
+Steps/Explanation
+Click [Finish] to finish the installation.
+
+1. POS installation
+2. Device initial configuration
+Steps/Explanation
+Before the Initial configuration for POS device, will need to collect all the MAC address of each POS device (After the POS device connect to the network).
+To do the POS device Initial configuration, login to partner (Menu location: Operations/ Device Mgt/ Device List), press [+Create] button to add new device, then user is able to: Setup Store id，POS number, Hardware Serial No., BIR MIN No., etc.
+For hardware, need to configure printer, customer-screen, cash drawer, etc.
+Details of confirmation in 
+part 5:backend process
+
+Agenda
+Cashier Authentication
+Sales Process
+POS Installation
+Post-sales Process
+Payment
+EOD&others
+Backend Process
+In store pos-server
+AD mgt
+
+============================================================
+[Steps/ Explanation]
+
+Steps/ Explanation
+Input Cashier account ID and password;
+Click “Log in”.
+
+
+
+
+
+Exceptional:
+Account not exist/password error:
+Config exception: Check the account in Backend-Setting-Account Mgt and maintain it correctly.
+POS offline and offline SSO data haven’t been updated: Restore network connectivity or import offline data into in-store POS server manually.
+2. Casher Authentication
+1. Cashier login
+
+Steps/Explanation
+Input Cashier account ID;
+Input  original password;
+Input new password twice;
+Click “Submit” to make the new password effective.
+2. Casher Authentication
+2.Change password
+
+Steps/Explanation
+Click “DMALLOS POS”;
+On the alert menu,Click “lock”;
+There will be alert a notice in the middle of screen, choose”Confirm”to lock the terminal.
+2. Casher Authentication
+3.Lock
+
+Steps/Explanation
+While the pos is locked, you can input the password for the locked account, click [confirm] to unlock;
+Also, you can click [unlock by other account] to use authorizer account to unlock;
+If choose [unlock by other account], you should input authorizer account and password, then click confirm to submit unlock.
+2. Casher Authentication
+3.unLock
+
+Steps/Explanation
+If the cashier does not have authority for a function, POS will pop-up authorization page and display those roles that have the authority for the function
+Authorizer need to input their account and password in order to process the function
+2. Casher Authentication
+3.Authorization
+
+Agenda
+Cashier Authentication
+Sales Process
+POS Installation
+Post-sales Process
+Payment
+EOD&others
+Backend Process
+In store pos-server
+AD mgt
+
+============================================================
+[. Sales Process]
+
+3. Sales Process
+1. Sales Interface – Cart Details
+Steps/Explanation
+Added weighted item (scale tag indicates this is a weight item)
+Added standard item
+Added standard item with unit promotion (% tag indicates this item has unit promo and corresponding Explanation)
+Item unit price; upper one is the unit price after unit promo, while the lower one is the original unit price
+Item quantity; for weight item the quantity cannot be edited, but standard items can edit quantity with the -/+ button, or click the quantity number to input the quantity (#6)
+Item line subtotal
+Promotion area, shows the potential promotions for the selected item.
+Submit button, click submit to step into the payment stage.
+
+3. Sales Process
+1. Sales Interface – Cart Details
+Steps/Explanation
+Item quantity; for weight item the quantity cannot be edited, but standard items can edit quantity with the -/+ button, or click the quantity number to input the quantity
+
+3. Sales Process
+1. Sales Interface – Cart Details
+Steps/Explanation
+Manually input quantity page:
+Enter the changed qty, then click ”confirm”.
+
+3. Sales Process
+Steps/Explanation
+Cashier can scan the barcode on the item to add the item into the shopping cart
+
+
+
+
+
+Exceptional:
+Article not exist/cannot add-to-cart:
+Config exception: Check the article in Backend-File-Article File and maintain it correctly.
+POS offline and offline article data haven’t been updated: Restore network connectivity or import offline data into in-store POS server manually.
+3. Sales Process
+2. Add Article – Scan Barcode
+
+3. Sales Process
+Steps/Explanation
+Switch to the “PLU Item” tab
+Click picture or title of the PLU item to add cart
+User can also click the right arrow “>” on the article card to show the item
+3. Sales Process
+2. Add Article – PLU Items
+
+============================================================
+[. Sales Process]
+
+3. Sales Process
+Steps/Explanation
+Item details page, shows the detailed info like promotion, article code, orginal price, execultive price (price after unit promo) and tax info.
+On the item details page, click the “Add to Cart” button to add this item to cart.
+3. Sales Process
+2. Add Article – PLU Items
+
+3. Sales Process
+Steps/Explanation
+For weighted item which does not add-to-cart through weighting tag, there is an extra step to manually input the weight amount and then click confirm to add cart.
+3. Sales Process
+2. Add Article – Weighing Items
+
+3. Sales Process
+Steps/Explanation
+For open price items (mostly service article), there is an extra step to manually input the unit price and then click confirm to add cart.
+3. Sales Process
+2. Add Article – Open price Items
+
+3. Sales Process
+Steps/Explanation
+Click the “Enter Item Code / Name” input to initiate the item search function 
+Type in the article name or article code with the keyboard (support fuzzy search, like search ”milk” for articles that has “milk” in the name)
+Click ”Confirm” on the keyboard to start searching
+3. Sales Process
+2. Add Article – Item Search
+
+3. Sales Process
+Steps/Explanation
+Search result list. User can click the item name to add cart or click the right arrow to view the item details.
+
+
+
+
+
+Exceptional:
+Article not found:
+Config exception: Check the article in Backend-File-Article File and maintain it correctly.
+POS offline and offline article data haven’t been updated: Restore network connectivity or import offline data into in-store POS server manually.
+3. Sales Process
+2. Add Article – Item Search
+
+============================================================
+[. Sales Process]
+
+Steps/Explanation
+Prior to initiating a suspend order, it is imperative for the cashier to include a minimum of one item in the shopping cart. 
+Clicking the "Suspend Order" button located in the function area.
+Once suspended an order, there will be a suspend ticket printed out, which should be given to the customer for later order retrieval.
+3. Sales Process
+3. Suspend/Recall Order - Suspend
+
+Steps/Explanation
+When you suspend an order, the "Recall Order" button will display a red dot with the numeral 1, indicating the presence of a single suspended order awaiting recall. (This number may progressively rise with additional suspended orders).
+3. Sales Process
+3. Suspend/Recall Order - Suspend
+
+Steps/Explanation
+To recall an order, select the "Recall Order" button from the function area.
+If there is solely one suspended order, clicking the recall button will promptly retrieve this order without any additional steps. 
+If there are more than one suspended orders, a list of suspended orders. Cashier can scan the QR code on the suspend ticket or identify the desired order for recall and click the "Recall Order" button next to the target order to proceed with the retrieval. 
+(Please note that the membership status will not be remained upon recalling orders, to prevent misuse of membership privileges/assets.)
+3. Sales Process
+3. Suspend/Recall Order - Recall
+
+3. Sales Process
+Steps/Explanation
+Selecting the item line intended for removal (which will be distinguished by a highlighted blue background).
+Clicking the "Delete Item" button from the function area.
+A double confirmation prompt will appear, and upon clicking "Confirm," the selected item will be deleted.
+(Conducting delete item may require supervisor authorization.)
+3. Sales Process
+4. Delete Item
+
+3. Sales Process
+Steps/Explanation
+The cashier will then be prompted to select a reason for the deletion.
+3. Sales Process
+4. Delete Item
+
+============================================================
+[. Sales Process]
+
+3. Sales Process
+Steps/Explanation
+Upon successful deletion, the item line will be grayed out, with the quantity marked as "Deleted." Subsequently, this item line will be removed from display after applying subtotal.
+3. Sales Process
+4. Delete Item
+
+3. Sales Process
+Steps/Explanation
+Adding a few items before using clear cart
+Clicking the ”Clear Cart" button from the function area.
+A double confirmation prompt will appear, and upon clicking "Confirm," the currenty shopping cart will be cleared out.
+(Conducting delete item may require supervisor authorization.)
+3. Sales Process
+5. Clear Cart
+
+3. Sales Process
+Steps/Explanation
+The cashier will then be prompted to select a reason for the behavior.
+
+Upon successful clearing,the entire shopping cart will be cleared out, membership status also be reset.
+3. Sales Process
+5. Clear Cart
+
+3. Sales Process
+Steps/Explanation
+The subtotal function is used to compute & display the promotional price for the current order. It is unnecessary to manually click the subtotal as the POS will automatically calculate the final price upon clicking "Submit.”
+Add a few items in the cart
+The promotion area shows the potential promotions applicable to the selected item line.
+Click the “Subtotal” buttom from the function area
+3. Sales Process
+6. Subtotal
+
+3. Sales Process
+Steps/Explanation
+The promoitional area will present a summary of triggered promotions within the current shopping cart. Additionally, the "Total Amount" and "Discount Amount" will be adjusted to reflect the most precise figures.
+
+
+
+Exceptional:
+Promotion not in effect:
+Config exception: Check the promo in Backend-Marketing-Offline Promotion and maintain it correctly.
+POS offline and offline promo data haven’t been updated: Restore network connectivity or import offline data into in-store POS server manually.
+3. Sales Process
+6. Subtotal
+
+============================================================
+[. Sales Process]
+
+3. Sales Process
+Steps/Explanation
+Select the item line that you want to do item price override (item line highlight with blue)
+Click the “Item Price Override” button / Click the unit price on the item line to open the item price override details page
+
+(please note this operation might require supervisor authorization)
+3. Sales Process
+7. Price Override – Item level
+
+Steps/Explanation
+By default it show the “Edit Discount” tab, allowing user to input percent discount that be given to the unit price.
+Click ”Confirm” to the reason selection step 
+(please note this operation might require supervisor authorization)
+3. Sales Process
+7. Price Override – Item level
+
+============================================================
+[. Sales Pocess]
+
+3. Sales Pocess
+Steps/Explanation
+User can also switch to “Edit Price” tab to input the target unit price.
+Click ”Confirm” to the reason selection step
+ (please note this operation might require supervisor authorization)
+3. Sales Process
+7. Price Override – Item level
+
+============================================================
+[. Sales Process]
+
+3. Sales Process
+Steps/Explanation
+Choose a reason for this operation.
+POS prompt a double confirmation to confirm the override summary. Click “Confirm” to finish the override and get back to cart.
+3. Sales Process
+7. Price Override – Item level
+
+3. Sales Process
+Steps/Explanation
+Click the “Order Price Override” button from the quick function area to open the order price override details page
+
+(please note this operation might require supervisor authorization)
+3. Sales Process
+7. Price Override – Order level
+
+3. Sales Process
+Steps/Explanation
+By default it show the “Edit price” tab, allowing user to input the target order amount. (the discount will be automatically refreshed)
+Click ”Confirm” to the reason selection step 
+(please note this operation might require supervisor authorization)
+3. Sales Process
+7. Price Override – Order level
+
+3. Sales Process
+Steps/Explanation
+User can also switch to “Edit discount” tab to fill the percent discount that be given to the entire order. (the discount will be automatically refreshed)
+Click ”Confirm” to the reason selection step
+(please note this operation might require supervisor authorization)
+3. Sales Process
+7. Price Override – Order level
+
+3. Sales Process
+Steps/Explanation
+Choose a reason for this operation and then the user will land on the payment page directly.
+3. Sales Process
+7. Price Override – Order level
+
+Steps/Explanation
+Click the “Open Drawer” button from the quick function area
+(please note this operation might require supervisor authorization)
+3. Sales Process
+8. Open Drawer
+
+Steps/Explanation
+POS will prompt a double confirmation to confirm whether the cashier want to open the drawer or not. Click “Confirm” to open the drawer; click ”Cancel” to cancel the popup.
+
+(please note this operation might require supervisor authorization)
+3. Sales Process
+8. Open Drawer
+
+============================================================
+[. Sales Process]
+
+Steps/Explanation
+Click the “Free Shopping Bag” button from the quick function area to open the details page.
+3. Sales Process
+9. Free Shopping Bag
+
+Steps/Explanation
+On the add shopping bag details page, select the number of free shopping bags the client requests
+Click “Confirm” to finish adding.
+
+
+
+
+Exceptional:
+Free shopping bag not found:
+Config exception: Check the POS setting in Backend-Setting-config center and maintain it correctly, then restart POS.
+3. Sales Process
+9. Free Shopping Bag
+
+Steps/Explanation
+The added free bags not appear in the shopping cart list. Instead, the ”Free Shopping Bag“ button will display a red dot with the number of added shopping bags.
+3. Sales Process
+9. Free Shopping Bag
+
+Steps/Explanation
+When user click “Submit” for the first time in one transaction, POS will prompt a reminder to add free shopping bag if there is no free bag added before. 
+Notice: Free shopping bag doesn’t appear on the sales receipt.
+3. Sales Process
+9. Free Shopping Bag
+
+3. Sales Process
+Steps/Explanation
+Click the “Govt. Deduction” button from the quick function area to open the govt. deduction list.
+3. Sales Process
+10. Govt. Deduction - Overview
+
+3. Sales Process
+Steps/Explanation
+On the list, user can choose the deduction typer as per the identification. Each type will require inputting some key information, which will be illustrated in the following slides.
+3. Sales Process
+10. Govt. Deduction - Overview
+
+3. Sales Process
+Steps/Explanation
+Once user finish inputting the information, POS will automatically calcualate the subtotal. Also, if user click the “Govt. Deduction” button again, it shows the details of the information provided before. 
+User can click the “Remove Identification” button to delete the current govt. deduction from this transaction.
+3. Sales Process
+10. Govt. Deduction - Overview
+
+============================================================
+[. Sales Process]
+
+Steps/Explanation
+Cashier needs to input the following info for the senior citizen
+OSCA ID – Mandatory
+Quota Balance – Mandatory and below 2500
+Customer Name – Mandatory
+TIN – Optional
+Address – Optional
+3. Sales Process
+10. Govt. Deduction – SENIOR CITIZEN (SCD)
+
+Steps/Explanation
+Upon adding a senior citizen, if there is at least one eligible item in the shopping cart, the promotion section will display the "5% SC/PWD" deduction accordingly.
+3. Sales Process
+10. Govt. Deduction – SENIOR CITIZEN (SCD)
+
+Steps/Explanation
+Cashier needs to input the following info for the PWD group:
+Person with Disability ID – Mandatory
+Quota Balance – Mandatory and below 2500
+Customer Name – Mandatory
+TIN – Optional
+Address – Optional
+3. Sales Process
+10. Govt. Deduction – PERSON WITH DISABILITY (PWD)
+
+Steps/Explanation
+Upon adding a PWD identification, if there is at least one eligible item in the shopping cart, the promotion section will display the "5% SC/PWD" deduction accordingly.
+3. Sales Process
+10. Govt. Deduction – PERSON WITH DISABILITY (PWD)
+
+Steps/Explanation
+Cashier needs to input the following info for the NACC group
+National Athletes and Coaches ID – Mandatory
+Customer Name – Mandatory
+TIN – Optional
+Address – Optional
+3. Sales Process
+10. Govt. Deduction – NATIONAL ATHLETES AND COACHES (NAAC)
+
+Steps/Explanation
+Upon adding a NAAC identification, if there is at least one eligible item in the shopping cart, the promotion section will display the ”20% NAAC" deduction accordingly.
+3. Sales Process
+10. Govt. Deduction – NATIONAL ATHLETES AND COACHES (NAAC)
+
+Steps/Explanation
+Cashier needs to input the following info for the MOV group
+Medal of Valor ID – Mandatory
+Customer Name – Mandatory
+TIN – Optional
+Address – Optional
+3. Sales Process
+10. Govt. Deduction – MEDAL OF VALOR (MOV)
+
+============================================================
+[. Sales Process]
+
+Steps/Explanation
+Upon adding a MOV identification, if there is at least one eligible item in the shopping cart, the promotion section will display the ”20% MOV" deduction accordingly.
+3. Sales Process
+10. Govt. Deduction – MEDAL OF VALOR (MOV)
+
+Steps/Explanation
+Cashier needs to input the following info for the solo parent
+Solo Parent ID – Mandatory
+Customer Name – Mandatory
+Name of Child – Mandatory
+Birth Date of Child – Mandatory
+Child older than 6 years old will not be able to enjoy SP deduction
+TIN – Optional
+Address – Optional
+3. Sales Process
+10. Govt. Deduction – SOLO PARENT (SP)
+
+Steps/Explanation
+Upon adding a qualified solo parent, if there is at least one eligible item in the shopping cart, the promotion section will display the ”10% SP" deduction accordingly.
+3. Sales Process
+10. Govt. Deduction – SOLO PARENT (SP)
+
+Steps/Explanation
+Cashier needs to input the following info for the DPB
+Customer ID – Mandatory
+Customer Name – Mandatory
+TIN – Optional
+Address – Optional
+Business Type - Optional
+
+Upon adding a zero rated identification, all the vatable item will become vat-exampted. In the screesnshot #2, the unit price for “EQ-PLUS_BABY DIAPER_BIG PACK-M32” is 239.75
+
+
+
+Note:
+Zero Rated (ZR) rename to Diplomatic, PEZA, BOI (DPB)
+3. Sales Process
+10. Govt. Deduction – DIPLOMATIC, PEZA, BOI (DPB)
+
+Steps/Explanation
+Screenshot #3 is after applying the DPB, and the unit price for the same article become 214.06 as the tax rate changed from 12% to 0% due to the Zero Rated identification.
+3. Sales Process
+10. Govt. Deduction – DIPLOMATIC, PEZA, BOI (DPB)
+
+Steps/Explanation
+Cashier needs to input the following info for the TCC
+Customer Name – Mandatory
+TIN – Optional
+Address – Optional
+Business Type – Optional
+
+
+Note:
+Top withholding agents (TWA) rename to Top Corporate Customers (TCC)
+3. Sales Process
+10. Govt. Deduction – TOP CORPORATE CUSTOMERS (TCC)
+
+============================================================
+[. Sales Process]
+
+Steps/Explanation
+Upon adding a TCC identification, there is no changes on the sales/shopping cart page. While when user land on the payment page, there will be one automatic TWA payment record (1% CWT) added
+3. Sales Process
+10. Govt. Deduction – TOP CORPORATE CUSTOMERS (TCC)
+
+Steps/Explanation
+Cashier needs to input the following info for the GP
+Customer Name – Mandatory
+TIN – Optional
+Address – Optional
+Business Type - Optional
+
+
+
+Note:
+Government Owned and Controlled Rename to Government Purchases (GP)
+3. Sales Process
+10. Govt. Deduction – GOVERNMENT PURCHASES (GP)
+
+Steps/Explanation
+Upon adding a GP identification, there is no changes on the sales/shopping cart page. While when user land on the payment page, there will be two automatic GP payment records (1% CWT & 5% WVAT) added
+3. Sales Process
+10. Govt. Deduction – GOVERNMENT PURCHASES (GP)
+
+3. Sales Process
+Steps/Explanation
+User can directly scan the E-Voucher QR code on the shopping cart to add the E-Voucher without clicking any buttons.
+3. Sales Process
+11. E-Voucher
+
+3. Sales Process
+Steps/Explanation
+As an alternative, user can also click “Coupon” button from the function area, and then scan the E-Voucher QR code to add E-Voucher.
+3. Sales Process
+11. E-Voucher
+
+Steps/Explanation
+Once added the E-Voucher, the E-Voucher list appears with all the added E-Vouchers. By default, the ”Available” tab is selected to show all the E-Voucher that can be applied in this order.
+User can also switch to ”Unavailable” tab to check E-Vouchers that been added but cannot take effect in this order (with reason)
+No matter add or delete, user has to click the confirm button to save the changes. 
+
+
+
+
+Note:
+E-Voucher can only be proceed when POS is online
+3. Sales Process
+11. E-Voucher
+
+3. Sales Process
+Steps/Explanation
+Click the “Deposit” button from the quick function area or the middle function bar, to switch to the charge page.
+3. Sales Process
+12. Deposit
+
+============================================================
+[. Sales Process]
+
+3. Sales Process
+Steps/Explanation
+On the charge page, click the charge item “Deposit”
+3. Sales Process
+12. Deposit
+
+3. Sales Process
+Steps/Explanation
+On the charge information page, manually input the deposit amount (can ignore the qty and leave it to 1)
+Click the Confirm button to finish the payment and print out the deposit proof ticket.
+3. Sales Process
+12. Deposit
+
+Steps/Explanation
+To validate SMAC membership, cashier needs to click the gold “Member Login” button on the top right corner.
+3. Sales Process
+13. SMAC Membership - Validation
+
+3. Sales Process
+Steps/Explanation
+Membership login provides two approaches. By default cashier can directly swipe the SMAC card on the card reader or scan the SMAC QR code from customer’s phone. (the validation process is done and user should be bring back to the cart page)
+If the customer forget to bring the card or QR code, cashier can manually click the ”Input ID” tab to manually input the SMAC ID
+3. Sales Process
+13. SMAC Membership - Validation
+
+3. Sales Process
+Steps/Explanation
+Input the SMAC ID
+Click Confirm to validate the SMAC membership
+3. Sales Process
+13. SMAC Membership - Validation
+
+Steps/Explanation
+After the user has validated their SMAC membership, the gold button in the top right corner will transform into the member ID (with masked digits except for the last four). Users can click on the button to access their membership details.
+3. Sales Process
+13. SMAC Membership – Check Details
+
+Steps/Explanation
+On the membership details page, user can view the membership info like name, ID, member tire, member type (activity) and the expired date.
+User can click the “Logout Membership” button to exit the membership state. 
+If user wants to close this page without logging out the membership, they can click the “X” close icon the top right corner.
+3. Sales Process
+13. SMAC Membership – Check Details
+
+============================================================
+[. Sales Process]
+
+Steps/Explanation
+Scan the 1st barcode on the SMAC Express Kit to add the article, then a SMAC Express Kit popup appears automatically.
+On the SMAC Express Kit page, scan the 2nd barcode in the card
+Click confirm to finish adding the SMAC Express Kit
+3. Sales Process
+13. SMAC Membership – SMAC Express Kit
+
+Steps/Explanation
+The SMAC Express Kit item line will show the 2nd barcode below the article name.
+For the SMAC Express Kit item line, user cannot edit the quantity but can delete the item by clicking the red cross button.
+3. Sales Process
+13. SMAC Membership – SMAC Express Kit
+
+Steps/Explanation
+Since only SMAC member can purchase the valuepack item, if the cashier try to add a value pack item without validating SMAC membership, POS prompts a message to ask the cashier to validate the membership. 
+Clicking the “Validate Member” and finish validating, the valuepack will be automatically added to the cart.
+Clicking “Cancel” will close the prompt without adding the value pack item
+3. Sales Process
+14. Adding Valuepack Item
+
+Steps/Explanation
+Should the user attempt to add more than 10 value pack items, the POS system will display an error message and prevent further addition of value pack items.
+3. Sales Process
+14. Adding Valuepack Item
+
+3. Sales Process
+Steps/Explanation
+In the event that the order amount exceeds 1000 pesos, upon the cashier clicking the "Submit" button, the POS system will prompt the Bagger Information page, requesting the cashier to scan or input the bagger ID.
+
+Upon completing the input of the bagger ID, the cashier can click the "Confirm" button to continue with the payment process. (Please note: The POS system will validate whether the input ID corresponds to a bagger or supervisor role).
+3. Sales Process
+15. Inputting Bagger ID
+
+3. Sales Process
+Steps/Explanation
+When you need to print the receipt of online order; click “online sales”;
+3. Sales Process
+15. Online sales
+
+============================================================
+[. Sales Process]
+
+3. Sales Process
+Steps/Explanation
+Scan the QRcode  or enter online order number
+Click confirm to print the receipt.
+
+
+
+
+
+
+
+
+
+
+Note:
+[Online Sales] can only be proceed when POS is online. If POS is offline, [Record Online Sales No.] can be used for BCP. (see in 15. Online sales – Pay by store)
+3. Sales Process
+15. Online sales
+
+3. Sales Process
+Steps/Explanation
+When you need to print the receipt of online order; click “online sales”;
+3. Sales Process
+15. Online sales-COD
+
+3. Sales Process
+Steps/Explanation
+Scan the QRcode  or enter online order number;
+Click confirm to print the receipt.
+3. Sales Process
+15. Online sales-COD
+
+3. Sales Process
+Steps/Explanation
+When the shopper complete the task, and back store to commit the cash. click the menu “online sales” , and input the online order sales again.
+3. Sales Process
+15. Online sales-COD
+
+3. Sales Process
+Steps/Explanation
+On the alert screen,click “remittance” to payment view
+3. Sales Process
+15. Online sales-COD
+
+3. Sales Process
+Steps/Explanation
+Choose the payment “cash” to finish this transaction.
+3. Sales Process
+15. Online sales-COD
+
+3. Sales Process
+Steps/Explanation
+For those ‘Pay by store’ online sales, you need to rescan the articles into the cart and then click [Record Online Order No.]
+Input the online order No. and submit the transaction. Then cashier can select any POS tender to complete the payment.
+3. Sales Process
+15. Online sales-Pay by store
+
+Agenda
+Cashier Authentication
+Sales Process
+POS Installation
+Post-sales Process
+Payment
+EOD&others
+Backend Process
+In store pos-server
+AD mgt
+
+============================================================
+[. Payment]
+
+4. Payment
+1. Payment Interface
+Steps/Explanation
+Transaction basic info: Display amount payable and receipt no.; Click the [↓] to expand the details including the discount info
+Article info: Display the article list with the names, qty and subtotal
+Payment amount: Display the ‘To Be paid’ and ‘Paid’ amount(payment complete when To Be paid=0)
+Tender list: Display the supported tenders; Click [Tender] button to process the payment using selected tender; Most used 6 tenders will be configured to display at the top of the list; Click [All] to view all tenders
+Amount input box: Can input the payment amount when customer want to use a tender to pay partially(if pay ‘to be paid’ amount, no need to input)
+
+4. Payment
+1. Payment Interface
+Steps/Explanation
+Quick-pay denomination: Display the configured 4 most used cash denominations, click the button to pay by CASH of corresponding amount
+Keyboard: Used to input the payment amount into the ‘Amount input box’; Click [Cash] to pay by cash(the same with clicking the cash tender button)
+Payment record list: Display the records of the completed payment; Click [X] to cancel payment and the ‘to be paid’ amount will be revise
+[Back to Cart]: Back to sales page remaining all transaction info including the articles, membership, govnt deduct…; Payment record will be cancelled automatically
+[Cancel Order]: Cancel the whole transaction and back to sales page Payment record will be cancelled automatically
+
+4. Payment
+2. Pay by Cash
+Steps/Explanation
+Can input the payment amount when customer want to pay partially(if pay the whole transaction amount, no need to input)
+Click [Cash] in the tender list or keyboard and the payment  completes
+Can click the quick denomination button to pay by CASH of corresponding amount
+Remark
+Can pay exceed ‘to be paid’ amount by cash as a prompt will pop-up after transaction complete to remind cashier the change amount
+
+============================================================
+[. Payment]
+
+4. Payment
+3. Pay by Online EFT
+Steps/Explanation
+Can input the payment amount when customer want to pay partially(if pay the whole transaction amount, no need to input)
+Click [EFT] in the tender list to start EFT payment progress
+Finish the rest of the operation on EFT terminal
+
+4. Payment
+3. Pay by Online EFT
+Steps/Explanation
+If POS pop up timeout message, normally it is because the connection is unstable. Click [Confirm] to close the message and check EFT terminal whether the payment is success
+If the payment is success on EFT terminal, select offline EFT to complete the payment; If failed, try again or select another tender.
+
+4. Payment
+4. Pay by GCASH INT
+Steps/Explanation
+Can input the payment amount when customer want to pay partially(if pay the whole transaction amount, no need to input)
+Click [GCASH INT] in the tender list to start GCASH online payment progress
+Use the scanner to scan or manually input customer’s GCASH code and wait for the response
+
+100
+4. Payment
+4. Pay by GCASH INT
+Steps/Explanation
+Use the scanner to scan or manually input customer’s GCASH code and wait for the response
+
+101
+4. Payment
+4. Pay by GCASH INT
+Steps/Explanation
+If POS pop up timeout message, normally it is because the connection is unstable. 
+Click [Inquiry] to query payment results. If query several times but still cannot get the result, suggest to cancel the payment.
+Click [Cancel] to cancel payment. If the customer has paid successfully, the amount will be returned to the customer's account automatically.
+
+102
+4. Payment
+5. Pay by QRPH INT
+Steps/Explanation
+Can input the payment amount when customer want to pay partially(if pay the whole transaction amount, no need to input)
+Click [QRPH INT] in the tender list to fetch QRPH payment code
+
+============================================================
+[. Payment]
+
+103
+4. Payment
+5. Pay by QRPH INT
+Steps/Explanation
+After POS get the QRPH payment code, the code will be display on the left side of customer screen for the customer to scan and pay (if the payment code fetching timeout, can retry or cancel)
+After the QRPH payment code is displayed, POS will start to query the payment result
+
+104
+4. Payment
+5. Pay by QRPH INT
+Steps/Explanation
+If POS pop up timeout message, normally it is because the connection is unstable. 
+Click [Inquiry] to query payment results. If query several times but still cannot get the result, suggest to cancel the payment.
+Click [Cancel] to cancel payment. If the customer has paid successfully, as the amount will not be returned to the customer's account automatically for QRPH, the cashier has to inform the supervisor to proceed refund offline.
+
+105
+4. Payment
+6. Pay by SMAC INT
+Steps/Explanation
+Can input the payment amount when customer want to pay partially(if pay the whole transaction amount, no need to input)
+Click [SMAC INT] in the tender list to fetch membership  redeemable amount based on customer’s SMAC points
+
+106
+4. Payment
+6. Pay by SMAC INT
+Steps/Explanation
+After POS get the redeemable amount, confirm the payment amount which cannot exceed the redeemable amount (if the redeemable amount fetching timeout, can retry or cancel)
+Click [Confirm] to submit SMAC payment and wait for the response
+
+107
+4. Payment
+6. Pay by SMAC INT
+Steps/Explanation
+If POS pop up timeout message, normally it is because the connection is unstable. 
+Click [Inquiry] to query payment results. If query several times but still cannot get the result, suggest to cancel the payment.
+Click [Cancel] to cancel payment. If the customer has paid successfully, the points will be returned to the customer's account automatically.
+
+============================================================
+[. Payment]
+
+108
+4. Payment
+7. Pay by offline EFT
+Steps/Explanation
+Can input the payment amount when customer want to pay partially(if pay the whole transaction amount, no need to input)
+Click [Offline BDO Debit/Credit] in the tender list to open the offline EFT payment info input page
+
+109
+4. Payment
+7. Pay by offline EFT
+Steps/Explanation
+Complete the payment info (Card no. and Expire date can be input through card swiping)
+Click [Confirm] to submit the payment
+
+110
+4. Payment
+8. Pay by MR deduct/deposit
+Steps/Explanation
+Can input the payment amount when customer want to pay partially(if pay the whole transaction amount, no need to input)
+Click [MR deduct/Deposit] in the tender list to start payment progress
+
+111
+4. Payment
+8. Pay by MR deduct/deposit
+Steps/Explanation
+Scan or input the MR deduct/Deposit payment code
+Click [Confirm] to submit the payment
+
+112
+4. Payment
+9. Pay by other offline tenders
+Steps/Explanation
+Can input the payment amount when customer want to pay partially(if pay the whole transaction amount, no need to input)
+Click [Tender] button in the tender list to complete payment
+
+113
+4. Payment
+10. Auto Tenders – 1%CWT & 5%WVAT
+Steps/Explanation
+Process the Govnt. Deduction type of ‘TWA’ or ’GOCC’ in sales page and submit the transaction
+In payment page, 1%CWT/5%WVAT tender(s) will be automatically used and the corresponding amount will be deduct from ‘to be paid’ amount which means customer do not need to pay for the amount
+Remark
+1%CWT/5%WVAT tender(s) cannot be cancelled manually
+When [Back to cart]/[Cancel Order], 1%CWT/5%WVAT will be cancelled automatically
+
+114
+4. Payment
+10. Auto Tenders – 1%CWT & 5%WVAT
+Steps/Explanation
+In payment page, 1%CWT/5%WVAT tender(s) will be automatically used and the corresponding amount will be deduct from ‘to be paid’ amount which means customer do not need to pay for the amount
+Remark
+1%CWT/5%WVAT tender(s) cannot be cancelled manually
+When [Back to cart]/[Cancel Order], 1%CWT/5%WVAT will be cancelled automatically
+
+============================================================
+[. Payment]
+
+115
+4. Payment
+11. Payment complete
+Steps/Explanation
+When ‘To Be Paid’ = 0, the transaction will complete. The receipt will be printed out and back to the sales page within 3 s (configurable)
+
+116
+4. Payment
+11. Payment void
+Steps/Explanation
+Click [x] of the payment record and the payment will be voided directly
+For EFT related tenders, if EFT terminal responses exceptions, cashier has to check the EFT terminal whether the transaction has been voided successfully
+
+Agenda
+Cashier Authentication
+Sales Process
+POS Installation
+Post-sales Process
+Payment
+EOD&others
+Backend Process
+In store pos-server
+AD mgt
+
+============================================================
+[.Post-sales process]
+
+118
+5.Post-sales process
+1. POS Return
+Steps/Explanation
+From left side menu bar, can find Return function entry with or without receipt No.
+
+119
+5.Post-sales process
+2. Return with Receipt - UI
+Steps/Explanation
+Return with receipt No. screen
+Input area for receipt No.
+Function area
+
+
+
+
+Note:
+Return with Receipt can only be proceed when POS is online. [Return without Receipt] can be used if POS is offline,
+
+120
+5.Post-sales process
+2. Return with Receipt
+Steps/Explanation
+Enter Receipt No.
+The Detail of receipt appears
+Select article(s) to return 
+Fast action if needs: select all or deselect all 
+Click [Return] to do partial return or return transactions before today
+Click [Void] to return today’s entire sales transaction directly (only when the original transaction has not been partially returned before and all the items have been selected, the [Void] button will be clickable)
+
+121
+5.Post-sales process
+2. Return with Receipt
+Steps/Explanation
+Choose return reason to enter refund page ([Void] will enter original refund page while [Return] will enter custom refund page)
+
+122
+5.Post-sales process
+3. Return without Receipt - UI
+Steps/Explanation
+Return without receipt No. screen
+Middle Function Area
+Input area for item No.
+Switch between PLU Items & Quick Functions
+Quick Functions Area
+
+123
+5.Post-sales process
+3. Return without Receipt
+Steps/Explanation
+Enter item barcode or article code.
+The Detail of article 
+Click “delete” to delete item which in cart
+Click “cancel order” if needs stop return
+Click on Return
+
+124
+5.Post-sales process
+3. Return without Receipt
+Steps/Explanation
+While adding items to cart during return without receipt, the unit price for all items can be modified
+
+125
+5.Post-sales process
+3. Return without Receipt
+Steps/Explanation
+Enter SI.NO
+
+126
+5.Post-sales process
+3. Return without Receipt
+Steps/Explanation
+Choose return reason to enter the custom refund page
+
+============================================================
+[.Post-sales process]
+
+127
+5.Post-sales process
+4. Original Refund
+Steps/Explanation
+The transaction will be refund by its original payment tenders and return successfully
+
+
+Note:
+Only [void] of return with receipt will enter the original refund page
+
+128
+5.Post-sales process
+4. Original Refund
+Steps/Explanation
+If there is any EFT related tender in the original transaction, cashier need to [refund] that EFT tender manually first
+
+129
+5.Post-sales process
+4. Custom Refund
+Steps/Explanation
+Check the detail of return
+Select a tender to complete the refund
+
+Note:
+[Return] in return with receipt and return without receipt will enter the custom refund page
+
+Agenda
+Cashier Authentication
+Sales Process
+POS Installation
+Post-sales Process
+Payment
+EOD&others
+Backend Process
+In store pos-server
+AD mgt
+
+============================================================
+[. EOD & Others]
+
+131
+6. EOD & Others
+1. Cash Pick Up
+Steps/Explanation
+Click [Pick up] button on the left main menu or the quick-access function area in sales page to open the pick up page
+
+132
+6. EOD & Others
+1. Cash Pick Up
+Steps/Explanation
+Input the quantity of each denomination which been picked up
+The total amount and details of pick up can be viewed
+Click [Submit] to complete the pick up progress
+The printer will automatically print-out the pick up receipt
+
+133
+6. EOD & Others
+2. Pre-commit
+Steps/Explanation
+Click [Pre-commit] button on the left main menu or the quick-access function area in sales page to open the pre-commit page
+
+134
+6. EOD & Others
+2. Pre-commit
+Steps/Explanation
+Input the quantity of each denomination based on the counting in the cash drawer
+The total amount and details of counting can be viewed
+Click [Submit] to complete the pre-commit progress
+The printer will automatically print-out the pre-commit and cashier-X receipt
+
+135
+6. EOD & Others
+3. Manual Term-Z
+Steps/Explanation
+Click [Manual Term-Z] button on the left main menu or the quick-access function area in sales page
+The printer will automatically print-out the Term-Z receipt
+Remark
+Auto Term-Z does not require any operation as POS will automatically generate Term-Z report for the natural day at 0 am. (Auto Term-Z will not print out the receipt)
+
+136
+6. EOD & Others
+4. Reprint receipt
+Steps/Explanation
+Click [Reprint Receipt] button on the left main menu
+Click [Last Receipt], the printer will automatically print-out last printed receipt
+Click [Specify Receipt] to enter the select receipt page
+
+137
+6. EOD & Others
+4. Reprint receipt
+Steps/Explanation
+Reprint sales receipt by input/scan receipt no.
+Reprint sales receipt by select date and input last 4 digits of the receipt no.
+Reprint X receipt by select date and select shift
+Reprint Z receipt by select date
+
+138
+6. EOD & Others
+5. Setting
+Steps/Explanation
+Click [Setting] button on the left main menu to open the setting page
+
+============================================================
+[. EOD & Others]
+
+139
+6. EOD & Others
+6. Setting
+Steps/Explanation
+Network Mode: If set to offline mode, all POS transaction will be based on offline service and local DB. (used when the store network is unstable or disconnected temporary)
+Program pin: If set to pin, the POS program will always on the top of the windows desktop
+Hardware acceleration: If set to enable, POS will use GPU to make pages load faster
+IP address: Display the IP address of the POS device
+Unsync task: Check whether there is any local trans data that haven’t be synced to cloud.
+Offline Service Mgt: Display the version of offline service and the version & update time of each offline service module (used to check whether POS fetched the latest version of offline data)
+
+Agenda
+Cashier Authentication
+Sales Process
+POS Installation
+Post-sales Process
+Payment
+EOD&others
+Backend Process
+In store pos-server
+AD mgt
+
+============================================================
+[.Backend process]
+
+142
+7.Backend process
+1.1 POS Payment Method Configuration
+Steps/Explanation
+Click on File tab
+Click on POS Payment Method Configuration from the left pane
+The POS Payment Method Configuration screen appears
+Drag and drop to adjust payment methods in POS display.
+Click on Create button
+Click on Transaction Rule Config if needs
+Click on … to active/inactive config
+
+143
+7.Backend process
+1.2 Create Payment Method
+Steps/Explanation
+Click on File tab
+Click on POS Payment Method Configuration from the left pane
+The POS Payment Method Configuration screen appears
+Click on Create button
+
+144
+7.Backend process
+1.2 Create Payment Method
+Steps/Explanation
+The Create Payment Method screen appears
+Fill in information
+Payment name
+Select refund method
+Payment method description
+Payment display image
+Click on Save button
+
+145
+7.Backend process
+1.3 Transaction Rule Configuration(1)
+Steps/Explanation
+Click on File tab
+Click on POS Payment Method Configuration from the left pane
+The POS Payment Method Configuration screen appears
+Click on Transaction Rule Config button
+
+146
+7.Backend process
+1.3 Transaction Rule Configuration(1)
+Steps/Explanation
+The Transaction Rule Config screen appears
+View Basic information
+Fill in Payment Configuration
+Click on Save button
+
+147
+7.Backend process
+1.3 Transaction Rule Configuration(2)
+Payment configuration:
+Payment Name on POS
+Icon Used on POS
+Open Cash Drawer
+Include in EOD Counting
+Enable Rounding
+Allow Cancel Payment
+Enable Last Payment
+Display on payment page
+Online Tender
+Maximum Payable Amount
+
+148
+7.Backend process
+1.4 POS Payment Details Report
+Steps/Explanation
+Click on Data Dashboard tab
+Click on POS Payment Details from the left pane
+The POS Payment Details screen appears
+Select tab: Sales View or Return View
+Select time duration
+Enter query condition if needs
+Click on Query button
+Click on Export if needs
+
+============================================================
+[.Backend process]
+
+149
+7.Backend process
+1.5 Deposit Mgt
+Steps/Explanation
+Click on File tab
+Click on Deposit Mgt from the left pane
+The Deposit Mgt screen appears
+Enter query condition if needs
+Enter ID if needs: Deposit Code, Receipt No., Cashier No., POS No.
+Select Type: Deposit, MR Form
+Select Status
+Select Site
+Select trade time
+Click on Query button
+
+150
+7.Backend process
+2.1Cash in/out Mgt
+Steps/Explanation
+Click on Operation tab
+Click on POS Cash In/Out Mgt from the left pane
+The Cash in/out Mgt screen appears
+Select time duration
+Select store
+Enter POS No if needs
+Enter Cashier No if needs
+Select type if needs: Cash In or Cash Out
+Click on Query button
+Click on Detail if needs
+
+============================================================
+[.Backend process]
+
+152
+7.Backend process
+3.1 Device Management (1)
+Steps/Explanation
+Click on Operation tab
+Click on Device List from the left pane
+The Device List screen appears
+Enter query conditions
+Click on Activate/Deactivate next to related device
+Click on Edit next to related device
+Click on Delete next to related device
+Click on Create if needs
+
+153
+7.Backend process
+3.1 Device Management (2)
+4. query conditions:
+Enter Device Code if needs
+Select Store if needs
+Select Equipment Category if needs: PVT, In-Store Server, Win-POS
+Enter Device ID if needs
+Enter Device Name if needs
+Select Heartbeat Status if needs
+Select Usage Status if needs
+
+154
+7.Backend process
+3.2 Create Device (1)
+Steps/Explanation
+Click on Operation tab
+Click on Device List from the left pane
+The Device List screen appears
+Click on Create button
+
+155
+7.Backend process
+3.2 Create Device (1)
+Steps/Explanation
+The Create Device screen appears
+Select Equipment Business Class
+Click on Next Step
+Enter Master Device Information
+
+156
+7.Backend process
+3.2 Create Device (2)
+6. Select Equipment Business Class
+Select store
+Select Device Category if needs
+Select Device. 
+If choosing Win-POS, another tab named Fill in Peripheral Information will appear
+Click on Next Step
+
+157
+7.Backend process
+3.2 Create Device (3)
+8. Enter Master Device Information
+Select store
+Enter Device code & Name
+Enter Terminal No.
+Enter location if needs
+Select Touch Screen
+Select Device type: POS
+Enter HW Serial No.
+Enter BIR MIN No.
+Enter BIR PTU No.
+Select if handle online sales: Yes or No
+Select BIR PTU date
+Click on Next Step
+
+158
+7.Backend process
+3.2 Create Device (4)
+9. Fill in Peripheral Information if needs
+Drawer
+Receipt Printer
+Handheld barcode scanner
+Desktop barcode scanner
+
+159
+7.Backend process
+3.2 Create Device (5)
+9. Fill in Peripheral Information if needs
+Magnetic stripe card reader
+Electronic scale
+Electronic scale
+UnionPay POS machine
+Smart card reader
+NEXT-EFT
+
+10. Click on Save
+
+============================================================
+[.Backend process]
+
+160
+7.Backend process
+3.3 Roving POS (1)
+Steps/Explanation
+Click on Operation tab
+Click on Roving POS from the left pane
+The Roving POS screen appears
+Enter query conditions
+Click on Query
+Double click row of related device to view
+Click on Edit next to related device
+
+161
+7.Backend process
+3.3 Roving POS (1)
+Steps/Explanation
+Equipment Details view
+
+162
+7.Backend process
+3.3 Roving POS (1)
+Steps/Explanation
+Device Edit view
+
+163
+7.Backend process
+3.3 Roving POS (2)
+4. query conditions:
+Enter Device Code if needs
+Select current store if needs
+Select Head Office
+Enter Device ID if needs
+Enter Device Name if needs
+Select Heartbeat Status if needs
+Select Usage Status if needs
+
+164
+7.Backend process
+4.POS Order Management (1)
+Steps/Explanation
+Click on Operation tab
+Click on POS Order Mgt from the left pane
+The POS Order Mgt screen appears
+Enter query conditions
+Click on Query
+Click on Export if needs
+Click on Detail next to related detail if needs
+
+
+Note:
+If specific record cannot be found, it is normally because the data haven’t been sync form POS to the cloud yet. You can either check and reconnect POS network or import trans data to the cloud manually
+
+165
+7.Backend process
+4.POS Order Management (1)
+Steps/Explanation
+The Detialed POS Order screen appears
+
+166
+7.Backend process
+4.POS Order Management (2)
+query conditions
+Select selling time duration
+Select store
+Select order type: POS Sales or POS deposit charge
+Enter Receipt No. if needs
+Select order status
+Enter POS No. if needs
+Enter Cashier No. if needs
+
+167
+7.Backend process
+5.POS after-sales order management(1)
+Steps/Explanation
+Click on Operation tab
+Click on POS after-sales order Mgt from the left pane
+The POS after-sales Order Mgt screen appears
+Enter query conditions
+Click on Query
+Click on Export if needs
+Click on views next to related device if needs
+
+168
+7.Backend process
+5.POS after-sales order management(1)
+Steps/Explanation
+The Detialed POS after-sales Order screen appears
+
+============================================================
+[.Backend process]
+
+169
+7.Backend process
+5.POS after-sales Order Management (2)
+query conditions
+Select by order no, or receipt no, or after-sale order no, or after-sale receipt no; 
+Select created on date;
+Select store;
+Select after-sales type: return or void
+Select after-sales status
+Enter Cashier No. if needs
+Enter POS No. if needs
+
+170
+7.Backend process
+6.EJ(1)
+Steps/Explanation
+Click on Operation tab
+Click on EJ from the left pane
+The EJ screen appears
+Enter query conditions
+Click on Query
+Click on Export if needs
+Click on print receipt if needs
+
+
+Note:
+If specific record cannot be found, it is normally because the data haven’t been sync form POS to the cloud yet. You can either check and reconnect POS network or import trans data to the cloud manually
+
+171
+7.Backend process
+6.EJ(2)
+query conditions
+Select by sales time; 
+Select store;
+Select by receipt type;
+Select by payment method;
+Enter receipt No. if need;
+Enter POS No. if needs
+Enter cashier No. if needs
+Enter serial No. if needs
+
+172
+7.Backend process
+7.POS payment records
+Steps/Explanation
+Click on Operation tab
+Click on POS payment records from the left pane
+The POS payment records appears
+Enter query conditions
+Click on Query
+Click on detail if needs
+
+173
+7.Backend process
+7.POS refund records
+Steps/Explanation
+Click on Operation tab
+Click on POS payment records from the left pane
+The POS payment records appears
+Enter query conditions
+Click on Query
+Click on detail if needs
+
+Agenda
+Cashier Authentication
+Sales Process
+POS Installation
+Post-sales Process
+Payment
+EOD&others
+Backend Process
+In store pos-server
+AD mgt
+
+============================================================
+[.In store pos-server]
+
+175
+8.In store pos-server
+1. In store pos-server
+Steps/Explanation
+1. To check if any pos in store don’t connect the ISP;
+2. To check if any PVT in store don’t connect the ISP;
+3. Click [Import Offline Data] to import latest key master data such as article, account, promo from cloud to ISP for BCP scenarios
+4. Click [Export transaction Data] to export store transaction data for the select date from ISP which can be import to the cloud for BCP scenarios
+
+176
+8.In store pos-server
+2. Import file to ISP
+Steps/Explanation
+1.Click “operations ” 
+2.Choose the menu [POS Offline Data Management];
+3. Set query conditions, and click [QUERY] to view the offline data version
+4.Click [Export Offline Data] to download the latest key master data such as article, account, promo from cloud which can be import to ISP for BCP scenarios
+
+177
+8.In store pos-server
+2. Import file to ISP
+Steps/Explanation
+1. After export the offline date from [POS Offline Data Management] and paste the file into the ISP device, click [import offline Data] to import the file and all POS will fetch the latest offline data from ISP;
+
+178
+8.In store pos-server
+3. Export file to cloud
+Steps/Explanation
+1. On the ISP side ,click ”[Export Transaction Data] and select a date to  export all the store transaction records and get a download file which can be import to the cloud for BCP scenarios
+
+179
+8.In store pos-server
+3. Export file to cloud
+Steps/Explanation
+1.Click “operations ” 
+2.Choose the menu [POS Offline Data Management]
+3.Click [import], to upload the file which downloaded from ISP.
+3. Set query conditions, and click [QUERY], to check the status;
+If ‘number of transactions’ are same, and status is ‘success’, it means the data in pos is the same as the data in cloud.
+
+============================================================
+[.In store pos-server]
+
+Note:
+If store network is OK, the store everyday reconciliation will be successful. If it is failed, normally it is because some of the POS is disconnected to the cloud, you can import trans data from ISP to cloud and then do manual reconciliation success.
+
+180
+8.In store pos-server
+4. EJournal
+Steps/Explanation
+1. On the ISP side ,click [EJournal] to start to generate EJ txt file for a POS in a certain period of time.
+2. Enter the POS Terminal No. of a target POS.   
+3. Select the start and end date of EJ (max 7 days)
+
+181
+8.In store pos-server
+4. EJournal
+Steps/Explanation
+1. After confirming the start&end date, the ISP will start generating EJ file 
+2. Wait for a few minutes and check the file in My Document/PosServer/EJournal
+
+182
+8.In store pos-server
+5. Audit Trail
+Steps/Explanation
+1. On the ISP side ,click [Audit Trail] to start to generate Audit Trail PDF file for a POS in a certain period of time.
+2. Enter the POS Terminal No. of a target POS.   
+3. Select the start and end date of Audit Trail (max 7 days)
+
+183
+8.In store pos-server
+5. Audit Trail
+Steps/Explanation
+1. After confirming the start&end date, the ISP will start generating Audit Trail file 
+2. Wait for a few minutes and check the file in My Document/PosServer/AuditTrail
+
+184
+8.In store pos-server
+6. BIR Reports
+Steps/Explanation
+1. On the ISP side ,click [BIR Reports] to open the BIR report page to view the E1-E7 reports
+
+185
+8.In store pos-server
+6. BIR Reports
+Steps/Explanation
+Select POS;
+Select start time of the report;
+Select end time of the report;
+Click on export the report.
+
+Agenda
+Cashier Authentication
+Sales Process
+POS Installation
+Post-sales Process
+Payment
+EOD&others
+Backend Process
+In store pos-server
+AD mgt
+
+============================================================
+[Ad Plan Management]
+
+188
+Ad Plan Management
+2.1 Query Ad Plan
+Operation steps:
+Click on Marketing tab
+Click on Ad Plan Mgt from the left pane
+The Ad Plan Management screen appears
+Enter Ad Plan Name if needed
+Enter Status if needed: Active or Inactive
+Click on Query button
+
+189
+Ad Plan Management
+2.1 Create Ad Plan (1)
+Operation steps:
+Click on Marketing tab
+Click on Ad Plan Mgt from the left pane
+The Ad Plan Management screen appears
+Click on Create button
+
+190
+Ad Plan Management
+2.1 Create Ad Plan (1)
+Operation steps:
+The Ad Plan creation screen appears
+
+191
+Ad Plan Management
+2.1 Create Ad Plan (2)
+Operation steps:
+Fill in the basic information
+Enter Ad Plan Name
+Select Valid Period
+Select Display Platform: POS or PVT
+Select Ad Space: Selling time or Idle time
+Select Priority
+Select Display Stores: all stores or designated stores
+Enter change slides frequency
+Set status
+Click on Save button
+
+192
+Ad Plan Management
+2.2 Edit Ad Plan
+Operation steps:
+Click on Marketing tab
+Click on Ad Plan Mgt from the left pane
+The Ad Plan Management screen appears
+Select Priority if needs
+Changer Status if needs
+Click on Edit button
+
+193
+Ad Plan Management
+2.2 Edit Ad Plan
+Operation steps:
+The Ad Plan edit screen appears
+Edit information
+Click on Save button
+
+194
+Ad Plan Management
+2.3 View Ad Plan
+Operation steps:
+Click on Marketing tab
+Click on Ad Plan Mgt from the left pane
+The Ad Plan Management screen appears
+Click on View Ad button
+
+195
+Ad Plan Management
+2.3 View Ad Plan
+Operation steps:
+The Ad Plan view screen appears
+
+============================================================
+[Ad Management]
+
+196
+Ad Management
+2.1 Query Ad
+Operation steps:
+Click on Marketing tab
+Click on Ad Mgt from the left pane
+The Ad Management screen appears
+Enter Ad Name if needed
+Select Ad Plan Name if needed
+Enter Status if needed: Active or Inactive
+Click on Query button
+
+197
+Ad Management
+2.2 Create Ad (1)
+Operation steps:
+Click on Marketing tab
+Click on Ad Mgt from the left pane
+The Ad Management screen appears
+Click on Create button
+
+198
+Ad Management
+2.2 Create Ad (1)
+Operation steps:
+The Ad Creation screen appears
+Fill in the Basic Information
+Enter Ad Name
+Select Ad Plan
+Select priority
+Select Status
+
+199
+Ad Management
+2.2 Create Ad (2)
+Operation steps:
+Fill in the Ad Material
+Select material type
+If select image, two images at most can be uploaded.
+If select video, one video can be uploaded.
+Click on Save button
+
+200
+Ad Management
+2.3 Edit Ad
+Operation steps:
+Click on Marketing tab
+Click on Ad Mgt
+The Ad Management screen appears
+Update Priority if needed
+Update Status is needed
+Click on Edit button next to Ad name
+
+201
+Ad Management
+2.3 Edit Ad
+Operation steps:
+The Ad Edit screen appears
+Update Basic Information
+Update Ad Material
+Click on Save button
+
+202
+Ad Preview
+3.1 Ad Preview
+Operation steps:
+Click on Marketing tab
+Click on Ad Preview from the left pane
+The Ad preview screen appears
+Select Display Platform: POS or PVT
+Select Ad Space: Selling time or Idle time
+Select store
+Select Preview Time
+Click on Query button
+
+203
+Thank you for your participation

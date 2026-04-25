@@ -1,0 +1,4555 @@
+============================================================
+[SM Phase 1A Project]
+
+SM Phase 1A Project
+
+USER MANUAL
+ 
+Inventory
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+Goods Receiving(1)
+Receiving&Return Mgt
+Operation steps:
+
+Select Goods Receiving menu under Receiving &Return Mgt/Inventory module.
+
+Goods Receiving(1)
+Receiving&Return Mgt
+Operation steps:
+
+2. Auto show Reference Note list
+
+Goods Receiving(2)-from Vendor （single PO）
+Receiving&Return Mgt
+Operation steps:
+
+When goods delivered in store. Click Create Refer Note button.
+
+Goods Receiving(2)-from Vendor （single PO）
+Receiving&Return Mgt
+Operation steps:
+
+2. Select/ input site id as recipient. Input PO number to generate Receiving reference note.
+
+============================================================
+[Goods Receiving(2)-from Vendor（single PO）]
+
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+Operation steps:
+
+3. Input shipment details.
+
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+Operation steps:
+
+4. Perform the first receiving, input Scan 1 Qty one by one. Received articles will be under Scanned Table.(If PO with free gifts, please input Scan 1 free Qty as well)
+
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+Operation steps:
+
+5. If need amendment, revise the rcvd Qty in the Scanned table.
+
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+Operation steps:
+
+6. Click Cancel button to cancel and save the draft.
+7. After checking all goods, Click Save button to save the draft and return to previous page.
+8. After checking all goods, Click Submit button to submit the first receiving.
+
+Operation steps:
+
+9. Click Scan 2 button to perform second receiving.
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+Operation steps:
+
+10. input Scan 2 Qty one by one. Received articles will be under Scanned Table.(If PO with free gifts, please input Scan 2 free  Qty as well)
+
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+Operation steps:
+
+11. If need amendment, revise the rcvd Qty in the Scanned table.
+
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+Operation steps:
+
+12. Click Cancel button to cancel and save the draft.
+13. After checking all goods, Click Save button to submit the second receiving.
+
+Operation steps:
+
+14. After performing 2nd receiving, RDU supervior should perform the final review on the top right corner notification center-approval.
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+Operation steps:
+
+15. Input approval normal rcvd Qty and approval free rcvd Qty if have.
+
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+Operation steps:
+
+============================================================
+[Goods Receiving(2)-from Vendor（single PO）]
+
+16. Click Agree button to approve window.
+
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+Operation steps:
+
+17.Click Cancel button to return back to detail page
+
+18.Click OK button to approve it.
+
+Operation steps:
+
+19.Click Print button in Goods receiving reference detail page. System will show print preview window for users checking and printing.
+Goods Receiving(2)-from Vendor（single PO）
+Receiving&Return Mgt
+
+============================================================
+[Goods Receiving(3) -from Vendor -Single PO (PDA)]
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+Click Receive icon to Goods Receiving page. Receive site will be auto selected. lt can be changed to other store in Personal Center.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+2. Click Single Po Receiving button.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+3. Click Create button to generate goods reference order.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+4. Input PO number to generate Receiving reference note.
+
+Receiving&Return Mgt
+Operation steps:
+
+Input shipment details.
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+
+============================================================
+[Goods Receiving(3) -from Vendor -Single PO (PDA)]
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+6. Perform the first receiving, input Scan1 Qty one by one. Received articles will be under Scanned Table.(If PO with free gifts, please input Scan 1 free Qty as well)
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+7. If need amendment, revise the rcvd Qty in the Scanned table.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+Click Save button to save the draft and return to previous page.
+Click Cancel button to cancel and delete the document.
+After checking all goods, Click Submit button to submit the first receiving.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Special situation:
+
+If the network is not available now, system will alert users and ask them whether to perform offline receiving. If they confirm it, system will proceed with the offline receiving mode. RDU staff should count the physical goods and confirm the final received quantity with selling staff and trucker together.
+Note: Offline receiving mode is one-step receiving.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Special situation:
+
+If there is offline data: 
+Input the shipment details and final Normal rvd Qty one by one. Received articles will be under Scanned Table.(If PO with free gifts, please input free rcvd Qty as well)
+
+Click Submit , the system will automatically connect the data to the backend after waiting for the network to recover.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Special situation:
+
+If there is no network connection at the beginning. 
+System will alert users when they click the create button. and ask them whether to perform offline receiving or not. If they confirm it, system will proceed with the offline receiving mode(one step receiving).
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Special situation:
+
+============================================================
+[Goods Receiving(3) -from Vendor -Single PO (PDA)]
+
+RDU staff should count the physical goods, confirm the final received quantity with selling staff and trucker together and click Submit button to finish the receiving.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Special situation:
+
+Click PDF  to preview the receiving document
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Special situation:
+
+Click Print  to call the printer
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Special situation:
+
+Click select printer  to download PDF document
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+Input PO number to query the goods reference order.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+12. Click Scan2 button to perform second receiving.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+13. input 2nd Normal rvd Qty one by one. Received articles will be under Scanned Table.(If PO with free gifts, please input free rcvd Qty as well)
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+14. If need amendment, revise the rcvd Qty in the Scanned table.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+Click Save button to save the draft and return to previous page.
+Click Cancel button to cancel and delete the document.
+After checking all goods, Click Submit button to submit the second receiving.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+After performing 2nd receiving, RDU supervior should perform the final review on the right page’s Messages’ center.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+19. Click Approval and chose the order.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+============================================================
+[Goods Receiving(3) -from Vendor -Single PO (PDA)]
+
+20. Input approval normal rcvd Qty and approval free rcvd Qty if have.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+Input approval normal rcvd Qty and approval free rcvd Qty if have.
+Click OK button to confirm the data entry.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+23. Click Agree button to approve window.
+
+Goods Receiving(3) -from Vendor -Single PO (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+24. Click Cancel button to return back to detail page
+25. Click OK button to approve it.
+
+============================================================
+[Instruction:]
+
+Instruction:
+
+DSA PO is allowed to receive fully or partially. Partial receiving means Actual Receive Qty can be less than Plan Qty. This PO is partial received and could be receive another time.  
+The receiving steps is the same, regardless of fully receiving and partial receiving.
+Goods Receiving(4)-from Vendor (Partial receiving)
+Receiving&Return Mgt
+
+Operation steps:
+
+Click Receive icon to store receiving reference note page.
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+
+============================================================
+[Goods Receiving(5)-from Vendor(Multiple PO) (PDA)]
+
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+2. Click Multiple Pos Receiving button.
+
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+3. Click Create Refer Note button to generate goods reference order.
+
+Operation steps:
+
+Input or use camera or infrared scan PO number one by one.
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+5. Click Confirm button to generate goods reference order.
+
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+6. Auto show goods reference order.
+
+Operation steps:
+
+Input shipment details.
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+8. Input 1st Normal rvd Qty one by one. Received articles will be under Scanned Table.(If PO with free gifts, please input free rcvd Qty as well)
+
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+Operation steps:
+If need amendment, revise the rcvd Qty in the Scanned table.
+Click Save button to save the draft and return to previous page.
+Click Cancel button to cancel and delete the document.
+Receive all article and Click Submit button to submit the first receiving.
+
+Operation steps:
+
+13.Input PO number to query the goods reference order.
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+14.Click Scan 2 button to perform 2nd step receiving.
+
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+Input Normal rcvd Qty, the process is the same as 1st step receiving.
+Receive all article and Click Submit button to submit the second receiving.
+
+============================================================
+[Goods Receiving(5)-from Vendor(Multiple PO) (PDA)]
+
+Goods Receiving(5)-from Vendor(Multiple PO) (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+18. After performing 2nd receiving, RDU supervior should perform the final review. The process is the same as single PO receiving.
+
+Operation steps:
+
+When goods delivered in store. Click Create Refer Note button.
+Goods Receiving(6)-from DC/Store
+Receiving&Return Mgt
+
+============================================================
+[Goods Receiving(6)-from DC/Store]
+
+Goods Receiving(6)-from DC/Store
+Receiving&Return Mgt
+Operation steps:
+
+2. Select/ input site id as recipient. 
+3. Input seal number if receiving from DC, Input DN number if receiving from other stores.
+
+Operation steps:
+
+Complete the input, submit to generate receiving reference order.
+Goods Receiving(7)-from DC/Store
+Receiving&Return Mgt
+
+Goods Receiving(7)-from DC/Store
+Receiving&Return Mgt
+Operation steps:
+
+2. Input shipment details.
+
+Goods Receiving(7)-from DC/Store
+Receiving&Return Mgt
+Operation steps:
+
+3. Input Receive Qty, Discrepancy type, Discrepancy Qty and Profit center. Received articles will be under Scanned Table.(If need amendment, revise the rcvd Qty in the Scanned table)
+
+Goods Receiving(7)-from DC/Store
+Receiving&Return Mgt
+Operation steps:
+
+4. Click Submit button to submit the receiving.
+
+============================================================
+[Receiving detail information Instruction:]
+
+Receiving detail information Instruction:
+
+Receive Qty must be equal to or less than Plan Qty.
+If Receive Qty is equal to Plan Qty, discrepancy type could be No differ, Over served, Damaged or Expiry.
+If Receive Qty is less than Plan Qty, discrepancy type could be Underserved or Wrong served.
+If discrepancy type is Over served, Damaged or Expiry, discrepancy qty should be input by users.
+If discrepancy type is Underserved or Wrong served, discrepancy qty will be auto calculated and shown.
+If discrepancy type is No differ, discrepancy qty is default as 0.
+Profit center must be input if discrepancy type is underserved, wrong served or Damaged.
+Goods Receiving(7)-from DC/Store
+Receiving&Return Mgt
+
+Operation steps:
+
+Click Details button or document number to view the receiving reference detail page.
+Goods Receiving(7)-from DC/Store
+Receiving&Return Mgt
+
+============================================================
+[Goods Receiving(7)-from DC/Store]
+
+Goods Receiving(7)-from DC/Store
+Receiving&Return Mgt
+Operation steps:
+
+6. Click Print button, show print preview window for users checking and printing.
+
+Operation steps:
+The goods reference creation step is the same as single PO. The difference is receiving details data-entry. 
+
+Input shipment details.
+Goods Receiving(7)-from DC/Store
+Receiving&Return Mgt
+
+Goods Receiving(7)-from DC/Store
+Receiving&Return Mgt
+Operation steps:
+
+2. Input Receive Qty, Discrepancy type, Discrepancy Qty and Profit center. Received articles will be under Scanned Table.(If need amendment, revise the rcvd Qty in the Scanned table)
+
+Goods Receiving(7)-from DC/Store
+Receiving&Return Mgt
+Operation steps:
+
+Click Save button to save the draft and return to previous page.
+Click Cancel button to cancel and delete the document.
+Click Submit button to submit the receiving
+
+============================================================
+[Goods Receiving(9)-Exceptional cases]
+
+Goods Receiving(9)-Exceptional cases
+Receiving&Return Mgt
+PO does not belong to current receiving stie. Or the PO number does not exist. Or A PO has been created via single PO receiving. It can not be receive via 2 methods in one time.
+PO is not in the valid receiving period
+Goods reference order has been created. Users should receive on the existed order
+Article does not exist in PO and can not be received
+Vendor should be the same if apply multiple Pos receiving
+
+Operation steps:
+
+1.Click Reversal to detail page for reversal
+Goods Receiving(10)-Reversal
+Receiving&Return Mgt
+
+Operation steps:
+
+1.User can check the reversal article detail, but not allowed to edit
+Goods Receiving(10)-Reversal
+Receiving&Return Mgt
+
+Operation steps:
+
+2. Click Upload attachment to upload documents as evidences.
+3.Choose file by click Choose
+4. Click Cancel to cancel the upload 
+5. Click Save to upload
+Goods Receiving(10)-Reversal
+Receiving&Return Mgt
+
+Operation steps:
+
+6. Click View to check the uploaded document.
+7. Click Delete to delete the uploaded document.
+8. Click Cancel to cancel the reversal process
+9. Click Submit to submit the reversal. System will alert users to double confirm the operation
+10. Click Cancel to cancel the reversal process
+11.Click OK to submit
+Goods Receiving(10)-Reversal
+Receiving&Return Mgt
+
+Operation steps:
+
+12. After performing reversal, AP accounting dept. should perform the allow reversal confirmation on the top right corner notification center-approval.
+Goods Receiving(10)-Reversal
+Receiving&Return Mgt
+
+Operation steps:
+
+13. AP accounting dept. should check the reversal is allowable or not in SAP.
+14. AP accounting dept. can check the attachment for helping them confirm the reversal process.
+Goods Receiving(10)-Reversal
+Receiving&Return Mgt
+
+Operation steps:
+
+============================================================
+[Goods Receiving(9)-Exceptional cases]
+
+15. After checking in SAP. If the reversal is not allowed in SAP. AP accounting dept. should chick Reject and input the comment to close the reversal in Dmall.
+14. After checking in SAP. If the reversal is not allowed in SAP. AP accounting dept. should chick Agree and input the comment to submit the reversal in Dmall.
+Goods Receiving(10)-Reversal
+Receiving&Return Mgt
+
+Operation steps:
+
+Select “Stock Adjustment” in PDA to enter Inventory Adjustment Order list.
+
+Key Changes:
+CDR used to be a manual recording process. This process now can be applied to selected consignor article without inventory where we want to manage inventory in Dmall system
+Articles need to be configured in Dmall system first as “manage inventory”
+Goods Receiving(11)-CDR
+Receiving&Return Mgt
+
+Operation steps:
+
+3. Select Site, Location, Category
+(Site will be pre-selected in user log as a store-only account)
+Goods Receiving(11)-CDR
+Receiving&Return Mgt
+
+============================================================
+[Goods Receiving(11)-CDR]
+
+Goods Receiving(11)-CDR
+Receiving&Return Mgt
+Operation steps:
+
+3. Select Adjustment Reason，Choose [1111] Consign without inventory GR.
+
+Goods Receiving(11)-CDR
+Receiving&Return Mgt
+Operation steps:
+
+5. Input vendor info.
+6. Scan to add article, or user can click “Select Article” to choose article from article management
+or click Add Article to add
+
+Goods Receiving(11)-CDR
+Receiving&Return Mgt
+Operation steps:
+
+7. Select some article and click “Confirm”.
+
+Goods Receiving(11)-CDR
+Receiving&Return Mgt
+Operation steps:
+
+8. Input Qty one by one.
+
+Goods Receiving(11)-CDR
+Receiving&Return Mgt
+Operation steps:
+
+9. Submit the order by click “Save”.
+
+Goods Receiving(12)- Non-trade PO receiving (non-trade,service)
+Receiving&Return Mgt
+Operation steps:
+
+1. Click “Receive Service PO” to create service refer Note.
+
+Goods Receiving(12)- Non-trade PO receiving (non-trade,service)
+Receiving&Return Mgt
+Operation steps:
+
+1. Select receive site and input service PO number.
+
+Goods Receiving(12)- Non-trade PO receiving (non-trade,service)
+Receiving&Return Mgt
+Operation steps:
+
+3. Click “Submit”  to complete the receiving.
+
+Operation steps:
+
+After performing STO receiving, if there is any discrepancy, it will trigger STDR approval. Approver should check it on the top right corner notification center-approval.
+STDR Mgt(1)
+Receiving&Return Mgt
+
+============================================================
+[STDR Mgt(1)]
+
+STDR Mgt(1)
+Receiving&Return Mgt
+Operation steps:
+
+2. Input approval Qty.
+3. Input approval remark by item level if needed.
+
+Operation steps:
+
+Click Agree button to approve window.
+Click Cancel button to return back to detail page
+Click OK button to submit it.
+STDR Mgt(1)
+Receiving&Return Mgt
+
+STDR Mgt(1)
+Receiving&Return Mgt
+Operation steps:
+
+7. Click Reject button to reject window.
+8. Click Cancel button to return back to detail page
+9. Click OK button to submit it.
+
+Operation steps:
+
+Select STDR Mgt menu under Receiving &Return Mgt/Inventory module.
+Auto show STDR Note list.
+STDR Mgt(2)
+Receiving&Return Mgt
+
+STDR Mgt(2)
+Receiving&Return Mgt
+Operation steps:
+
+3. Click Details button or document number to view the STDR detail page.
+
+Operation steps:
+
+
+After performing STO receiving, if there is any discrepancy, it will trigger STDR approval. Approver should check it on the right page’s Messages’ center.
+STDR Mgt(3) (PDA)
+Receiving&Return Mgt
+
+============================================================
+[STDR Mgt(3) (PDA)]
+
+STDR Mgt(3) (PDA)
+Receiving&Return Mgt
+Operation steps:
+
+2. Click Approval and chose the order.
+
+Operation steps:
+
+Input approval normal rcvd Qty and approval free rcvd Qty if have.
+STDR Mgt(3) (PDA)
+Receiving&Return Mgt
+
+Operation steps:
+
+4. Click Agree button to approve window.
+STDR Mgt(3) (PDA)
+Receiving&Return Mgt
+
+100
+Operation steps:
+
+5. Click Cancel button to return back to detail page
+6. Click OK button to approve it.
+STDR Mgt(3) (PDA)
+Receiving&Return Mgt
+
+101
+Operation steps:
+
+Input approval normal rcvd Qty and approval free rcvd Qty if have.
+STDR Mgt(3) (PDA) — Approval / reject
+Receiving&Return Mgt
+
+102
+Operation steps:
+
+8. Click Reject button to approve window.
+STDR Mgt(3) (PDA) — Approval / reject
+Receiving&Return Mgt
+
+103
+Operation steps:
+
+9. Input the comments why reject the approval.
+STDR Mgt(3) (PDA) — Approval / reject
+Receiving&Return Mgt
+
+104
+Operation steps:
+
+10. Click Cancel button to return back to detail page
+11. Click OK button to approve it.
+STDR Mgt(3) (PDA) — Approval / reject
+Receiving&Return Mgt
+
+105
+Operation steps:
+
+Select Store Return order menu under RPO Mgt/Purchase module.
+Auto show Store Manual Return list
+Receiving&Return Mgt
+Store Manual Return(1)
+
+106
+Operation steps:
+
+Click Create button to apply RTV
+Receiving&Return Mgt
+Store Manual Return (2)
+
+107
+Operation steps:
+
+4. Select the RTV site
+Receiving&Return Mgt
+Store Manual Return (2)
+
+108
+Operation steps:
+
+5. Input RTV article code, article information will be auto populate
+Receiving&Return Mgt
+Store Manual Return (2)
+
+109
+Operation steps:
+
+6. Supplier will be defaulted. If it is not the correct supplier, select the correct supplier from the dropbox list.
+Receiving&Return Mgt
+Store Manual Return (2)
+
+110
+Operation steps:
+
+7. Return Unit can be changed if multiple package
+Receiving&Return Mgt
+Store Manual Return (2)
+
+111
+Operation steps:
+
+8. Input Return Qty
+Receiving&Return Mgt
+Store Manual Return (2)
+
+112
+Operation steps:
+
+============================================================
+[STDR Mgt(3) (PDA)]
+
+Select the return storage location, it must be 0001 or 0031.
+Receiving&Return Mgt
+Store Manual Return (2)
+
+113
+Operation steps:
+10. Select the return reason
+Reason selection Instruction:
+If Return Qty is less than 1 case,  only reason code 010,011,012 can be selected
+If Return Qty is equal to or larger than 1 case,  reason codes can be selected except 010,011
+Receiving&Return Mgt
+Store Manual Return (2)
+
+114
+Operation steps:
+
+11. Remark information and article image is optional.
+Receiving&Return Mgt
+Store Manual Return (2)
+
+115
+Operation steps:
+
+12. Click +  button to add a new line for RTV. Perform the process from step5 to step11.
+Receiving&Return Mgt
+Store Manual Return (2)
+
+116
+Operation steps:
+
+13. Click Confirm  button to submit the RTV article for pending RPO generation.
+Receiving&Return Mgt
+Store Manual Return (2)
+
+117
+Operation steps:
+
+Click Store Return order button to revise the RTV Return Qty if needed.
+Receiving&Return Mgt
+Store Manual Return (3)
+
+118
+Operation steps:
+
+Click Generate order button to consolidate all RTV articles , generate RPO in Dmall.
+Receiving&Return Mgt
+Store Manual Return (3)
+
+119
+Operation steps:
+
+3. Or select multiple RTV article lines click Generate order button to consolidate.
+Receiving&Return Mgt
+Store Manual Return (3)
+
+120
+Operation steps:
+
+4. RTV articles will be consolidated by supplier, site, category and doc type. Click Confirm button to generate RPO.
+Receiving&Return Mgt
+Store Manual Return (3)
+
+============================================================
+[Receiving&Return Mgt]
+
+Receiving&Return Mgt
+Store Manual Return (3)
+Operation steps:
+
+After generating the RPO, approval office should approve the RPO on the top right corner notification center-approval in Dmall.
+
+Receiving&Return Mgt
+Store Manual Return (3)
+Operation steps:
+
+6. Click Agree button to approval window.
+7. Click OK button to submit it.
+8. Click Cancel button to return back to detail page
+
+Receiving&Return Mgt
+Store Manual Return (3)
+Operation steps:
+
+9. Click Reject button to rejection window.
+10. Click OK button to submit it.
+11. Click Cancel button to return back to detail page
+
+Receiving&Return Mgt
+Store Manual Return (3)
+Operation steps:
+
+12. Click Rollback button to previous approver for submitting evidences.
+
+RPO generation Instruction:
+After RPO approved, RPO data will sync to SAP for generating the real RPO document and send back the RPO number to Dmall.
+
+125
+Operation steps:
+
+Select Order Query menu under Order Query/Purchase module. Auto show Order Query list
+Store Manual Return (4)
+Receiving&Return Mgt
+
+126
+Operation steps:
+
+2. Select multiple RPO documents.
+3. Click Print button, show print preview window for users checking and printing the RPO label .
+Store Manual Return (4)
+Receiving&Return Mgt
+
+Operation steps:
+
+Click Store Return icon to store manual return application page.
+Receiving&Return Mgt
+Store Manual Return (5)- PDA
+
+Operation steps:
+
+2. Return site will be auto selected. It can be changed to other store if the return list is empty.
+Receiving&Return Mgt
+Store Manual Return (5)- PDA
+
+Operation steps:
+
+3. Click Add Article button to add RTV article by inputting article code, camera or infrared scanning the barcode.
+Receiving&Return Mgt
+Store Manual Return (5)- PDA
+
+130
+Operation steps:
+
+Supplier will be defaulted. If it is not the correct supplier, select the correct supplier from the drop box list.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+131
+Operation steps:
+
+============================================================
+[Receiving&Return Mgt]
+
+5. Select the return source of location, it must be 0001 or 0031.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+132
+Operation steps:
+
+6. Return Unit can be changed if multiple package
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+133
+Operation steps:
+
+7. Input Return Qty
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+134
+Operation steps:
+
+Select the return reason
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+135
+Operation steps:
+
+9. Remark information and article image is optional.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+136
+Operation steps:
+
+10. Click Confirm  button to submit the RTV article for pending RPO generation.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+137
+Operation steps:
+
+Click Batch Operation button to batch delete RTV articles if needed.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+138
+Operation steps:
+
+12. Click Generate order button to consolidate.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+139
+Operation steps:
+
+13. RTV articles will be consolidated by supplier, site, category and doc type. Click Confirm button to generate RPO.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+140
+Operation steps:
+
+After generating the RPO, approver office should check it on the right page’s Messages’ center. Click Approval
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+141
+Operation steps:
+
+2. Chose the order.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+142
+Operation steps:
+
+3. Check the RPO details
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+143
+Operation steps:
+
+Click Agree button to approval window.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+144
+Operation steps:
+
+5. Leave the approval message
+6. Click OK button to submit it.
+7. Click Cancel button to return back to detail page
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+145
+Operation steps:
+
+8. Click Reject button to rejection window.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+146
+Operation steps:
+
+============================================================
+[Receiving&Return Mgt]
+
+9. Leave the approval message
+10. Click OK button to submit it.
+11. Click Cancel button to return back to detail page
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+147
+Operation steps:
+
+12. Click Rollback button to previous approver for submitting evidences.
+Receiving&Return Mgt
+Store Manual Return (5) - PDA
+
+148
+Operation steps:
+
+Select Goods Dispatch menu under Receiving & Return Mgt/Inventory module.
+Goods Dispatch(1)
+Receiving&Return Mgt
+
+149
+Operation steps:
+
+1. When supplier arrived at store. Input the RPO number.
+2. Click Query button to acquire the specific goods delivery note.
+Goods Dispatch(2) - Decentralized Returns
+Receiving&Return Mgt
+
+150
+Operation steps:
+
+3. Click Delivery button to detail page.
+Goods Dispatch(2) - Decentralized Returns
+Receiving&Return Mgt
+
+151
+Operation steps:
+
+4. Input Delivery Qty one by one. Inputted articles will be switched to Scanned table.
+Goods Dispatch(2) - Decentralized Returns
+Receiving&Return Mgt
+
+152
+Operation steps:
+
+5. Click Save button to complete the delivery.
+Goods Dispatch(2) - Decentralized Returns
+Receiving&Return Mgt
+
+153
+Operation steps:
+
+Click delivery number or Details button to the document detail page.
+Goods Dispatch(2) - Decentralized Returns
+Receiving&Return Mgt
+
+154
+Operation steps:
+
+7. Click Print button, show print preview window for users checking and printing.
+Goods Dispatch(2) - Decentralized Returns
+Receiving&Return Mgt
+
+============================================================
+[Decentralized Returns Disposal:]
+
+155
+Decentralized Returns Disposal:
+
+If RTV order has not been delivered after delivery date, it will be auto dispose and sync to SAP with movement type 933. inventory will be updated accordingly.
+Goods Dispatch(2) - Decentralized Returns
+Receiving&Return Mgt
+
+156
+Operation steps:
+
+When trucker driver arrived at store. Input the RPO number.
+Click Query button to acquire the specific goods delivery note.
+Goods Dispatch(3) - Centralized Returns
+Receiving&Return Mgt
+
+157
+Operation steps:
+
+3. Click Delivery button to detail page.
+Goods Dispatch(3) - Centralized Returns
+Receiving&Return Mgt
+
+158
+Operation steps:
+
+4. Input Delivery Qty one by one. Inputted articles will be switched to Scanned table. It is editable in scanned table.
+Goods Dispatch(3) - Centralized Returns
+Receiving&Return Mgt
+
+159
+Operation steps:
+
+5. Click Save button to complete the delivery.
+Goods Dispatch(3) - Centralized Returns
+Receiving&Return Mgt
+
+160
+Operation steps:
+
+Click delivery number or Details button to the document detail page.
+Goods Dispatch(3)  - Centralized Returns
+Receiving&Return Mgt
+
+161
+Operation steps:
+
+7. Click Print button, show print preview window for users checking and printing.
+Goods Dispatch(3)  - Centralized Returns
+Receiving&Return Mgt
+
+162
+Operation steps:
+
+Click Dispatch icon to store store delivery note page.
+Goods Dispatch(4)  - Decentralized /Centralized Returns(PDA)
+Receiving&Return Mgt
+
+163
+Operation steps:
+
+2. Switch to PO No. query and input RPO number.
+3. Click Delivery button.
+Goods Dispatch(4)  - Decentralized /Centralized Returns(PDA)
+Receiving&Return Mgt
+
+164
+Operation steps:
+
+4. Input Delivery Qty or use infrared function to scan the barcode one by one. Completed articles will be switched to Scanned table. It is editable in scanned table.
+Goods Dispatch(4)  - Decentralized /Centralized Returns(PDA)
+Receiving&Return Mgt
+
+165
+Operation steps:
+
+============================================================
+[Decentralized Returns Disposal:]
+
+5. Click Save button to finish delivery.
+Goods Dispatch(4)  - Decentralized /Centralized Returns(PDA)
+Receiving&Return Mgt
+
+166
+Operation steps:
+
+Click  IBT Dispatch button.
+Goods Dispatch(5)- To Store
+Receiving&Return Mgt
+
+167
+Operation steps:
+
+2. Input the issuance site, STO number.
+Goods Dispatch(5)- To Store
+Receiving&Return Mgt
+
+168
+Operation steps:
+
+Click Delivery button to detail page.
+Goods Dispatch (5)- To Store
+Receiving&Return Mgt
+
+169
+Operation steps:
+
+4. Input Delivery Qty one by one. Inputted articles will be switched to Scanned table.
+Goods Dispatch (5)- To Store
+Receiving&Return Mgt
+
+170
+Operation steps:
+
+5. It is editable in scanned table.
+Goods Dispatch (5)- To Store
+Receiving&Return Mgt
+
+171
+Operation steps:
+
+6. Click Save button to complete the delivery.
+Goods Dispatch (5)- To Store
+Receiving&Return Mgt
+
+172
+Operation steps:
+
+7. Click delivery number or Details button to the document detail page.
+Goods Dispatch(5) - To Store
+Receiving&Return Mgt
+
+173
+Operation steps:
+
+8. Click Print button, show print preview window for users checking and printing.
+Goods Dispatch(5) - To Store
+Receiving&Return Mgt
+
+174
+Operation steps:
+
+When trucker driver arrived at store. Input the STO number.
+Click Query button to acquire the specific goods delivery note.
+Goods Dispatch(5) – Backload To DC
+Receiving&Return Mgt
+
+175
+Operation steps:
+
+3. Click Delivery button to detail page.
+Goods Dispatch(5) – Backload To DC
+Receiving&Return Mgt
+
+176
+Operation steps:
+
+4. Input Delivery Qty one by one. Inputted articles will be switched to Scanned table. It is editable in scanned table. 
+Click Save button to complete the delivery.
+Goods Dispatch(5) – Backload To DC
+Receiving&Return Mgt
+
+177
+Operation steps:
+
+5. Click Save button to complete the delivery.
+Goods Dispatch(5) – Backload To DC
+Receiving&Return Mgt
+
+178
+Operation steps:
+
+Click delivery number or Details button to the document detail page.
+Goods Dispatch(5) – Backload To DC
+Receiving&Return Mgt
+
+179
+Operation steps:
+
+============================================================
+[Decentralized Returns Disposal:]
+
+7. Click Print button, show print preview window for users checking and printing.
+Goods Dispatch(5) – Backload To DC
+Receiving&Return Mgt
+
+180
+Operation steps:
+
+Click Dispatch icon to store store delivery note page.
+Goods Dispatch(6) – Backload To DC (PDA)
+Receiving&Return Mgt
+
+181
+Operation steps:
+
+2. Click IBT Dispatch button.
+Goods Dispatch(6) – Backload To DC (PDA)
+Receiving&Return Mgt
+
+182
+Operation steps:
+
+3. Input STO number.
+Goods Dispatch(6) – Backload To DC (PDA)
+Receiving&Return Mgt
+
+183
+Operation steps:
+
+4. Click Confirm button to create goods dispatch document.
+The following dispatch steps are the same as Decentralized Returns
+Goods Dispatch(6) – Backload To DC (PDA)
+Receiving&Return Mgt
+
+============================================================
+[Goods Dispatch(7) – Exceptional cases]
+
+184
+Goods Dispatch(7) – Exceptional cases
+Receiving&Return Mgt
+Article is non-returnable in master data
+Article triggers 7 days restriction or additional qty per article - within the day process
+Duplicate articles can not be submitted. Per site+ article+ return unit+ return reason
+
+185
+Operation steps:
+
+1.Click Reversal to detail page for reversal
+Goods Dispatch(8)  - Reversal
+Receiving&Return Mgt
+
+186
+Operation steps:
+
+1.User can check the reversal article detail, but not allowed to edit
+Goods Dispatch(8)  - Reversal
+Receiving&Return Mgt
+
+187
+Operation steps:
+
+2. Click Upload attachment to upload documents as evidences.
+3.Choose file by click Choose
+4. Click Cancel to cancel the upload 
+5. Click Save to upload
+Goods Dispatch(8)  - Reversal
+Receiving&Return Mgt
+
+188
+Operation steps:
+
+6. Click View to check the uploaded document.
+7. Click Delete to delete the uploaded document.
+8. Click Cancel to cancel the reversal process
+9. Click Submit to submit the reversal. System will alert users to double confirm the operation
+10. Click Cancel to cancel the reversal process
+11.Click OK to submit
+Goods Dispatch(8)  - Reversal
+Receiving&Return Mgt
+
+189
+Operation steps:
+
+12. After performing reversal, AR accounting dept. should perform the allow reversal confirmation on the top right corner notification center-approval.
+Goods Dispatch(8)  - Reversal
+Receiving&Return Mgt
+
+190
+Operation steps:
+
+13. AR accounting dept. should check the reversal is allowable or not in SAP.
+14. AR accounting dept. can check the attachment for helping them confirm the reversal process.
+Goods Dispatch(8)  - Reversal
+Receiving&Return Mgt
+
+191
+Operation steps:
+
+============================================================
+[Goods Dispatch(7) – Exceptional cases]
+
+15. After checking in SAP. If the reversal is not allowed in SAP. AR accounting dept. should chick Reject and input the comment to close the reversal in Dmall.
+14. After checking in SAP. If the reversal is not allowed in SAP. AR accounting dept. should chick Agree and input the comment to submit the reversal in Dmall.
+Goods Dispatch(8)  - Reversal
+Receiving&Return Mgt
+
+============================================================
+[Goods Dispatch(9)  - Backload STDR(Underserved)]
+
+192
+Goods Dispatch(9)  - Backload STDR(Underserved)
+Receiving&Return Mgt
+Operation steps:
+
+When DC receiving the backload from store, they should check the physical goods and inform the store if there is discrepancy. After store investigation, store should follow the below processes:
+
+Click Menu entrance to Stock Adjustment Mgt page.
+
+193
+Goods Dispatch(9)  - Backload STDR(Underserved)
+Receiving&Return Mgt
+Operation steps:
+
+2. Click Create to generate a new empty order.
+
+194
+Goods Dispatch(9)  - Backload STDR(Underserved)
+Receiving&Return Mgt
+Operation steps:
+
+3. Select
+Site, 
+Storage Location:  0007 
+Category,
+Adjustment reason: 906,
+Profit center
+
+195
+Goods Dispatch(9)  - Backload STDR(Underserved)
+Receiving&Return Mgt
+Operation steps:
+
+4. Select each article, input Number of Adjustments
+5. Then submit order by click Save.
+
+196
+Goods Dispatch(9)  - Backload STDR(Underserved)
+Receiving&Return Mgt
+Operation steps:
+
+6. Click Menu entrance.
+
+197
+Goods Dispatch(9)  - Backload STDR(Underserved)
+Receiving&Return Mgt
+Operation steps:
+
+7. Click Create to generate a new empty order.
+.
+
+198
+Goods Dispatch(9)  - Backload STDR(Underserved)
+Receiving&Return Mgt
+Operation steps:
+
+8. Select
+Site, 
+Supplying Storage Location:  0001
+Receiving Storage Location:0007 
+Reason
+Cost center
+Profit center
+
+199
+Goods Dispatch(9)  - Backload STDR(Underserved)
+Receiving&Return Mgt
+Operation steps:
+
+9. Select each article, input Transfer Qty
+10. Then submit order by click Save.
+
+200
+Goods Dispatch(9)  - Backload STDR(Underserved)
+Receiving&Return Mgt
+Operation steps:
+
+If goods lost caused by trucker vendor or store staff. Follow the below flow:
+
+11. Select
+Site, 
+Storage Location:  0001 
+Category,
+Adjustment reason: 937 or 097,
+Cost center(if 937) /Profit center(if 907)
+
+201
+Goods Dispatch(9)  - Backload STDR(Underserved)
+Receiving&Return Mgt
+Operation steps:
+
+12. Select each article, input Number of Adjustments
+13. Then submit order by click Save.
+
+============================================================
+[Goods Dispatch(9)  - Backload STDR(Overserved)]
+
+202
+Goods Dispatch(9)  - Backload STDR(Overserved)
+Receiving&Return Mgt
+Operation steps:
+
+When DC receiving the backload from store, they should check the physical goods and inform the store if there is discrepancy. After store investigation, store should follow the below flow:
+
+Click Menu entrance to Stock Adjustment Mgt page.
+
+203
+Goods Dispatch(9)  - Backload STDR(Overserved)
+Receiving&Return Mgt
+Operation steps:
+
+2. Click Create to generate a new empty order.
+
+204
+Goods Dispatch(9)  - Backload STDR(Overserved)
+Receiving&Return Mgt
+Operation steps:
+
+3. Select
+Site, 
+Storage Location:  0007 
+Category,
+Adjustment reason: 951,
+
+205
+Goods Dispatch(9)  - Backload STDR(Overserved)
+Receiving&Return Mgt
+Operation steps:
+
+4. Select each article, input Number of Adjustments
+5. Then submit order by click Save.
+
+206
+Goods Dispatch(9)  - Backload STDR(Overserved)
+Receiving&Return Mgt
+Operation steps:
+
+6. Click Menu entrance.
+
+207
+Goods Dispatch(9)  - Backload STDR(Overserved)
+Receiving&Return Mgt
+Operation steps:
+
+7. Click Create to generate a new empty order.
+.
+
+208
+Goods Dispatch(9)  - Backload STDR(Overserved)
+Receiving&Return Mgt
+Operation steps:
+
+8. Select
+Site, 
+Supplying Storage Location:  0001
+Receiving Storage Location:0007 
+Reason
+Cost center
+Profit center
+
+209
+Goods Dispatch(9)  - Backload STDR(Overserved)
+Receiving&Return Mgt
+Operation steps:
+
+9. Select each article, input Transfer Qty
+10. Then submit order by click Save.
+
+============================================================
+[Goods Dispatch(10)  - CPT]
+
+210
+Goods Dispatch(10)  - CPT
+Receiving&Return Mgt
+Operation steps:
+
+1. Select “Stock Adjustment” in PDA to enter Inventory Adjustment Order list.
+
+Key Changes:
+CPT used to be a manual recording process. This process now can be applied to selected consignor article without inventory where we want to manage inventory in Dmall system
+Articles need to be configured in Dmall system first as “manage inventory”
+
+211
+Goods Dispatch(10)  - CPT
+Receiving&Return Mgt
+Operation steps:
+
+2. Click “Create”.
+
+212
+Goods Dispatch(10)  - CPT
+Receiving&Return Mgt
+Operation steps:
+
+3. Select Site, Location, Category
+
+213
+Goods Dispatch(10)  - CPT
+Receiving&Return Mgt
+Operation steps:
+
+4. Select Adjustment Reason，Choose [1112] RE Consign without inventory GR.
+
+214
+Goods Dispatch(10)  - CPT
+Receiving&Return Mgt
+Operation steps:
+
+5. Input vendor info.
+6. Click “Select Article”. to choose article from article management
+Or users can click Add Article or Scan to add article
+
+215
+Goods Dispatch(10)  - CPT
+Receiving&Return Mgt
+Operation steps:
+
+7. Select some article and click “Confirm”.
+
+216
+Goods Dispatch(10)  - CPT
+Receiving&Return Mgt
+Operation steps:
+
+8. Input Qty one by one.
+
+217
+Goods Dispatch(10)  - CPT
+Receiving&Return Mgt
+Operation steps:
+
+9. Submit the order by click “Save”.
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+219
+Operation steps:
+
+Select Order Query menu under Order Query Mgt/Purchase module.
+Auto show Order Query list
+Order Query (1)
+Invertory
+
+220
+Operation steps:
+
+Click Details button to the detail page.
+Auto show Order detail, user can check detail information.
+Order Query (2)
+Purchase
+
+221
+Operation steps:
+
+PO data will be sync from SAP. If there is error. Receiving can not be process. Click View button to check the error message.
+Order Query (3)
+Purchase
+
+222
+Operation steps:
+
+============================================================
+[Goods Dispatch(10)  - CPT]
+
+2. Click Repair button
+Order Query (3)
+Purchase
+
+223
+Operation steps:
+
+3. Then Click OK button to repair the document.
+Order Query (3)
+Purchase
+
+224
+Operation steps:
+
+Select PO Item Query menu under Order Query Mgt/Purchase module.
+Auto show PO Item Query list. articles information will be shown by item level.
+PO Item Query (1)
+Purchase
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+226
+Operation steps:
+Basic Info:
+Plan status:
+Plan name: fill in the name relate to acutal situation
+Plan Type: 1）Regular inventory  2）Periodic inventory（Temporarily not supported）-- Default is Regular Plan
+
+Other Info:
+Storage Location:Select the storage location that needs to be counted
+Stocktake Order Generation Rules：1)Site (annual count)   2)Site & MBU/non_MBU(cycle count)
+Stocktake Method:can choose Store Stocktake or 3rd-party Stocktake
+Operation Mode: can choose Inventory Display or Blind Counting 
+Over-range Counting: can choose Allow or Not Allow 
+Uncounted Items Handling: can choose Perform 0 inventory check or Auto count as 0 inventory (default is Perform 0 inventory check)
+
+ *Select according to the actual situation and click Next Step
+1.5 Stock Take (1)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Plan Mgt
+
+227
+Operation steps:
+
+Stocktack Plan Date: actual date.  
+
+
+*Select according to the actual situation and click Next Step
+1.5 Stock Take (2)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Plan Mgt
+
+228
+Operation steps:
+
+Users can enter the store code for searching
+Select a store/stores
+Select all store of current page
+Checking selected store
+Saving selected store
+1.5 Stock Take (3)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Plan Mgt
+
+229
+Operation steps:
+
+============================================================
+[Goods Dispatch(10)  - CPT]
+
+1.Query selected store
+2. Delete selected store
+3. Can click [Previous Step] to return last page, Click [Next Step] to the following settings
+1.5 Stock Take (4)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Plan Mgt
+
+230
+Operation steps:
+All Articles:It means full stocktake
+Select Article:It means Inventory of some special article
+      1).import document
+2).Select by article dimension
+3).Select by vendor dimension   
+3.Category：Choose the category
+4.Click "Save" and the plan creation is complete
+1.5 Stock Take (5)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Plan Mgt
+
+231
+Operation steps:
+
+ When user import articles list , the system will automatically filter out invalid articles of article list
+1.5 Stock Take (5)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Plan Mgt
+invalid articles:
+In article master data, article don’t exist.
+
+232
+Operation steps:
+
+1. The stocktake plan created will be in the stock take order, click 'Stock take list' user can view stock take order list 
+2. Click the 'Detail',user can check the plan information
+3. Stocktake plan can be copied
+4. Stocktake plan can be deactived
+1.5 Stock Take (6)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Plan
+
+233
+Operation steps:
+
+ Click “View” :Enter the stocktake order detail
+ Click “Cancel” :User can cancel the stock take order
+1.5 Stock Take (7)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+234
+Operation steps:
+
+1. This is the stock take plan information
+1.5 Stock Take (8)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+235
+Operation steps:
+
+ Article Summary:Users can view the inventory results of all articles
+Export: User can export article summary data
+1.5 Stock Take (9)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+236
+Operation steps:
+
+============================================================
+[Goods Dispatch(10)  - CPT]
+
+When the [stock take plan] is created, the system will automatically filter out invalid articles of article list
+1.5 Stock Take (9)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+invalid articles:
+In article master data, article don’t exist.
+
+237
+Operation steps:
+When the [stock take order] is generated, the system will automatically obtain the article list of the [stock take plan ]and filter out invalid articles
+1.5 Stock Take (9)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+invalid articles:
+In store article master data, article is NOT allowed to perform counting
+   Article exists on the inventory count blacklist
+The business type of article is outright, but did not obtain MAV.
+
+238
+Operation steps:
+
+Task Creation for Scan 1 :
+
+1. Freeze Inventory:Click “Freeze Inventory” ,the stocktake process is carried out to the task assignment stage, which can see stocktake task list(Input list)
+1.5 Stock Take (10)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+239
+Operation steps:
+
+Task Creation for Scan 1 :
+
+Create Count Task-->Manual creation:Users can create stocktake tasks and assign them to counter
+1.5 Stock Take (10)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+240
+Operation steps:
+
+Task Creation for Scan 1 :
+
+Task Name:Input task name,such as Bay001 to Bay010
+Storage Location:select one location 
+Stock Checker:assign them to counter
+Click the [Save]
+Click the [OK],Stocktake Task creation completed
+1.5 Stock Take (10)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+241
+Operation steps:
+
+Task Creation for Scan 2 : 
+
+Misscounting/Recounting-->Create Recoun:Users can quickly count for products that have been counted,it is easily to Scan 2
+1.5 Stock Take (11)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+242
+Operation steps:
+
+Task Creation for Scan 2 :
+
+============================================================
+[Goods Dispatch(10)  - CPT]
+
+Batch select products for Scan2 task creation
+Initial Count Qty:Scan 1 Qty
+Recount Qty：--
+Filter conditions: You can filter out the articles that need to be counted again by conditions.
+storage location:it is mandatory to select
+Click the [Create count task] to complete creation
+1.5 Stock Take (11)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+243
+Operation steps:
+
+Task Creation for Scan 2 :
+
+Stock Checker: assign them to counter
+Click the [Save],Scan2 Task creation completed
+1.5 Stock Take (11)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+244
+Operation steps:
+
+Task Creation for Spot Check:
+
+Misscounting/Recounting-->Create Recounting:Users can quickly count for products that have been counted,it is easily to Spot check
+1.5 Stock Take (12)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+245
+Operation steps:
+
+Task Creation for Spot Check:
+
+Initial Count Qty:Scan 1 Qty
+Recount Qty：Scan 2/Spot Qty
+Filter conditions: You can filter out the articles that need to be counted again by conditions.
+storage location:it is mandatory to select
+Batch select articles for spot check task creation
+Click the [Create count task] to complete creation
+1.5 Stock Take (12)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+246
+Operation steps:
+
+Task Creation for Spot Check:
+
+Stock Checker:assign them to counter
+Click the [Save],Scan2 Task creation completed
+1.5 Stock Take (12)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+247
+Operation steps:
+
+Allocation Stock Checker:
+
+Batch Allocation:  if users don't assign tasks to counters when creating tasks， Users can batch assign tasks to counters
+1.5 Stock Take (12)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+248
+Operation steps:
+
+Allocation Stock Checker:
+
+============================================================
+[Goods Dispatch(10)  - CPT]
+
+Allocation:  if users don't assign tasks to counters when creating tasks， Users can assign tasks to counters
+1.5 Stock Take (12)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+249
+Operation steps:
+
+Execute the Scan1 on the web side:
+
+Count:Users can perform stocktake operations
+1.5 Stock Take (13)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+250
+Operation steps:
+
+Execute the Scan1 on the web side:
+Bay Barcode：Input Bay No.
+Article:Select 
+Allow inventory of article beyond the article list
+Don't Allow inventory of article beyond the article list
+when a user selects an article beyond the article list, the operation will be blocked
+Count Qty:Input Qty
+Click [Save]: You can finish the Task
+1.5 Stock Take (13)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+251
+Operation steps:
+
+Execute the Scan2/Spot check on the web side:
+
+Count:Users can perform stocktake operations
+1.5 Stock Take (14)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+252
+Operation steps:
+
+Execute the Scan2/Spot check on the web side:
+
+User can check articles that should be counted
+1.5 Stock Take (14)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+253
+Operation steps:
+
+Execute the Scan2/Spot check on the web side:
+
+Article:Select 
+Confirm:Click [Confirm ]if you have completed the articlet selection
+1.5 Stock Take (14)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+254
+Operation steps:
+
+Execute the Scan2/Spot check on the web side:
+
+Count Qty:Input Qty
+Click:Click [Save] can finish the Task
+The selected items when the task creation must all be input count Qty
+Inventory dimension:By Bay+article
+1.5 Stock Take (14)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+255
+Operation steps:
+
+============================================================
+[Goods Dispatch(10)  - CPT]
+
+Re-Freeze Inventory:For articles that have not been counted, inventory can be Re-Freeze, and Re-Freeze will update the SOH
+1.5 Stock Take (15)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+256
+Operation steps:
+
+Cancel:Users can cancel incorrect task
+If the line items in the Scan1 task have been completed Scan 2/Spot check, the Scan1 task cannot be canceled
+1.5 Stock Take (15)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+257
+Operation steps:
+
+Uplod Attachment: uplod the file before submit approval
+Choose:select files from computer
+Click[Save] If you have finished uploading the attachment
+1.5 Stock Take (15)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+258
+Operation steps:
+
+Approval Process：
+
+1. After confirming that there is no problem with the inventory, users can click “Submit” to complete the stock take order
+1.5 Stock Take (16)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+259
+Operation steps:
+
+2. After clicking “Submit” trigger approval ,Click[Approval Flow] can view approval progress
+1.5 Stock Take (16)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+260
+Operation steps:
+
+3. Click “Reject”, the system will pop up a prompt box, enter the reason for the rejection. Click “Yes” and the stock take order will return to ongoing status, users can modify the stock take order data, and submit again after the modification is completed
+1.5 Stock Take (16)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+261
+Operation steps:
+
+4. Click “Agree” and the system will pop up a prompt box, enter the reason for Approve and the system will complete the stock take and post to SAP
+1.5 Stock Take (16)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+262
+Operation steps:
+
+============================================================
+[Goods Dispatch(10)  - CPT]
+
+Create Article Summary Report:
+If you want to view the report,you should click the button
+1.5 Stock Take (17)
+Inventory Mgt
+Route:Inventory->Inventory Mgt Service->Stocktake Take Order
+
+============================================================
+[Route:RTA OS APP->Stocktake]
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (18)
+Operation steps:
+
+Select “Stocktake” in HHT to enter task list
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (18)
+Operation steps:
+
+2. Click “Task” to create count task
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (18)
+Operation steps:
+
+3. Choose “Manual Creation”
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (18)
+Operation steps:
+
+4. Choose a stocktake order
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (18)
+Operation steps:
+
+5. Click “Ok” to enter task detail
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (18)
+Operation steps:
+
+6. Input task name
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (18)
+Operation steps:
+
+7. Select storage location
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (18)
+Operation steps:
+
+8. Select stock checker
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (18)
+Operation steps:
+
+9. Click “Save” finishing the task creation
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (19)
+Operation steps:
+
+Offline data download:
+
+Click “Stock Take” to enter task list
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (19)
+Operation steps:
+
+The pop-up window prompts to download offline data：Click “Confirm”
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (19)
+Operation steps:
+
+Users need to stay on the current page and wait for data preparation to complete
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (19)
+Operation steps:
+
+If the download is complete, the system will prompt the user
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (19)
+Operation steps:
+
+If the download is failed, the system will prompt the user
+User click [Download] download offline data again
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Stocktake Offline:
+For Scan 1
+Select “Stocktake” in HHT to enter inventory count list
+
+============================================================
+[Route:RTA OS APP->Stocktake]
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+2. Click “Stock Take” to enter task detail
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+
+Scan the bay barcode to locate the area that needs to be counted
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Scan the product code or country barcode to perform inventory
+Allow inventory of article beyond the article list
+all articles can be counted
+Don't Allow inventory of article beyond the article list
+when a user scan an article beyond the article list, the operation will be blocked
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Input count Qty and click ‘Confirm’
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Switch or view the bay that have been counted
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Click [Save] ,the task will be a draft, the user can continue to stocktake
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Click [Submit] ,the task will be finished
+The device needs to have a network to submit
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Stocktake Offline:
+For Scan 2/spot check
+Select “Stocktake” in HHT to enter inventory count list
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+2. Click “Stock Take” to enter task detail
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+
+Click the blue button to view Scan2/spot check list  (By Bay+article)
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+
+Scan the bay barcode to locate the area that needs to be counted
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Scan the product code or country barcode to perform inventory
+
+============================================================
+[Route:RTA OS APP->Stocktake]
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Input count Qty and click ‘Confirm’
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Switch or view the bay that have been counted
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Click [Save] ,the task will be a draft, the user can continue to stocktake
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (20)
+Operation steps:
+
+Click [Submit] ,the task will be finished
+The selected items when the task creation must all be input count Qty
+The device needs to have a network to submit
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Stocktake Online:
+For Scan 1
+Select “Stocktake” in HHT to enter inventory count list
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+2. Click “Stock Take” to enter task detail
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+
+Scan the bay barcode to locate the area that needs to be counted
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Scan the product code or country barcode to perform inventory
+Allow inventory of article beyond the article list
+all articles can be counted
+Don't Allow inventory of article beyond the article list
+when a user scan an article beyond the article list, the operation will be blocked
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Input count Qty and click ‘Confirm’
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Switch or view the bay that have been counted
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Click [Save] ,the task will be a draft, the user can continue to stocktake
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Click [Submit] ,the task will be finished
+
+============================================================
+[Route:RTA OS APP->Stocktake]
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Stocktake Online:
+For Scan 2/spot check
+Select “Stocktake” in HHT to enter inventory count list
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+2. Click “Stock Take” to enter task detail
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+
+Click the blue button to view Scan2/spot check list  (By Bay+article)
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+
+Scan the bay barcode to locate the area that needs to be counted
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Scan the product code or country barcode to perform inventory
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Input count Qty and click ‘Confirm’
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Switch or view the bay that have been counted
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Click [Save] ,the task will be a draft, the user can continue to stocktake
+
+Route:RTA OS APP->Stocktake
+Inventory Mgt
+1.5 Stock Take (21)
+Operation steps:
+
+Click [Submit] ,the task will be finished
+The selected items when the task creation must all be input count Qty
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+313
+Operation steps:
+
+1. Click Dismantle Mgt Menu entrance.
+Dismantle
+Inventory Mgt
+
+314
+Operation steps:
+
+2. Click “Create” to create dismantle order.
+Dismantle
+Inventory Mgt
+
+315
+Operation steps:
+
+============================================================
+[Route:RTA OS APP->Stocktake]
+
+3. Select “Site”should not be needed when login to site specific account.
+4. Select article .
+5. Select BOM if needed (optional).
+6. Input article Qty to be dismantled.
+7. BOM material qty is auto calculated (adjust if necessary).
+8. Submit order by clicking “Save“.
+Dismantle
+Inventory Mgt
+
+316
+Operation steps:
+
+ Click “order No.”: you can view details of the order data.
+Click “View”: you can view details of the order data.
+Dismantle
+Inventory Mgt
+
+317
+Operation steps:
+
+3. Click "Print ":You can print information of current order.
+4. Click “Copy”:You can create the new order. It has the same information as the current order.
+5.Click "New TP Article Order”:You can create the new order
+Dismantle
+Inventory Mgt
+
+318
+Operation steps:
+Dismantle- Reverse
+Inventory Mgt
+Click [Reverse] button to  the reversal document detail page
+
+============================================================
+[Inventory Mgt]
+
+Inventory Mgt
+Dismantle - Reversal
+Operation steps:
+Remark: Users can input the reason of reversal
+Click [Save] to finish creation
+Click [Cancel] to to cancel the reversal 
+Click [OK] to submit
+
+Operation steps:
+Remark: Users can input the reason of reversal
+Users can click the Related No. to see the related order detail
+Click [Save] to finish creation
+Users need to double confirm the operation
+exception scenaro: If the bom relationship of the component article does not exist.
+Inventory Mgt
+Dismantle- Reversal
+
+321
+Operation steps:
+
+Click Dismantle icon to store store delivery note page.
+Dismantle(APP)
+Inventory Mgt
+
+322
+Operation steps:
+
+2. Select article code.
+3. Select BOM if needed. 
+4. Input article Qty to be dismantled.
+Dismantle(APP)
+Inventory Mgt
+
+323
+Operation steps:
+
+5. BOM material qty is auto calculated (adjust if necessary).
+6. Submit order by clicking “Save“.
+Dismantle(APP)
+Inventory Mgt
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+325
+Operation steps:
+
+1. You can click the “Query” to search for TP article orders by condition.
+2. You can select multiple orders.
+3. You can click the “Print” to print TP article information based on selected orders.
+4. Click “Create” enter details to create TP article order.
+TP Article
+Inventory Mgt
+
+326
+Operation steps:
+
+5. Select site:The TP article order is in the dimension of article + site.
+6. Material Article:Select articles with BOM relationships.
+7. Material Article Qty:Input the quantity to be converted.
+8. Then submit order by click Save.
+TP Article
+Inventory Mgt
+
+327
+Operation steps:
+
+ Click “order No”.: you can view details of the order data. 
+Click “View”: you can view details of the order data.
+TP Article
+Inventory Mgt
+
+328
+Operation steps:
+
+============================================================
+[Inventory Mgt]
+
+3. Click “Material Article” pop up article information page.
+4. Click "Print ": You can print information of current order.
+5. Click "Copy": You can create the new order. It has the same information as the current order
+6. Click “New TP Article Order”: You can create the new order.
+TP Article
+Inventory Mgt
+
+329
+Operation steps:
+TP Article - Reversal
+Inventory Mgt
+Click [Reverse] button to  the reversal document detail page
+
+============================================================
+[TP Article - Reversal]
+
+330
+TP Article - Reversal
+Inventory Mgt
+Operation steps:
+Remark: Users can input the reason of reversal
+Users can click Material or Finished Article name to see the detail information of Article Mgt 
+Click [Save] to finish creation
+Click [Cancel] to cancel the reversal 
+Click [OK] to submit
+
+331
+Operation steps:
+
+1. Navigate to the article conversion section within the  TP Article Mgt.
+TP Article(APP)
+Inventory Mgt
+
+332
+Operation steps:
+
+1. Click the "Create“ to perform a new article conversion.
+TP Article(APP)
+Inventory Mgt
+
+333
+Operation steps:
+
+3. Click the "Add“ to supplement TP article information.
+TP Article(APP)
+Inventory Mgt
+
+334
+Operation steps:
+
+4. Enter the source article code. 
+5. Specify the BOM.
+6. Input the “Material Article Qty“.
+7. Confirm the conversion(“Confirm").
+TP Article(APP)
+Inventory Mgt
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+336
+Operation steps:
+
+Click on Inventory tab.
+Click on Inventory Mgt > Real-time Inventory from the right pane.
+Inventory Mgt
+Real-time Inventory(1)
+
+337
+Operation steps:
+
+1. Enter Search Criteria e.g., by Site,Article,Site Type,Brand name or other.
+2. Click Query button.
+Inventory Mgt
+Real-time Inventory(2)
+
+338
+Operation steps:
+
+1. Click View Storage Location Details link to view Storage Location Quantity Details.
+2. Click Detail link to Inventory Flow.
+3. Click Export Button can save as Excel from query result.
+Inventory Mgt
+Real-time Inventory(3)
+
+339
+Operation steps:
+
+4. The Storage Location Quantity Details.
+Inventory Mgt
+Real-time Inventory(3)
+Note:
+Book Quantity = Reservation Quantity + Available Quantity
+
+340
+Operation steps:
+
+Click on Inventory tab.
+Click on Inventory Mgt > Inventory Flow from the right pane.
+Inventory Mgt
+Inventory Flow(1)
+
+341
+Operation steps:
+
+============================================================
+[TP Article - Reversal]
+
+1. Enter Search Criteria e.g., by Site,Article,Document No.,Source Doument Number,Storage Location or other.
+2. Click Query button.
+Inventory Mgt
+Inventory Flow(2)
+
+342
+Operation steps:
+
+3. Click Export Button can save as Excel from query result.
+Inventory Mgt
+Inventory Flow(3)
+Note:
+Ending Quantity = （Beginning + Mobile）
+
+343
+Operation steps:
+
+Click on Inventory tab
+Click on Inventory Mgmt > Inventory Initialization from the right pane
+Inventory Mgt
+Inventory Initialization(1)
+
+344
+Operation steps:
+
+1. Click Import Inventory button
+2. Select Inventory initialization or Inventory initialization reversal
+Inventory Mgt
+3. Inventory Initialization(2)
+Note:
+Inventory initialization: Used for normal inventory quantity initialization
+Inventory initialization reversal: Write off the initialized inventory quantity
+
+345
+Operation steps:
+
+3. Click Download the Template link to download import template.
+Inventory Mgt
+Inventory Initialization(3)
+
+346
+Operation steps:
+
+1. Open the import template and input Site,Article,Quantity,and Inventory(Storage Location) Code.
+2. Click Upload the File open to import template.
+3. Select the file.
+4. Then click Open button.
+Inventory Mgt
+Inventory Initialization(4)
+
+347
+Operation steps:
+
+5. Click Upload transfer template to system.
+6. Click Confirm button.
+Inventory Mgt
+Inventory Initialization(4)
+
+348
+Operation steps:
+
+1. Click View link to Row Data detail.
+2. Click Data Verification begin to check data.
+3. Click OK to perform data validation.
+Inventory Mgt
+Inventory Initialization(5)
+
+349
+Operation steps:
+
+1. Click Query refresh status, if failed click View for error information.
+2. Click Cancel to cancel this template and corrected, import again.
+Inventory Mgt
+Inventory Initialization(5)
+
+350
+Operation steps:
+
+1. If Data Verification is successes the status will be changed to Pending posting.
+2. Click Posting for Inventory Initialization.
+Inventory Mgt
+Inventory Initialization(6)
+
+351
+Operation steps:
+
+============================================================
+[TP Article - Reversal]
+
+1. When status is Posting successful please use Real-time Inventory review data.
+Inventory Mgt
+Inventory Initialization(6)
+Note:
+When checking article quantity is error ,but status is successful you need execute Reversal.
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+353
+Operation steps:
+
+Click Menu entrance.
+Click View button to enter the ‘Basic Config’ of page.
+Freshness Mgt
+Freshness Role Mgt(1)
+
+354
+Operation steps:
+
+3. Click Next Step to ‘Process Config’ of page.
+Freshness Mgt
+Freshness Role Mgt(2)
+
+355
+Operation steps:
+
+4. Click Next Step to ‘Scope of Action’ of page.
+Freshness Mgt
+Freshness Role Mgt(3)
+
+356
+Operation steps:
+
+5. Click Previous Step return to ‘Process config’ of page.
+Freshness Mgt
+Freshness Role Mgt(4)
+
+357
+Operation steps:
+
+1. Click Create to generate a new empty order.
+Freshness Mgt
+Freshness Role Mgt(5)
+
+358
+Operation steps:
+
+2. Select ‘Status’, input role name and priority.
+3. Click Next Step to ‘Process Config’ of page.
+Freshness Mgt
+Freshness Role Mgt(6)
+
+359
+Operation steps:
+
+4. Select ‘Method’, input notice date and push time.
+5. Click Next Step to ‘Scope of Action’ of page.
+Freshness Mgt
+Freshness Role Mgt(7)
+
+360
+Operation steps:
+
+6. Select article scope.
+7. Then click Save to submit the Rule.
+Freshness Mgt
+Freshness Role Mgt(8)
+
+361
+Operation steps:
+
+Click Menu entrance.
+Freshness Mgt
+Freshness Article Query(9)
+
+362
+Operation steps:
+
+2. Enter filtering criteria, then click Query to search data.
+Freshness Mgt
+Freshness Article Query(10)
+
+363
+Operation steps:
+
+1. Click View button to enter the order detail page.
+Freshness Mgt
+Freshness Article Query(11)
+
+364
+Operation steps:
+
+2. Click Check record to Check record page.
+Freshness Mgt
+Freshness Article Query(12)
+
+365
+Operation steps:
+
+============================================================
+[TP Article - Reversal]
+
+3. Click Data details to data details.
+Freshness Mgt
+Freshness Article Query(13)
+
+366
+Operation steps:
+
+1. Select “Freshness Mgt” in HHT to enter Freshness list.
+Freshness Mgt(APP)
+Freshness Mgt
+
+367
+Operation steps:
+
+2. Click “View” by select item enter “Item Details”.
+Freshness Mgt(APP)
+Freshness Mgt
+
+368
+Operation steps:
+
+3. Click “Mgt Expiry Date”.
+Freshness Mgt(APP)
+Freshness Mgt
+
+369
+Operation steps:
+
+4. Select a date and click “Confirm”.
+Freshness Mgt(APP)
+Freshness Mgt
+
+370
+Operation steps:
+
+5. Click the “To check”, and enter the next page”.
+Freshness Mgt(APP)
+Freshness Mgt
+
+371
+Operation steps:
+
+6. Input quantity, and click “Confirm”.
+Freshness Mgt(APP)
+Freshness Mgt
+
+372
+Operation steps:
+
+7. Click “To submitted”.
+Freshness Mgt(APP)
+Freshness Mgt
+
+373
+Operation steps:
+
+8. Submit the item by click “Submit”.
+Freshness Mgt(APP)
+Freshness Mgt
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+375
+Operation steps:
+
+Click Menu entrance to Stock Adjustment Mgt page.
+Inventory Mgt
+Stock Adjustment(1)
+
+376
+Operation steps:
+
+2. Enter filtering criteria, then click Query to search data.
+Inventory Mgt
+Stock Adjustment(2)
+
+377
+Operation steps:
+
+3. Click View button to enter the order detail page.
+Inventory Mgt
+Stock Adjustment(3)
+
+378
+Operation steps:
+
+Click Create to generate a new empty order.
+Inventory Mgt
+Stock Adjustment(4)
+
+379
+Operation steps:
+
+2. Select Site, Storage Location, Category,Adjustment reason, Adjustment type.
+3. Select each article, input Number of Adjustments
+4. Then submit order by click Save.
+Inventory Mgt
+Stock Adjustment(5)
+
+380
+Operation steps:
+
+1. Click Import enter the upload page.
+Inventory Mgt
+Stock Adjustment(6)
+
+381
+Operation steps:
+
+2. Upload the File upload the ‘Number of Adjustment’ of Articles.
+Inventory Mgt
+Stock Adjustment(7)
+
+382
+Operation steps:
+
+============================================================
+[TP Article - Reversal]
+
+3. Click Upload to upload the file
+4. Then submit order by click Save.
+Inventory Mgt
+Stock Adjustment(8)
+
+383
+Operation steps:
+
+1. Click Copy to Copy this order.
+Inventory Mgt
+Stock Adjustment(9)
+
+384
+Operation steps:
+
+2. Adjust the Article and Number of Adjustments after copying.
+3. Then submit order by click Save.
+Inventory Mgt
+Stock Adjustment(10)
+
+385
+Operation steps:
+
+1. Select the order you want to print, then Click Print to print them.
+Inventory Mgt
+Stock Adjustment(11)
+
+386
+Operation steps:
+
+2. Click Export to download the select order excel file.
+Inventory Mgt
+Stock Adjustment(12)
+
+387
+Operation steps:
+Click [Reverse] button to  the reversal document detail page
+Inventory Mgt
+Stock Adjustment(13)——Reversal
+
+388
+Operation steps:
+Profit Center is the same as the original document. Remark:Users can input the reason of reversal
+Remark:Users can input the reason of reversal
+Click [Save] to finish creation
+Users need to double confirm the operation
+Inventory Mgt
+Stock Adjustment(13)——Reversal
+
+389
+Operation steps:
+Users need to double confirm the operation
+exception scenaro:If inventory is reduced and negative inventory is not allowed, the system will check whether the current inventory can be reversed to that quantity.
+Inventory Mgt
+Stock Adjustment(13)——Reversal
+
+390
+Operation steps:
+
+1. Select “Stock Adjustment” in HHT to enter Inventory Adjustment Order list.
+Stock Adjustment(APP)
+Inventory Mgt
+
+391
+Operation steps:
+
+2. Click “Create”.
+Stock Adjustment(APP)
+Inventory Mgt
+
+392
+Operation steps:
+
+3. Select Site, Location, Category, Adjustment Type，Reason，Reason type.
+4. Click “Select Article”.
+Stock Adjustment(APP)
+Inventory Mgt
+
+393
+Operation steps:
+
+5. Select some article and click “Confirm”.
+Stock Adjustment(APP)
+Inventory Mgt
+
+394
+Operation steps:
+
+6. Submit the order by click “Save”.
+Stock Adjustment(APP)
+Inventory Mgt
+
+============================================================
+[TP Article - Reversal]
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+396
+Operation steps:
+
+Click Menu entrance.
+Inventory Mgt
+Inventory Movement(1)
+
+397
+Operation steps:
+
+2. Enter filtering criteria, then click Query to search data.
+Inventory Mgt
+Inventory Movement(2)
+
+398
+Operation steps:
+
+3. Click View button to enter the order detail page.
+Inventory Mgt
+Inventory Movement(3)
+
+399
+Operation steps:
+
+1. Click Create to generate a new empty order.
+Inventory Mgt
+Inventory Movement(4)
+
+400
+Operation steps:
+
+2. Select Site, Storage Location, Category,Adjustment reason, Adjustment type.
+3. Select each article, input Number of Adjustments
+4. Then submit order by click Save.
+Inventory Mgt
+Inventory Movement(5)
+
+401
+Operation steps:
+
+1. Click Import enter the upload page.
+Inventory Mgt
+Inventory Movement(6)
+
+402
+Operation steps:
+
+2. Upload the File upload the ‘Number of transfers’ of Articles.
+Inventory Mgt
+Inventory Movement(7)
+
+403
+Operation steps:
+
+3. Click Upload to upload the file
+4. Then submit order by click Save.
+Inventory Mgt
+Inventory Movement(8)
+
+404
+Operation steps:
+
+1. Select the order you want to print, then Click Print to print them.
+Inventory Mgt
+Inventory Movement(9)
+
+405
+Operation steps:
+
+2. Click Export to download the select order excel file.
+Inventory Mgt
+Inventory Movement(10)
+
+406
+Operation steps:
+
+2. Click Export to download the select order excel file.
+Inventory Mgt
+Inventory Movement(10)
+
+407
+Operation steps:
+
+Remark: Users can input the reason of reversal
+Click Save to finish reversal.
+Inventory Mgt
+Inventory Movement(10)
+
+408
+Operation steps:
+
+1. Select “Inv. Movt.” in HHT to enter Inventory Adjustment Order list.
+Inventory Movement(APP)
+Inventory Mgt
+
+409
+Operation steps:
+
+2. Click “Create”.
+Inventory Movement(APP)
+Inventory Mgt
+
+410
+Operation steps:
+
+============================================================
+[TP Article - Reversal]
+
+3. Select Reason, Out/Move into Storage, input Cost Center, Profit Center.
+4. Click “Select Article”.
+Inventory Movement(APP)
+Inventory Mgt
+
+411
+Operation steps:
+
+5. Select some article, input Quantity and click “Confirm”.
+Inventory Movement(APP)
+Inventory Mgt
+
+412
+Operation steps:
+
+6. Submit the order by click “Save” or “Save&Add”.
+Inventory Movement(APP)
+Inventory Mgt
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+414
+Operation steps:
+
+1. Click Menu entrance to Transfer of Promoter list.
+Inventory Mgt
+Inventory Movement for Merchandiser(1)
+
+415
+Operation steps:
+
+2. Enter filtering criteria, then click Query to search data.
+3. Click View button to enter the order detail page.
+Inventory Mgt
+Inventory Movement for Merchandiser(2)
+
+416
+Operation steps:
+
+1. Click Create to generate a new empty order.
+Inventory Mgt
+Inventory Movement for Merchandiser(3)
+
+417
+Operation steps:
+
+2. Select Site, Out of storage, Move into storage, Reasons for transferring library, Cost Center, Profit Center.
+3. Input Article and Transfer Qty.
+4. Then submit order by click Save.
+Inventory Mgt
+Inventory Movement for Merchandiser(4)
+
+418
+Operation steps:
+
+1. Select “Transfer” in HHT to enter Inventory Movement Order page.
+Inventory Movement for Merchandiser(APP)
+Inventory Mgt
+
+419
+Operation steps:
+
+2. Click “Create”.
+Inventory Movement for Merchandiser(APP)
+Inventory Mgt
+
+420
+Operation steps:
+
+3. Select Reason, Cost Center, Profit Center, Remark, Out/Move into Storage.
+4. Click “Select Article”.
+Inventory Movement for Merchandiser(APP)
+Inventory Mgt
+
+421
+Operation steps:
+
+5. Select some article, input Quantity and click “Confirm”.
+Inventory Movement for Merchandiser(APP)
+Inventory Mgt
+
+422
+Operation steps:
+
+6. Submit the order by click “Save” or “Save&Add”.
+Inventory Movement for Merchandiser(APP)
+Inventory Mgt
+
+============================================================
+[TP Article - Reversal]
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+424
+Operation steps:
+
+1. Select “Gap Check” in HHT to enter Gap Check Pending list page.
+Gap Check(APP)
+Inventory Mgt
+
+425
+Operation steps:
+
+2. Click “Create New Task”.
+Gap Check(APP)
+Inventory Mgt
+
+426
+Operation steps:
+
+3. Click “Scan” to scan article.
+Gap Check(APP)
+Inventory Mgt
+
+427
+Operation steps:
+
+4. Input Display position, Quantity and upload Image, then click “Confirm”.
+Gap Check(APP)
+Inventory Mgt
+
+428
+Operation steps:
+
+5. Submit the order by click “Submit”.
+Gap Check(APP)
+Inventory Mgt
+
+429
+Operation steps:
+
+6. (Optional 1)Select item one by one and click on “Receive”. 
+6. (Optional 2) Click All  item, then click on “Batch Receive”.
+Gap Check(APP)
+Inventory Mgt
+
+430
+Operation steps:
+
+7. Click “Replenish”.
+Gap Check(APP)
+Inventory Mgt
+
+431
+Operation steps:
+
+8. Input replenish Qty.
+9. Click “Complete replenishment” or “Out of stock”.
+Gap Check(APP)
+Inventory Mgt
+
+432
+Operation steps:
+
+10. (Optional 1)Submit the order by click “Submit”.
+10. (Optional 2) If you want cancel, you can click Cancel operation button.
+Gap Check(APP)
+Inventory Mgt
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+434
+Operation steps:
+
+1. Select “OSA” in HHT to enter OSA page.
+OSA(APP)
+Inventory Mgt
+
+435
+Operation steps:
+
+2. Click “Start OSA”.
+OSA(APP)
+Inventory Mgt
+
+436
+Operation steps:
+
+3. Select a task Type.
+OSA(APP)
+Inventory Mgt
+
+437
+Operation steps:
+
+4. If user select Top888, then they should select a Batch
+
+Key change:
+New function: Batch number could be configured and recorded in system. it can be checked by batch level in OSA report.
+OSA(APP)
+Inventory Mgt
+
+============================================================
+[TP Article - Reversal]
+
+438
+Operation steps:
+
+5. Select a category.
+6. Then click “OK”.
+OSA(APP)
+Inventory Mgt
+
+439
+Operation steps:
+
+7. Click “Scan Aisle”, Scan or Input Aisle Code(Aisle code role: 4 digits + 1 letter).
+8. Click “Scan Article”, and scan article one by one.
+OSA(APP)
+Inventory Mgt
+
+440
+Operation steps:
+
+9. Click “Finish OSA”.
+10. Submit the order by click “Confirm”.
+OSA(APP)
+Inventory Mgt
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+============================================================
+[Inventory Mgt]
+
+442
+Inventory Mgt
+Bay Barcode
+Operation steps:
+
+Click Inventory, then in the Inventory Mgt Service find Bay Barcode Mgt and click, to show the Bay Barcode Mgt screen in next step.
+
+443
+Operation steps:
+
+Enter filtering criteria, then click Query to search data.
+Click View button to enter the order detail page.
+Inventory Mgt
+Bay Barcode - Query
+
+444
+Operation steps:
+
+Select the record in the list that you want to print the Bay Barcode.
+Click Print button to proceed.
+Inventory Mgt
+Bay Barcode - Query & Print
+
+445
+Operation steps:
+
+Use the Browser feature to Print or Save.
+Inventory Mgt
+Bay Barcode - Query & Print
+
+446
+Operation steps:
+
+Note: Here we can see the information fields in the upper display area: Site, Storage Location, Created By and Created At. And the lower area we can see more specs.
+The Bay Barcode Rule is the default tab that will show. Here we can see the definitions of the rules. 
+Click Number of Bay Barcodes to show the Bay Barcode detail list.
+Inventory Mgt
+Bay Barcode - Detail
+
+447
+Operation steps:
+
+Note: After clicking Number of Bay Barcodes to show the Bay Barcode detail list, we can see that the Bay Barcode detail list, the starting Barcode and the number of barcodes are controlled by Initial Number(6666 as in the sample) and the Number of Bay Barcodes(2 as in the sample) defined in the Bar Barcode Rule.
+Inventory Mgt
+Bay Barcode - Detail
+
+448
+Operation steps:
+
+In the Bay Barcodes list, select the items(Check the box) that you want to print.
+Click Print to proceed(shown in next page).
+Inventory Mgt
+Bay Barcode - Detail - Print
+
+449
+Operation steps:
+
+Use the Browser feature to Print or Save.
+Inventory Mgt
+Bay Barcode - Detail - Print
+
+450
+Operation steps:
+
+Click Create button to show the Bay Barcode creation page (shown in next page).
+Inventory Mgt
+Bay Barcode - Create
+
+451
+Operation steps:
+
+============================================================
+[Inventory Mgt]
+
+Select the Site.
+Select the Storage Location.
+Input the Initial Numerical. It controls the start Bay Barcode Number.
+Input the Number of Bay Barcodes. It controls the numbers of the Bay Barcodes.
+Click Save.
+Inventory Mgt
+Bay Barcode - Create
+
+452
+Operation steps:
+
+Click Edit button of the record you want to edit, the edit screen will show for the selected record(shown in next page).
+Inventory Mgt
+Bay Barcode - Edit
+
+453
+Operation steps:
+
+Note: Only Initial Numerical and the Number of Bay Barcodes can be changed.
+Update the value of Initial Numerical.
+Update the value of Number of Bay Barcodes.
+Click Cancel button to revert the update.
+Click Save button to proceed the update.
+Inventory Mgt
+Bay Barcode - Edit
+
+454
+Operation steps:
+
+Enter filtering criteria, then click Query to search data.
+Click Delete button to delete the Bay Barcode setting, system will show a pop-up windows for user to confirm(shown in next page).
+Inventory Mgt
+Bay Barcode - Delete
+
+455
+Operation steps:
+
+User can click Cancel to keep the Bay Barcode Item; or
+User can click OK button to confirm the deletion.
+Inventory Mgt
+Bay Barcode - Delete
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+457
+Operation steps:
+
+Click Inventory, then in the Inventory Mgt Service find Bin Location Mgt and click, to show the Bin Location Mgt screen in next step.
+Inventory Mgt
+Bin Location
+
+458
+Operation steps:
+
+Enter filtering criteria, then click Query to search data.
+Click View button to enter the order detail page(showed in next page).
+Inventory Mgt
+Bin Location - Query
+
+459
+Operation steps:
+
+Remarks: Suitable for TPS and Gap Check scenarios.
+Inventory Mgt
+Bin Location - View Detail
+
+460
+Operation steps:
+
+============================================================
+[Inventory Mgt]
+
+Check the lines that you want to print the Bin Location Barcode.
+Click Print button to show the Bin Location Barcodes(shown in next page).
+Inventory Mgt
+Bin Location - Print
+
+461
+Operation steps:
+
+Use the Browser feature to Print or Save.
+Inventory Mgt
+Bin Location - Print
+
+462
+Operation steps:
+
+Click Create to generate a new empty order.
+Inventory Mgt
+Bin Location - Create
+
+463
+Operation steps:
+
+Select Site.
+input Aisle & Bay Barcode & Level
+select articles.
+Then submit order by click Save.
+Inventory Mgt
+Bin Location - Create
+
+464
+Operation steps:
+
+Click Export the select item to file.
+Inventory Mgt
+Bin Location - Export & Import
+
+465
+Operation steps:
+
+The Exported File should looks like this.
+Inventory Mgt
+Bin Location - Export & Import
+
+466
+Operation steps:
+
+Click Import, then the Import screen window will pop-up(see next page).
+
+Note: Import is a common feature in DMALL OS Partner UI, which includes ” Download the Template” and “Upload the File”
+Inventory Mgt
+Bin Location - Export & Import
+
+467
+Operation steps:
+
+After click Import, the Import screen window pops-up.
+[Optional] User can click “Download the Template” to download the template file to main the data in excel.
+Click “Upload the File” to browse the locally maintained excel file and it to import.
+Inventory Mgt
+Bin Location - Export & Import
+
+468
+Operation steps:
+
+After select the file, the Import window will pop-up, click Upload to do the import.
+Inventory Mgt
+Bin Location - Export & Import
+
+469
+Inventory Mgt
+Bin Location - Export & Import - Success
+Operation steps:
+
+When successfully imported, click Confirm to close the pop-up window.
+
+470
+Inventory Mgt
+Bin Location - Export & Import - Error
+Operation steps:
+
+When file importing failed, user can update the local file, then click Continue Uploading to repeat the import process.
+Or user can click Confirm to close the pop-up window, and update the local file, then re-import later.
+
+============================================================
+[Inventory Mgt]
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+Operation steps:
+
+1.Click Operation, then in the Label Mgt find Paper Config, to show the Paper Config List screen in next step.
+TPS - Paper Config
+Inventory Mgt
+
+Operation steps:
+1.Click Create to configure paper size which to be applied for price tag printing.
+2. Choose enabling status or input paper name , then click Query to check the information.
+3.Click Copy to copy the current paper configuration.
+4.Click Edit to edit the paper configuration.
+5. Click Check Stores can view all applicable stores (This only shows when the paper is configured for `Selected stores` but not `All stores`)
+6. Input number in Sort Value to decide the display priority of the template.
+Inventory Mgt
+TPS - Paper Config
+
+Operation steps:
+
+1.Fill in detailed information under Edit print paper.
+2. Click Measurement to check the sample description 
+3.Click Cancel to cancel the operation.
+4. Click Save to save the paper configuration
+Inventory Mgt
+TPS - Paper Config - Create
+
+Operation steps:
+
+1.Click Operation, then in the Label Mgt find Template Mgt and click, to show the Template Mgt List screen in next step.
+Inventory Mgt
+TPS - Template
+
+Operation steps:
+
+1.Click Create to add a new price tag template.
+2. Chose data in the condition filter and click Query to check data, Click Reset to remove the filtered content.
+3.Input number in Sort value to decide the display priority of the template.
+4.Turn on or off the Enabling Status to decide whether apply the template or not.
+5.Clik Edit to edit the template.
+6.Click Design Template to configure template by various components.
+7.Click Copy to copy the template.
+Inventory Mgt
+TPS - Template
+
+Operation steps:
+
+============================================================
+[Inventory Mgt]
+
+1.Click Create to add a new price tag template.
+The Create window will pop-up, process to the next screen for the creation.
+Inventory Mgt
+TPS - Template - Create
+
+Operation steps:
+
+1.Fill in all necessary information of the template.
+2. Click blue words to create applicable paper if no print paper found for the template.
+3.Click Cancel to cancel the operation.
+4.Click Save to save the template configuration.
+Inventory Mgt
+TPS - Template - Create
+
+Operation steps:
+
+1.In the list find the Template that you want to design the layout, click Design Template
+The Template Editor will show, process to the next screen for the editing.
+Inventory Mgt
+TPS - Template - Design Template
+
+Operation steps:
+
+1.Click Shortcut to check quick actions, a full list in next page.
+Inventory Mgt
+TPS - Template - Design Template
+
+Operation steps:
+
+In this screen shows the list of the keyboard shortcuts.
+Inventory Mgt
+TPS - Template - Design Template
+
+Operation steps:
+
+1. There  are business components provided for user to configure.
+2.Preview page for user to check configuration result.
+3. This the to adjust the size of the label
+4. This module is to adjust the size of canvas.
+5.Click Save to save the configuration of template
+6.Click Preview to check the template visual representation.
+Inventory Mgt
+TPS - Template - Design Template
+
+Operation steps:
+
+1.In the list find the Template that you want to copy, click Copy to proceed.
+The Copy Template window will pop-up, process to the next screen for the editing.
+Inventory Mgt
+TPS - Template - Copy Template
+
+Operation steps:
+
+1.Fill in all necessary information of the template.
+2. Click blue words to create applicable paper if no print paper found for the template.
+3.Click Cancel to cancel the operation.
+4.Click Save to save the template configuration.
+Inventory Mgt
+TPS - Template - Copy Template
+
+Operation steps:
+
+============================================================
+[Inventory Mgt]
+
+1.Click Operation, then in the Label Mgt find Shelf Label and click, to show the Shelf Label List screen in next step.
+Inventory Mgt
+TPS - Print
+
+Operation steps:
+
+1.Fill in all necessary information of the template.
+2. Click blue words to create applicable paper if no print paper found for the template.
+3.Click Cancel to cancel the operation.
+4.Click Save to save the template configuration.
+Remarks:  After user scan the article barcode and submit print request, user can check the data  under the column-print request.
+Inventory Mgt
+TPS - Print
+
+Operation steps:
+
+1.Click Import to import store articles to print price tag.
+2. Click Export to export store article price tag list.
+3. Chose data in the condition filter and click Query to check data, Click Reset to remove the filtered content.
+4.Choose store article, then choose print paper and applicable template to print the price tag.
+5. Choose single or multiple store articles.
+6.Input numbers to change the print quantity .
+7.Click Print Log  to check print history records.
+8. Click Print to print store article price tag.
+Remarks:  User can import store article list to print out store article price tag list under the column-Full store label, it can be applied to new store opening scenario.
+Inventory Mgt
+TPS - Print - Full store label
+
+Operation steps:
+
+============================================================
+[Inventory Mgt]
+
+1.Click Import to import store articles to print price tag.
+2. Click Export to export store article price tag list.
+3. Chose data in the condition filter and click Query to check data, Click[Reset] to remove the filtered content.
+4.Choose store article, then choose print paper and applicable template to print the price tag.
+5. Choose single or multiple store articles. 
+6.Input numbers to change the print quantity .
+7.Click Print Log to check print history records.
+8. Click Print to print store article price tag.
+Remarks:  Any price changed or article information changed data will trigger price tag printing and user can check the data under the column-changed label.
+Inventory Mgt
+TPS - Print - Changed label
+
+Operation steps:
+
+1.Click Import to import store articles to print price tag.
+2. Click Export to export store article price tag list.
+3. Chose data in the condition filter and click Query to check data, Click Reset to remove the filtered content.
+4.Choose store article, then choose print paper and applicable template to print the price tag.
+5. Choose single or multiple store articles. 
+6.Input numbers to change the print quantity .
+7.Click Print Log to check print history records.
+8. Click Print to print store article price tag.
+Remarks:  Future price change or article information  can be checked  under the column-To be changed label.
+Inventory Mgt
+TPS - Print - To be changed label
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+491
+Operation steps:
+
+1. Click Menu entrance.
+Inventory Mgt
+Stock Adjustment Report
+
+492
+Operation steps:
+
+2. Enter filtering criteria, then click 'Query' to search data
+3. Click Export button to download Excel files containing previously searched data.
+Inventory Mgt
+Stock Adjustment Report
+
+Inventory Mgt
+Bundle - Report
+Operation steps:
+
+============================================================
+[Inventory Mgt]
+
+Click Inventory, then in the Report find Bundle Report and click, to show the Bundle Report screen in next step.
+
+Operation steps:
+
+Enter filtering criteria, then click 'Query' to search data
+Click Export button to download Excel files containing previously searched data.
+Inventory Mgt
+Bundle - Report
+
+495
+Operation steps:
+
+Select GR Report menu under Report/Inventory module.
+All completed transactions can be checked in the Receiving and return report.
+GR report(1)
+Report
+
+496
+Operation steps:
+
+Click Menu entrance to Inventory Movement Report page.
+Inventory Mgt
+Inventory Movement Report (1)
+
+497
+Operation steps:
+
+2. Enter filtering criteria, then click 'Query' to search data.
+3. Click Export button to download Excel files containing previously searched data.
+Inventory Mgt
+Inventory Movement Report (2)
+
+498
+Operation steps:
+
+1. Click Menu entrance to Gap Check Report page.
+Inventory Mgt
+Gap Check Report
+
+499
+Operation steps:
+
+2. Enter filtering criteria, then click 'Query' to search data.
+3. Click Export button to download Excel files containing previously searched data.
+Inventory Mgt
+Gap Check Report
+
+500
+Operation steps:
+
+Click Inventory, then in the Report find Dismantle Report and click, to show the Dismantle Report screen in next step.
+Inventory Mgt
+Dismantle Report
+
+501
+Operation steps:
+
+Enter filtering criteria, then click 'Query' to search data.
+Click Export button to download Excel files containing previously searched data.
+Inventory Mgt
+Dismantle Report
+
+502
+Inventory Mgt
+TP Article Report
+Operation steps:
+
+Click Inventory, then in the Report find TP Article Report and click, to show the TP Article Report screen in next step.
+
+503
+Operation steps:
+
+Enter filtering criteria, then click 'Query' to search data.
+Click Export button to download Excel files containing previously searched data.
+Inventory Mgt
+TP Article Report
+
+504
+Inventory Mgt
+Stocktake Report
+Operation steps:
+
+============================================================
+[Inventory Mgt]
+
+Click Inventory, then in the Report find Stocktake Report and click, to show the Stocktake Report screen in next step.
+
+505
+Operation steps:
+
+Enter filtering criteria, then click 'Query' to search data.
+Click Export button to download Excel files containing previously searched data.
+Inventory Mgt
+Stocktake Report
+
+506
+Inventory Mgt
+SAP Push Report
+Operation steps:
+
+Click Inventory, then in the Report find SAP Push Report and click, to show the SAP Push Report screen in next step.
+
+507
+Operation steps:
+
+Enter filtering criteria, then click 'Query' to search data.
+Inventory Mgt
+SAP Push Report
+
+508
+Operation steps:
+
+Select STDR Report menu under Report/Inventory module.
+All completed STDR transactions can be checked in the STDR report.
+STDR Report（1）
+Report
+
+Inventory Mgt
+SM Eat - Report
+Operation steps:
+
+Click Inventory, then in the Report find SM Eat Report and click, to show the SM Eat Report screen in next step.
+
+Operation steps:
+
+Enter filtering criteria, then click 'Query' to search data
+Click Export button to download Excel files containing previously searched data.
+Inventory Mgt
+SM Eat - Report
+
+511
+Operation steps:
+
+1. Click Menu entrance to OSA Report page.
+Inventory Mgt
+OSA Report
+
+512
+Operation steps:
+
+2. Enter filtering criteria, then click 'Query' to search data
+3. Click Export button to download Excel files containing previously searched data.
+Inventory Mgt
+OSA Report
+
+513
+Operation steps:
+
+4. Click Data Dictionary button to view.
+Inventory Mgt
+OSA Report
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+Inventory Mgt
+Bundle
+Operation steps:
+
+Click Inventory, then in the Inventory Mgt Service find SAP Push Report and click, to show the SAP Push Report screen in next step.
+
+Operation steps:
+
+============================================================
+[Inventory Mgt]
+
+Enter filtering criteria, then click 'Query' to search data.
+Check the documents you want to print, then click 'Print' to print them in bulk.
+Inventory Mgt
+Bundle - Query & Print
+
+Operation steps:
+
+Click View button or order No.to enter the order detail page
+Inventory Mgt
+Bundle - View Detail
+
+Operation steps:
+
+Click Print button to print paper document
+Click Copy button to generate a new order by duplicating this order
+Click Create button to generate a new empty order (It’s the same as the Create button in the List shown next page)
+Inventory Mgt
+Bundle - View Detail
+
+Operation steps:
+
+Click Create button (It’s the same as the Create button in the Detail shown previous page)
+Inventory Mgt
+Bundle - Create
+Exceptional scenario：Artcles lacking store master data and those irrespective of inventory cannot perform bundle operation in system.
+
+Operation steps:
+
+After entering the creation page, fill in the organization information.
+Select bundled article
+Select bundle BOM master data
+Input bundle quantity
+The system will automatically populate information on the raw material article used for processing and the respective quantities required from inventory
+Inventory Mgt
+Bundle - Create
+Exceptional scenario：Artcles lacking store master data and those irrespective of inventory cannot perform bundle operation in system.
+
+Operation steps:
+Inventory Mgt
+Bundle - Reversal
+Click [Reverse] button to  the reversal document detail page
+
+Operation steps:
+Remark: Users can input the reason of reversal
+Users can click the Related No. to see the related order detail
+Click [Save] to finish creation
+Click [Cancel] to to cancel the reversal 
+11.Click [OK] to submit
+Inventory Mgt
+Bundle - Reversal
+
+Inventory Mgt
+Bundle - OS App
+Route:RTA OS APP->Bundle
+Operation steps:
+
+
+Navigate to the article conversion section within the bundle
+
+Inventory Mgt
+Bundle - OS App
+Route:RTA OS APP->Bundle
+Operation steps:
+
+
+2. Click the "Create"to perform a new article bundle
+
+============================================================
+[Inventory Mgt]
+
+Inventory Mgt
+Bundle - OS App
+Route:RTA OS APP->Bundle
+Operation steps:
+
+
+3. Select article code
+4. Select BOM if needed 
+5. Input production qty 
+6. Submit order by clicking "save"
+
+Agenda
+Order query
+Stock take
+Receiving&Return
+TP Article
+Dismantle
+Inventory mgt
+Freshness
+Stock Adjustment
+Inventory Movement
+Gap Check
+Inventory Movement for Merchandiser
+OSA
+Bay Barcode
+Bin Location
+TPS
+Reports
+bundle
+SM EAT
+
+Operation steps:
+
+Click Inventory, then in the Inventory Mgt Service find SM Eat Mgt and click, to show the SM Eat Mgt screen in next step.
+Inventory Mgt
+SM Eat
+
+Operation steps:
+
+2. Enter filtering criteria, then click 'Query' to search data
+3. Check the documents you want to print, then click 'Print' to print them in bulk
+Inventory Mgt
+SM Eat – Query & Print
+
+Operation steps:
+
+Click View button or order No. to enter the order detail page.
+Inventory Mgt
+SM Eat - View Detail
+
+Operation steps:
+
+2. Click Print button to print paper document
+3. Click Copy button to generate a new order by duplicating this order
+4. Click Create button to generate a new empty order (It’S the same as the Create button in the List shown next page)
+Inventory Mgt
+SM Eat - View Detail
+
+Operation steps:
+
+Click Create button (It’s the same as the Create button in the Detail shown previous page).
+Inventory Mgt
+SM Eat - Create
+Exceptional scenario：Articles lacking store master data and those irrespective of inventory cannot perform SM eat operation in system.
+
+Operation steps:
+After entering the creation page, fill in the organization information.
+Select bundled article
+Select bundle BOM master data
+Input bundle quantity
+Select each individual component article
+The system will automatically populate information on the raw material article used for processing and the respective quantities required from inventory
+Inventory Mgt
+SM Eat - Create
+Exceptional scenario：Articles lacking store master data and those irrespective of inventory cannot perform SM eat operation in system.
+
+============================================================
+[Inventory Mgt]
+
+Operation steps:
+Inventory Mgt
+SM Eat - Reversal
+Click [Reverse] button to  the reversal document detail page
+
+Inventory Mgt
+SM Eat - Reversal
+Operation steps:
+Remark: Users can input the reason of reversal
+Click [Save] to finish creation
+Click [Cancel] to cancel the reversal 
+Click [OK] to submit
+
+Inventory Mgt
+SM Eat - OS App
+Route:RTA OS APP->SM Eat
+Operation steps:
+
+Navigate to the article conversion section within the Eat.
+
+Inventory Mgt
+SM Eat - OS App
+Route:RTA OS APP->SM Eat
+Operation steps:
+
+2. Click the "Create"to perform a SM Eat
+
+Inventory Mgt
+SM Eat - OS App
+Route:RTA OS APP->SM Eat
+Operation steps:
+
+3. Select "Cost Center"
+4. Select BOM if needed
+5. Select/input article number
+6. Input quantity of finish goods to be product in "Quantity"
+
+Inventory Mgt
+SM Eat - OS App
+Route:RTA OS APP->SM Eat
+Operation steps:
+
+7. Under component article section, select "article" 
+8. under each "article group"
+Input Qty of component article
+9. Submit order by clicking "save"
