@@ -82,6 +82,13 @@
 - **测试用例**: 35 条检索测试（覆盖 6 个模块），存放在 `docs/test_cases/bot_b_knowledge_base_test.json`
 - **下一步**: 通过 Dify UI 手动导入 txt 文件到知识库，配置 Bot B 关联知识库
 
+### Bot B 检索测试（2026-04-25）
+- **测试方法**: Ollama bge-m3 嵌入 → Qdrant 向量检索（按 dataset_id 过滤 Bot B 数据）
+- **结果**: **35/35 通过 (100%)**
+- **平均相似度**: 0.7216，最低 0.6382，最高 0.8302
+- **各模块**: POS 8/8, Inventory 8/8, Master Data 6/6, Promotion 7/7, Data Dashboard 3/3, System Integration 3/3
+- **待完成**: Dify Bot B 应用创建并关联知识库
+
 ## 已知问题
 
 | 问题 | 说明 |
