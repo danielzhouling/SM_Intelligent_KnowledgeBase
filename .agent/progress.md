@@ -1,6 +1,6 @@
 # 研发进度
 
-## 当前阶段：M4 - Bot配置（进行中，Bot A已激活，等待Bot C配置）
+## 当前阶段：M4 - Bot配置（Bot A/C 已激活，Bot B 文档预处理完成，待 Dify 入库）
 
 ## 待修复Bug（2026-04-24）
 
@@ -70,12 +70,24 @@
   - `server/seed.py` - 添加bot.D权限
   - `server/tests/test_seed.py` - 更新权限数量预期（8→9）
 
+### Bot B 文档预处理（2026-04-25）
+- **输入**: 6个蓝图(docx) + 5个操作手册(pptx)，共约86万字
+- **处理脚本**: `knowledge/bot_b/process/preprocess.py`
+- **处理策略**:
+  - 蓝图: 按 Heading 层级切分，保留标题路径上下文，跳过需求跟踪表
+  - 操作手册: 按 Agenda 分节，合并连续同功能步骤（最少250字）
+  - 超大 chunk 拆分（上限2000字），表格转结构化文本
+- **输出**: 626 个知识单元（蓝图 491 + 操作手册 135），平均 1324 字/单元
+- **Dify导入文件**: 11 个 txt 文件（按模块+类型分组），存放在 `knowledge/bot_b/processed/dify_upload/`
+- **测试用例**: 35 条检索测试（覆盖 6 个模块），存放在 `docs/test_cases/bot_b_knowledge_base_test.json`
+- **下一步**: 通过 Dify UI 手动导入 txt 文件到知识库，配置 Bot B 关联知识库
+
 ## 已知问题
 
 | 问题 | 说明 |
 |------|------|
 | app-backend容器unhealthy | DifyService初始化时连接Dify失败，但不影响API运行 |
-| Bot B待配置 | 等待用户提供用户手册/蓝图文档 |
+| Bot B待Dify入库 | 预处理完成（626个知识单元），需通过Dify UI手动导入知识库 |
 
 ## 重要技术决策变更（2026-04-22）
 
