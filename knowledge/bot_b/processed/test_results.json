@@ -1,0 +1,287 @@
+{
+  "total": 35,
+  "passed": 35,
+  "failed": 0,
+  "results": [
+    {
+      "id": "BOTB-001",
+      "category": "POS",
+      "question": "How does POS handle cashier login and logout?",
+      "status": "PASS",
+      "score": 0.7811,
+      "reason": "top1相关度=100%, 命中词4/4"
+    },
+    {
+      "id": "BOTB-002",
+      "category": "POS",
+      "question": "What payment methods are supported at POS?",
+      "status": "PASS",
+      "score": 0.8015,
+      "reason": "top1相关度=12%, 命中词1/8"
+    },
+    {
+      "id": "BOTB-003",
+      "category": "POS",
+      "question": "How to suspend and recall an order in POS?",
+      "status": "PASS",
+      "score": 0.7772,
+      "reason": "top1相关度=100%, 命中词3/3"
+    },
+    {
+      "id": "BOTB-004",
+      "category": "POS",
+      "question": "What happens during End of Day (EOD) process?",
+      "status": "PASS",
+      "score": 0.6605,
+      "reason": "top1相关度=20%, 命中词1/5"
+    },
+    {
+      "id": "BOTB-005",
+      "category": "POS",
+      "question": "How does POS handle void items and cancel orders?",
+      "status": "PASS",
+      "score": 0.7628,
+      "reason": "top1相关度=100%, 命中词4/4"
+    },
+    {
+      "id": "BOTB-006",
+      "category": "POS",
+      "question": "POS怎么处理预订单?",
+      "status": "PASS",
+      "score": 0.6736,
+      "reason": "top1相关度=0%, 命中词0/2"
+    },
+    {
+      "id": "BOTB-007",
+      "category": "POS",
+      "question": "What is the offline mode in POS and when to use it?",
+      "status": "PASS",
+      "score": 0.7312,
+      "reason": "top1相关度=100%, 命中词4/4"
+    },
+    {
+      "id": "BOTB-008",
+      "category": "POS",
+      "question": "How to add an article in POS sales page?",
+      "status": "PASS",
+      "score": 0.6814,
+      "reason": "top1相关度=50%, 命中词3/6"
+    },
+    {
+      "id": "BOTB-009",
+      "category": "Inventory",
+      "question": "How does goods receiving from vendor work?",
+      "status": "PASS",
+      "score": 0.7084,
+      "reason": "top1相关度=100%, 命中词6/6"
+    },
+    {
+      "id": "BOTB-010",
+      "category": "Inventory",
+      "question": "What is the stock adjustment process?",
+      "status": "PASS",
+      "score": 0.7285,
+      "reason": "top1相关度=40%, 命中词2/5"
+    },
+    {
+      "id": "BOTB-011",
+      "category": "Inventory",
+      "question": "How to perform stock transfer between stores?",
+      "status": "PASS",
+      "score": 0.76,
+      "reason": "top1相关度=25%, 命中词1/4"
+    },
+    {
+      "id": "BOTB-012",
+      "category": "Inventory",
+      "question": "How does the inventory counting (stocktake) work?",
+      "status": "PASS",
+      "score": 0.6824,
+      "reason": "top1相关度=50%, 命中词2/4"
+    },
+    {
+      "id": "BOTB-013",
+      "category": "Inventory",
+      "question": "What is TPS (Third Party Sales) in inventory?",
+      "status": "PASS",
+      "score": 0.6767,
+      "reason": "top1相关度=20%, 命中词1/5"
+    },
+    {
+      "id": "BOTB-014",
+      "category": "Inventory",
+      "question": "库存调拨怎么操作?",
+      "status": "PASS",
+      "score": 0.6567,
+      "reason": "top1相关度=33%, 命中词1/3"
+    },
+    {
+      "id": "BOTB-015",
+      "category": "Inventory",
+      "question": "What is the dismantle function in inventory management?",
+      "status": "PASS",
+      "score": 0.6989,
+      "reason": "top1相关度=33%, 命中词1/3"
+    },
+    {
+      "id": "BOTB-016",
+      "category": "Inventory",
+      "question": "How to use PDA for goods receiving?",
+      "status": "PASS",
+      "score": 0.6784,
+      "reason": "top1相关度=75%, 命中词3/4"
+    },
+    {
+      "id": "BOTB-017",
+      "category": "Master Data",
+      "question": "How is site master data created and maintained?",
+      "status": "PASS",
+      "score": 0.8302,
+      "reason": "top1相关度=43%, 命中词3/7"
+    },
+    {
+      "id": "BOTB-018",
+      "category": "Master Data",
+      "question": "What is a BOM article and how does it work?",
+      "status": "PASS",
+      "score": 0.6907,
+      "reason": "top1相关度=60%, 命中词3/5"
+    },
+    {
+      "id": "BOTB-019",
+      "category": "Master Data",
+      "question": "How does vendor master data integrate from SAP?",
+      "status": "PASS",
+      "score": 0.8052,
+      "reason": "top1相关度=75%, 命中词3/4"
+    },
+    {
+      "id": "BOTB-020",
+      "category": "Master Data",
+      "question": "商品主数据如何管理?",
+      "status": "PASS",
+      "score": 0.6604,
+      "reason": "top1相关度=50%, 命中词2/4"
+    },
+    {
+      "id": "BOTB-021",
+      "category": "Master Data",
+      "question": "What are inventory locations by site?",
+      "status": "PASS",
+      "score": 0.8088,
+      "reason": "top1相关度=25%, 命中词1/4"
+    },
+    {
+      "id": "BOTB-022",
+      "category": "Master Data",
+      "question": "How to manage article groups?",
+      "status": "PASS",
+      "score": 0.6801,
+      "reason": "top1相关度=100%, 命中词4/4"
+    },
+    {
+      "id": "BOTB-023",
+      "category": "Promotion",
+      "question": "What types of promotions are supported?",
+      "status": "PASS",
+      "score": 0.7624,
+      "reason": "top1相关度=29%, 命中词2/7"
+    },
+    {
+      "id": "BOTB-024",
+      "category": "Promotion",
+      "question": "How does the promotion approval process work?",
+      "status": "PASS",
+      "score": 0.72,
+      "reason": "top1相关度=40%, 命中词2/5"
+    },
+    {
+      "id": "BOTB-025",
+      "category": "Promotion",
+      "question": "How does pricing work with promotion vouchers?",
+      "status": "PASS",
+      "score": 0.7135,
+      "reason": "top1相关度=100%, 命中词5/5"
+    },
+    {
+      "id": "BOTB-026",
+      "category": "Promotion",
+      "question": "What is the E-voucher management process?",
+      "status": "PASS",
+      "score": 0.7475,
+      "reason": "top1相关度=40%, 命中词2/5"
+    },
+    {
+      "id": "BOTB-027",
+      "category": "Promotion",
+      "question": "促销活动如何在POS执行?",
+      "status": "PASS",
+      "score": 0.7103,
+      "reason": "top1相关度=50%, 命中词2/4"
+    },
+    {
+      "id": "BOTB-028",
+      "category": "Promotion",
+      "question": "What is the stacking rule for promotions?",
+      "status": "PASS",
+      "score": 0.6382,
+      "reason": "top1相关度=100%, 命中词5/5"
+    },
+    {
+      "id": "BOTB-029",
+      "category": "Promotion",
+      "question": "How to create a marketing activity with reward upon POS order?",
+      "status": "PASS",
+      "score": 0.7813,
+      "reason": "top1相关度=100%, 命中词6/6"
+    },
+    {
+      "id": "BOTB-030",
+      "category": "Data Dashboard",
+      "question": "What reports are available in the Data Dashboard?",
+      "status": "PASS",
+      "score": 0.7297,
+      "reason": "top1相关度=60%, 命中词3/5"
+    },
+    {
+      "id": "BOTB-031",
+      "category": "Data Dashboard",
+      "question": "How does the drill down function work in reports?",
+      "status": "PASS",
+      "score": 0.6721,
+      "reason": "top1相关度=75%, 命中词3/4"
+    },
+    {
+      "id": "BOTB-032",
+      "category": "Data Dashboard",
+      "question": "What is the HQ Real-time Sales Monitoring big screen?",
+      "status": "PASS",
+      "score": 0.714,
+      "reason": "top1相关度=100%, 命中词5/5"
+    },
+    {
+      "id": "BOTB-033",
+      "category": "System Integration",
+      "question": "How does master data integration between SAP and DMALL work?",
+      "status": "PASS",
+      "score": 0.7555,
+      "reason": "top1相关度=29%, 命中词2/7"
+    },
+    {
+      "id": "BOTB-034",
+      "category": "System Integration",
+      "question": "What is the EOD data posting process?",
+      "status": "PASS",
+      "score": 0.6658,
+      "reason": "top1相关度=20%, 命中词1/5"
+    },
+    {
+      "id": "BOTB-035",
+      "category": "System Integration",
+      "question": "How does the EIS (Electronic Invoice System) integration work?",
+      "status": "PASS",
+      "score": 0.7103,
+      "reason": "top1相关度=50%, 命中词2/4"
+    }
+  ]
+}
