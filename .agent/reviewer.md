@@ -107,3 +107,84 @@ if (user?.role) {
 | 管理后台权限校验 | ✅ 已修复 | `js/admin-app.js` — 添加 `checkAdminPermission()` 检查 |
 
 **修复后审查结论**：通过 ✅
+
+---
+
+## 2026-04-26 第三次审查
+
+**审计范围**：M4/M5 全量代码审计 — 后端路由、前端交互、Docker部署、多会话流程
+
+### 通过任务 (26项)
+
+M1 全部12项 ✅ | M2 全部5项 ✅ | M3 已完成项 ✅ | M4-001~005 ✅ | M5-001 ✅ | M5-003 ✅ | M5-004 ✅ | M5-007 ✅ | M5-008 ✅ | M5-009 ✅
+
+### 需修复任务 (3项)
+
+#### 1. 【严重】TASK-M5-005 — 多会话延续功能完全失效
+
+**核心BUG：后端 conversation_id 未翻译**
+- `server/routers/chat.py:136` — 阻塞模式将前端传来的内部 UUID 直接传给 Dify，Dify 不认识该 UUID 会忽略并创建新会话
+- `server/routers/chat.py:254` — 流式模式同样直接传递内部 UUID
+- **正确做法**：调用 Dify 前，通过 `body.conversation_id` 查 `ConversationModel.dify_conversation_id`，将 Dify ID 传给 Dify
+
+**前端BUG：流式请求永远不传 conversation_id**
+- `demo/js/api-service.js:548` — 硬编码 `conversation_id: null`
+- `sendMessageStream` 函数签名不包含 `conversationId` 参数
+- `demo/js/app.js:782` — 调用时未传入 `currentConversationId`
+
+**影响**：用户永远无法在已有会话中继续对话，每条消息都创建全新会话
+
+**修复建议**：
+```
+后端 chat.py:
+1. send_message: 在 dify_service.chat_blocking 前查 ConversationModel
+2. _stream_generator: 在 dify_service.chat_stream 前查 ConversationModel
+3. 将 dify_conversation_id 传给 Dify
+
+前端:
+1. sendMessageStream(botId, query, conversationId, onChunk, onComplete, onError)
+2. body: { conversation_id: conversationId || null }
+3. app.js 调用时传入 currentConversationId
+```
+
+#### 2. 【严重】TASK-M5-006 — 前端多会话在真实模式下不完整
+
+**BUG 1：deleteConversation 不调后端 API**
+- `demo/js/app.js:697-713` — 真实模式下仅清 localStorage 和重渲染，刷新后会话重现
+- **修复**：真实模式下调用 DELETE API（需后端先补充删除接口）
+
+**BUG 2：依赖 TASK-M5-005 修复**
+- 会话延续和 streaming conversation_id 问题同上
+
+#### 3. 【中等】TASK-M5-002 — 路由层缺失与规范不符
+
+**缺失端点**：
+- `POST /api/auth/logout` — 任务描述明确包含「登出」，未实现
+- `POST /api/feishu/sync` — spec 定义的同步触发接口，未实现
+
+**规范不符**：
+- 所有列表接口无分页（spec 定义了 PaginatedResponse，schemas/common.py 有定义但路由未使用）
+- `feishu.py` 用 `SuccessResponse(data={"error": str(e)})` 返回错误，违反 spec 错误响应格式
+- `require_permissions` 中 `knowledge.*` 短路导致拥有该权限的用户绕过所有权限检查（dependencies.py:56-57）
+
+### 安全警告（不阻塞，但需后续修复）
+
+| 级别 | 问题 | 位置 |
+|------|------|------|
+| 高 | refresh token 不校验用户是否仍存在/active | `routers/auth.py` refresh 端点 |
+| 高 | CORS `allow_origins=["*"]` + `allow_credentials=True` | `main.py:29` |
+| 中 | 飞书凭据硬编码在 feishu_sync.py/http_server/mcp_server 中 | 3个文件 |
+| 中 | SSE 错误消息用 f-string 拼接 JSON，有注入风险 | `chat.py:229` |
+| 低 | `configure_dify` 存 API Key 即设 active，跳过测试步骤 | `routers/bots.py` |
+
+### roadmap.json 状态修正
+
+| Milestone | 修正前 | 修正后 | 原因 |
+|-----------|--------|--------|------|
+| M3 | in_progress | completed | features.json 中 M3 任务全部 pass=true |
+| M4 | pending | in_progress | M4-006 仍 pass=false |
+| M5 | pending | in_progress | 3项任务审计打回 |
+
+---
+
+**审查结论**：需修复 3 项任务后方可通过。多会话延续是 P0 优先级，影响核心用户体验。

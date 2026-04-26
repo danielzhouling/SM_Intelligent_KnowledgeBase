@@ -36,7 +36,7 @@
         "TASK-M3-006-1",
         "TASK-M3-007"
       ],
-      "status": "in_progress"
+      "status": "completed"
     },
     {
       "id": "M4",
@@ -50,7 +50,7 @@
         "TASK-M4-005",
         "TASK-M4-006"
       ],
-      "status": "pending"
+      "status": "in_progress"
     },
     {
       "id": "M5",
@@ -68,7 +68,7 @@
         "TASK-M5-009",
         "TASK-M5-010"
       ],
-      "status": "pending"
+      "status": "in_progress"
     }
   ],
   "task_definitions": {

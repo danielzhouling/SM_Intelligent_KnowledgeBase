@@ -145,12 +145,22 @@
     {
       "id": "TASK-M5-001",
       "description": "Python/FastAPI后端服务搭建 + PostgreSQL独立实例部署 + 数据库Schema初始化 + JWT认证中间件 + 初始数据种子（admin/demo用户/角色/权限/Bot记录）",
-      "pass": true
+      "pass": true,
+      "audit": {
+        "reason": "安全警告（不阻塞）：(1) refresh token 不校验用户是否仍存在/active，被禁用用户7天内仍可获取新token；(2) CORS allow_origins=[\"*\"] + allow_credentials=True 不符合安全规范，spec要求限制为开发域名；(3) feishu_sync.py、feishu_http_server.py、mcp_server.py 中飞书凭据硬编码，应从 config.py 读取",
+        "suggestion": "非紧急修复：refresh 时检查 user.status；CORS 改为读取环境变量配置；飞书凭据统一走 config.py",
+        "auditTimes": 1
+      }
     },
     {
       "id": "TASK-M5-002",
       "description": "FastAPI路由层开发：auth(登录/登出/me/refresh)、users(CRUD)、roles(CRUD)、bots(创建/列表/配置Dify/测试连接/状态切换)、feedbacks(提交/列表/审核/导出)、chat(消息/流式/会话)",
-      "pass": true
+      "pass": false,
+      "audit": {
+        "reason": "多个路由缺失或不符合规范：(1) POST /api/auth/logout 未实现，任务描述明确包含「登出」；(2) POST /api/feishu/sync 手动触发同步未实现；(3) 所有列表接口无分页（spec明确定义了PaginatedResponse）；(4) feishu.py 用 SuccessResponse 包裹错误，违反 spec 错误响应格式；(5) require_permissions 中 knowledge.* 短路逻辑导致拥有该权限的用户绕过所有权限检查",
+        "suggestion": "(1) 实现 POST /api/auth/logout（黑名单或前端清Token即可）；(2) 实现 POST /api/feishu/sync 路由调用异步同步逻辑；(3) 列表接口加分页参数 page/page_size；(4) feishu.py 错误改用 HTTPException；(5) 修复 require_permissions 知识库通配符逻辑",
+        "auditTimes": 1
+      }
     },
     {
       "id": "TASK-M5-003",
@@ -165,12 +175,22 @@
     {
       "id": "TASK-M5-005",
       "description": "多会话管理：conversation映射表（首条消息响应后创建）、历史会话列表（侧边栏切换）、历史消息拉取、Bot禁用时已存在会话只读处理",
-      "pass": true
+      "pass": false,
+      "audit": {
+        "reason": "会话延续功能完全失效：(1) 后端 chat.py 收到前端传来的内部 conversation_id 后，直接传给 Dify（Dify 不认识我们的 UUID，会创建新会话）；正确做法是先查 ConversationModel 获取 dify_conversation_id 再传给 Dify；(2) 前端 api-service.js:548 硬编码 conversation_id: null，sendMessageStream 不接受 conversationId 参数；(3) 前端 app.js:782 调用 sendMessageStream 时不传当前会话 ID。结果：用户永远无法在已有会话中继续对话，每条消息都创建新会话",
+        "suggestion": "后端修复：chat.py 在调用 dify_service 前，先通过 body.conversation_id 查询 ConversationModel.dify_conversation_id，将该 ID 传给 Dify。前端修复：(1) sendMessageStream 增加 conversationId 参数；(2) app.js 传入 currentConversationId；(3) api-service.js 移除硬编码 null",
+        "auditTimes": 1
+      }
     },
     {
       "id": "TASK-M5-006",
       "description": "用户端前端改造：localStorage→真实API、JWT登录流程、流式聊天UI（SSE错误处理+反馈按钮状态机）、多会话侧边栏、反馈提交对接",
-      "pass": true
+      "pass": false,
+      "audit": {
+        "reason": "多会话侧边栏在真实模式下不可用：(1) 会话延续失效（依赖 TASK-M5-005 后端修复）；(2) deleteConversation(app.js:697) 在真实模式下不调用后端 API，仅清 localStorage 和重渲染 UI，刷新后会话重现；(3) 流式聊天 sendMessageStream 不传递 conversation_id（硬编码 null）",
+        "suggestion": "(1) 等 TASK-M5-005 后端修复后，sendMessageStream 增加 conversationId 参数并传入 currentConversationId；(2) deleteConversation 在真实模式下调用后端 DELETE API（需后端先实现删除接口）；(3) 移除 api-service.js:548 的硬编码 null",
+        "auditTimes": 1
+      }
     },
     {
       "id": "TASK-M5-007",
