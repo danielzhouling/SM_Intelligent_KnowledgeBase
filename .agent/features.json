@@ -119,7 +119,7 @@
     },
     {
       "id": "TASK-M4-002",
-      "description": "配置Dify Bot B（操作指南）- 关联bot_b_knowledge（6个蓝图+5个操作手册，626知识单元，35/35检索测试通过）",
+      "description": "配置Dify Bot B（操作指南）- 6个蓝图+5个操作手册，626知识单元，检索100%通过，Dify绑定active",
       "pass": true
     },
     {

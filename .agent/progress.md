@@ -1,6 +1,6 @@
 # 研发进度
 
-## 当前阶段：M4 - Bot配置（Bot A/C 已激活，Bot B 文档预处理完成，待 Dify 入库）
+## 当前阶段：M4 - Bot配置（Bot A/B/C 全部 active，剩余 TASK-M4-006 对话测试调优）
 
 ## 待修复Bug（2026-04-24）
 
@@ -87,14 +87,14 @@
 - **结果**: **35/35 通过 (100%)**
 - **平均相似度**: 0.7216，最低 0.6382，最高 0.8302
 - **各模块**: POS 8/8, Inventory 8/8, Master Data 6/6, Promotion 7/7, Data Dashboard 3/3, System Integration 3/3
-- **待完成**: Dify Bot B 应用创建并关联知识库
+- **待完成**: ~~Dify Bot B 应用创建并关联知识库~~ ✅ 已完成（2026-04-26）
 
 ## 已知问题
 
 | 问题 | 说明 |
 |------|------|
 | app-backend容器unhealthy | DifyService初始化时连接Dify失败，但不影响API运行 |
-| Bot B待Dify入库 | 预处理完成（626个知识单元），需通过Dify UI手动导入知识库 |
+| Bot B待Dify入库 | ✅ 已完成 — Dify知识库导入+Bot绑定，状态active |
 
 ## 重要技术决策变更（2026-04-22）
 
