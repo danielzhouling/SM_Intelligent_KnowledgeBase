@@ -93,6 +93,16 @@
       "pass": true
     },
     {
+      "id": "TASK-M3-002",
+      "description": "收集Bot B知识库文档（用户手册、蓝图）- 6个蓝图+5个操作手册",
+      "pass": true
+    },
+    {
+      "id": "TASK-M3-003",
+      "description": "部署Embedding模型（bge-m3，1024维，支持中英文）",
+      "pass": true
+    },
+    {
       "id": "TASK-M3-004",
       "description": "文档预处理：清洗、切分、格式化",
       "pass": true
@@ -103,13 +113,18 @@
       "pass": true
     },
     {
+      "id": "TASK-M3-006",
+      "description": "Bot B数据Embedding入库Qdrant（通过Dify UI手动导入，626知识单元）",
+      "pass": true
+    },
+    {
       "id": "TASK-M3-006-1",
       "description": "Embedding模型替换为bge-m3（支持中英文检索，已验证通过率84.2%）",
       "pass": true
     },
     {
       "id": "TASK-M3-007",
-      "description": "知识库质量验证（Bot A检索测试，19条测试用例已完成）",
+      "description": "知识库质量验证（Bot A检索测试19条通过，Bot B检索测试35条100%通过）",
       "pass": true
     },
     {
