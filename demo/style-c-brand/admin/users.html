@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management - SM-Dmall ERP</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="8" fill="#1E40AF"/>
+              <path d="M10 18H26M18 10V26" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-info">
+            <span class="brand-name">Admin</span>
+            <span class="brand-sub">Dashboard</span>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-label">Overview</span>
+          <a href="index.html" class="nav-item">
+            <span class="nav-icon">⚡</span><span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-group">
+          <span class="nav-group-label">Management</span>
+          <a href="#" class="nav-item active">
+            <span class="nav-icon">👥</span><span>Users</span>
+          </a>
+          <a href="roles.html" class="nav-item">
+            <span class="nav-icon">🔐</span><span>Roles</span>
+          </a>
+          <a href="bots.html" class="nav-item">
+            <span class="nav-icon">🤖</span><span>Bots</span>
+          </a>
+          <a href="feedback.html" class="nav-item">
+            <span class="nav-icon">💬</span><span>Feedback</span>
+            <span class="nav-badge">12</span>
+          </a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="../login.html" class="nav-item">
+          <span class="nav-icon">🚪</span><span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="header-left">
+          <h1>User Management</h1>
+          <p>Manage system users and their roles</p>
+        </div>
+        <button class="btn-primary">
+          <span>+ Add User</span>
+        </button>
+      </header>
+
+      <div class="admin-content">
+        <div class="table-card">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Display Name</th>
+                <th>Roles</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>admin</strong></td>
+                <td>System Administrator</td>
+                <td><span class="role-tag">System Admin</span></td>
+                <td><span class="status active">Active</span></td>
+                <td>2026-04-20</td>
+                <td>
+                  <button class="btn-action">✏️</button>
+                  <button class="btn-action">🗑️</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>hq-admin</strong></td>
+                <td>HQ Administrator</td>
+                <td><span class="role-tag">HQ IT Admin</span></td>
+                <td><span class="status active">Active</span></td>
+                <td>2026-04-20</td>
+                <td>
+                  <button class="btn-action">✏️</button>
+                  <button class="btn-action">🗑️</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>store-manager</strong></td>
+                <td>Store Manager</td>
+                <td><span class="role-tag">Store Manager</span></td>
+                <td><span class="status active">Active</span></td>
+                <td>2026-04-20</td>
+                <td>
+                  <button class="btn-action">✏️</button>
+                  <button class="btn-action">🗑️</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>helpdesk</strong></td>
+                <td>Helpdesk Support</td>
+                <td><span class="role-tag">Helpdesk</span></td>
+                <td><span class="status active">Active</span></td>
+                <td>2026-04-20</td>
+                <td>
+                  <button class="btn-action">✏️</button>
+                  <button class="btn-action">🗑️</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <style>
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .role-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: rgba(30, 64, 175, 0.1);
+      color: var(--primary);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .status.active {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+    }
+    .btn-action {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 14px;
+    }
+  </style>
+</body>
+</html>

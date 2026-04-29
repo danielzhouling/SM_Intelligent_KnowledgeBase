@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Role Management - SM-Dmall ERP</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="8" fill="#1E40AF"/>
+              <path d="M10 18H26M18 10V26" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-info">
+            <span class="brand-name">Admin</span>
+            <span class="brand-sub">Dashboard</span>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-label">Overview</span>
+          <a href="index.html" class="nav-item">
+            <span class="nav-icon">⚡</span><span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-group">
+          <span class="nav-group-label">Management</span>
+          <a href="users.html" class="nav-item">
+            <span class="nav-icon">👥</span><span>Users</span>
+          </a>
+          <a href="#" class="nav-item active">
+            <span class="nav-icon">🔐</span><span>Roles</span>
+          </a>
+          <a href="bots.html" class="nav-item">
+            <span class="nav-icon">🤖</span><span>Bots</span>
+          </a>
+          <a href="feedback.html" class="nav-item">
+            <span class="nav-icon">💬</span><span>Feedback</span>
+            <span class="nav-badge">12</span>
+          </a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="../login.html" class="nav-item">
+          <span class="nav-icon">🚪</span><span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="header-left">
+          <h1>Role Management</h1>
+          <p>Configure roles and permissions</p>
+        </div>
+        <button class="btn-primary">
+          <span>+ Add Role</span>
+        </button>
+      </header>
+
+      <div class="admin-content">
+        <div class="table-card">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Role Name</th>
+                <th>Description</th>
+                <th>Users</th>
+                <th>Permissions</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>System Admin</strong></td>
+                <td>Full system access</td>
+                <td>1</td>
+                <td>
+                  <div class="permissions">
+                    <span class="permission-badge">All</span>
+                  </div>
+                </td>
+                <td>
+                  <button class="btn-action">✏️</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>HQ IT Admin</strong></td>
+                <td>HQ-level administrative access</td>
+                <td>1</td>
+                <td>
+                  <div class="permissions">
+                    <span class="permission-badge">Users</span>
+                    <span class="permission-badge">Bots</span>
+                    <span class="permission-badge">Feedback</span>
+                  </div>
+                </td>
+                <td>
+                  <button class="btn-action">✏️</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Store Manager</strong></td>
+                <td>Store-level access to knowledge base</td>
+                <td>1</td>
+                <td>
+                  <div class="permissions">
+                    <span class="permission-badge">Chat</span>
+                    <span class="permission-badge">History</span>
+                  </div>
+                </td>
+                <td>
+                  <button class="btn-action">✏️</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Helpdesk</strong></td>
+                <td>Help desk support role</td>
+                <td>1</td>
+                <td>
+                  <div class="permissions">
+                    <span class="permission-badge">Chat</span>
+                    <span class="permission-badge">Feedback</span>
+                  </div>
+                </td>
+                <td>
+                  <button class="btn-action">✏️</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <style>
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .permissions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .permission-badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      background: var(--bg-page);
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+    }
+    .btn-action {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 14px;
+    }
+  </style>
+</body>
+</html>

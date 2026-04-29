@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SM-Dmall ERP Knowledge Base</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="8" fill="#1E40AF"/>
+            <path d="M10 18H26M18 10V26" stroke="white" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <span class="brand-name">SM-Dmall ERP</span>
+          <span class="brand-module">Knowledge Base</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <button class="icon-btn" title="Notifications">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </button>
+        <div class="user-menu">
+          <div class="user-avatar-ring">
+            <div class="user-avatar-text">HQ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Layout -->
+  <div class="page-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-label">Main</span>
+          <a href="#" class="nav-item active">
+            <span class="nav-icon">⚡</span>
+            <span class="nav-text">Knowledge Base</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-icon">📄</span>
+            <span class="nav-text">Documents</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">Analytics</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <span class="nav-group-label">System</span>
+          <a href="#" class="nav-item">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-text">Settings</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-icon">❓</span>
+            <span class="nav-text">Help</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar-sm">HQ</div>
+          <div class="user-details">
+            <span class="user-name">HQ Admin</span>
+            <span class="user-role">Administrator</span>
+          </div>
+          <button class="logout-btn" title="Logout">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Main Content -->
+    <main class="content">
+      <!-- Content Header -->
+      <div class="content-header">
+        <div class="content-header-left">
+          <button class="sidebar-toggle" id="sidebarToggle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+          <div>
+            <h1 class="page-title">Select Assistant</h1>
+            <p class="page-subtitle">Choose an AI assistant to help with your inquiry</p>
+          </div>
+        </div>
+        <div class="content-header-right">
+          <span class="online-badge">
+            <span class="online-dot"></span>
+            System Online
+          </span>
+        </div>
+      </div>
+
+      <!-- Bots Grid -->
+      <div class="bots-grid">
+        <!-- Bot A -->
+        <div class="bot-card" data-bot="A">
+          <div class="bot-card-glow bot-glow-a"></div>
+          <div class="bot-card-inner">
+            <div class="bot-card-left">
+              <div class="bot-avatar avatar-a">
+                <span class="avatar-letter">A</span>
+                <span class="avatar-indicator"></span>
+              </div>
+            </div>
+            <div class="bot-card-center">
+              <div class="bot-info">
+                <h3 class="bot-name">Fault Handler</h3>
+                <p class="bot-category">Troubleshooting Assistant</p>
+              </div>
+              <p class="bot-excerpt">
+                Find solutions to known issues using our comprehensive work order database...
+              </p>
+              <div class="bot-tags">
+                <span class="tag">3,326 Work Orders</span>
+                <span class="tag">PRD Documentation</span>
+                <span class="tag">24/7 Support</span>
+              </div>
+            </div>
+            <div class="bot-card-right">
+              <button class="start-btn">
+                <span>Start</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bot B -->
+        <div class="bot-card" data-bot="B">
+          <div class="bot-card-glow bot-glow-b"></div>
+          <div class="bot-card-inner">
+            <div class="bot-card-left">
+              <div class="bot-avatar avatar-b">
+                <span class="avatar-letter">B</span>
+                <span class="avatar-indicator"></span>
+              </div>
+            </div>
+            <div class="bot-card-center">
+              <div class="bot-info">
+                <h3 class="bot-name">Operation Guide</h3>
+                <p class="bot-category">Documentation Assistant</p>
+              </div>
+              <p class="bot-excerpt">
+                Step-by-step guidance for system operations based on blueprints and manuals...
+              </p>
+              <div class="bot-tags">
+                <span class="tag">626 Knowledge Units</span>
+                <span class="tag">6 Modules</span>
+                <span class="tag">5 Manuals</span>
+              </div>
+            </div>
+            <div class="bot-card-right">
+              <button class="start-btn">
+                <span>Start</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bot C -->
+        <div class="bot-card" data-bot="C">
+          <div class="bot-card-glow bot-glow-c"></div>
+          <div class="bot-card-inner">
+            <div class="bot-card-left">
+              <div class="bot-avatar avatar-c">
+                <span class="avatar-letter">C</span>
+                <span class="avatar-indicator live"></span>
+              </div>
+            </div>
+            <div class="bot-card-center">
+              <div class="bot-info">
+                <h3 class="bot-name">Version Guide</h3>
+                <p class="bot-category">Release Information</p>
+              </div>
+              <p class="bot-excerpt">
+                Get real-time version release information synced directly from Feishu...
+              </p>
+              <div class="bot-tags">
+                <span class="tag live-tag">Real-time Sync</span>
+                <span class="tag">Feishu Data</span>
+                <span class="tag">Auto Updates</span>
+              </div>
+            </div>
+            <div class="bot-card-right">
+              <button class="start-btn">
+                <span>Start</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="content-footer">
+        <span class="footer-text">Available Assistants: 3</span>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Mobile sidebar toggle
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    sidebarToggle?.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('visible');
+    });
+
+    overlay?.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('visible');
+    });
+  </script>
+
+  <style>
+    /* ========================================
+       Style C: Brand-Driven
+       Professional, brand-focused design
+       ======================================== */
+
+    :root {
+      --primary: #1E40AF;
+      --primary-light: #3B82F6;
+      --primary-dark: #1E3A8A;
+
+      --bg-page: #F1F5F9;
+      --bg-card: #FFFFFF;
+      --bg-sidebar: #1E293B;
+      --bg-sidebar-hover: #334155;
+
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --text-inverse: #F8FAFC;
+
+      --border: #E2E8F0;
+      --border-sidebar: #334155;
+
+      --a-color: #0EA5E9;
+      --b-color: #10B981;
+      --c-color: #8B5CF6;
+
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-hover: 0 10px 40px rgba(0,0,0,0.12);
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+
+      --sidebar-width: 240px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Top Bar */
+    .topbar {
+      height: 56px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+
+    .topbar-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark svg {
+      display: block;
+    }
+
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .brand-module {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .icon-btn:hover {
+      background: var(--bg-page);
+      color: var(--text-primary);
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+    }
+
+    .user-avatar-ring {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      padding: 2px;
+      background: white;
+    }
+
+    .user-avatar-text {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Page Layout */
+    .page-layout {
+      display: flex;
+      min-height: calc(100vh - 56px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--bg-sidebar);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 12px;
+      overflow-y: auto;
+    }
+
+    .nav-group {
+      margin-bottom: 24px;
+    }
+
+    .nav-group-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.15s;
+      margin-bottom: 2px;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-sidebar-hover);
+      color: var(--text-inverse);
+    }
+
+    .nav-item.active {
+      background: var(--primary);
+      color: var(--text-inverse);
+    }
+
+    .nav-icon {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid var(--border-sidebar);
+    }
+
+    .user-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-avatar-sm {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .user-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .user-name {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-inverse);
+    }
+
+    .user-role {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .logout-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #EF4444;
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 150;
+    }
+
+    /* Content */
+    .content {
+      flex: 1;
+      padding: 32px;
+      min-width: 0;
+    }
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+
+    .content-header-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .sidebar-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .online-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+    }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22C55E;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Bots Grid */
+    .bots-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bot-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .bot-card:hover {
+      border-color: var(--primary-light);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .bot-card-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .bot-glow-a { background: linear-gradient(90deg, var(--a-color), transparent); }
+    .bot-glow-b { background: linear-gradient(90deg, var(--b-color), transparent); }
+    .bot-glow-c { background: linear-gradient(90deg, var(--c-color), transparent); }
+
+    .bot-card-inner {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 24px;
+      padding: 24px;
+      align-items: center;
+    }
+
+    .bot-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .avatar-a { background: linear-gradient(135deg, var(--a-color), #0284C7); }
+    .avatar-b { background: linear-gradient(135deg, var(--b-color), #059669); }
+    .avatar-c { background: linear-gradient(135deg, var(--c-color), #7C3AED); }
+
+    .avatar-letter {
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .avatar-indicator {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #94A3B8;
+      border: 3px solid white;
+    }
+
+    .avatar-indicator.live {
+      background: #22C55E;
+      animation: pulse 2s infinite;
+    }
+
+    .bot-card-center {
+      min-width: 0;
+    }
+
+    .bot-info {
+      margin-bottom: 8px;
+    }
+
+    .bot-name {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: inline;
+    }
+
+    .bot-category {
+      display: inline;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-left: 8px;
+    }
+
+    .bot-excerpt {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .bot-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: var(--bg-page);
+      color: var(--text-secondary);
+    }
+
+    .tag.live-tag {
+      background: rgba(34, 197, 94, 0.1);
+      color: #16A34A;
+    }
+
+    .bot-card-right {
+      flex-shrink: 0;
+    }
+
+    .start-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--text-primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .start-btn:hover {
+      background: var(--primary);
+    }
+
+    .start-btn svg {
+      transition: transform 0.15s;
+    }
+
+    .start-btn:hover svg {
+      transform: translateX(3px);
+    }
+
+    .content-footer {
+      margin-top: 32px;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 56px;
+        height: calc(100vh - 56px);
+        z-index: 160;
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay.visible {
+        display: block;
+      }
+
+      .sidebar-toggle {
+        display: flex;
+      }
+
+      .content {
+        padding: 24px 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-header {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .bot-card-inner {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .bot-card-left {
+        display: flex;
+        justify-content: center;
+      }
+
+      .bot-avatar {
+        width: 56px;
+        height: 56px;
+      }
+
+      .avatar-letter {
+        font-size: 20px;
+      }
+
+      .bot-card-right {
+        width: 100%;
+      }
+
+      .start-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .bot-tags {
+        justify-content: center;
+      }
+    }
+  </style>
+</body>
+</html>

@@ -4,9 +4,10 @@
 
 ### 1.1 前端代码
 
-- HTML：语义化标签，结构清晰
-- CSS：使用 CSS 变量管理主题色，响应式布局
+- HTML：语义化HTML5标签（`<nav>`、`<main>`、`<section>`、`<aside>`），ARIA无障碍属性
+- CSS：统一CSS变量系统，三断点响应式（mobile<768 / tablet 768-1024 / desktop>1024），移动端抽屉侧边栏
 - JavaScript：原生 JS，不依赖框架，预留 API 接口注释
+- 无障碍：`aria-label`、`role`、`aria-live`、键盘Tab导航、焦点管理
 
 ### 1.2 文件结构
 
@@ -1237,3 +1238,99 @@ async def seed_initial_data():
 | Demo用户 | hq-admin, store-manager, helpdesk (password123, bcrypt哈希) |
 | 角色-权限 | System Admin拥有全部权限，HQ IT Admin拥有feedback.view+review |
 | Bot记录 | Bot A/B/C（status=draft，API Key待后续配置） |
+
+## 二十一、UI设计规范（M6改造后）
+
+### 21.1 设计系统
+
+基于 style-a-tech 设计风格，统一管理所有页面视觉：
+
+**CSS 变量体系**:
+```css
+:root {
+  /* 主色 - Slate/Blue 专业色系 */
+  --primary: #1E40AF;
+  --primary-light: #3B82F6;
+  --primary-dark: #1E3A8A;
+
+  /* 背景 */
+  --bg-page: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-dark: #1E293B;
+  --bg-sidebar-hover: rgba(255, 255, 255, 0.08);
+
+  /* 文字 */
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --text-inverse: #F8FAFC;
+
+  /* 边框 */
+  --border: #E2E8F0;
+  --border-dark: #334155;
+
+  /* 状态色 */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+
+  /* Bot渐变色 */
+  --bot-a-gradient: linear-gradient(135deg, #1E40AF, #3B82F6);
+  --bot-b-gradient: linear-gradient(135deg, #059669, #10B981);
+  --bot-c-gradient: linear-gradient(135deg, #7C3AED, #A855F7);
+
+  /* 圆角 */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* 字体 */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+```
+
+### 21.2 响应式断点
+
+| 断点 | 范围 | 布局策略 |
+|------|------|---------|
+| Desktop | >1024px | 完整布局：固定侧边栏 + 主内容 |
+| Tablet | 768-1024px | 窄侧边栏(200-240px) + 主内容 |
+| Mobile | <768px | 全宽内容 + 汉堡菜单触发抽屉侧边栏 |
+
+### 21.3 移动端交互规范
+
+- **抽屉侧边栏**: 汉堡按钮触发，overlay 半透明黑色遮罩，侧边栏从左滑入(280px)
+- **关闭方式**: 点击 overlay 或返回箭头
+- **表格**: 移动端 `overflow-x: auto` 水平滚动
+- **卡片网格**: 移动端单列 `grid-template-columns: 1fr`
+- **登录页**: 移动端隐藏品牌面板，仅显示表单
+
+### 21.4 组件规范
+
+**Bot 徽章（统一使用渐变字母徽章）**:
+```html
+<!-- 不再用 CSS 机器人脸，改为简洁渐变徽章 -->
+<div class="bot-badge bot-badge-a">A</div>
+<div class="bot-badge bot-badge-b">B</div>
+<div class="bot-badge bot-badge-c">C</div>
+```
+
+**卡片统一结构**:
+```html
+<div class="card">
+  <div class="card-header">标题 + 状态</div>
+  <div class="card-body">内容</div>
+  <div class="card-footer">操作按钮</div>
+</div>
+```
+
+### 21.5 无障碍规范
+
+- 所有交互元素必须有 `aria-label`
+- Modal 使用 `role="dialog"` + `aria-modal="true"`
+- 流式消息区域使用 `aria-live="polite"`
+- 表单输入有 `<label>` 关联
+- 键盘可 Tab 到所有可交互元素
+- 焦点管理：Modal 打开时焦点陷阱，关闭后恢复触发元素

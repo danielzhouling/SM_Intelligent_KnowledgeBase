@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SM-Dmall ERP - Chat</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <button class="btn-back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+        </button>
+        <div class="current-bot">
+          <span class="bot-badge-sm bot-badge-a">A</span>
+          <div class="bot-info-sm">
+            <span class="bot-name-sm">Fault Handler</span>
+            <span class="bot-status-sm">Active</span>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="conversation-info">
+          <span class="conversation-label">Conversation</span>
+          <span class="conversation-title">SAP upload issue</span>
+        </div>
+        <div class="user-mini">
+          <div class="user-avatar-sm">HQ</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Chat Layout -->
+    <div class="chat-layout">
+      <!-- Sidebar -->
+      <aside class="chat-sidebar">
+        <div class="sidebar-section">
+          <div class="section-header">
+            <h3>Conversations</h3>
+            <button class="btn-new" title="New Conversation">+</button>
+          </div>
+          <ul class="conversation-list">
+            <li class="conversation-item active">
+              <div class="conv-icon">💬</div>
+              <div class="conv-content">
+                <span class="conv-title">SAP upload issue</span>
+                <span class="conv-meta">3 messages · 2 min ago</span>
+              </div>
+            </li>
+            <li class="conversation-item">
+              <div class="conv-icon">💬</div>
+              <div class="conv-content">
+                <span class="conv-title">POS offline mode</span>
+                <span class="conv-meta">5 messages · 1 hour ago</span>
+              </div>
+            </li>
+            <li class="conversation-item">
+              <div class="conv-icon">💬</div>
+              <div class="conv-content">
+                <span class="conv-title">GCASH payment failed</span>
+                <span class="conv-meta">2 messages · 3 hours ago</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="section-header">
+            <h3>Knowledge Sources</h3>
+          </div>
+          <ul class="source-list">
+            <li class="source-item">
+              <span class="source-icon">📄</span>
+              <span class="source-name">Work Orders</span>
+              <span class="source-count">3,326</span>
+            </li>
+            <li class="source-item">
+              <span class="source-icon">📋</span>
+              <span class="source-name">PRD Documents</span>
+              <span class="source-count">47</span>
+            </li>
+            <li class="source-item">
+              <span class="source-icon">📖</span>
+              <span class="source-name">Data Dictionary</span>
+              <span class="source-count">32</span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Chat Main -->
+      <main class="chat-main">
+        <div class="messages-container">
+          <!-- User Message -->
+          <div class="message message-user">
+            <div class="message-content">
+              <p>SAP upload failed with error "movement type 101 not found". How to resolve?</p>
+            </div>
+            <span class="message-time">10:30 AM</span>
+          </div>
+
+          <!-- Bot Message -->
+          <div class="message message-bot">
+            <div class="message-avatar">A</div>
+            <div class="message-content">
+              <div class="message-text">
+                <p>Based on the work order database, this issue is related to <strong>IBMS Integration</strong> configuration. Here are the common causes and solutions:</p>
+                <div class="solution-box">
+                  <h4>Possible Causes:</h4>
+                  <ol>
+                    <li>Movement type 101 not configured in SAP</li>
+                    <li>Missing authorization for the user</li>
+                    <li>Plant/Storage location mapping issue</li>
+                  </ol>
+                </div>
+                <div class="solution-box">
+                  <h4>Recommended Steps:</h4>
+                  <ol>
+                    <li>Check SAP Transaction OMJJ for movement type 101</li>
+                    <li>Verify user roles in SU01</li>
+                    <li>Confirm plant mapping in Dmall settings</li>
+                  </ol>
+                </div>
+                <p class="related-ticket">Related Ticket: <a href="#">#6182341</a> - Similar issue resolved on 2026-03-15</p>
+              </div>
+              <div class="message-sources">
+                <span class="source-tag">Work Order #6182341</span>
+                <span class="source-tag">PRD Ch.4.8</span>
+              </div>
+            </div>
+            <span class="message-time">10:30 AM</span>
+          </div>
+
+          <!-- Feedback Section -->
+          <div class="feedback-section">
+            <span class="feedback-label">Was this helpful?</span>
+            <div class="feedback-buttons">
+              <button class="btn-feedback btn-useful">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+                </svg>
+                <span>Useful</span>
+              </button>
+              <button class="btn-feedback btn-not-useful">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zM17 2h2.67A2.33 2.33 0 0 1 22 4v7a2.33 2.33 0 0 1-2.33 2H17"/>
+                </svg>
+                <span>Not Useful</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="chat-input-area">
+          <div class="input-container">
+            <textarea placeholder="Type your question here..." rows="1"></textarea>
+            <button class="btn-send">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </div>
+          <p class="input-hint">Press Enter to send, Shift+Enter for new line</p>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

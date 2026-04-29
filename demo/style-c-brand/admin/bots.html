@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot Management - SM-Dmall ERP</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="8" fill="#1E40AF"/>
+              <path d="M10 18H26M18 10V26" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-info">
+            <span class="brand-name">Admin</span>
+            <span class="brand-sub">Dashboard</span>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-label">Overview</span>
+          <a href="index.html" class="nav-item">
+            <span class="nav-icon">⚡</span><span>Dashboard</span>
+          </a>
+        </div>
+        <div class="nav-group">
+          <span class="nav-group-label">Management</span>
+          <a href="users.html" class="nav-item">
+            <span class="nav-icon">👥</span><span>Users</span>
+          </a>
+          <a href="roles.html" class="nav-item">
+            <span class="nav-icon">🔐</span><span>Roles</span>
+          </a>
+          <a href="#" class="nav-item active">
+            <span class="nav-icon">🤖</span><span>Bots</span>
+          </a>
+          <a href="feedback.html" class="nav-item">
+            <span class="nav-icon">💬</span><span>Feedback</span>
+            <span class="nav-badge">12</span>
+          </a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="../login.html" class="nav-item">
+          <span class="nav-icon">🚪</span><span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="header-left">
+          <h1>Bot Management</h1>
+          <p>Configure and manage AI assistants</p>
+        </div>
+        <button class="btn-primary"><span>+ Add Bot</span></button>
+      </header>
+
+      <div class="admin-content">
+        <div class="bots-grid">
+          <div class="bot-card">
+            <div class="bot-card-header">
+              <div class="bot-icon-lg a">A</div>
+              <div class="bot-status active">Active</div>
+            </div>
+            <h3>Fault Handler</h3>
+            <p>Historical work orders and problem resolution database</p>
+            <div class="bot-stats">
+              <span>3,326 tickets</span>
+              <span>47 PRD sections</span>
+            </div>
+            <div class="bot-actions">
+              <button class="btn-config">Configure</button>
+              <button class="btn-toggle">Disable</button>
+            </div>
+          </div>
+
+          <div class="bot-card">
+            <div class="bot-card-header">
+              <div class="bot-icon-lg b">B</div>
+              <div class="bot-status active">Active</div>
+            </div>
+            <h3>Operation Guide</h3>
+            <p>System blueprints and operation manuals</p>
+            <div class="bot-stats">
+              <span>626 units</span>
+              <span>6 modules</span>
+            </div>
+            <div class="bot-actions">
+              <button class="btn-config">Configure</button>
+              <button class="btn-toggle">Disable</button>
+            </div>
+          </div>
+
+          <div class="bot-card">
+            <div class="bot-card-header">
+              <div class="bot-icon-lg c">C</div>
+              <div class="bot-status active">Active</div>
+            </div>
+            <h3>Version Guide</h3>
+            <p>Real-time version release information from Feishu</p>
+            <div class="bot-stats">
+              <span>Real-time sync</span>
+              <span>Feishu data</span>
+            </div>
+            <div class="bot-actions">
+              <button class="btn-config">Configure</button>
+              <button class="btn-toggle">Disable</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <style>
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .bots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .bot-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+    .bot-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .bot-icon-lg {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+    }
+    .bot-icon-lg.a { background: linear-gradient(135deg, var(--a-color), #0284C7); }
+    .bot-icon-lg.b { background: linear-gradient(135deg, var(--b-color), #059669); }
+    .bot-icon-lg.c { background: linear-gradient(135deg, var(--c-color), #7C3AED); }
+    .bot-status.active {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      text-transform: uppercase;
+    }
+    .bot-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .bot-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .bot-stats {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .bot-stats span {
+      font-size: 12px;
+      color: var(--text-muted);
+      background: var(--bg-page);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+    }
+    .bot-actions {
+      display: flex;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-config {
+      flex: 1;
+      padding: 10px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .btn-toggle {
+      padding: 10px 16px;
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      cursor: pointer;
+    }
+  </style>
+</body>
+</html>

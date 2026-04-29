@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SM-Dmall ERP - Chat</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <button class="btn-back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+      </button>
+      <div class="current-chat">
+        <div class="chat-avatar a">A</div>
+        <div class="chat-info">
+          <span class="chat-name">Fault Handler</span>
+          <span class="chat-status">Online</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="conversation-title">
+          <span class="conv-label">Conversation</span>
+          <span class="conv-name">SAP upload issue</span>
+        </div>
+        <div class="user-avatar">HQ</div>
+      </div>
+    </header>
+
+    <div class="chat-container">
+      <!-- Sidebar -->
+      <aside class="chat-sidebar">
+        <div class="sidebar-section">
+          <div class="section-header">
+            <h3>History</h3>
+            <button class="btn-new-chat">+</button>
+          </div>
+          <div class="conversation-list">
+            <div class="conv-item active">
+              <span class="conv-icon">💬</span>
+              <div class="conv-content">
+                <span class="conv-title">SAP upload issue</span>
+                <span class="conv-time">2 min ago</span>
+              </div>
+            </div>
+            <div class="conv-item">
+              <span class="conv-icon">💬</span>
+              <div class="conv-content">
+                <span class="conv-title">POS offline mode</span>
+                <span class="conv-time">1 hour ago</span>
+              </div>
+            </div>
+            <div class="conv-item">
+              <span class="conv-icon">💬</span>
+              <div class="conv-content">
+                <span class="conv-title">GCASH payment</span>
+                <span class="conv-time">3 hours ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="section-header">
+            <h3>Knowledge Sources</h3>
+          </div>
+          <div class="source-list">
+            <div class="source-item">
+              <span class="source-icon">📄</span>
+              <span class="source-name">Work Orders</span>
+              <span class="source-count">3,326</span>
+            </div>
+            <div class="source-item">
+              <span class="source-icon">📋</span>
+              <span class="source-name">PRD Documents</span>
+              <span class="source-count">47</span>
+            </div>
+            <div class="source-item">
+              <span class="source-icon">📖</span>
+              <span class="source-name">Data Dictionary</span>
+              <span class="source-count">32</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Chat Main -->
+      <main class="chat-main">
+        <div class="messages">
+          <div class="message message-user">
+            <div class="message-bubble">
+              <p>SAP upload failed with error "movement type 101 not found". How to resolve?</p>
+            </div>
+            <span class="message-time">10:30 AM</span>
+          </div>
+
+          <div class="message message-bot">
+            <div class="message-avatar a">A</div>
+            <div class="message-content">
+              <div class="message-bubble">
+                <p>Based on the work order database, this issue is related to <strong>IBMS Integration</strong> configuration.</p>
+                <div class="solution-card">
+                  <h4>Possible Causes:</h4>
+                  <ol>
+                    <li>Movement type 101 not configured in SAP</li>
+                    <li>Missing authorization for the user</li>
+                    <li>Plant/Storage location mapping issue</li>
+                  </ol>
+                </div>
+                <div class="solution-card">
+                  <h4>Recommended Steps:</h4>
+                  <ol>
+                    <li>Check SAP Transaction OMJJ for movement type 101</li>
+                    <li>Verify user roles in SU01</li>
+                    <li>Confirm plant mapping in Dmall settings</li>
+                  </ol>
+                </div>
+              </div>
+              <div class="message-sources">
+                <span class="source-badge">#6182341</span>
+                <span class="source-badge">PRD Ch.4.8</span>
+              </div>
+            </div>
+            <span class="message-time">10:30 AM</span>
+          </div>
+        </div>
+
+        <div class="feedback-bar">
+          <span class="feedback-label">Was this helpful?</span>
+          <div class="feedback-buttons">
+            <button class="btn-feedback">
+              <span>👍</span> Useful
+            </button>
+            <button class="btn-feedback">
+              <span>👎</span> Not Useful
+            </button>
+          </div>
+        </div>
+
+        <div class="chat-input">
+          <div class="input-wrapper">
+            <textarea placeholder="Type your question..." rows="1"></textarea>
+            <button class="btn-send">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

@@ -48,7 +48,8 @@
         "TASK-M4-003",
         "TASK-M4-004",
         "TASK-M4-005",
-        "TASK-M4-006"
+        "TASK-M4-006",
+        "TASK-M4-007"
       ],
       "status": "completed"
     },
@@ -68,7 +69,30 @@
         "TASK-M5-009",
         "TASK-M5-010"
       ],
-      "status": "in_progress"
+      "status": "completed"
+    },
+    {
+      "id": "M6",
+      "name": "UI全面改造",
+      "description": "基于style-a-tech设计风格，全面改造用户端+管理后台UI，包含移动端适配和无障碍支持",
+      "tasks": [
+        "TASK-M6-001",
+        "TASK-M6-002",
+        "TASK-M6-003",
+        "TASK-M6-004",
+        "TASK-M6-005",
+        "TASK-M6-006",
+        "TASK-M6-007",
+        "TASK-M6-008",
+        "TASK-M6-009",
+        "TASK-M6-010",
+        "TASK-M6-011",
+        "TASK-M6-012",
+        "TASK-M6-013",
+        "TASK-M6-014",
+        "TASK-M6-015"
+      ],
+      "status": "pending"
     }
   ],
   "task_definitions": {
@@ -101,7 +125,13 @@
       "TASK-M4-006-3": "生成自动化测试脚本 - run_retrieval_test.py",
       "TASK-M4-006-4": "执行 Bot A 检索测试并记录结果",
       "TASK-M4-006-5": "执行 Bot B 检索测试并记录结果",
-      "TASK-M4-006-6": "分析测试结果，制定调优方案"
+      "TASK-M4-006-6": "分析测试结果，制定调优方案",
+      "TASK-M4-007": "Dify知识库检索模式优化：Bot A/B切换为纯语义检索 + 重跑测试验证",
+      "TASK-M4-007-1": "Dify知识库 Bot A 切换为纯语义检索模式",
+      "TASK-M4-007-2": "Dify知识库 Bot B 切换为纯语义检索模式",
+      "TASK-M4-007-3": "重跑 Bot A 检索测试用例（38条），记录对比结果",
+      "TASK-M4-007-4": "重跑 Bot B 检索测试用例（64条），记录对比结果",
+      "TASK-M4-007-5": "分析结果，确认优化效果，输出对比报告"
     },
     "M5": {
       "TASK-M5-001": "Python/FastAPI后端服务搭建 + PostgreSQL部署 + Schema初始化 + JWT中间件 + 初始数据种子",
@@ -126,6 +156,23 @@
       "TASK-M5-008": "反馈闭环：状态机 + 审核 + 微调数据导出 + 知识库维护队列",
       "TASK-M5-009": "Docker Compose整合：FastAPI + PostgreSQL + Nginx统一入口(SSE配置)",
       "TASK-M5-010": "端到端集成测试：用户端全流程 + 管理后台全流程 + 流式响应+错误降级测试"
+    },
+    "M6": {
+      "TASK-M6-001": "创建统一CSS设计系统：基于style-a-tech补齐缺失变量(--radius-full, --bg-sidebar-hover)、Bot渐变色变量化、三断点体系(mobile<768/tablet768-1024/desktop>1024)、组件样式库",
+      "TASK-M6-002": "改造用户端login.html：深色渐变背景 + 双栏布局 + 移动端单栏 + 表单焦点环 + 无障碍",
+      "TASK-M6-003": "改造用户端bots.html：暗色顶栏 + Bot渐变字母徽章(替代CSS机器人脸) + 卡片网格 + 移动端单列 + 无障碍",
+      "TASK-M6-004": "改造用户端chat.html：侧边栏 + 消息气泡 + 流式反馈按钮 + 移动端抽屉侧边栏 + 无障碍",
+      "TASK-M6-005": "适配用户端JS渲染逻辑(app.js)：Bot卡片渲染改用渐变徽章、DOM选择器适配新class名、HTML结构变更",
+      "TASK-M6-006": "改造管理后台admin/login.html：深色背景 + 居中表单 + 移动端适配",
+      "TASK-M6-007": "改造管理后台侧边栏+布局壳(6页面共用)：统一侧边栏 + 汉堡菜单 + 移动端抽屉式侧边栏",
+      "TASK-M6-008": "改造管理后台dashboard：统计卡片 + 表格 + Bot状态面板 + 响应式网格",
+      "TASK-M6-009": "改造管理后台users.html：数据表格 + 角色标签 + 移动端水平滚动 + 无障碍",
+      "TASK-M6-010": "改造管理后台roles.html：角色卡片网格 + 权限标签 + 响应式 + 无障碍",
+      "TASK-M6-011": "改造管理后台bots.html：Bot卡片 + 渐变徽章 + 配置/禁用按钮 + 响应式",
+      "TASK-M6-012": "改造管理后台feedback.html：反馈卡片列表 + 审核操作 + 筛选 + 响应式 + 无障碍",
+      "TASK-M6-013": "适配管理后台JS渲染逻辑(admin-api-service.js + admin-app.js)：DOM选择器适配新class名和HTML结构",
+      "TASK-M6-014": "全页面ARIA无障碍：语义化标签(nav/main/section) + aria-label/role + 键盘导航 + 焦点管理 + aria-live动态区域",
+      "TASK-M6-015": "全页面多端验收测试：Desktop(1440px) + Tablet(768-1024px) + Mobile(375px) + 无障碍检查"
     }
   }
 }

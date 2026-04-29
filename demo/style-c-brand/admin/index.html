@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - SM-Dmall ERP</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-mark">
+            <svg viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="8" fill="#1E40AF"/>
+              <path d="M10 18H26M18 10V26" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-info">
+            <span class="brand-name">Admin</span>
+            <span class="brand-sub">Dashboard</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-group-label">Overview</span>
+          <a href="#" class="nav-item active">
+            <span class="nav-icon">⚡</span>
+            <span>Dashboard</span>
+          </a>
+        </div>
+
+        <div class="nav-group">
+          <span class="nav-group-label">Management</span>
+          <a href="users.html" class="nav-item">
+            <span class="nav-icon">👥</span>
+            <span>Users</span>
+          </a>
+          <a href="roles.html" class="nav-item">
+            <span class="nav-icon">🔐</span>
+            <span>Roles</span>
+          </a>
+          <a href="bots.html" class="nav-item">
+            <span class="nav-icon">🤖</span>
+            <span>Bots</span>
+          </a>
+          <a href="feedback.html" class="nav-item">
+            <span class="nav-icon">💬</span>
+            <span>Feedback</span>
+            <span class="nav-badge">12</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="../login.html" class="nav-item">
+          <span class="nav-icon">🚪</span>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="header-left">
+          <h1>Dashboard</h1>
+          <p>Welcome back, Admin</p>
+        </div>
+        <div class="header-right">
+          <span class="current-date">April 29, 2026</span>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">👥</div>
+            <div class="stat-info">
+              <span class="stat-value">24</span>
+              <span class="stat-label">Total Users</span>
+            </div>
+            <div class="stat-trend up">+2 this week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">🤖</div>
+            <div class="stat-info">
+              <span class="stat-value">3</span>
+              <span class="stat-label">Active Bots</span>
+            </div>
+            <div class="stat-trend">All operational</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon orange">💬</div>
+            <div class="stat-info">
+              <span class="stat-value">156</span>
+              <span class="stat-label">Total Feedbacks</span>
+            </div>
+            <div class="stat-trend">12 pending review</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">📚</div>
+            <div class="stat-info">
+              <span class="stat-value">3,952</span>
+              <span class="stat-label">Knowledge Units</span>
+            </div>
+            <div class="stat-trend">Across all bots</div>
+          </div>
+        </div>
+
+        <!-- Recent Feedbacks Table -->
+        <div class="table-card">
+          <div class="table-header">
+            <h2>Recent Feedbacks</h2>
+            <a href="feedback.html" class="btn-link">View All →</a>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Bot</th>
+                <th>Question</th>
+                <th>Rating</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>store-manager</td>
+                <td><span class="bot-tag a">A</span></td>
+                <td>SAP upload movement type error...</td>
+                <td><span class="rating bad">👎 Not Useful</span></td>
+                <td><span class="status pending">Pending</span></td>
+                <td>2026-04-29</td>
+              </tr>
+              <tr>
+                <td>helpdesk</td>
+                <td><span class="bot-tag b">B</span></td>
+                <td>How to perform EOD process?</td>
+                <td><span class="rating good">👍 Useful</span></td>
+                <td><span class="status approved">Approved</span></td>
+                <td>2026-04-29</td>
+              </tr>
+              <tr>
+                <td>hq-admin</td>
+                <td><span class="bot-tag c">C</span></td>
+                <td>Latest version for POS?</td>
+                <td><span class="rating good">👍 Useful</span></td>
+                <td><span class="status approved">Approved</span></td>
+                <td>2026-04-28</td>
+              </tr>
+              <tr>
+                <td>store-manager</td>
+                <td><span class="bot-tag a">A</span></td>
+                <td>POS offline mode not working</td>
+                <td><span class="rating bad">👎 Not Useful</span></td>
+                <td><span class="status pending">Pending</span></td>
+                <td>2026-04-28</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Bot Status -->
+        <div class="bots-status">
+          <h2>Bot Status</h2>
+          <div class="bots-list">
+            <div class="bot-status-item">
+              <div class="bot-icon a">A</div>
+              <div class="bot-details">
+                <span class="bot-name">Fault Handler</span>
+                <span class="bot-desc">3,326 tickets · Active</span>
+              </div>
+              <div class="bot-indicator online"></div>
+            </div>
+            <div class="bot-status-item">
+              <div class="bot-icon b">B</div>
+              <div class="bot-details">
+                <span class="bot-name">Operation Guide</span>
+                <span class="bot-desc">626 units · Active</span>
+              </div>
+              <div class="bot-indicator online"></div>
+            </div>
+            <div class="bot-status-item">
+              <div class="bot-icon c">C</div>
+              <div class="bot-details">
+                <span class="bot-name">Version Guide</span>
+                <span class="bot-desc">Real-time sync · Active</span>
+              </div>
+              <div class="bot-indicator online"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

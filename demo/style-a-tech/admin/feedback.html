@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Review - SM-Dmall ERP</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <svg viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="8" fill="#1E40AF"/>
+            <path d="M12 20L18 26L28 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="brand-text">
+            <span class="brand-name">Admin</span>
+            <span class="brand-sub">Dashboard</span>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-group">
+          <span class="nav-label">Overview</span>
+          <a href="index.html" class="nav-item"><span class="nav-icon">📊</span><span>Dashboard</span></a>
+        </div>
+        <div class="nav-group">
+          <span class="nav-label">Management</span>
+          <a href="users.html" class="nav-item"><span class="nav-icon">👥</span><span>Users</span></a>
+          <a href="roles.html" class="nav-item"><span class="nav-icon">🔐</span><span>Roles</span></a>
+          <a href="bots.html" class="nav-item"><span class="nav-icon">🤖</span><span>Bots</span></a>
+          <a href="#" class="nav-item active"><span class="nav-icon">💬</span><span>Feedback</span></a>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="../login.html" class="nav-item"><span class="nav-icon">🚪</span><span>Logout</span></a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="header-left">
+          <h1>Feedback Review</h1>
+          <p>Review and manage user feedback</p>
+        </div>
+        <div class="header-actions">
+          <select class="filter-select">
+            <option>All Status</option>
+            <option>Pending</option>
+            <option>Approved</option>
+            <option>Rejected</option>
+          </select>
+          <button class="btn-export">Export</button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <div class="feedback-list">
+          <!-- Feedback Item -->
+          <div class="feedback-card">
+            <div class="feedback-header">
+              <div class="feedback-user">
+                <span class="user-name">store-manager</span>
+                <span class="bot-tag a">A</span>
+              </div>
+              <span class="feedback-date">2026-04-29 10:30</span>
+            </div>
+            <div class="feedback-body">
+              <div class="feedback-question">
+                <label>Question:</label>
+                <p>SAP upload failed with error "movement type 101 not found". How to resolve?</p>
+              </div>
+              <div class="feedback-answer">
+                <label>AI Answer:</label>
+                <p>Based on the work order database, this issue is related to IBMS Integration configuration. Possible causes include movement type not configured in SAP, missing authorization, or plant mapping issue.</p>
+              </div>
+              <div class="feedback-rating">
+                <label>Rating:</label>
+                <span class="rating-bad">👎 Not Useful</span>
+                <span class="reason-tag">Answer incomplete</span>
+              </div>
+            </div>
+            <div class="feedback-actions">
+              <button class="btn-approve">Approve</button>
+              <button class="btn-reject">Reject</button>
+              <button class="btn-details">View Details</button>
+            </div>
+          </div>
+
+          <!-- Feedback Item -->
+          <div class="feedback-card">
+            <div class="feedback-header">
+              <div class="feedback-user">
+                <span class="user-name">helpdesk</span>
+                <span class="bot-tag b">B</span>
+              </div>
+              <span class="feedback-date">2026-04-29 09:15</span>
+            </div>
+            <div class="feedback-body">
+              <div class="feedback-question">
+                <label>Question:</label>
+                <p>How to perform End of Day (EOD) process in POS?</p>
+              </div>
+              <div class="feedback-answer">
+                <label>AI Answer:</label>
+                <p>The EOD process includes: 1) Close all transactions, 2) Generate sales summary, 3) Sync data to SAP, 4) Create backup. Detailed steps are available in the operation manual Chapter 5.</p>
+              </div>
+              <div class="feedback-rating">
+                <label>Rating:</label>
+                <span class="rating-good">👍 Useful</span>
+              </div>
+            </div>
+            <div class="feedback-actions">
+              <button class="btn-approve" disabled>Approved</button>
+              <button class="btn-reject" disabled>Rejected</button>
+              <button class="btn-details">View Details</button>
+            </div>
+          </div>
+
+          <!-- Feedback Item -->
+          <div class="feedback-card">
+            <div class="feedback-header">
+              <div class="feedback-user">
+                <span class="user-name">hq-admin</span>
+                <span class="bot-tag c">C</span>
+              </div>
+              <span class="feedback-date">2026-04-28 16:45</span>
+            </div>
+            <div class="feedback-body">
+              <div class="feedback-question">
+                <label>Question:</label>
+                <p>What is the latest POS version?</p>
+              </div>
+              <div class="feedback-answer">
+                <label>AI Answer:</label>
+                <p>According to the release index, the latest production version is v2.3.1 released on 2026-04-25. It includes performance improvements and bug fixes for the offline mode.</p>
+              </div>
+              <div class="feedback-rating">
+                <label>Rating:</label>
+                <span class="rating-good">👍 Useful</span>
+              </div>
+            </div>
+            <div class="feedback-actions">
+              <button class="btn-approve" disabled>Approved</button>
+              <button class="btn-reject" disabled>Rejected</button>
+              <button class="btn-details">View Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <style>
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .filter-select {
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      background: var(--bg-card);
+    }
+    .btn-export {
+      padding: 10px 20px;
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .feedback-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .feedback-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+    }
+    .feedback-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .feedback-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-name {
+      font-weight: 600;
+    }
+    .bot-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+    }
+    .bot-tag.a { background: linear-gradient(135deg, #1E40AF, #3B82F6); }
+    .bot-tag.b { background: linear-gradient(135deg, #059669, #10B981); }
+    .bot-tag.c { background: linear-gradient(135deg, #7C3AED, #A855F7); }
+    .feedback-date {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .feedback-body {
+      background: var(--bg-page);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .feedback-question, .feedback-answer, .feedback-rating {
+      margin-bottom: 12px;
+    }
+    .feedback-question:last-child, .feedback-answer:last-child {
+      margin-bottom: 0;
+    }
+    .feedback-body label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .feedback-body p {
+      font-size: 14px;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+    .rating-good {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+    }
+    .rating-bad {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+    }
+    .reason-tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      background: rgba(249, 115, 22, 0.1);
+      color: var(--warning);
+      border-radius: var(--radius-full);
+      margin-left: 8px;
+    }
+    .feedback-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-approve, .btn-reject, .btn-details {
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .btn-approve {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+    .btn-reject {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+      border: 1px solid var(--error);
+    }
+    .btn-details {
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+    }
+    .btn-approve:disabled, .btn-reject:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</body>
+</html>
