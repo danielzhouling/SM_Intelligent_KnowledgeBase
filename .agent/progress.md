@@ -310,22 +310,28 @@
 
 **注意：** 飞书插件使用第三方代理API (`lark-plugin-api.solutionsuite.cn`)，非直接调用飞书Open API
 
-### TASK-M4-006: Bot对话测试（待开始）
+### TASK-M4-006: Bot对话测试（端到端测试完成）
+
+**测试结果（2026-04-29）:**
+
+| Bot | 用例数 | PASS | PARTIAL | FAIL | 检索成功率 |
+|-----|--------|------|---------|------|-----------|
+| Bot A | 38 | 8 (21%) | 22 (58%) | 8 (21%) | 60.5% (23/38) |
+| Bot B (修复前) | 64 | 5 (8%) | 59 (92%) | 0 (0%) | 7.8% (5/64) |
+| Bot B (修复后) | 64 | **40 (62%)** | 24 (37%) | 0 (0%) | **62.5% (40/64)** |
+
+**核心发现与修复:**
+- **P0 (已修复) - Bot B 数据集级配置缺失**: `retrieval_model.weights.vector_setting` 中 Embedding 模型信息为空，导致 WeightRerankRunner 失败。修复 SQL 更新后 PASS 率从 8% → 62%
+- **P1 (模型问题) - LLM 利用率低**: Bot A 23条有检索但仅8条 PASS（35%），3B 模型指令跟随不足 → 生产环境换大模型
+- **P2 (系统限制) - Jieba 分词器**: 对英文关键词得分贡献为零，导致部分查询加权分低于阈值 → 可通过降低阈值缓解
+
+**详细测试报告:** `docs/test_cases/test_report_20260429.md`
+**测试数据:** `docs/test_cases/test_results_bot_a_20260429.json` / `test_results_bot_b_20260429.json`
 
 **Dify HTTP Tool 配置:**
 - URL: http://localhost:8000/api/release-index
 - URL: http://localhost:8000/api/terminal-versions
 - URL: http://localhost:8000/api/search?keyword={keyword}
-
-### TASK-M4-006 检索准确性测试用例（2026-04-29）
-
-**生成文件:**
-| 文件 | 内容 |
-|------|------|
-| `docs/test_cases/bot_a_retrieval_test_v2.md` | Bot A 测试用例 38条 |
-| `docs/test_cases/bot_b_retrieval_test_v2.md` | Bot B 测试用例 64条 |
-| `docs/test_cases/run_retrieval_test.py` | 自动化测试脚本 |
-| `docs/test_cases/README.md` | 测试计划说明 |
 
 **子任务状态:**
 | 子任务ID | 描述 | 状态 |
@@ -333,16 +339,16 @@
 | TASK-M4-006-1 | 生成 Bot A 测试用例（38条） | ✅ 已完成 |
 | TASK-M4-006-2 | 生成 Bot B 测试用例（64条） | ✅ 已完成 |
 | TASK-M4-006-3 | 生成自动化测试脚本 | ✅ 已完成 |
-| TASK-M4-006-4 | 执行 Bot A 检索测试 | ⏳ 待执行 |
-| TASK-M4-006-5 | 执行 Bot B 检索测试 | ⏳ 待执行 |
-| TASK-M4-006-6 | 分析结果，制定调优方案 | ⏳ 待执行 |
+| TASK-M4-006-4 | 执行 Bot A 检索测试 | ✅ 已完成 - PASS 21% |
+| TASK-M4-006-5 | 执行 Bot B 检索测试 | ✅ 已完成 - PASS 8% |
+| TASK-M4-006-6 | 分析结果，制定调优方案 | ✅ 已完成 - 报告已生成 |
 
-**测试用例统计:**
-| Bot | 原有用例 | V2新增 | 总计 |
-|-----|---------|--------|------|
-| Bot A | 19条 | +19条 | 38条 |
-| Bot B | 35条 | +29条 | 64条 |
-| **合计** | 54条 | **+48条** | **102条** |
+**优化建议:**
+| 优先级 | 措施 | 预期效果 |
+|--------|------|---------|
+| P0 | 排查 Bot B Dify 知识库配置 | 检索率从 8% → 60%+ |
+| P1 | 优化 System Prompt | 减少 LLM 拒答/编造 |
+| P2 | 生产环境切换 14B 模型 | PASS 率大幅提升 |
 
 ### TASK-M5-001: 后端服务搭建 (2026-04-23 完成)
 

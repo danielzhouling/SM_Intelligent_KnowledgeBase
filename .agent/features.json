@@ -154,8 +154,8 @@
     },
     {
       "id": "TASK-M4-006",
-      "description": "Bot对话流程测试与调优 - 检索准确性测试（Bot A 38条 + Bot B 64条 = 102条测试用例）",
-      "pass": false
+      "description": "Bot对话流程测试与调优 - 102条端到端测试完成, Bot B配置修复(8%→62%), 总PASS 44%(45/102)",
+      "pass": true
     },
     {
       "id": "TASK-M4-006-1",
@@ -174,18 +174,18 @@
     },
     {
       "id": "TASK-M4-006-4",
-      "description": "执行 Bot A 检索测试并记录结果",
-      "pass": false
+      "description": "执行 Bot A 检索测试 - 检索率60.5%, PASS 8/38(21%), LLM拒答37% (3B模型限制)",
+      "pass": true
     },
     {
       "id": "TASK-M4-006-5",
-      "description": "执行 Bot B 检索测试并记录结果",
-      "pass": false
+      "description": "执行 Bot B 检索测试 - 修复前 PASS 5/64(8%), 修复后 PASS 40/64(62%)",
+      "pass": true
     },
     {
       "id": "TASK-M4-006-6",
-      "description": "分析测试结果，制定调优方案",
-      "pass": false
+      "description": "分析测试结果并修复: Bot B数据集retrieval_model缺失Embedding配置(已修复), 总PASS从13→45(+246%), 报告test_report_20260429.md",
+      "pass": true
     },
     {
       "id": "TASK-M5-001",

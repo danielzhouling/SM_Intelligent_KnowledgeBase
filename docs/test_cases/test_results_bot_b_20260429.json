@@ -1,0 +1,655 @@
+{
+  "bot": "B",
+  "model": "qwen2.5:3b-instruct",
+  "embedding": "bge-m3",
+  "timestamp": "2026-04-29",
+  "total": 64,
+  "stats": {
+    "PASS": 5,
+    "PARTIAL": 59,
+    "FAIL": 0,
+    "ERROR": 0
+  },
+  "results": [
+    {
+      "id": "B01",
+      "query": "How to process a refund in POS?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1020,
+      "answer_preview": "In the POS module, processing a refund involves several steps. Here’s how you can do it:\n\n1. **Navigate to Sales**: Start by accessing the sales screen where transactions have been processed.\n2. **Ide",
+      "error": null
+    },
+    {
+      "id": "B02",
+      "query": "How to void a transaction?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 828,
+      "answer_preview": "In the POS (Point of Sale) module, to void a transaction means that an incorrect sale or receipt needs to be canceled without affecting the financial records. Here’s how you can do it:\n\n1. Navigate to",
+      "error": null
+    },
+    {
+      "id": "B03",
+      "query": "How to handle price override?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1588,
+      "answer_preview": "In the Inventory module of the SM-Dmall ERP system, price overrides can be handled through various methods depending on the type and level of access you have. Here’s a general guide on how to manage p",
+      "error": null
+    },
+    {
+      "id": "B04",
+      "query": "How to apply a discount?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 763,
+      "answer_preview": "To apply a discount in the POS module of the SM-Dmall ERP system, follow these steps:\n\n1. Open the POS module.\n2. Locate the item you wish to sell and select it from the list of products on the order ",
+      "error": null
+    },
+    {
+      "id": "B05",
+      "query": "How to process a mixed payment?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 991,
+      "answer_preview": "In the POS (Point of Sale) module, processing a mixed payment involves handling payments that include cash, credit card transactions, and other forms of payments simultaneously during a transaction.\n\n",
+      "error": null
+    },
+    {
+      "id": "B06",
+      "query": "How to suspend a transaction?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 758,
+      "answer_preview": "I don't have specific information on how to suspend transactions within the SM-Dmall ERP system. However, typically in such systems, you might find an option under the EOD module or similar post-trans",
+      "error": null
+    },
+    {
+      "id": "B07",
+      "query": "How to open the cash drawer manually?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 502,
+      "answer_preview": "In the POS (Point of Sale) module, there is an option to manually open the cash drawer when you need to do so outside of regular operations or during a test scenario. This function can be found under ",
+      "error": null
+    },
+    {
+      "id": "B08",
+      "query": "How to reprint a receipt?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 518,
+      "answer_preview": "In the POS (Point of Sale) module, if you need to reprint a receipt, follow these steps:\n\n1. Navigate to the Sales screen.\n2. Find the transaction for which you want to reprint the receipt.\n3. Click o",
+      "error": null
+    },
+    {
+      "id": "B09",
+      "query": "How to handle multiple tender types?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1184,
+      "answer_preview": "In the Inventory module of the SM-Dmall ERP system, managing different tender types isn't a standard feature since it focuses more on inventory management tasks like receiving, transferring stock, and",
+      "error": null
+    },
+    {
+      "id": "B10",
+      "query": "How to perform a price check?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 562,
+      "answer_preview": "To perform a price check in the POS (Point of Sale) module, follow these steps:\n\n1. Open the POS module on your screen.\n2. Navigate to the product or service you want to check the price for.\n3. Click ",
+      "error": null
+    },
+    {
+      "id": "B11",
+      "query": "How to perform an inventory count?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 582,
+      "answer_preview": "To perform an Inventory Count within the Inventory module of the system, follow these steps:\n\n1. Navigate to the \"Stocktake\" screen in the Inventory module.\n2. Select a stock period for your count fro",
+      "error": null
+    },
+    {
+      "id": "B12",
+      "query": "How to receive goods from warehouse?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 680,
+      "answer_preview": "In the Inventory module of SM-Dmall ERP system, receiving goods from a warehouse can be handled using the Goods Receiving feature. Here’s how you can perform this operation:\n\n1. Navigate to the **Inve",
+      "error": null
+    },
+    {
+      "id": "B13",
+      "query": "How to handle stock transfer between stores?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1065,
+      "answer_preview": "In the Inventory module of our system, handling a stock transfer between stores involves these steps:\n\n1. **Source Store Preparation**: Ensure that you have all necessary inventory items ready for the",
+      "error": null
+    },
+    {
+      "id": "B14",
+      "query": "How to adjust stock quantities?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 614,
+      "answer_preview": "To adjust stock quantities in the Inventory module, follow these steps:\n\n1. Navigate to the \"Goods Receiving\" screen where you can add new inventory items.\n2. Alternatively, use the Stock Transfer fea",
+      "error": null
+    },
+    {
+      "id": "B15",
+      "query": "How to check stock availability?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 522,
+      "answer_preview": "In the Inventory module of SM-Dmall ERP system, you can check stock availability by following these steps:\n\n1. Go to the **Stocktake** screen.\n2. Select the appropriate warehouse or site for which you",
+      "error": null
+    },
+    {
+      "id": "B16",
+      "query": "How to manage shelf labels?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 937,
+      "answer_preview": "In the Inventory module of SM-Dmall ERP system, managing shelf labels typically involves setting up articles and implementing stocktake procedures. You can create or update an article for each product",
+      "error": null
+    },
+    {
+      "id": "B17",
+      "query": "How to process a stock return to warehouse?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1864,
+      "answer_preview": "In the Inventory module of the system, processing a stock return typically involves several steps. Here’s how you can do it:\n\n1. **Open the Stock Return Screen**: Navigate to the inventory module and ",
+      "error": null
+    },
+    {
+      "id": "B18",
+      "query": "How to generate a stock report?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 382,
+      "answer_preview": "To generate a stock report in the Inventory module of our system, follow these steps:\n\n1. Navigate to the **Data Dashboard**.\n2. From there, select the **Reports** section.\n3. Within the reports menu,",
+      "error": null
+    },
+    {
+      "id": "B19",
+      "query": "How to handle damaged goods?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1556,
+      "answer_preview": "In the Inventory module of the SM-Dmall ERP system, when dealing with damaged goods, you should follow these steps:\n\n1. **Report Damaged Goods**: First, report the damaged goods in the inventory manag",
+      "error": null
+    },
+    {
+      "id": "B20",
+      "query": "How to set up reorder points?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 708,
+      "answer_preview": "To set up reorder points in the Inventory module, follow these steps:\n\n1. Navigate to the **Inventory** > **Site Management** menu path.\n2. Select a specific site for which you want to define reorder ",
+      "error": null
+    },
+    {
+      "id": "B21",
+      "query": "如何进行商品盘点",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 427,
+      "answer_preview": "在库存管理模块中，商品盘点是一个重要的功能。通过盘点操作可以确保库存数据的准确性。一般来说，库存盘点可以分为物理盘点和系统盘点两种方式。\n\n1. **物理盘点**：这是最传统的做法，在实际仓库中清点每件商品的数量。\n2. **系统盘点**：在物理盘点的同时或者之后使用系统进行验证，这通常是通过设置好盘点规则，比如需要调整的商品数量、折扣信息等，并利用库存盘点功能来完成。\n\n具体操作步骤可以参照以下",
+      "error": null
+    },
+    {
+      "id": "B22",
+      "query": "如何处理库存差异",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 512,
+      "answer_preview": "在SM-Dmall ERP系统中，如果库存出现差异，通常需要通过以下步骤来处理：\n\n1. **确认差异**：首先，您可以通过系统中的“库存管理”模块进行库存差异的检查。使用筛选条件（比如日期范围）来查找可能存在的库存差异。\n\n2. **原因分析**：确定了差异后，请仔细分析其产生的原因。可能是由于货物在运输过程中的损坏或丢失、人工输入错误或其他操作不当导致的实际库存与系统记录不符。\n\n3. **调",
+      "error": null
+    },
+    {
+      "id": "B23",
+      "query": "How to create a new article?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 537,
+      "answer_preview": "In the Master Data module, you can create a new article by following these steps:\n\n1. Navigate to the **Article** screen.\n2. Click on the **Add New Article** button to start creating your new article.",
+      "error": null
+    },
+    {
+      "id": "B24",
+      "query": "How to update article pricing?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 421,
+      "answer_preview": "In the POS module, to update article pricing, follow these steps:\n\n1. Go to the Article Management screen.\n2. Find and select the specific article you want to modify.\n3. Update the price in the Price ",
+      "error": null
+    },
+    {
+      "id": "B25",
+      "query": "How to set up a new supplier?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 623,
+      "answer_preview": "To add a new supplier in the Master Data module of SM-Dmall ERP system, follow these steps:\n\n1. Navigate to the **Master Data** module.\n2. Look for and click on the **Vendor Management** section withi",
+      "error": null
+    },
+    {
+      "id": "B26",
+      "query": "How to manage article categories?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1017,
+      "answer_preview": "In the Master Data module of our ERP system, managing article categories involves several steps. First, you need to navigate to the Article Categories screen where you can add new categories, edit exi",
+      "error": null
+    },
+    {
+      "id": "B27",
+      "query": "How to configure tax settings?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 691,
+      "answer_preview": "I don't know exactly where to find instructions for configuring tax settings within the SM-Dmall ERP system. This could be a part of either the **Master Data** or possibly the **System Integration** m",
+      "error": null
+    },
+    {
+      "id": "B28",
+      "query": "How to set up promotions for articles?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1211,
+      "answer_preview": "To set up promotions for articles in the SM-Dmall ERP system, follow these steps:\n\n1. **Promotion Types**: Begin by navigating to the Promotion module where you can define different types of promotion",
+      "error": null
+    },
+    {
+      "id": "B29",
+      "query": "如何创建新商品",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 294,
+      "answer_preview": "在Master Data模块中，您可以通过以下步骤创建新商品：\n\n1. 在首页菜单栏选择“Master Data”，然后点击右下角的“Article”（条码管理）来进入商品管理界面。\n2. 您可以在此页面使用“新建”按钮来添加新的商品信息。这通常位于屏幕的顶部或底部，具体位置可能因版本和设计而异。\n3. 填写商品的基本信息：名称、类别等，并根据需要填写详细描述、规格、单位等其他详情。\n4. 完成所",
+      "error": null
+    },
+    {
+      "id": "B30",
+      "query": "如何修改商品价格",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.541,
+      "answer_len": 360,
+      "answer_preview": "在SM-Dmall ERP系统中，如果你想要调整商品的价格，你应该操作于**Inventory**模块下的**Article**部分。以下是大致的操作步骤：\n\n1. 首先，在主菜单中找到并点击“Inventory”（库存）。\n2. 在弹出的页面中选择或查找你想要修改价格的商品类别或者具体的商品。\n3. 然后，进入相关商品的详细信息页面。\n4. 你会在此页面看到一个可以输入新价格的地方。这里就可以直",
+      "error": null
+    },
+    {
+      "id": "B31",
+      "query": "如何配置供应商信息",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 492,
+      "answer_preview": "在SM的Inventory模块中，供应商信息的配置可以通过以下几个步骤进行：\n\n1. **访问菜单路径**：在ERP系统主界面，点击“Inventory”模块图标，进入库存管理子模块。接着，在左侧导航栏中的“Master Data”菜单下找到并点击“Vendor Management”，即供应商管理。\n\n2. **创建新供应商**：\n   - 点击页面右上角的“Add New Vendor”按钮以",
+      "error": null
+    },
+    {
+      "id": "B32",
+      "query": "如何管理商品分类",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 528,
+      "answer_preview": "在SM-Dmall ERP系统中，商品分类通常会通过“Master Data”模块下的“Article”子模块来管理。具体步骤如下：\n\n1. **登录ERP系统**：首先确保你已经登录到了你的账户，并进入了ERP系统的主界面。\n\n2. **导航到Master Data模块**：\n   - 在屏幕顶部菜单栏中，找到并点击\"Master Data\"模块。\n   \n3. **进入Article子模块**",
+      "error": null
+    },
+    {
+      "id": "B33",
+      "query": "How to create a percentage discount promotion?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1046,
+      "answer_preview": "To create a percentage discount promotion in the Promotion module of our system (which falls under the Promotion business module), follow these steps:\n\n1. Log into the SM-Dmall ERP system and navigate",
+      "error": null
+    },
+    {
+      "id": "B34",
+      "query": "How to set up a buy-one-get-one promotion?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1080,
+      "answer_preview": "In the Promotion module of the SM-Dmall ERP system, to set up a \"buy-one-get-one\" (BG1) promotion, you first need to decide on the criteria for the discount. This could be based on an amount or quanti",
+      "error": null
+    },
+    {
+      "id": "B35",
+      "query": "How to configure promotion dates?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1510,
+      "answer_preview": "In the Promotion module of the SM-Dmall ERP system, configuring promotion dates involves several steps that ensure the promotions are applied at the correct times according to your business requiremen",
+      "error": null
+    },
+    {
+      "id": "B36",
+      "query": "How to apply promotion rules?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1725,
+      "answer_preview": "To apply promotion rules effectively within our system, you'll typically navigate through the **Promotion** module under the user interface of the **Data Dashboard** or directly in the POS module if p",
+      "error": null
+    },
+    {
+      "id": "B37",
+      "query": "How to create a bundle promotion?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1542,
+      "answer_preview": "In the Promotion module of SM-Dmall ERP system, creating a Bundle Promotion involves several steps:\n\n1. **Navigate to the Promotion Setup:** You need to access the promotion setup screen where you can",
+      "error": null
+    },
+    {
+      "id": "B38",
+      "query": "How to set up a loyalty points promotion?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 912,
+      "answer_preview": "To set up a loyalty points promotion, you can follow these steps in the Promotion module:\n\n1. **Choose Promotion Type**: Select \"Loyalty Points\" as your promotion type.\n2. **Set Up Reward Value and Re",
+      "error": null
+    },
+    {
+      "id": "B39",
+      "query": "如何创建折扣促销",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 377,
+      "answer_preview": "在促销模块中，你可以为不同的商品或活动设置折扣。首先，请确保你已经登录到了SM-Dmall的系统，并且当前在促销管理界面。\n\n1. 在POS（销售）或者Data Dashboard（数据展示中心）等能查看和编辑促销的地方，点击“新增”按钮来创建一个新的促销。\n2. 选择一个适当的促销类型。例如：全场折扣、单个商品折扣、特定时间折扣等。请根据你的需求选择最合适的一种。\n3. 设置你的折扣信息。这通常",
+      "error": null
+    },
+    {
+      "id": "B40",
+      "query": "如何设置买赠活动",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 418,
+      "answer_preview": "在POS模块下，您可以通过以下步骤来设置买赠活动：\n\n1. 首先，请确保您的系统已经启用促销功能。您可以在“数据管理”-“Promotion”中检查当前状态。\n2. 接下来，在POS模块中找到并点击“促销管理”，这通常会显示所有已创建的促销活动列表。\n3. 在列表页面，点击右上角的“新建促销”。这将打开一个新窗口，用于设置您的促销活动详情。\n4. 您需要选择一种促销类型。SM Dmall支持几种类",
+      "error": null
+    },
+    {
+      "id": "B41",
+      "query": "如何配置促销时间",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 166,
+      "answer_preview": "在Promotion模块中，你可以设置不同的促销时间和类型来满足不同需求。首先选择一个促销活动，然后在其配置选项里设定开始和结束的时间。SM-Dmall ERP系统允许你为同一商品或多个商品制定多种类型的促销，比如限时折扣、满减优惠等。\n\n如果你需要更详细的指导，请告诉我你想针对哪个具体场景或者希望了解哪种类型的促销时间设置细节。",
+      "error": null
+    },
+    {
+      "id": "B42",
+      "query": "如何管理促销规则",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 315,
+      "answer_preview": "在SM-Dmall ERP系统中，促销管理属于**Promotion**模块。以下是关于如何管理促销规则的一般步骤：\n\n1. **进入Promotion模块**: 通过菜单路径可以到达Promotion模块的入口。\n2. **创建促销类型**: 你可以在这里定义你的促销活动类型，如折扣、积分兑换等。这有助于日后轻松地管理和跟踪不同的促销活动。\n3. **设置促销逻辑**: 在设置了相应的促销类型后",
+      "error": null
+    },
+    {
+      "id": "B43",
+      "query": "如何创建组合促销",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 378,
+      "answer_preview": "在Promotion模块中，您可以创建组合促销。首先，请选择您希望应用该促销的促销类型。接下来，需要设置几个参数来定义您的组合促销规则。\n\n1. **促销名称**：为您的促销起一个名字。\n2. **条件**：\n   - 确定是基于时间、数量还是顾客等级进行促销。\n3. **商品/服务**：选择您希望应用于该促销的商品或服务类别。\n4. **价格策略**：定义具体的折扣率或者其它形式的优惠。\n5. ",
+      "error": null
+    },
+    {
+      "id": "B44",
+      "query": "如何设置会员积分促销",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 331,
+      "answer_preview": "要在SM-Dmall ERP系统中为会员设置积分促销，首先需要在**Promotion**模块进行操作。这里可以设定各种促销策略，包括积分兑换。\n\n1. 通过菜单路径：**System -> Promotion -> Points System** 或者直接使用快捷键访问。\n2. 点击进入后，在新页面中设置诸如积分累积比例、有效期限等参数。\n3. 接下来在“Point Exchange”部分配置你",
+      "error": null
+    },
+    {
+      "id": "B45",
+      "query": "How to access the sales dashboard?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 635,
+      "answer_preview": "In the Data Dashboard module, there is an option for app dashboards where you can customize and access various sales-related reports and analytics. To get to this feature, follow these steps:\n\n1. Navi",
+      "error": null
+    },
+    {
+      "id": "B46",
+      "query": "How to generate a sales report?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 464,
+      "answer_preview": "To generate a sales report in the POS module of our ERP system, follow these steps:\n\n1. Open the POS module.\n2. Navigate to the Reports section.\n3. Select the appropriate report type for your needs (e",
+      "error": null
+    },
+    {
+      "id": "B47",
+      "query": "How to view top-selling products?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 647,
+      "answer_preview": "In the Data Dashboard module, you can view top-selling products by using the Reports feature. Here’s how:\n\n1. Go to the **Data Dashboard** screen.\n2. From there, select the **Sales Report** option whi",
+      "error": null
+    },
+    {
+      "id": "B48",
+      "query": "How to export data from the dashboard?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 815,
+      "answer_preview": "I don't have specific information on exporting data directly from a dashboard within the SM-Dmall ERP system. The process can vary depending on the module and setup, but typically such operations migh",
+      "error": null
+    },
+    {
+      "id": "B49",
+      "query": "如何查看销售仪表盘",
+      "grade": "PASS",
+      "retrieval_count": 1,
+      "top_score": 0.519,
+      "answer_len": 346,
+      "answer_preview": "在数据Dashboard模块中，你可以找到销售仪表盘的相关功能。首先，请确保你已经在数据Dashboard模块下操作。在这个模块里，你会看到各种报表和图表，包括了每日、每周和每月的销售概览等信息。这些图表可以帮助你快速了解店铺的整体销售情况。\n\n若你想查看更详细的每日销售数据，可能需要点击“自定义报表”，然后选择适当的维度（如日期范围），以便根据你的需求定制展示的内容。这个过程会带你进入一个可以进",
+      "error": null
+    },
+    {
+      "id": "B50",
+      "query": "如何生成销售报表",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 384,
+      "answer_preview": "在数据Dashboard模块中，您可以找到各种报告来查看销售情况。这些报告提供了您店铺的销售、库存及成本等各种信息。\n\n要创建并查看销售报告，请按照以下步骤操作：\n\n1. 登录SM-Dmall ERP系统，并选择**Data Dashboard**模块。\n2. 在主界面，你会看到“Reports”区域，这里是所有内置报表的集合。\n3. 从这里，您可以浏览和筛选多种类型的报告。例如，“Total S",
+      "error": null
+    },
+    {
+      "id": "B51",
+      "query": "如何查看畅销商品",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 127,
+      "answer_preview": "在POS模块中，您可以查看畅销商品。步骤如下：\n\n1. 打开POS模块。\n2. 寻找并点击“销售统计”或“畅销排行”的相关功能按钮。\n3. 系统将显示当前最畅销的商品列表以及这些商品的销售数据。\n\n通过这种图表分析，您可以看到哪几款商品是最受顾客欢迎的。",
+      "error": null
+    },
+    {
+      "id": "B52",
+      "query": "如何导出仪表盘数据",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 154,
+      "answer_preview": "在Data Dashboard模块中，你可以从系统主菜单找到“Reports”选项来查看并下载报表。如果你需要特定的数据导出，可能还需要进一步到相关的报告页面进行选择和下载操作。\n\n另外，请确保你的用户权限足够访问这些数据，并且符合公司的数据安全政策。如果有任何疑问，建议联系技术支持团队以获得更详细的指导。",
+      "error": null
+    },
+    {
+      "id": "B53",
+      "query": "How to filter data by date range?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 936,
+      "answer_preview": "To filter data by a specific date range within the POS module of the SM-Dmall ERP system, you need to follow these steps:\n\n1. Open the report or data view where you want to apply the date filtering.\n2",
+      "error": null
+    },
+    {
+      "id": "B54",
+      "query": "如何按日期筛选数据",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 190,
+      "answer_preview": "在数据Dashboard模块中，你可以通过选择时间段来实现按日期筛选数据的功能。首先，请进入数据Dashboard模块的报告界面或相关的分析页面。在那里，你应该能看到设置时间范围的选项，通常会有一个日期选择器或者滑块可以调整开始和结束日期。\n\n请注意，具体的操作步骤可能会根据你的实际使用情况有所不同。如果你在操作过程中遇到任何问题，建议查阅该模块的具体用户手册获取更详细的指导。",
+      "error": null
+    },
+    {
+      "id": "B55",
+      "query": "How does the SAP integration work?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1144,
+      "answer_preview": "In the System Integration module of the SM-Dmall ERP system, the SAP data sync functionality allows for communication and synchronization between SAP and the DMALL system. This integration is crucial ",
+      "error": null
+    },
+    {
+      "id": "B56",
+      "query": "How to troubleshoot SAP connection issues?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 822,
+      "answer_preview": "I don't know how to troubleshoot SAP connection issues directly within the context of the SM-Dmall ERP system. However, you can start by checking these steps:\n\n1. **Verify Network Connectivity**: Ensu",
+      "error": null
+    },
+    {
+      "id": "B57",
+      "query": "How to sync data between POS and ERP?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1824,
+      "answer_preview": "To sync data between the Point of Sale (POS) module and the Enterprise Resource Planning (ERP) modules in the System Management (SM-Dmall ERP system), you'll need to follow a process that involves bot",
+      "error": null
+    },
+    {
+      "id": "B58",
+      "query": "How to configure IBMS integration?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 679,
+      "answer_preview": "I don't have specific information on configuring IBMS (Integrated Business Management System) integration within the context of the SM-Dmall ERP system from the provided knowledge base. The knowledge ",
+      "error": null
+    },
+    {
+      "id": "B59",
+      "query": "SAP集成是如何工作的",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7918,
+      "answer_len": 364,
+      "answer_preview": "在SM-Dmall ERP系统中，SAP集成主要涉及到将SAP系统的数据与DMALL内部的数据进行同步。具体来说，这个过程包括两个关键方面：从SAP系统同步数据到DMALL系统，以及从DMALL系统同步数据回给SAP系统。\n\n- **从SAP到DMALL**：当库存更新发生时（例如，通过接收、转移或盘点操作），这些信息会被同步到SAP系统。在DMALL系统中完成这些操作后，相应的更改也会被发送回S",
+      "error": null
+    },
+    {
+      "id": "B60",
+      "query": "如何排查SAP连接问题",
+      "grade": "PASS",
+      "retrieval_count": 2,
+      "top_score": 0.7769,
+      "answer_len": 299,
+      "answer_preview": "当遇到SAP连接问题时，您可以按照以下步骤进行排查：\n\n1. **检查网络连接**：确保您的设备已正确连接到网络。\n2. **重启系统和应用**：有时候简单地关闭并重新打开相关程序或服务可以解决临时性的问题。\n3. **查看错误信息**：许多错误消息都会提供一些关于问题的线索。详细记录所有出现的错误消息。\n4. **检查SAP服务器状态**：确认SAP服务器是否正在运行，并且能够正常响应请求。\n5",
+      "error": null
+    },
+    {
+      "id": "B61",
+      "query": "如何同步POS和ERP数据",
+      "grade": "PASS",
+      "retrieval_count": 2,
+      "top_score": 0.5627,
+      "answer_len": 475,
+      "answer_preview": "在SM-Dmall ERP系统中，同步POS（Point of Sale）与ERP（Enterprise Resource Planning）的数据通常通过系统集成模块来实现。这个过程涉及到从POS系统获取销售、库存等信息，并将这些信息同步到ERP系统。\n\n首先，请确保您的系统已经配置好SAP/DMALL数据同步功能。在SM的系统集成模块中，您可以通过以下步骤进行操作：\n\n1. 登录到SM-Dma",
+      "error": null
+    },
+    {
+      "id": "B62",
+      "query": "如何配置IBMS集成",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 181,
+      "answer_preview": "要在SM-Dmall ERP系统中配置与IBM系统的集成，你需要通过System Integration模块来完成。具体的步骤和操作路径可以在该模块的用户手册或者相关的操作指南中找到详细说明。在开始配置之前，请确保你已经理解了系统集成的基本概念以及如何设置数据同步等关键部分。\n\n如果你能提供更具体的问题或是在哪个模块下遇到这个需求，我可以给出更加针对性的回答。",
+      "error": null
+    },
+    {
+      "id": "B63",
+      "query": "How to handle data synchronization errors?",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 1079,
+      "answer_preview": "In the System Integration module of the SM-Dmall ERP system, if you encounter data synchronization errors between SAP and Dmall, you should first check the error logs for detailed information about wh",
+      "error": null
+    },
+    {
+      "id": "B64",
+      "query": "如何处理数据同步错误",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 273,
+      "answer_preview": "在SM-Dmall ERP系统中，如果遇到数据同步错误（比如从SAP到DMALL的数据不匹配问题），通常需要先确认两个系统的数据模型是否完全一致。如果你是在POS模块进行操作的话，首先应该检查所有相关的库存、销售和支付记录是否已正确同步。\n\n如果确实存在错误，在IT支持的帮助下，你可以通过系统集成模块进行手动干预。这可能包括调整同步策略或直接修改数据库中的某些字段来修正不匹配的数据。\n\n最后，请确",
+      "error": null
+    }
+  ]
+}

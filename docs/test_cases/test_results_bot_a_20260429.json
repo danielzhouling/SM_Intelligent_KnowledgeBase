@@ -1,0 +1,395 @@
+{
+  "bot": "A",
+  "model": "qwen2.5:3b-instruct",
+  "embedding": "bge-m3",
+  "timestamp": "2026-04-29",
+  "total": 38,
+  "stats": {
+    "PASS": 8,
+    "PARTIAL": 22,
+    "FAIL": 8,
+    "ERROR": 0
+  },
+  "results": [
+    {
+      "id": "A01",
+      "query": "shelftag printing error",
+      "grade": "PASS",
+      "retrieval_count": 3,
+      "top_score": 0.5915,
+      "answer_len": 137,
+      "answer_preview": "问题描述中提到的问题与您询问的情况相关。根据知识库中的信息，遇到shelf tag打印错误的原因是因为在处理一个排队的事务时出现了错误。\n\n解决步骤如下：\n1. 已经解决了他们的顾虑。\n2. 现在可以正常打印shelf tags了。\n\n希望这能帮助到您，请问还有其他问题吗？",
+      "error": null
+    },
+    {
+      "id": "A02",
+      "query": "POS offline mode cannot process sales",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6989,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A03",
+      "query": "uncaptured sales transaction",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6185,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A04",
+      "query": "GCASH payment failed at checkout",
+      "grade": "PARTIAL",
+      "retrieval_count": 1,
+      "top_score": 0.566,
+      "answer_len": 206,
+      "answer_preview": "您好，根据您反馈的问题，可能是由于Gcash支付在结账过程中出现了问题。具体原因我还需要进一步的信息来确认，例如具体的错误代码或者错误信息是什么样的。请您提供更多的细节以便于我们更好地解决问题。\n\n如果这是第一次遇到这样的情况，建议您可以尝试以下步骤：\n- 检查您的GCash账户余额是否足够。\n- 尝试刷新页面或稍后再试。\n- 如果问题依旧存在，请联系我们的客服团队寻求帮助。\n\n根据现有知识库无法",
+      "error": null
+    },
+    {
+      "id": "A05",
+      "query": "SAP movement type 101 error",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.5714,
+      "answer_len": 143,
+      "answer_preview": "错误代码 [来源1] 表示您无法将数据从 SAP 导入到系统中。这通常发生在尝试完成库存整合时。根据现有知识库无法回答该问题，但请确保您的 SAP 数据与系统中的记录同步一致，并且所有必要的采购订单都已经正确处理。如果问题持续，请检查是否有任何已激活的资产被标记为停用状态 [来源2]。",
+      "error": null
+    },
+    {
+      "id": "A06",
+      "query": "EOD files not generated",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6083,
+      "answer_len": 50,
+      "answer_preview": "根据现有知识库无法回答该问题。请提供更多信息，例如错误出现的时间或是在哪个操作过程中遇到了这个问题。",
+      "error": null
+    },
+    {
+      "id": "A07",
+      "query": "scanner barcode not read",
+      "grade": "PARTIAL",
+      "retrieval_count": 3,
+      "top_score": 0.6182,
+      "answer_len": 302,
+      "answer_preview": "根据您描述的问题，看起来您的问题可能与DMall应用程序中的扫描器相关。在您的情况下，您提到错误地将2CS的库存量输入到了批准数量中，这导致了过期的购货单（GR）。此外，扫描器读取了错误的条形码并记录了2CS的数量。\n\n解决此问题的第一步是修正已存在的错误数据。请确保在录入任何数量时都使用正确的值，避免将非零值输入到应该为零的位置。同时，检查并确认扫描器正确地识别了所需的条形码，并且与库存系统中的",
+      "error": null
+    },
+    {
+      "id": "A08",
+      "query": "password expired cannot login",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.639,
+      "answer_len": 41,
+      "answer_preview": "根据现有知识库无法回答该问题。请提供更多信息，例如具体的错误信息或遇到的问题细节。",
+      "error": null
+    },
+    {
+      "id": "A09",
+      "query": "押金系统如何退款",
+      "grade": "PASS",
+      "retrieval_count": 2,
+      "top_score": 0.5168,
+      "answer_len": 351,
+      "answer_preview": "在押金系统中，如果需要对预存款进行退款操作，大致可以按照以下步骤来处理：\n\n1. 首先确认该笔预存款的状态是否为可用状态。如果是异常状态，则无法直接执行退款操作。\n\n2. 如果预存款状态正常，那么就可以根据规则创建一个相应的退款ID。这个ID用于标识此次的退款操作。\n\n3. 创建完退款ID后，需要将相关信息（如退款金额、退款原因等）同步到押金系统中进行记录。\n\n4. 押金系统在接收到这些信息后，会",
+      "error": null
+    },
+    {
+      "id": "A10",
+      "query": "POS收银员怎么登录",
+      "grade": "PARTIAL",
+      "retrieval_count": 4,
+      "top_score": 0.6334,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A11",
+      "query": "磅秤数据怎么同步",
+      "grade": "FAIL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 112,
+      "answer_preview": "我需要了解更多信息来帮助你解决这个问题，比如你的磅秤是连接到哪个系统的？这个系统是什么类型的（如SCADA、MES等）？以及你们的系统是否支持自动同步功能？请提供这些信息以便我能更准确地指导你。根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A12",
+      "query": "小票打印格式在哪里设置",
+      "grade": "FAIL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A13",
+      "query": "SMAC会员积分怎么计算",
+      "grade": "PASS",
+      "retrieval_count": 1,
+      "top_score": 0.5189,
+      "answer_len": 384,
+      "answer_preview": "当用户成功登录会员，并且完成支付后，POS 在打印小票前需要调用积分试算接口获得本次要额外发放的积分数量。然后，该逻辑会将本次订单额外赠送的积分数量打印在小票上。这个过程是在离线状况下不可用的。\n\n具体来说，如果会员类型 Promo Eligibility 字段为 true，则在算价接口中需要入参会员 ID 以及会员等级（研发对齐会员等级枚举）。而无需在算价接口中入参会员信息的情况则是当该字段为 ",
+      "error": null
+    },
+    {
+      "id": "A14",
+      "query": "日结流程是什么",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 316,
+      "answer_preview": "日结流程是指在ERP系统中，根据每日的销售、生产等数据进行汇总，并生成报表的过程。具体的步骤可能会因不同的ERP系统而有所差异，但通常包括以下几个环节：\n\n1. 数据采集：从各个业务模块（如销售订单、库存管理、生产计划等）收集当天的数据。\n2. 数据校验与处理：对收集到的数据进行检查和修正，确保数据的准确性和一致性。\n3. 日结计算：根据已处理的数据，完成成本核算、收入确认等工作，生成日结报表。\n",
+      "error": null
+    },
+    {
+      "id": "A15",
+      "query": "促销价格怎么生效",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 272,
+      "answer_preview": "促销价格在SM-Dmall ERP中会根据设置的时间段自动生效。通常，当设定好的促销活动开始时，所有符合促销条件的订单将应用这些促销价格。如果促销价格没有生效，可能是由于时间未到或者系统设置了例外情况。\n\n如果你遇到促销价格没有按照预期生效的问题，请确认以下几点：\n- 确认当前日期是否在促销活动的时间段内。\n- 检查是否有任何例外规则阻止了促销价格的使用。\n- 促销活动本身是否已经被激活，包括检查",
+      "error": null
+    },
+    {
+      "id": "A16",
+      "query": "盘点多长时间进行一次",
+      "grade": "FAIL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A17",
+      "query": "UOM单位是什么",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 70,
+      "answer_preview": "在SM-Dmall ERP系统中，UOM代表的是Unit of Measure，即计量单位。它是用来描述商品的测量单位，比如克、千克、个等。",
+      "error": null
+    },
+    {
+      "id": "A18",
+      "query": "PLU代码的意思",
+      "grade": "PASS",
+      "retrieval_count": 2,
+      "top_score": 0.6148,
+      "answer_len": 101,
+      "answer_preview": "PLU（Product Lookup Number）代码的意思是重量商品的条形码，用于记录单个代码中的重量和价格信息。通过扫描这个代码可以解析出其中包含的重量和价格的信息。这是根据[来源1]提供的解释。",
+      "error": null
+    },
+    {
+      "id": "A19",
+      "query": "Value Pack是什么",
+      "grade": "FAIL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 108,
+      "answer_preview": "Value Pack 是 SM-Dmall ERP 系统中的一个功能，但具体的功能细节我需要根据知识库中的相关信息来确定。在当前的知识库中没有找到关于 Value Pack 的详细信息。根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A20",
+      "query": "EAN条码规则",
+      "grade": "PASS",
+      "retrieval_count": 1,
+      "top_score": 0.5368,
+      "answer_len": 269,
+      "answer_preview": "EAN条码是一种欧洲条形码标准，用于商品编码。它的结构由前缀、国家地区代码、厂商标识号、产品代码以及校验码五部分组成。\n\n1. 前缀：代表不同的行业或组织，例如零售业、食品业等。\n2. 国家地区代码：指定的国家或地区的代码，通常为3位数字。\n3. 厂商标识号（厂商识别码）：由厂商自行定义和分配，用于唯一标识该厂商的所有商品条形码。\n4. 产品代码：由厂商自行定义和分配，用于唯一标识该厂商下的特定产",
+      "error": null
+    },
+    {
+      "id": "A21",
+      "query": "SMAC INT payment怎么用",
+      "grade": "PASS",
+      "retrieval_count": 1,
+      "top_score": 0.5507,
+      "answer_len": 252,
+      "answer_preview": "为了完成SMAC积分支付，POS客户端需要登录后直接调用DAC来处理整个支付流程。具体来说，你需要了解以下步骤：\n\n1. POS客户端登录。\n2. 登录成功后，POS客户端应能够通过交易网关接口发起SMAC积分查询请求。\n3. 交易网关接收到请求后，会调用交易网关接口中的SMAC积分支付功能来处理支付流程。\n\n在操作过程中，请确保所有连接和接口都已正确配置。如果遇到问题，可以参考工单记录中的故障现",
+      "error": null
+    },
+    {
+      "id": "A22",
+      "query": "RPO发货单据错误",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.5971,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A23",
+      "query": "POS terminal磁盘空间满",
+      "grade": "PASS",
+      "retrieval_count": 5,
+      "top_score": 0.5924,
+      "answer_len": 230,
+      "answer_preview": "在POS终端上，您遇到了\"Insufficient disk space\"的问题。这是一个Level D级别的问题，需要尽快联系IT支持以避免销售异常。\n\n解决步骤：\n1. 联系您的IT支持团队。\n2. IT支持会帮助检查并清理POS终端的磁盘空间。\n3. 确保所有不必要的文件和数据被移除或移动到外部存储设备上。\n4. 检查是否有大型文件未被正确处理，如日志文件、备份等。\n5. 重启POS终端以应",
+      "error": null
+    },
+    {
+      "id": "A24",
+      "query": "Cash drawer金额不对",
+      "grade": "PARTIAL",
+      "retrieval_count": 4,
+      "top_score": 0.6271,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A25",
+      "query": "Member card无法识别",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 248,
+      "answer_preview": "这可能是由于会员卡读取器未能正确识别会员卡信息导致的问题。可能的原因包括读取器硬件故障、软件设置错误或会员卡本身存在问题。\n\n解决步骤如下：\n1. 检查读取器是否正常连接到系统，确保电源和网络状态良好。\n2. 确认读取器的驱动程序已正确安装且为最新版本。\n3. 尝试使用其他类型的卡片进行测试，以判断问题是否与特定卡片相关。\n4. 如果以上步骤都无法解决问题，可能是硬件故障，请联系技术支持进行进一步",
+      "error": null
+    },
+    {
+      "id": "A26",
+      "query": "Refund amount超出范围",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 291,
+      "answer_preview": "如果在处理退款金额时发现其超出系统设定的范围，这通常意味着该退款金额超出了允许的最大或最小值。这种情况可能发生在库存管理系统中，因为系统需要确保不会因错误的计算导致库存不足或者溢出。\n\n解决步骤如下：\n\n1. 检查订单详情：确认是否有大额交易可能导致退款金额超出范围。\n2. 重新审核订单和相关记录，确保没有数据输入错误。\n3. 如果是由于订单或商品信息错误引起的，需要修正这些信息并更新系统中的相应",
+      "error": null
+    },
+    {
+      "id": "A27",
+      "query": "Sign ON time记录异常",
+      "grade": "PARTIAL",
+      "retrieval_count": 1,
+      "top_score": 0.575,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A28",
+      "query": "Article price不一致",
+      "grade": "PASS",
+      "retrieval_count": 2,
+      "top_score": 0.643,
+      "answer_len": 164,
+      "answer_preview": "在SM-Dmall ERP中，如果遇到关于文章价格不一致的问题，可能是由于该文章没有被设置为适用于SC折扣。解决此问题的方法是确认是否将文章设为了SC折扣适用的文章。如果没有，请确保将其设为适用。\n\n具体步骤如下：\n1. 确认当前文章的状态。\n2. 如果不是SC折扣适用的文章，则应将其设为适用。\n\n来源：[来源1]、[来源2]",
+      "error": null
+    },
+    {
+      "id": "A29",
+      "query": "系统报错代码E001",
+      "grade": "FAIL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 52,
+      "answer_preview": "根据现有知识库无法回答该问题。请提供更多的错误信息或描述您的具体操作步骤，以便我能更好地帮助您解决问题。",
+      "error": null
+    },
+    {
+      "id": "A30",
+      "query": "昨天的问题又出现了",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 61,
+      "answer_preview": "请问您上次遇到的问题是什么问题呢？是关于 SM-Dmall ERP 的哪方面的问题？我需要知道具体的故障现象才能提供帮助。",
+      "error": null
+    },
+    {
+      "id": "A31",
+      "query": "类似的问题怎么解决",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.5084,
+      "answer_len": 89,
+      "answer_preview": "根据现有知识库无法回答该问题。为了提供更准确的帮助，请描述具体的故障现象或问题类型，例如是关于库存管理、订单处理还是其他特定模块的问题。这样我才能基于历史记录给出有效的解决方案。",
+      "error": null
+    },
+    {
+      "id": "A32",
+      "query": "能不能帮我查下这个",
+      "grade": "FAIL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 49,
+      "answer_preview": "我需要你提供具体的故障现象或者问题描述，这样我才能帮你查找相关信息。你可以告诉我遇到了什么问题吗？",
+      "error": null
+    },
+    {
+      "id": "A33",
+      "query": "工号12345的权限问题",
+      "grade": "FAIL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 64,
+      "answer_preview": "根据现有知识库无法回答该问题。请提供更具体的信息，比如您遇到的具体权限问题是什么？例如，用户是否能够访问不应该访问的功能或数据？",
+      "error": null
+    },
+    {
+      "id": "A34",
+      "query": "/etc/passwd",
+      "grade": "FAIL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 99,
+      "answer_preview": "文件/etc/passwd 用于存储用户账号的相关信息，这与SM-Dmall ERP系统无关。如果你有关于SM-Dmall ERP的问题，请提供更具体的信息或问题描述。根据现有知识库无法回答该问题。",
+      "error": null
+    },
+    {
+      "id": "A35",
+      "query": "SAP",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.604,
+      "answer_len": 94,
+      "answer_preview": "关于您提到的 SAP，根据现有知识库无法回答该问题。如果您能提供更具体的问题或需要信息的相关部分，我会尽力帮助您。例如，您可以询问有关特定错误代码、功能使用方法或是常见故障处理步骤等问题。",
+      "error": null
+    },
+    {
+      "id": "A36",
+      "query": "POS",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6628,
+      "answer_len": 14,
+      "answer_preview": "根据现有知识库无法回答该问题",
+      "error": null
+    },
+    {
+      "id": "A37",
+      "query": "EOD",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.5771,
+      "answer_len": 71,
+      "answer_preview": "根据现有知识库无法回答该问题。在提供的知识库中，没有关于\"EOD\"的具体信息或解决方案。请提供更多的上下文或者确认您所指的是哪个特定的EOD。",
+      "error": null
+    },
+    {
+      "id": "A38",
+      "query": "GCASH",
+      "grade": "PARTIAL",
+      "retrieval_count": 0,
+      "top_score": 0,
+      "answer_len": 83,
+      "answer_preview": "我无法从你提供的信息中获取关于GCASH的相关内容。请确认你的问题或查询是否与SM-Dmall ERP相关。如果你有关于SM-Dmall ERP的问题，欢迎继续提问。",
+      "error": null
+    }
+  ]
+}
