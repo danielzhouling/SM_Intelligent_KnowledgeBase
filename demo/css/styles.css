@@ -858,6 +858,13 @@ a:hover {
   background: var(--primary);
 }
 
+.message-avatar.bot-badge {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
 .message-content {
   background: var(--bg-card);
   border: 1px solid var(--border-light);

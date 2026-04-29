@@ -355,7 +355,7 @@
     {
       "id": "TASK-M6-005",
       "description": "适配用户端JS渲染逻辑(app.js)：renderBots()改用渐变徽章(替代.bot-avatar机器人脸)、DOM选择器适配新class名、保持全部业务逻辑不变",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-006",

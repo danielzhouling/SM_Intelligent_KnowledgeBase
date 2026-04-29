@@ -23,6 +23,19 @@
 - 页面正常加载（login/bots/chat/admin 均返回 200）
 - 无移除变量残留引用（`--text-dark`, `--ai-gradient` 已清理）
 
+## TASK-M6-005 适配用户端JS(app.js)（2026-04-30 完成）
+
+### 变更内容
+- **renderBots()**：已在M6-003中改用`.bot-badge`渐变字母徽章, 移除`.bot-avatar/.bot-face`机器人脸
+- **buildBotMessageHTML()**：Bot消息头像从emoji改为`.message-avatar.bot-badge`渐变字母
+- **addStreamingBotMessage()**：流式消息头像同步改为渐变徽章
+- **showTypingIndicator()**：打字指示器头像改为渐变徽章
+- **CSS补充**：`.message-avatar.bot-badge`覆盖尺寸(32px), 避免与`.bot-badge`(48px)冲突
+- **业务逻辑**：全部保持不变, 仅替换渲染模板
+
+### 测试结果
+- 全部M6测试38/38通过(login10+bots14+chat14)
+
 ## TASK-M6-004 改造用户端chat.html（2026-04-30 完成）
 
 ### 变更内容

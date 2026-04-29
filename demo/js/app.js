@@ -908,12 +908,14 @@ function addBotMessage(text, sources = [], isWelcome = false) {
  */
 function addStreamingBotMessage() {
   const messagesContainer = $('#chat-messages');
+  const botKey = (currentBot.key || 'A').toUpperCase();
+  const botBadgeClass = `bot-badge-${botKey.toLowerCase()}`;
 
   streamingMessageEl = document.createElement('div');
   streamingMessageEl.className = 'message message-bot';
 
   streamingMessageEl.innerHTML = `
-    <div class="message-avatar">${currentBot.icon}</div>
+    <div class="message-avatar bot-badge ${botBadgeClass}">${botKey}</div>
     <div class="message-content">
       <div class="message-text"></div>
       <div class="message-time">${formatTime(new Date())}</div>
@@ -1050,8 +1052,13 @@ function buildBotMessageHTML(text, sources, isWelcome, isLocked, msgIndex) {
     `;
   }
 
+  // Build bot avatar as gradient badge letter
+  const botKey = (currentBot.key || 'A').toUpperCase();
+  const botBadgeClass = `bot-badge-${botKey.toLowerCase()}`;
+  const avatarHtml = `<div class="message-avatar bot-badge ${botBadgeClass}">${botKey}</div>`;
+
   return `
-    <div class="message-avatar">${currentBot.icon}</div>
+    ${avatarHtml}
     <div class="message-content">
       <div class="message-text">${formatMessageText(text)}</div>
       <div class="message-time">${formatTime(new Date())}</div>
@@ -1091,11 +1098,13 @@ function setupFeedbackHandlers(messageEl, msgIndex) {
 
 function showTypingIndicator() {
   const messagesContainer = $('#chat-messages');
+  const botKey = (currentBot.key || 'A').toUpperCase();
+  const botBadgeClass = `bot-badge-${botKey.toLowerCase()}`;
   const typingEl = document.createElement('div');
   typingEl.className = 'message message-bot';
   typingEl.id = 'typing-indicator';
   typingEl.innerHTML = `
-    <div class="message-avatar">${currentBot.icon}</div>
+    <div class="message-avatar bot-badge ${botBadgeClass}">${botKey}</div>
     <div class="message-content">
       <div class="typing-indicator">
         <div class="typing-dot"></div>
