@@ -391,7 +391,7 @@
           <tr>
             <td>
               <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 24px;">${icon}</span>
+                <span class="bot-badge bot-badge-${(b.key || 'a').toLowerCase()}" style="width:36px;height:36px;font-size:16px;border-radius:8px;">${(b.key || 'A').toUpperCase()}</span>
                 <div>
                   <div style="font-weight: 500;">${escapeHtml(b.name)}</div>
                   <div style="font-size: 12px; color: var(--text-muted);">Key: ${b.key}</div>

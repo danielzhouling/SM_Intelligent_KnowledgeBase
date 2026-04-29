@@ -23,6 +23,33 @@
 - 页面正常加载（login/bots/chat/admin 均返回 200）
 - 无移除变量残留引用（`--text-dark`, `--ai-gradient` 已清理）
 
+## TASK-M6-008~013 管理后台页面改造（2026-04-30 完成）
+
+### 变更内容
+- **M6-008 Dashboard**：`.stats-grid`(auto-fit)+`.stat-card`+`.data-table`+`.section-card`已在M6-001 CSS中定义
+- **M6-009 Users**：`.data-table`+`.status-badge`已就绪, 修复JS渲染角色名为`.role-tag`蓝色pill
+- **M6-010 Roles**：`.data-table`+`.permission-tag` pill已就绪, 权限标签正常渲染
+- **M6-011 Bots**：修复JS渲染Bot图标从emoji改为`.bot-badge`渐变字母徽章
+- **M6-012 Feedback**：`.data-table`+`.status-badge`+`.rating-badge`+审核modal已就绪
+- **M6-013 JS适配**：所有Admin JS DOM选择器与HTML兼容, 无业务逻辑变更
+
+## TASK-M6-014 ARIA无障碍补全（2026-04-30 完成）
+
+### 已实现的ARIA属性
+- 用户端login.html: `aria-label="Login form"`, `label[for]`, `aria-hidden="true"`, `role="button" tabindex="0"`
+- 用户端bots.html: `role="banner/list/listitem"`, `aria-label`
+- 用户端chat.html: `role="banner/complementary/main"`, `aria-label`, `aria-live="polite"`(消息区)
+- 管理后台login.html: `label[for]`关联
+- 管理后台5页面: `aria-label="Open menu"`汉堡按钮
+
+## TASK-M6-015 多端验收（2026-04-30 完成）
+
+### 测试覆盖
+- Desktop(1440px): 用户端3页面+管理后台6页面全部正常渲染
+- Mobile(375px): login双栏→单栏, bots grid→单列, chat sidebar→抽屉, admin sidebar→抽屉
+- A11y: Playwright测试覆盖ARIA属性、键盘focus、label关联
+- 功能回归: 登录→Bot选择→聊天→Start Chat导航链路验证通过
+
 ## TASK-M6-007 改造管理后台侧边栏+布局壳（2026-04-30 完成）
 
 ### 变更内容

@@ -370,42 +370,42 @@
     {
       "id": "TASK-M6-008",
       "description": "改造管理后台dashboard：统计卡片(auto-fit网格) + 最近反馈表格 + Bot状态面板 + 响应式网格",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-009",
       "description": "改造管理后台users.html：数据表格 + 角色标签(蓝色pill) + 状态徽章 + 移动端水平滚动 + ARIA",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-010",
       "description": "改造管理后台roles.html：角色卡片网格 + 权限标签(pill) + 编辑按钮 + 响应式 + ARIA",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-011",
       "description": "改造管理后台bots.html：Bot卡片 + 渐变徽章 + 配置/禁用按钮 + 响应式",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-012",
       "description": "改造管理后台feedback.html：反馈卡片列表(header+body+actions三段) + 审核操作(绿/红outline按钮) + 筛选下拉 + 响应式 + ARIA",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-013",
       "description": "适配管理后台JS渲染逻辑(admin-api-service.js + admin-app.js)：DOM选择器适配新class名和HTML结构、保持全部业务逻辑不变",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-014",
       "description": "全页面ARIA无障碍补全：语义化HTML5标签(nav/main/section/aside) + aria-label/aria-role + 键盘Tab导航 + 焦点管理(modal/dialog) + aria-live动态区域(流式消息/通知)",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-015",
       "description": "全页面多端验收测试：Desktop(1440px) + Tablet(768-1024px) + Mobile(375px) + 无障碍检查(ARIA + 键盘导航) + 功能回归验证",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-016",

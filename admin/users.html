@@ -309,7 +309,7 @@
 
           tbody.innerHTML = users.map(u => {
             const userRoles = Array.isArray(u.roles) ? u.roles : (u.role ? [u.role] : []);
-            const roleNames = userRoles.map(rid => getRoleName(rid)).join(', ');
+            const roleNames = userRoles.map(rid => `<span class="role-tag">${getRoleName(rid)}</span>`).join(' ');
             return `
             <tr>
               <td>${escapeHtml(u.username)}</td>
