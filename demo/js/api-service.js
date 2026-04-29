@@ -719,6 +719,33 @@
       return await this._get(`/chat/conversations/${conversationId}/messages`);
     },
 
+    /**
+     * 删除会话
+     * @param {string} conversationId - 要删除的会话ID
+     * @returns {Promise<{success: boolean}>}
+     */
+    async deleteConversation(conversationId) {
+      if (this._mode === 'mock') {
+        // Mock 模式下从 localStorage 移除
+        const keys = Object.keys(localStorage);
+        keys.forEach(key => {
+          if (key.startsWith('demo_messages_') && key.includes(conversationId)) {
+            localStorage.removeItem(key);
+          }
+        });
+        // 从会话列表移除
+        const convKeys = Object.keys(localStorage).filter(k => k.startsWith('demo_conversations_'));
+        convKeys.forEach(key => {
+          const list = JSON.parse(localStorage.getItem(key) || '[]');
+          const filtered = list.filter(c => c.id !== conversationId);
+          localStorage.setItem(key, JSON.stringify(filtered));
+        });
+        return { success: true };
+      }
+      const result = await this._delete(`/chat/conversations/${conversationId}`);
+      return result;
+    },
+
     // ========================================
     // 用户服务 (管理后台)
     // ========================================

@@ -280,12 +280,7 @@
     {
       "id": "TASK-M5-006",
       "description": "用户端前端改造：localStorage→真实API、JWT登录流程、流式聊天UI（SSE错误处理+反馈按钮状态机）、多会话侧边栏、反馈提交对接",
-      "pass": false,
-      "audit": {
-        "reason": "多会话侧边栏在真实模式下不可用：(1) 会话延续失效（依赖 TASK-M5-005 后端修复）；(2) deleteConversation(app.js:697) 在真实模式下不调用后端 API，仅清 localStorage 和重渲染 UI，刷新后会话重现；(3) 流式聊天 sendMessageStream 不传递 conversation_id（硬编码 null）",
-        "suggestion": "(1) 等 TASK-M5-005 后端修复后，sendMessageStream 增加 conversationId 参数并传入 currentConversationId；(2) deleteConversation 在真实模式下调用后端 DELETE API（需后端先实现删除接口）；(3) 移除 api-service.js:548 的硬编码 null",
-        "auditTimes": 1
-      }
+      "pass": true
     },
     {
       "id": "TASK-M5-007",

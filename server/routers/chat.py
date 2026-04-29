@@ -327,3 +327,27 @@ async def send_message_stream(
             "X-Accel-Buffering": "no",
         },
     )
+
+
+@router.delete("/conversations/{conversation_id}")
+async def delete_conversation(
+    conversation_id: str,
+    db: AsyncSession = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user),
+):
+    """删除会话"""
+    # Verify conversation belongs to current user
+    result = await db.execute(
+        select(ConversationModel).where(
+            ConversationModel.id == conversation_id,
+            ConversationModel.user_id == current_user.id,
+        )
+    )
+    conv = result.scalar_one_or_none()
+    if not conv:
+        raise HTTPException(status_code=404, detail="会话不存在")
+
+    await db.delete(conv)
+    await db.commit()
+
+    return SuccessResponse(data={"id": conversation_id, "deleted": True})

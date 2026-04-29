@@ -694,14 +694,25 @@ function newConversation() {
 /**
  * 删除会话
  */
-function deleteConversation(convId) {
+async function deleteConversation(convId) {
   if (!confirm('Delete this conversation?')) return;
 
-  // Remove from local storage for mock mode
   if (ApiService.getMode() === 'mock') {
+    // Mock mode: remove from localStorage
     localStorage.removeItem(`demo_messages_${convId}`);
     conversations = conversations.filter(c => c.id !== convId);
     localStorage.setItem(`demo_conversations_${currentBotId}`, JSON.stringify(conversations));
+  } else {
+    // Real mode: call backend API
+    try {
+      await ApiService.deleteConversation(convId);
+      // Reload conversations from server
+      await loadConversations();
+    } catch (error) {
+      Toast.error('Failed to delete conversation');
+      console.error('[deleteConversation]', error);
+      return;
+    }
   }
 
   // If deleting current conversation, start new one
