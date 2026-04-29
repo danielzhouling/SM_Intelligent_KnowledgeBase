@@ -335,7 +335,7 @@
     {
       "id": "TASK-M6-001",
       "description": "创建统一CSS设计系统：基于style-a-tech补齐缺失变量(--radius-full, --bg-sidebar-hover)、Bot渐变色变量化(--bot-a/b/c-gradient)、三断点体系(mobile<768/tablet768-1024/desktop>1024)、统一组件样式库",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-002",

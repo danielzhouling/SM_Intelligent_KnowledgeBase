@@ -2,6 +2,27 @@
 
 ## 当前阶段：M6 - UI全面改造（基于style-a-tech设计风格 + 移动端适配 + 无障碍）
 
+## TASK-M6-001 统一CSS设计系统（2026-04-30 完成）
+
+### 变更内容
+- **`:root` 变量体系**：从 #0066FF 蓝色迁移到 style-a-tech 的 #1E40AF Slate/Blue 专业色系
+- **新增变量**：`--bg-dark`(#1E293B), `--bg-sidebar-hover`, `--text-inverse`, `--border-dark`, `--border`
+- **新增变量**：`--radius-full`(9999px), `--font-sans`('Inter', ...)
+- **Bot渐变变量化**：`--bot-a-gradient`, `--bot-b-gradient`, `--bot-c-gradient`（消除8处硬编码重复）
+- **三断点响应式**：Desktop(>1024) / Tablet(768-1024) / Mobile(<768)
+- **移动端基础设施**：`.sidebar-overlay`, `.mobile-open` 抽屉侧边栏, `.mobile-menu-btn`
+- **Admin共享组件库**：`.admin-layout/sidebar/main/header/content`, `.stats-grid`, `.data-table`, `.table-card`
+- **统一组件**：`.bot-badge/-sm/-tag`（渐变字母徽章）, `.status/.rating/.pill`（状态标签）, `.btn-outline-success/error`, `.filter-bar`
+- **修复**：`--ai-gradient` → `--bot-a-gradient`（语义更清晰）
+- **字体**：'Segoe UI' → 'Inter' (via `--font-sans`)
+- **文件**：`demo/css/styles.css` (2059行, 36KB), `css/styles.css` (同步)
+
+### 验证结果
+- CSS 292 对花括号平衡
+- 23 个必需变量全部定义在 `:root`
+- 页面正常加载（login/bots/chat/admin 均返回 200）
+- 无移除变量残留引用（`--text-dark`, `--ai-gradient` 已清理）
+
 ## TASK-M4-007 检索模式优化（2026-04-29 完成）
 
 ### 优化方案
@@ -165,7 +186,7 @@
 
 | 任务ID | 描述 | 状态 |
 |--------|------|------|
-| TASK-M6-001 | 创建统一CSS设计系统 | ⏳ 待开始 |
+| TASK-M6-001 | 创建统一CSS设计系统 | ✅ 已完成 (2026-04-30) |
 | TASK-M6-002 | 改造用户端 login.html | ⏳ 待开始 |
 | TASK-M6-003 | 改造用户端 bots.html（含Bot头像改为渐变徽章） | ⏳ 待开始 |
 | TASK-M6-004 | 改造用户端 chat.html（含移动端抽屉侧边栏） | ⏳ 待开始 |
