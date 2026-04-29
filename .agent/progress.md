@@ -23,6 +23,21 @@
 - 页面正常加载（login/bots/chat/admin 均返回 200）
 - 无移除变量残留引用（`--text-dark`, `--ai-gradient` 已清理）
 
+## TASK-M6-002 改造用户端login.html（2026-04-30 完成）
+
+### 变更内容
+- **HTML重构**：双栏布局 `.login-container`(grid 1fr 1fr) + `.login-left`(品牌面板) + `.login-right`(表单面板)
+- **品牌面板**：SVG Logo + "SM-Dmall ERP Knowledge Base" + 3个Feature Items（Instant Answers/Comprehensive Docs/Real-time Sync）
+- **表单面板**：Welcome标题 + label+input组合 + 箭头按钮 + Demo账号快选区(4个)
+- **深色渐变背景**：`.login-page` 使用 `linear-gradient(135deg, #0f172a, #1e293b)`
+- **ARIA无障碍**：`aria-label="Login form"`, `label[for="username/password"]`, `aria-hidden="true"`(装饰元素), `role="button" tabindex="0"`(Demo账号)
+- **移动端适配**：<768px 隐藏`.login-left`, `.login-container`单列
+- **JS兼容性**：保留 `id="login-form"` 和 `.login-account` 选择器，兼容 app.js
+
+### 测试结果
+- Playwright 10/10 测试通过（布局/表单/焦点环/Demo账号/JS无报错/移动端）
+- 登录功能回归验证通过（admin登录→跳转bots.html）
+
 ## TASK-M4-007 检索模式优化（2026-04-29 完成）
 
 ### 优化方案
@@ -201,6 +216,26 @@
 | TASK-M6-013 | 适配管理后台 JS 渲染逻辑 | ⏳ 待开始 |
 | TASK-M6-014 | 全页面 ARIA 无障碍补全 | ⏳ 待开始 |
 | TASK-M6-015 | 全页面多端验收测试 | ⏳ 待开始 |
+
+## TASK-M6-016~019 引用摘要修复（2026-04-30）
+
+**问题**：用户端聊天AI回复无引用摘要，前端Sources区域始终为空
+**根因**：后端和前端读取Dify返回数据的字段名错误（`citations`应为`retriever_resources`）
+
+| 任务ID | 描述 | 状态 |
+|--------|------|------|
+| TASK-M6-016 | 验证Dify Bot A/B 'Cite and Show Source'配置 | ⏳ 待开始 |
+| TASK-M6-017 | 后端chat.py字段名修正 + 字段映射 | ⏳ 待开始 |
+| TASK-M6-018 | 前端api-service.js字段名修正 + 字段映射 | ⏳ 待开始 |
+| TASK-M6-019 | 端到端验证（阻塞+流式模式引用摘要显示） | ⏳ 待开始 |
+
+### 执行依赖顺序
+```
+TASK-M6-016 (Dify配置验证) ← 必须先完成，确认数据源
+    ↓
+TASK-M6-017 (后端修复) + TASK-M6-018 (前端修复) ← 可并行
+    ↓
+TASK-M6-019 (端到端验证)
 
 ## 任务进度
 

@@ -340,7 +340,7 @@
     {
       "id": "TASK-M6-002",
       "description": "改造用户端login.html：深色渐变背景 + 双栏布局(品牌+表单) + 移动端单栏(隐藏品牌面板) + 表单焦点环 + ARIA无障碍",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-003",
@@ -405,6 +405,26 @@
     {
       "id": "TASK-M6-015",
       "description": "全页面多端验收测试：Desktop(1440px) + Tablet(768-1024px) + Mobile(375px) + 无障碍检查(ARIA + 键盘导航) + 功能回归验证",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-016",
+      "description": "【引用摘要修复】验证Dify Bot A/B '引用归属'(Cite and Show Source)配置已开启，确保Dify返回retriever_resources数据。操作步骤：(1) 登录Dify Studio(http://localhost:3001); (2) 分别进入Bot A和Bot B的应用编排页; (3) 找到知识检索节点(Knowledge Retrieval); (4) 确认'Cite and Show Source'开关为ON; (5) 若未开启则打开并发布应用; (6) 用curl测试阻塞模式API，验证返回的metadata.retriever_resources不为空",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-017",
+      "description": "【引用摘要修复】后端chat.py字段名修正+字段映射。操作步骤：(1) 打开server/routers/chat.py; (2) 定位阻塞模式send_message函数中约第173行: citations = dify_resp.get('metadata', {}).get('citations', []); (3) 将'citations'改为'retriever_resources'; (4) 在获取citations后添加字段映射: citations = [{'title': c.get('document_name',''), 'snippet': c.get('content',''), 'content': c.get('content',''), 'score': c.get('score'), 'position': c.get('position'), 'dataset_name': c.get('dataset_name','')} for c in citations]; (5) 运行后端测试: cd server && python -m pytest tests/ -v",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-018",
+      "description": "【引用摘要修复】前端api-service.js字段名修正+字段映射。操作步骤：(1) 打开demo/js/api-service.js; (2) 定位流式SSE解析中约第602行和第618行: citations = data.metadata?.citations; (3) 改为 citations = data.metadata?.retriever_resources; (4) 在两处获取citations后添加映射: citations = (citations || []).map(r => ({title: r.document_name || '', snippet: r.content || '', content: r.content || '', score: r.score, position: r.position, dataset_name: r.dataset_name || ''})); (5) 定位阻塞模式约第509行: sources = result.data.citations || []; (6) 改为 sources = result.data.citations || []; (后端已映射，此处不变); (7) 浏览器测试：打开聊天页发送消息，确认AI回复下方出现Sources区域和引用标签",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-019",
+      "description": "【引用摘要修复】端到端验证：阻塞模式+流式模式引用摘要显示。操作步骤：(1) 打开浏览器登录用户端(hq-admin/password123); (2) 选择Bot A发送问题如'POS upload failed'; (3) 确认流式回复完成后，消息下方出现Sources区域，显示引用标签(文档名+score); (4) 点击引用标签，确认展开显示引用片段内容; (5) 切换到Bot B发送问题如'How to process refund'; (6) 同样确认引用摘要正常显示; (7) 用curl测试阻塞模式API: curl -X POST http://localhost:8000/api/chat/message -H 'Authorization: Bearer {token}' -H 'Content-Type: application/json' -d '{\"bot_id\":\"{uuid}\",\"query\":\"test\"}'; (8) 确认返回JSON中citations数组不为空; (9) 测试无引用场景(Bot C无知识库)，确认不显示Sources区域",
       "pass": false
     }
   ]
