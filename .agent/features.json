@@ -360,12 +360,12 @@
     {
       "id": "TASK-M6-006",
       "description": "改造管理后台admin/login.html：深色背景 + 居中表单 + 管理员Logo + 移动端适配",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-007",
       "description": "改造管理后台侧边栏+布局壳(6页面共用)：260px暗色侧边栏 + 汉堡菜单 + 移动端抽屉式侧边栏(overlay) + ARIA",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-008",

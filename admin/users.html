@@ -8,23 +8,23 @@
   <style>
     /* Same admin layout styles from index.html */
     .admin-page { display: flex; min-height: 100vh; }
-    .admin-sidebar { width: 240px; background: var(--bg-card); border-right: 1px solid var(--border-light); display: flex; flex-direction: column; flex-shrink: 0; }
-    .admin-sidebar-header { padding: 20px; border-bottom: 1px solid var(--border-light); }
+    .admin-sidebar { width: 240px; background: var(--bg-dark); border-right: 1px solid var(--border-light); display: flex; flex-direction: column; flex-shrink: 0; }
+    .admin-sidebar-header { padding: 20px; border-bottom: 1px solid var(--border-dark); }
     .admin-logo { display: flex; align-items: center; gap: 10px; }
     .admin-logo svg { height: 32px; }
-    .admin-logo-text { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .admin-logo-text { font-size: 14px; font-weight: 600; color: white; }
     .admin-nav { flex: 1; padding: 16px 12px; }
     .nav-section { margin-bottom: 24px; }
     .nav-section-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 0 12px; margin-bottom: 8px; font-weight: 600; }
-    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 14px; text-decoration: none; transition: all var(--transition-fast); margin-bottom: 4px; }
-    .nav-item:hover { background: var(--bg-input); color: var(--text-primary); }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--radius-sm); color: rgba(255,255,255,0.7); font-size: 14px; text-decoration: none; transition: all var(--transition-fast); margin-bottom: 4px; }
+    .nav-item:hover { background: var(--bg-sidebar-hover); color: white; }
     .nav-item.active { background: var(--primary-light); color: var(--primary); }
     .nav-item-icon { font-size: 18px; width: 24px; text-align: center; }
-    .admin-sidebar-footer { padding: 16px; border-top: 1px solid var(--border-light); }
+    .admin-sidebar-footer { padding: 16px; border-top: 1px solid var(--border-dark); }
     .admin-user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
     .admin-user-avatar { width: 36px; height: 36px; background: var(--ai-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; }
     .admin-user-details { flex: 1; }
-    .admin-user-name { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+    .admin-user-name { font-size: 14px; font-weight: 500; color: white; }
     .admin-user-role { font-size: 12px; color: var(--text-muted); }
     .admin-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
     .admin-header { background: var(--bg-card); border-bottom: 1px solid var(--border-light); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
@@ -80,10 +80,39 @@
     .checkbox-item:hover { background: var(--border-light); }
     .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
     .checkbox-item label { font-size: 14px; cursor: pointer; flex: 1; }
+  
+    .admin-mobile-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .admin-sidebar {
+        display: none;
+      }
+      .admin-sidebar.mobile-open {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 260px;
+        height: 100vh;
+        z-index: 200;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+      }
+      .admin-mobile-btn {
+        display: flex;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="admin-page">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <!-- Sidebar -->
     <aside class="admin-sidebar">
       <div class="admin-sidebar-header">
@@ -154,6 +183,13 @@
     <!-- Main Content -->
     <main class="admin-main">
       <header class="admin-header">
+        <button class="admin-mobile-btn" id="adminMobileBtn" aria-label="Open menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
         <h1 class="admin-header-title">User Management</h1>
       </header>
 
@@ -419,6 +455,25 @@
 
       await loadUsers();
     });
+  </script>
+
+  <script>
+    // Mobile sidebar toggle
+    const adminMobileBtn = document.getElementById('adminMobileBtn');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const adminSidebar = document.querySelector('.admin-sidebar');
+    if (adminMobileBtn && adminSidebar) {
+      adminMobileBtn.addEventListener('click', () => {
+        adminSidebar.classList.add('mobile-open');
+        if (sidebarOverlay) sidebarOverlay.classList.add('visible');
+      });
+    }
+    if (sidebarOverlay) {
+      sidebarOverlay.addEventListener('click', () => {
+        adminSidebar.classList.remove('mobile-open');
+        sidebarOverlay.classList.remove('visible');
+      });
+    }
   </script>
 </body>
 </html>

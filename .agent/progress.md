@@ -23,6 +23,31 @@
 - 页面正常加载（login/bots/chat/admin 均返回 200）
 - 无移除变量残留引用（`--text-dark`, `--ai-gradient` 已清理）
 
+## TASK-M6-007 改造管理后台侧边栏+布局壳（2026-04-30 完成）
+
+### 变更内容
+- **5个Admin页面统一改造**：index/users/roles/bots/feedback全部更新
+- **暗色侧边栏**：`background: var(--bg-dark)`, 白色文字, 深色边框
+- **导航项适配**：`rgba(255,255,255,0.7)`文字色, hover用`var(--bg-sidebar-hover)`
+- **移动端抽屉**：`#adminMobileBtn`汉堡菜单, `.sidebar-overlay`遮罩, `.admin-sidebar.mobile-open`滑出
+- **`@media (max-width: 768px)`**：隐藏侧边栏, 显示菜单按钮
+- **JS移动端toggle**：每个页面内联script添加mobile sidebar toggle逻辑
+
+### 测试结果
+- Playwright 35/35 测试通过（5页面 × 7测试）
+- 用户端回归45/46通过（1个flaky重跑通过）
+
+## TASK-M6-006 改造管理后台admin/login.html（2026-04-30 完成）
+
+### 变更内容
+- admin/login.html使用`.login-page`类, 已被M6-001/M6-002的CSS改造自动覆盖
+- 深色渐变背景(`linear-gradient(135deg, #1E293B, #0F172A)`)已应用
+- 表单标签关联、Demo账号区、JS脚本加载均正常
+- 无需额外HTML修改, 由CSS变量系统统一驱动
+
+### 测试结果
+- Playwright 8/8 测试通过
+
 ## TASK-M6-005 适配用户端JS(app.js)（2026-04-30 完成）
 
 ### 变更内容

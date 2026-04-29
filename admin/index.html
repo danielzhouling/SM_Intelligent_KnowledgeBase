@@ -14,7 +14,7 @@
 
     .admin-sidebar {
       width: 240px;
-      background: var(--bg-card);
+      background: var(--bg-dark);
       border-right: 1px solid var(--border-light);
       display: flex;
       flex-direction: column;
@@ -23,7 +23,7 @@
 
     .admin-sidebar-header {
       padding: 20px;
-      border-bottom: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-dark);
     }
 
     .admin-logo {
@@ -39,7 +39,7 @@
     .admin-logo-text {
       font-size: 14px;
       font-weight: 600;
-      color: var(--text-primary);
+      color: white;
     }
 
     .admin-nav {
@@ -67,7 +67,7 @@
       gap: 12px;
       padding: 12px;
       border-radius: var(--radius-sm);
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.7);
       font-size: 14px;
       text-decoration: none;
       transition: all var(--transition-fast);
@@ -75,8 +75,8 @@
     }
 
     .nav-item:hover {
-      background: var(--bg-input);
-      color: var(--text-primary);
+      background: var(--bg-sidebar-hover);
+      color: white;
     }
 
     .nav-item.active {
@@ -92,7 +92,7 @@
 
     .admin-sidebar-footer {
       padding: 16px;
-      border-top: 1px solid var(--border-light);
+      border-top: 1px solid var(--border-dark);
     }
 
     .admin-user-info {
@@ -122,7 +122,7 @@
     .admin-user-name {
       font-size: 14px;
       font-weight: 500;
-      color: var(--text-primary);
+      color: white;
     }
 
     .admin-user-role {
@@ -332,10 +332,39 @@
       background: #DBEAFE;
       color: #2563EB;
     }
+  
+    .admin-mobile-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .admin-sidebar {
+        display: none;
+      }
+      .admin-sidebar.mobile-open {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 260px;
+        height: 100vh;
+        z-index: 200;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+      }
+      .admin-mobile-btn {
+        display: flex;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="admin-page">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <!-- Sidebar -->
     <aside class="admin-sidebar">
       <div class="admin-sidebar-header">
@@ -406,6 +435,13 @@
     <!-- Main Content -->
     <main class="admin-main">
       <header class="admin-header">
+        <button class="admin-mobile-btn" id="adminMobileBtn" aria-label="Open menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
         <h1 class="admin-header-title">Dashboard</h1>
       </header>
 
@@ -561,6 +597,25 @@
       const div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
+    }
+  </script>
+
+  <script>
+    // Mobile sidebar toggle
+    const adminMobileBtn = document.getElementById('adminMobileBtn');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const adminSidebar = document.querySelector('.admin-sidebar');
+    if (adminMobileBtn && adminSidebar) {
+      adminMobileBtn.addEventListener('click', () => {
+        adminSidebar.classList.add('mobile-open');
+        if (sidebarOverlay) sidebarOverlay.classList.add('visible');
+      });
+    }
+    if (sidebarOverlay) {
+      sidebarOverlay.addEventListener('click', () => {
+        adminSidebar.classList.remove('mobile-open');
+        sidebarOverlay.classList.remove('visible');
+      });
     }
   </script>
 </body>
