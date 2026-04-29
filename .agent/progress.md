@@ -23,6 +23,20 @@
 - 页面正常加载（login/bots/chat/admin 均返回 200）
 - 无移除变量残留引用（`--text-dark`, `--ai-gradient` 已清理）
 
+## TASK-M6-004 改造用户端chat.html（2026-04-30 完成）
+
+### 变更内容
+- **HTML重构**：`.app-header`暗色顶栏(返回按钮+渐变Bot徽章+会话标题+用户信息+登出)
+- **侧边栏280px**：`.chat-sidebar`(Bot信息+会话列表+知识来源+切换Bot按钮)
+- **移动端抽屉**：`.chat-mobile-btn`汉堡菜单触发, `.sidebar-overlay`遮罩, `.chat-sidebar.mobile-open`滑出
+- **ARIA无障碍**：`role="banner/complementary/main"`, `aria-label`, `aria-live="polite"`(消息区)
+- **新增CSS**：`.app-header`, `.header-left/center/right`, `.current-bot`, `.bot-info-sm`, `.btn-back`, `.chat-mobile-btn`, `.sidebar-overlay`
+- **JS适配**：`initChatPage()`新增header bot badge更新、mobile toggle绑定、switch bot按钮
+
+### 测试结果
+- Playwright 14/14 测试通过
+- M6-002(10/10) + M6-003(14/14) 回归全部通过
+
 ## TASK-M6-003 改造用户端bots.html（2026-04-30 完成）
 
 ### 变更内容

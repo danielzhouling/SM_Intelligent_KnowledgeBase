@@ -350,7 +350,7 @@
     {
       "id": "TASK-M6-004",
       "description": "改造用户端chat.html：280px侧边栏 + 消息气泡(用户蓝底/Bot白底) + 流式反馈按钮 + 移动端抽屉侧边栏(汉堡菜单触发) + ARIA",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-005",

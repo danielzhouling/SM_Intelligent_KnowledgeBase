@@ -489,6 +489,31 @@ async function initChatPage() {
   $('#user-role').textContent = user?.roleName || user?.role || '';
   $('#current-bot-name').textContent = currentBot.name;
 
+  // Update header bot badge
+  const headerBadge = $('#header-bot-badge');
+  if (headerBadge) {
+    const botKey = (currentBot.key || 'A').toUpperCase();
+    headerBadge.textContent = botKey;
+    headerBadge.className = `bot-badge-sm bot-badge-${botKey.toLowerCase()}`;
+  }
+
+  // Setup mobile sidebar toggle
+  const mobileBtn = $('#chatMobileBtn');
+  const overlay = $('#sidebarOverlay');
+  const sidebar = $('.chat-sidebar');
+  if (mobileBtn && sidebar) {
+    mobileBtn.addEventListener('click', () => {
+      sidebar.classList.add('mobile-open');
+      if (overlay) overlay.classList.add('visible');
+    });
+  }
+  if (overlay) {
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('mobile-open');
+      overlay.classList.remove('visible');
+    });
+  }
+
   // Update sidebar
   $('#bot-avatar-icon').textContent = currentBot.icon;
   $('#bot-sidebar-name').textContent = currentBot.name;
@@ -515,6 +540,12 @@ async function initChatPage() {
   $('#btn-back').addEventListener('click', () => {
     window.location.href = 'bots.html';
   });
+  const switchBtn = $('#btn-switch-bot');
+  if (switchBtn) {
+    switchBtn.addEventListener('click', () => {
+      window.location.href = 'bots.html';
+    });
+  }
   $('#btn-logout').addEventListener('click', async () => {
     await ApiService.logout();
     Toast.success('Logged out successfully');

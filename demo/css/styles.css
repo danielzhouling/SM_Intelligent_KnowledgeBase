@@ -256,6 +256,125 @@ a:hover {
 }
 
 /* ========================================
+   Chat App Header
+   ======================================== */
+
+.app-header {
+  background: var(--bg-dark);
+  color: var(--text-inverse);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-back {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-dark);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.btn-back:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-inverse);
+}
+
+.current-bot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bot-info-sm {
+  display: flex;
+  flex-direction: column;
+}
+
+.bot-name-sm {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-inverse);
+}
+
+.bot-status-sm {
+  font-size: 11px;
+  color: var(--success);
+}
+
+.header-center {
+  flex: 1;
+  text-align: center;
+}
+
+.conversation-title {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.header-center .user-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-name-header {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-inverse);
+}
+
+.user-role-header {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.chat-mobile-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-inverse);
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* ========================================
+   Sidebar Overlay
+   ======================================== */
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 199;
+}
+
+.sidebar-overlay.visible {
+  display: block;
+}
+
+/* ========================================
    Main Content & Page Header
    ======================================== */
 
@@ -1574,6 +1693,15 @@ textarea.form-input {
   font-size: 20px;
 }
 
+.chat-mobile-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-inverse);
+  cursor: pointer;
+  padding: 8px;
+}
+
 /* ========================================
    Responsive - Three Breakpoint System
    Desktop (>1024px) / Tablet (768-1024px) / Mobile (<768px)
@@ -1656,7 +1784,19 @@ textarea.form-input {
     display: flex;
   }
 
-  .header-right {
+  .chat-mobile-btn {
+    display: flex;
+  }
+
+  .header .header-right {
+    display: none;
+  }
+
+  .app-header .header-right {
+    display: none;
+  }
+
+  .app-header .header-center {
     display: none;
   }
 
