@@ -33,7 +33,7 @@ async def test_list_users_admin(client: AsyncClient):
     resp = await client.get("/api/users", headers={"Authorization": f"Bearer {token}"})
     assert resp.status_code == 200
     data = resp.json()["data"]
-    assert len(data) == 4  # admin + 3 demo users
+    assert len(data["items"]) == 4  # admin + 3 demo users
 
 
 @pytest.mark.asyncio
@@ -65,7 +65,7 @@ async def test_update_user(client: AsyncClient):
     token = await _login_admin(client)
     # First get user list to find a user
     resp = await client.get("/api/users", headers={"Authorization": f"Bearer {token}"})
-    users = resp.json()["data"]
+    users = resp.json()["data"]["items"]
     demo_user = next(u for u in users if u["username"] == "helpdesk")
 
     resp = await client.put(
@@ -110,7 +110,7 @@ async def test_list_roles_admin(client: AsyncClient):
     resp = await client.get("/api/roles", headers={"Authorization": f"Bearer {token}"})
     assert resp.status_code == 200
     data = resp.json()["data"]
-    assert len(data) == 4  # 4 roles
+    assert len(data["items"]) == 4  # 4 roles
 
 
 @pytest.mark.asyncio
@@ -152,7 +152,7 @@ async def test_bot_list_admin(client: AsyncClient):
     resp = await client.get("/api/bots", headers={"Authorization": f"Bearer {token}"})
     assert resp.status_code == 200
     data = resp.json()["data"]
-    assert len(data) == 3  # Bot A, B, C
+    assert len(data["items"]) == 3  # Bot A, B, C
 
 
 @pytest.mark.asyncio
@@ -187,7 +187,7 @@ async def test_feedback_list_admin(client: AsyncClient):
     token = await _login_admin(client)
     resp = await client.get("/api/feedbacks", headers={"Authorization": f"Bearer {token}"})
     assert resp.status_code == 200
-    assert isinstance(resp.json()["data"], list)
+    assert isinstance(resp.json()["data"]["items"], list)
 
 
 @pytest.mark.asyncio

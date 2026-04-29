@@ -40,6 +40,9 @@ class Settings(BaseSettings):
     # Sync
     SYNC_CRON: str = "disabled"
 
+    # CORS
+    CORS_ALLOWED_ORIGINS: str = ""  # comma-separated list, e.g. "http://localhost:3000,http://localhost:3001"
+
     @property
     def DATABASE_URL(self) -> str:
         return (

@@ -96,6 +96,28 @@
 | app-backend容器unhealthy | DifyService初始化时连接Dify失败，但不影响API运行 |
 | Bot B待Dify入库 | ✅ 已完成 — Dify知识库导入+Bot绑定，状态active |
 
+## TASK-M5-002 子任务拆分（2026-04-29）
+
+| 子任务ID | 描述 | 状态 |
+|----------|------|------|
+| TASK-M5-002-1 | 实现 POST /api/auth/logout 登出端点 | ⏳ 待开始 |
+| TASK-M5-002-2 | 实现 POST /api/feishu/sync 手动触发飞书同步端点 | ⏳ 待开始 |
+| TASK-M5-002-3 | 列表接口添加分页（users/roles/bots/feedbacks/conversations） | ⏳ 待开始 |
+| TASK-M5-002-4 | 修复 feishu.py 错误响应格式（改用 HTTPException） | ⏳ 待开始 |
+| TASK-M5-002-5 | 修复 require_permissions 知识库通配符短路逻辑 | ⏳ 待开始 |
+| TASK-M5-002-6 | refresh token 校验用户状态 | ⏳ 待开始 |
+| TASK-M5-002-7 | CORS 配置改为环境变量读取 | ⏳ 待开始 |
+| TASK-M5-002-8 | 飞书凭据统一从 config.py 读取 | ⏳ 待开始 |
+
+## TASK-M5-005 子任务拆分（2026-04-29）
+
+| 子任务ID | 描述 | 状态 |
+|----------|------|------|
+| TASK-M5-005-1 | 后端 chat.py 阻塞模式修复：send_message 查询 ConversationModel 获取 dify_conversation_id | ⏳ 待开始 |
+| TASK-M5-005-2 | 后端 chat.py 流式模式修复：_stream_generator 查询 ConversationModel 获取 dify_conversation_id | ⏳ 待开始 |
+| TASK-M5-005-3 | 前端 api-service.js sendMessageStream 增加 conversationId 参数，移除硬编码 null | ⏳ 待开始 |
+| TASK-M5-005-4 | 前端 app.js 调用 sendMessageStream 时传入 currentConversationId | ⏳ 待开始 |
+
 ## 重要技术决策变更（2026-04-22）
 
 | 决策项 | 变更前 | 变更后 |

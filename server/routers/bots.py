@@ -16,13 +16,27 @@ router = APIRouter(prefix="/api/bots", tags=["bots"])
 
 @router.get("")
 async def list_bots(
+    page: int = 1,
+    page_size: int = 20,
     db: AsyncSession = Depends(get_db),
     _user: UserModel = Depends(require_permissions("user.manage")),
 ):
-    """Bot列表（管理后台可见所有状态）"""
-    result = await db.execute(select(BotModel))
+    """Bot列表（管理后台可见所有状态，支持分页）"""
+    from server.schemas.common import PaginationParams, PaginatedData
+
+    p = PaginationParams(page=page, page_size=page_size)
+
+    # Get total count
+    count_result = await db.execute(select(BotModel))
+    total = len(count_result.scalars().all())
+
+    # Get paginated bots
+    result = await db.execute(
+        select(BotModel).offset(p.offset).limit(p.page_size)
+    )
     bots = result.scalars().all()
-    return SuccessResponse(data=[
+
+    items = [
         {
             "id": b.id,
             "name": b.name,
@@ -35,7 +49,14 @@ async def list_bots(
             "created_at": b.created_at.isoformat() if b.created_at else "",
         }
         for b in bots
-    ])
+    ]
+
+    return SuccessResponse(data=PaginatedData(
+        items=items,
+        total=total,
+        page=p.page,
+        page_size=p.page_size,
+    ).model_dump())
 
 
 @router.post("")

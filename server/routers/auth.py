@@ -53,8 +53,14 @@ async def login(body: LoginRequest, db: AsyncSession = Depends(get_db)):
     )
 
 
+@router.post("/logout")
+async def logout(current_user: UserModel = Depends(get_current_user)):
+    """用户登出（前端清除Token即可，后端无需处理）"""
+    return SuccessResponse(data={"message": "Logged out successfully"})
+
+
 @router.post("/refresh")
-async def refresh_token(body: RefreshRequest):
+async def refresh_token(body: RefreshRequest, db: AsyncSession = Depends(get_db)):
     try:
         payload = decode_token(body.refresh_token)
     except ValueError:
@@ -74,6 +80,20 @@ async def refresh_token(body: RefreshRequest):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token payload",
+        )
+
+    # Verify user still exists and is active
+    result = await db.execute(select(UserModel).where(UserModel.id == user_id))
+    user = result.scalar_one_or_none()
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found",
+        )
+    if user.status != "active":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="User account is disabled",
         )
 
     new_access_token = create_access_token(user_id)

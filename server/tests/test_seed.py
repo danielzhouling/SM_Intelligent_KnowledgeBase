@@ -11,7 +11,7 @@ from server.seed import seed_initial_data
 async def test_seed_creates_permissions(db: AsyncSession):
     await seed_initial_data(db)
     result = await db.execute(select(func.count()).select_from(PermissionModel))
-    assert result.scalar() == 9  # 5 base + 4 bot permissions
+    assert result.scalar() == 8  # 5 base + 3 bot permissions
 
 
 @pytest.mark.asyncio

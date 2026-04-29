@@ -14,14 +14,30 @@ router = APIRouter(prefix="/api/roles", tags=["roles"])
 
 @router.get("")
 async def list_roles(
+    page: int = 1,
+    page_size: int = 20,
     db: AsyncSession = Depends(get_db),
     _user: UserModel = Depends(require_permissions("role.manage")),
 ):
+    """角色列表（支持分页）"""
+    from server.schemas.common import PaginationParams, PaginatedData
+
+    p = PaginationParams(page=page, page_size=page_size)
+
+    # Get total count
+    count_result = await db.execute(select(RoleModel))
+    total = len(count_result.scalars().all())
+
+    # Get paginated roles with relations
     result = await db.execute(
-        select(RoleModel).options(selectinload(RoleModel.permissions), selectinload(RoleModel.users))
+        select(RoleModel)
+        .options(selectinload(RoleModel.permissions), selectinload(RoleModel.users))
+        .offset(p.offset)
+        .limit(p.page_size)
     )
     roles = result.scalars().all()
-    return SuccessResponse(data=[
+
+    items = [
         {
             "id": r.id,
             "name": r.name,
@@ -31,7 +47,14 @@ async def list_roles(
             "created_at": r.created_at.isoformat() if r.created_at else "",
         }
         for r in roles
-    ])
+    ]
+
+    return SuccessResponse(data=PaginatedData(
+        items=items,
+        total=total,
+        page=p.page,
+        page_size=p.page_size,
+    ).model_dump())
 
 
 @router.post("")

@@ -50,10 +50,16 @@ async def list_feedbacks(
     bot_id: str | None = None,
     rating: str | None = None,
     status: str | None = None,
+    page: int = 1,
+    page_size: int = 20,
     db: AsyncSession = Depends(get_db),
     _user: UserModel = Depends(require_permissions("feedback.view")),
 ):
-    """反馈列表（管理后台，支持筛选）"""
+    """反馈列表（管理后台，支持筛选和分页）"""
+    from server.schemas.common import PaginationParams, PaginatedData
+
+    p = PaginationParams(page=page, page_size=page_size)
+
     query = select(FeedbackModel).options(selectinload(FeedbackModel.bot))
     filters = []
 
@@ -67,11 +73,16 @@ async def list_feedbacks(
     if filters:
         query = query.where(and_(*filters))
 
-    query = query.order_by(FeedbackModel.created_at.desc())
+    # Get total count
+    count_result = await db.execute(query)
+    total = len(count_result.scalars().all())
+
+    # Apply pagination and ordering
+    query = query.order_by(FeedbackModel.created_at.desc()).offset(p.offset).limit(p.page_size)
     result = await db.execute(query)
     feedbacks = result.scalars().all()
 
-    return SuccessResponse(data=[
+    items = [
         {
             "id": f.id,
             "bot_id": f.bot_id,
@@ -91,7 +102,14 @@ async def list_feedbacks(
             "created_at": f.created_at.isoformat() if f.created_at else "",
         }
         for f in feedbacks
-    ])
+    ]
+
+    return SuccessResponse(data=PaginatedData(
+        items=items,
+        total=total,
+        page=p.page,
+        page_size=p.page_size,
+    ).model_dump())
 
 
 @router.post("/{feedback_id}/review")

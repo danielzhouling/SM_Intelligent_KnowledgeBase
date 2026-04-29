@@ -14,12 +14,27 @@ router = APIRouter(prefix="/api/users", tags=["users"])
 
 @router.get("")
 async def list_users(
+    page: int = 1,
+    page_size: int = 20,
     db: AsyncSession = Depends(get_db),
     _user: UserModel = Depends(require_permissions("user.manage")),
 ):
-    result = await db.execute(select(UserModel))
+    """用户列表（支持分页）"""
+    from server.schemas.common import PaginationParams, PaginatedData, PaginatedResponse
+
+    p = PaginationParams(page=page, page_size=page_size)
+
+    # Get total count
+    count_result = await db.execute(select(UserModel))
+    total = len(count_result.scalars().all())
+
+    # Get paginated users
+    result = await db.execute(
+        select(UserModel).offset(p.offset).limit(p.page_size)
+    )
     users = result.scalars().all()
-    return SuccessResponse(data=[
+
+    items = [
         {
             "id": u.id,
             "username": u.username,
@@ -29,7 +44,14 @@ async def list_users(
             "created_at": u.created_at.isoformat() if u.created_at else "",
         }
         for u in users
-    ])
+    ]
+
+    return SuccessResponse(data=PaginatedData(
+        items=items,
+        total=total,
+        page=p.page,
+        page_size=p.page_size,
+    ).model_dump())
 
 
 @router.get("/{user_id}")

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -7,6 +7,7 @@ from server.database import get_db
 from server.models import SyncStatusModel, UserModel
 from server.schemas.common import SuccessResponse
 from server.services.feishu_client import feishu_client
+from server.services.feishu_sync import sync_feishu_to_qdrant
 
 router = APIRouter(prefix="/api/feishu", tags=["feishu"])
 
@@ -22,7 +23,7 @@ async def get_release_index(_user: UserModel = Depends(get_current_user)):
         sheets = await feishu_client.get_sheet_list()
         release_index_sheet = next((s for s in sheets if "Release Index" in s["title"]), None)
         if not release_index_sheet:
-            return SuccessResponse(data={"error": "未找到 Release Index Sheet"})
+            raise HTTPException(status_code=404, detail="未找到 Release Index Sheet")
 
         rows = await feishu_client.get_sheet_data(release_index_sheet["sheet_id"])
         result_lines = ["# 版本发布索引 (Release Index)\n"]
@@ -43,8 +44,10 @@ async def get_release_index(_user: UserModel = Depends(get_current_user)):
                     result_lines.append("")
 
         return SuccessResponse(data={"result": "\n".join(result_lines)})
+    except HTTPException:
+        raise
     except Exception as e:
-        return SuccessResponse(data={"error": str(e)})
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/terminal-versions")
@@ -55,7 +58,7 @@ async def get_terminal_versions(_user: UserModel = Depends(get_current_user)):
             (s for s in sheets if "Production Terminal Versions" in s["title"]), None
         )
         if not terminal_sheet:
-            return SuccessResponse(data={"error": "未找到 Production Terminal Versions Sheet"})
+            raise HTTPException(status_code=404, detail="未找到 Production Terminal Versions Sheet")
 
         rows = await feishu_client.get_sheet_data(terminal_sheet["sheet_id"])
         result_lines = ["# 生产环境终端版本\n"]
@@ -81,8 +84,10 @@ async def get_terminal_versions(_user: UserModel = Depends(get_current_user)):
                         result_lines.append(f"- **{version_map[header]}**: {cell}")
 
         return SuccessResponse(data={"result": "\n".join(result_lines)})
+    except HTTPException:
+        raise
     except Exception as e:
-        return SuccessResponse(data={"error": str(e)})
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/search")
@@ -94,7 +99,7 @@ async def search_releases(
         sheets = await feishu_client.get_sheet_list()
         release_index_sheet = next((s for s in sheets if "Release Index" in s["title"]), None)
         if not release_index_sheet:
-            return SuccessResponse(data={"error": "未找到 Release Index Sheet"})
+            raise HTTPException(status_code=404, detail="未找到 Release Index Sheet")
 
         rows = await feishu_client.get_sheet_data(release_index_sheet["sheet_id"])
         result_lines = [f'# 搜索结果: "{keyword}"\n']
@@ -129,8 +134,55 @@ async def search_releases(
             result_lines.append("未找到匹配结果")
 
         return SuccessResponse(data={"result": "\n".join(result_lines)})
+    except HTTPException:
+        raise
     except Exception as e:
-        return SuccessResponse(data={"error": str(e)})
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/sync")
+async def trigger_sync(
+    db: AsyncSession = Depends(get_db),
+    _user: UserModel = Depends(get_current_user),
+):
+    """手动触发飞书同步"""
+    import uuid
+    from datetime import datetime
+
+    sync_id = str(uuid.uuid4())
+    try:
+        result = sync_feishu_to_qdrant()
+
+        # Record sync status
+        sync_record = SyncStatusModel(
+            id=sync_id,
+            collection="bot_c_versions",
+            records_synced=result.get("released", 0) + result.get("terminal", 0),
+            synced_at=datetime.utcnow(),
+            status="success",
+        )
+        db.add(sync_record)
+        await db.commit()
+
+        return SuccessResponse(data={
+            "sync_id": sync_id,
+            "status": "success",
+            "released": result.get("released", 0),
+            "terminal": result.get("terminal", 0),
+        })
+    except Exception as e:
+        # Record failed sync
+        sync_record = SyncStatusModel(
+            id=sync_id,
+            collection="bot_c_versions",
+            records_synced=0,
+            synced_at=datetime.utcnow(),
+            status="failed",
+            error_message=str(e),
+        )
+        db.add(sync_record)
+        await db.commit()
+        raise HTTPException(status_code=500, detail=f"同步失败: {str(e)}")
 
 
 @router.get("/sync/status")

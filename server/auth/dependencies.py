@@ -45,19 +45,23 @@ async def get_current_user(
 
 
 def require_permissions(*required_keys: str):
-    """Dependency factory: checks if current user has any of the required permissions."""
+    """Dependency factory: checks if current user has any of the required permissions.
+
+    knowledge.* wildcard grants access to knowledge.X permissions only.
+    """
     async def checker(current_user: UserModel = Depends(get_current_user)) -> UserModel:
         user_permissions = set()
         for role in current_user.roles:
             for perm in role.permissions:
                 user_permissions.add(perm.key)
 
-        # Check wildcard
-        if "knowledge.*" in user_permissions:
-            return current_user
+        has_wildcard = "knowledge.*" in user_permissions
 
         for key in required_keys:
             if key in user_permissions:
+                return current_user
+            # knowledge.* grants access to knowledge.X (but not other permissions)
+            if has_wildcard and key.startswith("knowledge."):
                 return current_user
 
         raise HTTPException(

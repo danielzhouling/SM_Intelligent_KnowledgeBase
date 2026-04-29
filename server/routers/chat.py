@@ -39,26 +39,47 @@ def _check_bot_active(bot: BotModel) -> None:
 
 @router.get("/conversations")
 async def list_conversations(
+    page: int = 1,
+    page_size: int = 20,
     db: AsyncSession = Depends(get_db),
     current_user: UserModel = Depends(get_current_user),
 ):
-    """获取当前用户的会话列表"""
+    """获取当前用户的会话列表（支持分页）"""
+    from server.schemas.common import PaginationParams, PaginatedData
+
+    p = PaginationParams(page=page, page_size=page_size)
+
+    # Get total count
+    count_result = await db.execute(
+        select(ConversationModel).where(ConversationModel.user_id == current_user.id)
+    )
+    total = len(count_result.scalars().all())
+
+    # Get paginated conversations
     result = await db.execute(
         select(ConversationModel)
         .where(ConversationModel.user_id == current_user.id)
         .order_by(ConversationModel.updated_at.desc())
+        .offset(p.offset)
+        .limit(p.page_size)
     )
     convs = result.scalars().all()
-    return SuccessResponse(data=[
-        {
-            "id": c.id,
-            "bot_id": c.bot_id,
-            "title": c.title,
-            "created_at": c.created_at.isoformat() if c.created_at else "",
-            "updated_at": c.updated_at.isoformat() if c.updated_at else "",
-        }
-        for c in convs
-    ])
+
+    return SuccessResponse(data=PaginatedData(
+        items=[
+            {
+                "id": c.id,
+                "bot_id": c.bot_id,
+                "title": c.title,
+                "created_at": c.created_at.isoformat() if c.created_at else "",
+                "updated_at": c.updated_at.isoformat() if c.updated_at else "",
+            }
+            for c in convs
+        ],
+        total=total,
+        page=p.page,
+        page_size=p.page_size,
+    ).model_dump())
 
 
 @router.get("/conversations/{conversation_id}/messages")

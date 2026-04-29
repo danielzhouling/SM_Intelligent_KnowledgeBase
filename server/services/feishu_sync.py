@@ -17,19 +17,21 @@ from qdrant_client.models import Distance, VectorParams, PointStruct
 
 
 # ============== 配置 ==============
-FEISHU_APP_ID = "cli_a932aed4ec389bcb"
-FEISHU_APP_SECRET = "VEDSStFLUfeYWJe86oQwnhOxdUiaTiaN"
-FEISHU_SPREADSHEET_TOKEN = "YASaso15NhaPfQt4JTkcgKvYneY"
+from server.config import settings
 
-OLLAMA_BASE_URL = "http://localhost:11434"
-EMBEDDING_MODEL = "bge-m3"
+FEISHU_APP_ID = settings.FEISHU_APP_ID
+FEISHU_APP_SECRET = settings.FEISHU_APP_SECRET
+FEISHU_SPREADSHEET_TOKEN = settings.FEISHU_TABLE_ID
 
-QDRANT_HOST = "localhost"
-QDRANT_PORT = 6333
+OLLAMA_BASE_URL = settings.OLLAMA_HOST
+EMBEDDING_MODEL = settings.OLLAMA_EMBED_MODEL
+
+QDRANT_HOST = settings.QDRANT_HOST
+QDRANT_PORT = settings.QDRANT_PORT
 QDRANT_COLLECTION = "bot_c_versions"
 VECTOR_DIM = 1024  # bge-m3
 
-SYNC_CRON = "0 * * * *"  # 每小时同步
+SYNC_CRON = settings.SYNC_CRON  # 每小时同步
 
 
 # ============== 工具函数 ==============
