@@ -345,7 +345,7 @@
     {
       "id": "TASK-M6-003",
       "description": "改造用户端bots.html：暗色顶栏 + Bot渐变字母徽章(替代CSS机器人脸头像) + 卡片网格(header/body/footer三段式) + 移动端单列 + ARIA",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M6-004",

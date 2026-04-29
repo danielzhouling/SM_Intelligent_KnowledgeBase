@@ -363,32 +363,27 @@ function renderBots(availableBots, user) {
     const knowledge = mockBot.knowledge || [];
     const description = bot.description || mockBot.description || '';
 
+    // Bot key letter for gradient badge
+    const botKey = (bot.key || 'A').toUpperCase();
+    const badgeClass = `bot-badge-${botKey.toLowerCase()}`;
+
+    card.setAttribute('role', 'listitem');
+
     card.innerHTML = `
-      <div class="bot-avatar">
-        <div class="bot-head">
-          <div class="bot-face">
-            <div class="bot-eyes">
-              <div class="bot-eye"></div>
-              <div class="bot-eye"></div>
-            </div>
-            <div class="bot-mouth"></div>
-          </div>
-          <div class="bot-online"></div>
-          <div class="bot-icon-overlay">${icon}</div>
+      <div class="bot-card-header">
+        <div class="bot-badge ${badgeClass}">${botKey}</div>
+        <div class="bot-status active">Active</div>
+      </div>
+      <div class="bot-card-body">
+        <h3 class="bot-name">${escapeHtml(bot.name)}</h3>
+        <p class="bot-desc">${escapeHtml(description)}</p>
+        <div class="bot-meta">
+          ${knowledge.map(k => `<span class="bot-meta-item">${escapeHtml(k)}</span>`).join('')}
         </div>
       </div>
-      <h3 class="bot-name">${escapeHtml(bot.name)}</h3>
-      <p class="bot-desc">${escapeHtml(description)}</p>
-      <div class="bot-knowledge">
-        ${knowledge.map(k => `<span class="knowledge-tag">${escapeHtml(k)}</span>`).join('')}
-      </div>
-      <div class="bot-status status-available">
-        Online
-      </div>
-      <div class="bot-actions">
-        <button class="btn btn-ai btn-block" data-bot="${bot.id}">
-          <span>Start Chat</span>
-          <span>→</span>
+      <div class="bot-card-footer">
+        <button class="btn btn-primary btn-block" data-bot="${bot.id}" aria-label="Start chat with ${escapeHtml(bot.name)}">
+          Start Chat
         </button>
       </div>
     `;

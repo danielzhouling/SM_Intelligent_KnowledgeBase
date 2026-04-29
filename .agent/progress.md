@@ -23,6 +23,22 @@
 - 页面正常加载（login/bots/chat/admin 均返回 200）
 - 无移除变量残留引用（`--text-dark`, `--ai-gradient` 已清理）
 
+## TASK-M6-003 改造用户端bots.html（2026-04-30 完成）
+
+### 变更内容
+- **HTML重构**：暗色顶栏(`.header-inner` + `.brand` + `.header-right` + `.user-badge`) + `.main-content` + `.page-header`
+- **Bot卡片三段式**：`.bot-card-header`(渐变徽章+Active状态) + `.bot-card-body`(name+desc+meta) + `.bot-card-footer`(Start Chat按钮)
+- **渐变字母徽章**：替代CSS机器人脸头像, `.bot-badge-a/b/c/d` 对应不同Bot
+- **renderBots()改造**：移除`.bot-avatar/.bot-face/.bot-eyes`机器人脸, 改用`.bot-badge`渐变字母
+- **暗色顶栏**：`background: var(--bg-dark)`(#1E293B), 白色文字, SVG Logo
+- **移动端适配**：<768px 隐藏`.header-right`, 显示`.mobile-menu-btn`, `.bots-grid`单列
+- **ARIA**：`role="banner/main/list/listitem"`, `aria-label`按钮
+- **CSS级联修复**：`.mobile-menu-btn`默认样式移至`@media`块之前, 避免被覆盖
+
+### 测试结果
+- Playwright 14/14 测试通过（暗色顶栏/渐变徽章/卡片结构/移动端/导航跳转/JS无报错）
+- M6-002登录页回归10/10通过
+
 ## TASK-M6-002 改造用户端login.html（2026-04-30 完成）
 
 ### 变更内容
