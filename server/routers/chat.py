@@ -148,13 +148,23 @@ async def send_message(
     _check_bot_permission(current_user, bot)
     _check_bot_active(bot)
 
+    # Resolve dify_conversation_id: 已有会话时, 用我们的 UUID 查表获取 Dify ID
+    dify_conv_id = ""
+    if body.conversation_id:
+        conv_result = await db.execute(
+            select(ConversationModel).where(ConversationModel.id == body.conversation_id)
+        )
+        conv = conv_result.scalar_one_or_none()
+        if conv:
+            dify_conv_id = conv.dify_conversation_id
+
     try:
         dify_resp = await dify_service.chat_blocking(
             db=db,
             bot_key=bot.key,
             query=body.query,
             user_id=current_user.id,
-            conversation_id=body.conversation_id or "",
+            conversation_id=dify_conv_id,
         )
 
         conversation_id = dify_resp.get("conversation_id", "")
@@ -207,9 +217,13 @@ async def _stream_generator(
     db: AsyncSession,
     current_user: UserModel,
     bot: BotModel,
+    our_conversation_id: str = "",
 ) -> AsyncGenerator[str, None]:
-    """Internal generator for SSE streaming."""
-    saved_conversation_id = conversation_id
+    """Internal generator for SSE streaming.
+
+    conversation_id: Dify conversation ID (已解析,空字符串表示新会话)
+    our_conversation_id: 我们的内部 UUID (已有会话时传入,用于更新 existing conversation)
+    """
     final_data = {}
 
     try:
@@ -231,18 +245,33 @@ async def _stream_generator(
                     data = json.loads(data_str)
                     if data.get("event") == "message_end":
                         final_data = data
-                        if not saved_conversation_id and data.get("conversation_id"):
-                            # Create conversation mapping
+                        dify_returned_conv_id = data.get("conversation_id", "")
+                        if dify_returned_conv_id:
                             title = query[:50]
-                            new_conv = ConversationModel(
-                                user_id=current_user.id,
-                                bot_id=bot.id,
-                                dify_conversation_id=data["conversation_id"],
-                                title=title,
-                            )
-                            db.add(new_conv)
-                            await db.commit()
-                            final_data["our_conversation_id"] = new_conv.id
+                            if our_conversation_id:
+                                # 已有会话: 更新 existing conversation
+                                conv_result = await db.execute(
+                                    select(ConversationModel).where(
+                                        ConversationModel.id == our_conversation_id
+                                    )
+                                )
+                                existing_conv = conv_result.scalar_one_or_none()
+                                if existing_conv:
+                                    existing_conv.dify_conversation_id = dify_returned_conv_id
+                                    existing_conv.updated_at = func.now()
+                                    await db.commit()
+                                    final_data["our_conversation_id"] = our_conversation_id
+                            else:
+                                # 新会话: 创建 conversation mapping
+                                new_conv = ConversationModel(
+                                    user_id=current_user.id,
+                                    bot_id=bot.id,
+                                    dify_conversation_id=dify_returned_conv_id,
+                                    title=title,
+                                )
+                                db.add(new_conv)
+                                await db.commit()
+                                final_data["our_conversation_id"] = new_conv.id
             except json.JSONDecodeError:
                 pass
 
@@ -268,14 +297,25 @@ async def send_message_stream(
     _check_bot_permission(current_user, bot)
     _check_bot_active(bot)
 
+    # Resolve dify_conversation_id: 已有会话时, 用我们的 UUID 查表获取 Dify ID
+    dify_conv_id = ""
+    if body.conversation_id:
+        conv_result = await db.execute(
+            select(ConversationModel).where(ConversationModel.id == body.conversation_id)
+        )
+        conv = conv_result.scalar_one_or_none()
+        if conv:
+            dify_conv_id = conv.dify_conversation_id
+
     generator = _stream_generator(
         bot_key=bot.key,
         query=body.query,
         user_id=current_user.id,
-        conversation_id=body.conversation_id or "",
+        conversation_id=dify_conv_id,
         db=db,
         current_user=current_user,
         bot=bot,
+        our_conversation_id=body.conversation_id or "",
     )
 
     return StreamingResponse(

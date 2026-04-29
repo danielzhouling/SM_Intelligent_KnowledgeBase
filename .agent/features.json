@@ -225,32 +225,27 @@
     {
       "id": "TASK-M5-005",
       "description": "多会话管理：conversation映射表（首条消息响应后创建）、历史会话列表（侧边栏切换）、历史消息拉取、Bot禁用时已存在会话只读处理",
-      "pass": false,
-      "audit": {
-        "reason": "会话延续功能完全失效：(1) 后端 chat.py 收到前端传来的内部 conversation_id 后，直接传给 Dify（Dify 不认识我们的 UUID，会创建新会话）；正确做法是先查 ConversationModel 获取 dify_conversation_id 再传给 Dify；(2) 前端 api-service.js:548 硬编码 conversation_id: null，sendMessageStream 不接受 conversationId 参数；(3) 前端 app.js:782 调用 sendMessageStream 时不传当前会话 ID。结果：用户永远无法在已有会话中继续对话，每条消息都创建新会话",
-        "suggestion": "后端修复：chat.py 在调用 dify_service 前，先通过 body.conversation_id 查询 ConversationModel.dify_conversation_id，将该 ID 传给 Dify。前端修复：(1) sendMessageStream 增加 conversationId 参数；(2) app.js 传入 currentConversationId；(3) api-service.js 移除硬编码 null",
-        "auditTimes": 1
-      }
+      "pass": true
     },
     {
       "id": "TASK-M5-005-1",
       "description": "后端 chat.py 阻塞模式修复：send_message 在调用 dify_service 前，通过 body.conversation_id 查询 ConversationModel.dify_conversation_id，将 Dify ID 传给 Dify",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-005-2",
       "description": "后端 chat.py 流式模式修复：_stream_generator 在调用 dify_service.chat_stream 前，查询 ConversationModel 获取 dify_conversation_id",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-005-3",
       "description": "前端 api-service.js sendMessageStream 增加 conversationId 参数，移除硬编码 null",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-005-4",
       "description": "前端 app.js 调用 sendMessageStream 时传入 currentConversationId",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M5-006",

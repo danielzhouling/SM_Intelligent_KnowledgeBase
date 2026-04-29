@@ -810,7 +810,9 @@ async function handleSendMessage(e) {
           Toast.error(error || 'Failed to get response');
           // 移除正在流式输出的消息
           removeStreamingMessage();
-        }
+        },
+        // conversationId - 已有会话时传入，继续对话
+        currentConversationId
       );
     }
   } catch (error) {

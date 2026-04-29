@@ -516,9 +516,15 @@
 
     /**
      * 发送消息（流式模式，实时展示AI回答）
+     * @param {string} botId - Bot ID
+     * @param {string} query - 用户问题
+     * @param {function} onChunk - 流式内容回调
+     * @param {function} onComplete - 完成回调
+     * @param {function} onError - 错误回调
+     * @param {string|null} [conversationId] - 会话ID (已有会话时传入，新建会话时传null)
      * @returns {Promise<{conversationId: string, citations: Array}>}
      */
-    async sendMessageStream(botId, query, onChunk, onComplete, onError) {
+    async sendMessageStream(botId, query, onChunk, onComplete, onError, conversationId = null) {
       if (this._mode === 'mock') {
         return this._mockStream(botId, query, onChunk, onComplete);
       }
@@ -545,7 +551,7 @@
           body: JSON.stringify({
             bot_id: botId,
             query,
-            conversation_id: null,
+            conversation_id: conversationId,
           }),
           credentials: 'include',
         });
@@ -555,7 +561,7 @@
           try {
             accessToken = await TokenManager.refresh();
             // 重试请求
-            return this.sendMessageStream(botId, query, onChunk, onComplete, onError);
+            return this.sendMessageStream(botId, query, onChunk, onComplete, onError, conversationId);
           } catch (e) {
             onError?.('认证已过期，请刷新页面重新登录');
             throw e;
