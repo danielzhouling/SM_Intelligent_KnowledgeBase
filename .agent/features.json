@@ -188,6 +188,36 @@
       "pass": true
     },
     {
+      "id": "TASK-M4-007",
+      "description": "Dify知识库检索模式优化：Bot A/B从混合检索切换为纯语义检索（vector_weight 0.7→1.0, keyword_weight 0.3→0.0），检索成功率 Bot A 60.5%→100%, Bot B 62.5%→100%",
+      "pass": true
+    },
+    {
+      "id": "TASK-M4-007-1",
+      "description": "Dify知识库 Bot A 切换为纯语义检索模式 (vector_weight=1.0, keyword_weight=0.0)",
+      "pass": true
+    },
+    {
+      "id": "TASK-M4-007-2",
+      "description": "Dify知识库 Bot B 切换为纯语义检索模式 (vector_weight=1.0, keyword_weight=0.0)",
+      "pass": true
+    },
+    {
+      "id": "TASK-M4-007-3",
+      "description": "重跑 Bot A 检索测试用例（38条），检索率 60.5%→100%, PASS 21%→26.3%, FAIL 21%→0%, 37/38改善 0退化",
+      "pass": true
+    },
+    {
+      "id": "TASK-M4-007-4",
+      "description": "重跑 Bot B 检索测试用例（64条），检索率 62.5%→100%, PASS 62%→98.4%",
+      "pass": true
+    },
+    {
+      "id": "TASK-M4-007-5",
+      "description": "对比报告: test_report_semantic_comparison_20260429.md，检索成功率两Bot均达100%，PASS受LLM(3B)限制",
+      "pass": true
+    },
+    {
       "id": "TASK-M5-001",
       "description": "Python/FastAPI后端服务搭建 + PostgreSQL独立实例部署 + 数据库Schema初始化 + JWT认证中间件 + 初始数据种子（admin/demo用户/角色/权限/Bot记录）",
       "pass": true,
@@ -301,6 +331,81 @@
       "id": "TASK-M5-010",
       "description": "端到端集成测试：用户端全流程（登录→选Bot→多会话聊天→反馈→历史会话）、管理后台全流程（Bot两步走注册→用户CRUD→反馈审核→导出）、流式响应+错误降级测试",
       "pass": true
+    },
+    {
+      "id": "TASK-M6-001",
+      "description": "创建统一CSS设计系统：基于style-a-tech补齐缺失变量(--radius-full, --bg-sidebar-hover)、Bot渐变色变量化(--bot-a/b/c-gradient)、三断点体系(mobile<768/tablet768-1024/desktop>1024)、统一组件样式库",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-002",
+      "description": "改造用户端login.html：深色渐变背景 + 双栏布局(品牌+表单) + 移动端单栏(隐藏品牌面板) + 表单焦点环 + ARIA无障碍",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-003",
+      "description": "改造用户端bots.html：暗色顶栏 + Bot渐变字母徽章(替代CSS机器人脸头像) + 卡片网格(header/body/footer三段式) + 移动端单列 + ARIA",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-004",
+      "description": "改造用户端chat.html：280px侧边栏 + 消息气泡(用户蓝底/Bot白底) + 流式反馈按钮 + 移动端抽屉侧边栏(汉堡菜单触发) + ARIA",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-005",
+      "description": "适配用户端JS渲染逻辑(app.js)：renderBots()改用渐变徽章(替代.bot-avatar机器人脸)、DOM选择器适配新class名、保持全部业务逻辑不变",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-006",
+      "description": "改造管理后台admin/login.html：深色背景 + 居中表单 + 管理员Logo + 移动端适配",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-007",
+      "description": "改造管理后台侧边栏+布局壳(6页面共用)：260px暗色侧边栏 + 汉堡菜单 + 移动端抽屉式侧边栏(overlay) + ARIA",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-008",
+      "description": "改造管理后台dashboard：统计卡片(auto-fit网格) + 最近反馈表格 + Bot状态面板 + 响应式网格",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-009",
+      "description": "改造管理后台users.html：数据表格 + 角色标签(蓝色pill) + 状态徽章 + 移动端水平滚动 + ARIA",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-010",
+      "description": "改造管理后台roles.html：角色卡片网格 + 权限标签(pill) + 编辑按钮 + 响应式 + ARIA",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-011",
+      "description": "改造管理后台bots.html：Bot卡片 + 渐变徽章 + 配置/禁用按钮 + 响应式",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-012",
+      "description": "改造管理后台feedback.html：反馈卡片列表(header+body+actions三段) + 审核操作(绿/红outline按钮) + 筛选下拉 + 响应式 + ARIA",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-013",
+      "description": "适配管理后台JS渲染逻辑(admin-api-service.js + admin-app.js)：DOM选择器适配新class名和HTML结构、保持全部业务逻辑不变",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-014",
+      "description": "全页面ARIA无障碍补全：语义化HTML5标签(nav/main/section/aside) + aria-label/aria-role + 键盘Tab导航 + 焦点管理(modal/dialog) + aria-live动态区域(流式消息/通知)",
+      "pass": false
+    },
+    {
+      "id": "TASK-M6-015",
+      "description": "全页面多端验收测试：Desktop(1440px) + Tablet(768-1024px) + Mobile(375px) + 无障碍检查(ARIA + 键盘导航) + 功能回归验证",
+      "pass": false
     }
   ]
 }

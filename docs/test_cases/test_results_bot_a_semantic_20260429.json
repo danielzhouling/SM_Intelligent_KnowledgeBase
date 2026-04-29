@@ -1,0 +1,1648 @@
+{
+  "bot": "a",
+  "search_method": "semantic",
+  "embedding": "bge-m3",
+  "score_threshold": 0.5,
+  "timestamp": "2026-04-29T23:42:19.278190",
+  "total": 38,
+  "stats": {
+    "PASS": 10,
+    "PARTIAL": 28,
+    "FAIL": 0,
+    "ERROR": 0
+  },
+  "pass_rate": 26.31578947368421,
+  "retrieval_success_rate": "38/38",
+  "results": [
+    {
+      "id": "A01",
+      "query": "shelftag printing error",
+      "grade": "PASS",
+      "retrieval_count": 5,
+      "top_score": 0.7401,
+      "answer_len": 846,
+      "answer_preview": "The issue you're facing is related to the shelf tag printer not being able to print. This problem seems to be caused by a default template for fresh tags with a unit of measurement (UOM) of 500 grams,",
+      "message_id": "32319763-b9dc-4a3b-b11a-6e14ed85e3fa",
+      "conversation_id": "3e609687-3597-4306-9654-5638b77a7192",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7401066,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Unable to print shelf tag (daily PCA and regular request) due to pending error found in queue"
+        },
+        {
+          "position": 2,
+          "score": 0.7199658,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "问题描述: Type: Shelftag Printer\nResponse Level:Level A / B / C / D\nDetails of Issue: Cannot print shelf"
+        },
+        {
+          "position": 3,
+          "score": 0.6964886,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "Good day!\nWe would like to ask for your assistance regarding on our shelf tag we are'nt able to prin"
+        },
+        {
+          "position": 4,
+          "score": 0.69139737,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "【UNABLE TO PRINT SHELFTAG】\n问题: UNABLE TO PRINT SHELFTAG"
+        },
+        {
+          "position": 5,
+          "score": 0.67315054,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nAlready resolved their concern, they can now print on shelftag"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A02",
+      "query": "POS offline mode cannot process sales",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.7345,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "534a8696-f269-49de-b5f2-d60dc9dfdcd4",
+      "conversation_id": "956a6254-2a00-49fc-9820-a6d4d932f9c8",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7345245,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "All POS are online and have sales on POS"
+        },
+        {
+          "position": 2,
+          "score": 0.7293761,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "解决方案:\nDefine Issue:Offline POS issue"
+        },
+        {
+          "position": 3,
+          "score": 0.7273566,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "What: online at POS but offline dmall device"
+        },
+        {
+          "position": 4,
+          "score": 0.7090189,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "问题描述: Type: Incident / Request\nResponse Level:Level A / B / C / D\nDetails of Issue: POS is offline. "
+        },
+        {
+          "position": 5,
+          "score": 0.69262064,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "问题描述: Type:POS OFFLINR\nResponse Level:Level A / B / C / D\nDetails of Issue:\n POS Offline Ctr 14 & 15"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A03",
+      "query": "uncaptured sales transaction",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.8445,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "fa3d05d6-b54a-4551-adba-586436cbbe48",
+      "conversation_id": "90283a24-382c-4bac-b081-f4d27ecc0c81",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.8444623,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "问题描述: UNCAPTURED\n SALES"
+        },
+        {
+          "position": 2,
+          "score": 0.8444623,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "问题描述: UNCAPTURED SALES"
+        },
+        {
+          "position": 3,
+          "score": 0.84161997,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "问题描述: INCIDENT: UNCAPTURED SALES"
+        },
+        {
+          "position": 4,
+          "score": 0.8238939,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Issue:Uncaptured Sales in SAP"
+        },
+        {
+          "position": 5,
+          "score": 0.8073139,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "解决方案:\nNo Uncaptured Sales"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A04",
+      "query": "GCASH payment failed at checkout",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.7001,
+      "answer_len": 150,
+      "answer_preview": "问题描述是关于Gcash支付在结账时失败，具体错误信息为【CANNOT CONNECT TO GCASH INT POSTING SERVER】。根据现有知识库无法回答该问题。建议您检查网络连接是否正常，并确认您的系统配置是否正确支持Gcash支付功能。如果问题依旧，请联系技术支持以获得进一步帮助。",
+      "message_id": "c56a76fa-6e78-4e1d-8b44-f2eedebf97fb",
+      "conversation_id": "9e761b84-2f99-4bcb-9fb0-7c74e5a8e28a",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7000909,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Good day, we still encountered error regarding Gcash int payment. amount was deducted to customer ac"
+        },
+        {
+          "position": 2,
+          "score": 0.66350937,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "【CANNOT CONNECT TO GCASH INT POSTING SERVER】\n问题: CANNOT CONNECT TO GCASH INT POSTING SERVER"
+        },
+        {
+          "position": 3,
+          "score": 0.6544564,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "【CAN’T USE GCASH INT SINCE POS MIGRATION】\n问题: CAN’T USE GCASH INT SINCE POS MIGRATION"
+        },
+        {
+          "position": 4,
+          "score": 0.6456269,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "问题描述: Type: Incident / Request\nResponse Level:Level A / B / C / D\nDetails of Issue:CANNOT CONNECT TO"
+        },
+        {
+          "position": 5,
+          "score": 0.6395768,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "【GCASH STATIC PAYMENT OPTION IS STILL ACTIVE】\n问题: GCASH STATIC PAYMENT OPTION IS STILL ACTIVE"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A05",
+      "query": "SAP movement type 101 error",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.7092,
+      "answer_len": 604,
+      "answer_preview": "错误现象是“Movement type 101: No data from SAP before finishing”。这通常意味着在处理某些事务时，ERP系统未能从SAP获取到必要的数据。根据现有知识库无法回答该问题，但你可以参考其他类似错误的解决步骤来尝试解决问题。\n\n例如，在[来源1]中提到的解决方案是检查是否存在用户正在处理同一个采购订单的情况，并且这个用户已经在使用特定的用户名（NHOS",
+      "message_id": "35f8c424-3968-42c3-959d-642f0d16e048",
+      "conversation_id": "cc7528e9-92c2-45b8-86c5-14efcbd78407",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.709221,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "【SVI San Fernando [0328] Integration Inventory 2025 December 9 - Error Msg: Movement type 101: No da"
+        },
+        {
+          "position": 2,
+          "score": 0.6652211,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "解决方案:\nDefine Issue:SVI Lipa [[0287] Integration Dashboard 2025 December 15 - Error Msg: Movement typ"
+        },
+        {
+          "position": 3,
+          "score": 0.66168064,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "【SVI AURA[1230] Integration Inventory 2025 December 19 - Error Msg: Movement type 101: No goods rece"
+        },
+        {
+          "position": 4,
+          "score": 0.65409684,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "【SVI Lanang [1094] Integration Inventory 2025 December 2 - Error Msg: Movement type 101: No goods re"
+        },
+        {
+          "position": 5,
+          "score": 0.6538031,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "解决方案:\nRoot Cause Analysis:Error Msg: Movement type 101: You cannot post to this asset (Asset 0060000"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A06",
+      "query": "EOD files not generated",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.8198,
+      "answer_len": 41,
+      "answer_preview": "根据现有知识库无法回答该问题。请提供更多信息，例如是在哪个系统或模块下遇到此问题。",
+      "message_id": "38ace66a-4613-4e3e-b2b2-8b4e417c7d98",
+      "conversation_id": "6947514b-b8c7-4f63-92a1-9395a4fe453b",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.8197799,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "Issue Description:No EOD Files"
+        },
+        {
+          "position": 2,
+          "score": 0.8197799,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "Issue Description:No EOD Files"
+        },
+        {
+          "position": 3,
+          "score": 0.78432786,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "Issue Description:NO EOD FILES"
+        },
+        {
+          "position": 4,
+          "score": 0.78432786,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "Issue Description:NO EOD FILES​"
+        },
+        {
+          "position": 5,
+          "score": 0.77178025,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "解决方案:\nDefine Issue:NO EOD FILES"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A07",
+      "query": "scanner barcode not read",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6929,
+      "answer_len": 256,
+      "answer_preview": "问题出现在手持扫描仪无法读取特定打印机上的二维码。根据现有知识库内容，我了解到这种情况可能是由于编码错误导致的，例如在批准数量（approval qty）中输入了2cs而不是0，这导致了过量的入库记录生成。此外，还提到有一个问题是由于无法为扫描和条形码创建任务，在Dmall应用中进行库存盘点时遇到的问题。\n\n解决步骤：\n1. 检查并修正任何可能存在的编码错误。\n2. 确保在所有情况下都正确输入零值",
+      "message_id": "a6980d48-3938-4d9b-bd58-df3e7fef97d8",
+      "conversation_id": "8b0a52f4-17fb-41a9-96f9-febcb4860eb7",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.69289315,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "HAND HELD SCANNERS UNABLE TO SCAN QR CODE OF NARROW PRINTER"
+        },
+        {
+          "position": 2,
+          "score": 0.6825112,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "【cannot create scanner bay barcode】\n问题: cannot create scanner bay barcode"
+        },
+        {
+          "position": 3,
+          "score": 0.6778022,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "I encoded 2cs in the approval qty. instead of Zero qty. I posted it that resulted to over GR.\nScanne"
+        },
+        {
+          "position": 4,
+          "score": 0.67267185,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "【QR CODE NOT READABLE】\n问题: QR CODE NOT READABLE"
+        },
+        {
+          "position": 5,
+          "score": 0.6662779,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "im face the problem for stock take because unable to create task for scanner and bay barcode at dmal"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A08",
+      "query": "password expired cannot login",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.7518,
+      "answer_len": 58,
+      "answer_preview": "根据现有知识库无法回答该问题。请提供更多信息，例如你的账户是否已经重置过密码，并且你是在尝试登录PDA时遇到的问题。",
+      "message_id": "cb7726b8-4fc9-4f6c-b3d7-fc91e95f4552",
+      "conversation_id": "07f13e23-0e43-41f4-8c70-15430f84af77",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.75183487,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "Expired accounts cannot log in to the PDA for receiving."
+        },
+        {
+          "position": 2,
+          "score": 0.74769753,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "【EXPIRED PASSWORD】\n问题: EXPIRED PASSWORD"
+        },
+        {
+          "position": 3,
+          "score": 0.69455343,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "解决方案:\nAlready reset password to default. Kindly try again.\nFYI. There will be a prompt 15 days befor"
+        },
+        {
+          "position": 4,
+          "score": 0.69455343,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "解决方案:\nAlready reset password to default. Kindly try again.\nFYI. There will be a prompt 15 days befor"
+        },
+        {
+          "position": 5,
+          "score": 0.69455343,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "解决方案:\nAlready reset password to default. Kindly try again.\nFYI.\n There will be a prompt 15 days befo"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A09",
+      "query": "押金系统如何退款",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6515,
+      "answer_len": 116,
+      "answer_preview": "在押金系统中，如果订单需要退货且与POS无关，那么这些订单可以正常通过POS进行退款处理。具体来说，当有下图所示的EC订单退货逻辑时，所有落于POS订单的订单都可以按照正常的POS退款流程来进行操作。\n\n根据现有知识库无法回答该问题",
+      "message_id": "46fe8b68-00aa-4d85-a61e-67a72556a6d0",
+      "conversation_id": "b0c46f75-0b5b-470f-ac30-bc3ddb3ab46d",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.65149486,
+          "document_name": "prd.txt",
+          "content_preview": "陈思强\n下图为 EC 订单退货逻辑，与 POS 无关，所有落 POS 订单的订单都可以正常走 POS 退款流程\n点击图片可查看完整电子表格"
+        },
+        {
+          "position": 2,
+          "score": 0.6453576,
+          "document_name": "prd.txt",
+          "content_preview": "【[3.1] 全局说明】\n本次押金系统主要作为押金状态记录系统，由 POS 客户端根据规则创建押金 ID，离线同步至押金系统后，由押金系统记录该笔押金的详细信息以及状态（含异常状态）"
+        },
+        {
+          "position": 3,
+          "score": 0.64348555,
+          "document_name": "prd.txt",
+          "content_preview": "【[3.2] 押金信息】\n详细信息\n押金 ID / Deposit ID- 主键\n押金类型 / Deposit Type - 枚举为“押金”和“MR Form”\n押金编码 / Deposit Code"
+        },
+        {
+          "position": 4,
+          "score": 0.63303393,
+          "document_name": "prd.txt",
+          "content_preview": "【[4.18] Deposit 预存款】\n4.18.1 需求概述\nSM 支持顾客交付一部分押金（例如预购，或 MR Form 进行退款等），并且在后续的交易中使用押金的场景。这类交易场景和之前卡系统在"
+        },
+        {
+          "position": 5,
+          "score": 0.6250725,
+          "document_name": "prd.txt",
+          "content_preview": "【[3.5] 押金列表】\n运营端新增押金管理列表（Deposit Mgt）页面，展示押金数据，可以通过押金编码进行搜索，同时可以根据日期、门店、POS No.、收银员 ID、押金类型、押金状态进行筛选"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A10",
+      "query": "POS收银员怎么登录",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.71,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "e927cbbf-2784-4122-9664-0470b731a0e2",
+      "conversation_id": "a4c070fd-2bfb-4a13-b254-017d50874760",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.71004367,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "Good morning for your assistance please.\ndue to cant login at POS."
+        },
+        {
+          "position": 2,
+          "score": 0.68569607,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "解决方案:\nSign On & Sign Off all POS."
+        },
+        {
+          "position": 3,
+          "score": 0.68569607,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "解决方案:\nSign On & Sign Off all POS."
+        },
+        {
+          "position": 4,
+          "score": 0.68550014,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "问题描述: Pls assist us to log in our cashier"
+        },
+        {
+          "position": 5,
+          "score": 0.68215775,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nSign On & Sign Off all POS"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A11",
+      "query": "磅秤数据怎么同步",
+      "grade": "PASS",
+      "retrieval_count": 5,
+      "top_score": 0.6527,
+      "answer_len": 305,
+      "answer_preview": "OSI磅秤系统负责在称重商品在商品/促销系统有更新时，通过消费MQ更新本地库。然后按照SM磅秤厂商的要求生成两个CSV文件（一个增量一个全量），并将这些文件上传到SM的FTP上进行后续处理。这个过程是通过接口调用实现的，具体包括接收商品信息、计算促销价格等步骤来生成相应的数据格式。\n\n同步流程如下：\n1. 商品/促销系统更新称重商品的信息。\n2. OSI磅秤系统消费MQ接收到更新通知后，根据厂商要",
+      "message_id": "86421ade-ca9f-406e-a1bd-6e2b2e5fa8f5",
+      "conversation_id": "96fbbb53-9736-4dbe-b2c8-86eba0586582",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6527419,
+          "document_name": "prd.txt",
+          "content_preview": "【[4.12] 磅秤系统（文件生成）@冯霄已评审】\n4.12.1 需求概述\nSM支持使用磅秤设备打印磅秤码，在POS加购时扫磅秤码完成称重商品的加购\n统一使用EAN18磅秤码\nPrefix: 2 di"
+        },
+        {
+          "position": 2,
+          "score": 0.6022706,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "Please Coordinate to MASTERDATA"
+        },
+        {
+          "position": 3,
+          "score": 0.59945,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "Please Coordinate to MAsterData"
+        },
+        {
+          "position": 4,
+          "score": 0.58629674,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "Please coordinate to MASTERDATA"
+        },
+        {
+          "position": 5,
+          "score": 0.58629674,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "Please coordinate to MASTERDATA"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A12",
+      "query": "小票打印格式在哪里设置",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.5969,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "9ec5aa7f-8513-46e6-96e1-69fc348e6149",
+      "conversation_id": "e6d57ada-7d2a-4243-a04c-5dbb59d635e5",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.59688413,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "New Ticket Creation Template"
+        },
+        {
+          "position": 2,
+          "score": 0.59688413,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "New Ticket Creation Template"
+        },
+        {
+          "position": 3,
+          "score": 0.59688413,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "New Ticket Creation Template"
+        },
+        {
+          "position": 4,
+          "score": 0.59688413,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "New\n Ticket Creation Template"
+        },
+        {
+          "position": 5,
+          "score": 0.59688413,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "New Ticket Creation Template"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A13",
+      "query": "SMAC会员积分怎么计算",
+      "grade": "PASS",
+      "retrieval_count": 5,
+      "top_score": 0.6929,
+      "answer_len": 281,
+      "answer_preview": "当用户成功登录会员，并且完成支付后，POS 在打印小票前需要调用积分试算接口获得本次要额外发放的积分数量。并且该逻辑离线状况下不可用，但是不影响打小票。\n\n具体来说，如果会员类型 Promo Eligibility 字段为 true，则在算价接口中需要入参会员 ID 以及会员等级（研发对齐会员等级枚举）。这样可以确保根据会员信息来计算积分。\n\n总结一下，SMAC会员积分的计算逻辑如下：\n1. 用户",
+      "message_id": "e02f785b-6a94-4a2f-a2ea-7910066f493b",
+      "conversation_id": "91e0a9f6-e89c-4150-af64-24c25b9147dd",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.69287175,
+          "document_name": "prd.txt",
+          "content_preview": "【[4.24] SMAC 会员（登录、算价、促销）】\n4.24.1 需求概述\nSMAC 是 SM 的会员体系，不仅仅适用于 SM Market，同时还适用于其他 SM 的商业领域，如酒店等。在 SM "
+        },
+        {
+          "position": 2,
+          "score": 0.6353115,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "not working , already scan 500 worth of promo items with SMAC card. with 69 pcs allocation but 25pcs"
+        },
+        {
+          "position": 3,
+          "score": 0.6190322,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "May we request to re extract file the SMAC File."
+        },
+        {
+          "position": 4,
+          "score": 0.61209834,
+          "document_name": "prd.txt",
+          "content_preview": "【[4.4] SMAC INT 支付-@冯霄已评审】\n4.4.1 需求概述\n原来SM需要通过EFT机具完成SMAC积分支付，本次需要支持POS在登录后直接调用DAC完成整体支付流程\n4.4.2 流程图"
+        },
+        {
+          "position": 5,
+          "score": 0.5933166,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "Kindly provide the Ip address of the PC where the SMAC MPA was installed."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A14",
+      "query": "日结流程是什么",
+      "grade": "PARTIAL",
+      "retrieval_count": 3,
+      "top_score": 0.6158,
+      "answer_len": 185,
+      "answer_preview": "Term-Z的日结流程如下：\n\n1. 每个自然日，POS机会根据SM以及BIR的需求汇总主要的经营数据。\n2. POS机会自动生成本机维度的日结小票，并同步到云端。\n3. 用户可以手动触发打印日结小票。\n\n总结起来，Term-Z是每日结算的过程，它会在每天结束时自动进行，生成并上传日结小票。用户也可以在任何时候手动请求生成和发送日结小票。根据现有知识库无法回答该问题。",
+      "message_id": "c4179b97-6682-46d2-95d2-5078749c98e5",
+      "conversation_id": "94f95aab-1b3c-4f25-98ae-173ece1183eb",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6157609,
+          "document_name": "prd.txt",
+          "content_preview": "【[4.11] EOD 日结（Term-Z）-@冯霄已评审】\n4.11.1 需求概述\n基于SM以及BIR的需求，POS机需要每个自然日进行主要经营数据的汇总并自动生成本机维度的日结小票同时同步云端，同"
+        },
+        {
+          "position": 2,
+          "score": 0.5412755,
+          "document_name": "dict.txt",
+          "content_preview": "【Term-Z】\n术语: Term-Z\n解释: Term-Z is the daily settlement. It will print receipt which shows sale amoun"
+        },
+        {
+          "position": 3,
+          "score": 0.5057324,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "解决方案:\nticket for close"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A15",
+      "query": "促销价格怎么生效",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6239,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "87cd2ee3-72d8-4f4c-9b57-f04219c5fa00",
+      "conversation_id": "6e0d42e0-d79b-485a-9898-69243d32c604",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.62394416,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "PROMO DID NOT TAKE EFFECT \nPAF# 030-25-0773\nPRICE OFF\nDURATION : NOVEMBER 25 - DECEMBER 7, 2025"
+        },
+        {
+          "position": 2,
+          "score": 0.61928326,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "解决方案:\nDefine Issue:Article 20331441promo price isn't updated"
+        },
+        {
+          "position": 3,
+          "score": 0.6179856,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "解决方案:\nRoot cause:Promo price previously tagged before with effectivity date 01/15/2026, that caused "
+        },
+        {
+          "position": 4,
+          "score": 0.61787546,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "解决方案:\nRoot Cause: Promo price previously tagged before with effectivity date 01/15/2026, that caused"
+        },
+        {
+          "position": 5,
+          "score": 0.61093473,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "解决方案:\nRoot Cause:Promo Price previously tagged before with effectivity date 01/15/2026, that caused "
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A16",
+      "query": "盘点多长时间进行一次",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.5958,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "55fc0910-7bb5-45de-be3b-2c1078dcc52e",
+      "conversation_id": "d225bc7f-0742-4c50-bc08-f654eb75fe10",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.5957916,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "Please check again after 20 to 30 mins"
+        },
+        {
+          "position": 2,
+          "score": 0.5594064,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "问题描述: PLEASE CHECK EVERYTIME WE PROCESS EVERY PURCHASE ORDER FOR (SAP)POSTING IT TOOK 15MINUTES OR M"
+        },
+        {
+          "position": 3,
+          "score": 0.54212654,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Please check again"
+        },
+        {
+          "position": 4,
+          "score": 0.54212654,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Please check again"
+        },
+        {
+          "position": 5,
+          "score": 0.54212654,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Please check again"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A17",
+      "query": "UOM单位是什么",
+      "grade": "PARTIAL",
+      "retrieval_count": 2,
+      "top_score": 0.5377,
+      "answer_len": 119,
+      "answer_preview": "UOM代表的是Unit of Measure，即测量单位。在您处理的这个特定问题中，涉及到不同的UOM（STO#2035757065中的Dmall UOM是per pc，而SAP UOM是per case）。根据现有知识库无法回答该问题。",
+      "message_id": "df868d0f-fbf0-427b-9886-ca6606f91887",
+      "conversation_id": "47ab51cb-e0ec-41c8-a548-ec39970280fd",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.5376922,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "STO#2035757065\nDmall UOM is per pc vs SAP UOM per case.Please see attached file for your reference."
+        },
+        {
+          "position": 2,
+          "score": 0.5034823,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "问题描述: Type:Deletion\nResponse Level:Level A\nDetails of Issue: for deletion due to wrong UOM"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A18",
+      "query": "PLU代码的意思",
+      "grade": "PASS",
+      "retrieval_count": 5,
+      "top_score": 0.7368,
+      "answer_len": 107,
+      "answer_preview": "PLU的全称是PLU，即Weight artilce's barcode。它的意思是商品条形码，用于记录重量和价格的信息。通过扫描PLU可以获取这些信息。在我们的系统中使用PLU来记录商品的重量和价格。 [来源1]",
+      "message_id": "cfda1237-02e2-4d94-8364-8342754e5726",
+      "conversation_id": "c90a9c41-7c06-47f7-b4be-9a22eff48587",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.73676515,
+          "document_name": "dict.txt",
+          "content_preview": "【PLU】\n术语: PLU\n解释: Weight artilce's barcode, use to record weight,price in one code. Our system can s"
+        },
+        {
+          "position": 2,
+          "score": 0.66789234,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "What: No PLU records and can't"
+        },
+        {
+          "position": 3,
+          "score": 0.5449869,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "问题描述: Issue:PLU Configuration for DMALL Training POS inside Training Room"
+        },
+        {
+          "position": 4,
+          "score": 0.53957427,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "PLU : 28300100\narticle : 20497631"
+        },
+        {
+          "position": 5,
+          "score": 0.5277503,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "解决方案:\nSAP MD run manual plu to sync data from SAP to DMall"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A19",
+      "query": "Value Pack是什么",
+      "grade": "PASS",
+      "retrieval_count": 3,
+      "top_score": 0.592,
+      "answer_len": 111,
+      "answer_preview": "Value Pack 是指一些特殊商品，这些商品在购买时有特定的数量限制。这种限制可以是每单限购数量的限制。当用户尝试购买超过该限制的商品数量时，系统会阻止用户的购买操作。这个功能有助于商家管理库存和避免不必要的订单超量。",
+      "message_id": "45d0f2ce-dce6-4ede-b22a-b077b04094d2",
+      "conversation_id": "921418e4-8b20-4add-9dee-808a84de0864",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.5919763,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nDefine Issue:Valuepack articles are not available in Shelf Label page"
+        },
+        {
+          "position": 2,
+          "score": 0.55595850883548,
+          "document_name": "prd.txt",
+          "content_preview": "pack是否登录会员（原逻辑）\nValue Pack 强制会员登录开关为关：加购及提交订单不校验存在value pack是否登录会员\n备注：\nValue Pack 单交易最大数量校验逻辑不变\n4.45"
+        },
+        {
+          "position": 3,
+          "score": 0.5365698,
+          "document_name": "prd.txt",
+          "content_preview": "【[4.15] Value Pack 等特殊商品加购】\n4.15.1 需求概述\nSM 有一些特殊商品需要落商品/店品维度标记到订单上。具体包括如下标签\n来自商品主数据：Value Pack\n来自外挂标"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A20",
+      "query": "EAN条码规则",
+      "grade": "PASS",
+      "retrieval_count": 5,
+      "top_score": 0.6167,
+      "answer_len": 213,
+      "answer_preview": "EAN条码统一使用18位代码，分为以下几部分：\n\n- 前两位为国家或地区代码（Prefix），对于中国来说是“69”开头。\n- 第3到第8位是商品代码（Item code）。\n- 第9位是校验码（Check digit），用于验证条形码的准确性。\n- 最后五位是重量码、金额码等信息。\n\n在中国，EAN18条码格式为：Prefix + Item code + Check digit + Weight",
+      "message_id": "5cedb6a1-67fc-42f4-9377-3d30118804cf",
+      "conversation_id": "5a64fbc7-66b2-4134-9dc4-c9d0861e2d72",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.61672765,
+          "document_name": "dict.txt",
+          "content_preview": "【EAN】\n术语: EAN\n缩写: European Article Number"
+        },
+        {
+          "position": 2,
+          "score": 0.55887955,
+          "document_name": "prd.txt",
+          "content_preview": "【[4.12] 磅秤系统（文件生成）@冯霄已评审】\n4.12.1 需求概述\nSM支持使用磅秤设备打印磅秤码，在POS加购时扫磅秤码完成称重商品的加购\n统一使用EAN18磅秤码\nPrefix: 2 di"
+        },
+        {
+          "position": 3,
+          "score": 0.5470035,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Barcode"
+        },
+        {
+          "position": 4,
+          "score": 0.54603666,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "our R&D Team has resolved the issue withOrder #555191061251030164646150040.\nTheSI numberhas been cor"
+        },
+        {
+          "position": 5,
+          "score": 0.51945984,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "Issue:\n-Article / EAN not readable in PDA Print request app\n- Readable in WEB ( Real Time Inve"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A21",
+      "query": "SMAC INT payment怎么用",
+      "grade": "PASS",
+      "retrieval_count": 5,
+      "top_score": 0.7075,
+      "answer_len": 287,
+      "answer_preview": "关于SMAC积分支付，以下是基于知识库的信息：\n\n4.4.1 需求概述部分提到，原来SM需要通过EFT机具完成SMAC积分支付。而本次需求是支持POS在登录后直接调用DAC完成整体支付流程。\n\n具体来说，流程大致如下：\n- POS客户端登录\n- 交易网关接收到请求并处理\n- DAC（数据应用中心）进行SMAC积分的查询和支付操作\n\n页面交互方面，没有详细说明。功能说明部分提到需要支持POS在登录后",
+      "message_id": "4090d7f8-6399-458d-a790-ab211be3c3e7",
+      "conversation_id": "ba2423a1-95bf-4ca8-8c7f-b8ebf4784747",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7074526,
+          "document_name": "prd.txt",
+          "content_preview": "【[4.4] SMAC INT 支付-@冯霄已评审】\n4.4.1 需求概述\n原来SM需要通过EFT机具完成SMAC积分支付，本次需要支持POS在登录后直接调用DAC完成整体支付流程\n4.4.2 流程图"
+        },
+        {
+          "position": 2,
+          "score": 0.6236265,
+          "document_name": "prd.txt",
+          "content_preview": "【[4.24] SMAC 会员（登录、算价、促销）】\n4.24.1 需求概述\nSMAC 是 SM 的会员体系，不仅仅适用于 SM Market，同时还适用于其他 SM 的商业领域，如酒店等。在 SM "
+        },
+        {
+          "position": 3,
+          "score": 0.61195254,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "Kindly provide the Ip address of the PC where the SMAC MPA was installed."
+        },
+        {
+          "position": 4,
+          "score": 0.5939145,
+          "document_name": "prd.txt",
+          "content_preview": "【[4.3] GCASH INT 支付-@冯霄已评审】\n4.3.1 需求概述\n原来SM需要通过EFT机具完成GCASH三方支付，本次需要支持POS直接使用扫枪扫描顾客支付二维码，调用GCASH完成支付"
+        },
+        {
+          "position": 5,
+          "score": 0.59175235,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "May we request to re extract file the SMAC File."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A22",
+      "query": "RPO发货单据错误",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.7093,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "541a06c9-8a9d-4880-ae49-4449a35d5eec",
+      "conversation_id": "87cf9fca-ea3f-4e88-a552-592369611c30",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7093476,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "【RPO Released to Supplier with Discrepancy】\n问题: RPO Released to Supplier with Discrepancy"
+        },
+        {
+          "position": 2,
+          "score": 0.7093476,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "【RPO Released to Supplier with Discrepancy】\n问题: RPO Released to Supplier with Discrepancy"
+        },
+        {
+          "position": 3,
+          "score": 0.7093476,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "【RPO Released to Supplier with Discrepancy】\n问题: RPO Released to Supplier with Discrepancy"
+        },
+        {
+          "position": 4,
+          "score": 0.6809809,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nWrong RTV. TP back the inventory and manual close the RPO in SAP."
+        },
+        {
+          "position": 5,
+          "score": 0.6588463,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nRoot Cause Analysis:wrong quantity was input during processing of claimed RPO under Liwayway v"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A23",
+      "query": "POS terminal磁盘空间满",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.7455,
+      "answer_len": 337,
+      "answer_preview": "根据现有知识库无法回答该问题。但是，我可以基于您提供的信息给出一般性的建议。\n\nPOS终端显示“磁盘空间不足”的错误消息时，通常意味着您的POS终端存储空间已达到或超过了系统允许的最大值。这可能会导致一些操作失败，比如交易处理、数据保存等。\n\n为了解决这个问题，请按照以下步骤操作：\n\n1. **检查并释放磁盘空间**：查看当前POS终端上占用大量空间的文件或文件夹，并尝试删除这些文件或将其移动到外",
+      "message_id": "59719922-b80c-4168-b110-ed126c5bb33f",
+      "conversation_id": "571269a7-3350-400c-8e95-b804f60cc71f",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.74545586,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "解决方案:\nPOS already no Insufficient Disk"
+        },
+        {
+          "position": 2,
+          "score": 0.72993755,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "问题描述: Issue:POS with error message \"Insufficient Disk Space\""
+        },
+        {
+          "position": 3,
+          "score": 0.6979617,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "【POS 7, a message popped up on the screen, 'Insufficient disk space'】\n问题: POS 7, a message popped up"
+        },
+        {
+          "position": 4,
+          "score": 0.69005126,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "问题描述: Type: Incident\nResponse Level:Level D\nDetails of Issue:​\nIn POS 7, there is a message that pop"
+        },
+        {
+          "position": 5,
+          "score": 0.68608797,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "问题描述: Type:Request\nResponse Level:Level A\nDetails of Issue: Insufficient disk space appearing at POS"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A24",
+      "query": "Cash drawer金额不对",
+      "grade": "PASS",
+      "retrieval_count": 5,
+      "top_score": 0.6819,
+      "answer_len": 121,
+      "answer_preview": "根据您描述的问题，现金抽屉中的金额显示不正确。这是由硬件问题引起的POS机现金抽屉故障/缺陷。以下是解决步骤：\n\n1. 请提供故障现金抽屉的序列号和购买日期。\n2. 如果不清楚，请进一步询问。\n\n如果需要进一步的帮助或有其他相关问题，请告知。",
+      "message_id": "4fe88378-d3a1-45a1-8891-86d5eeffbe7c",
+      "conversation_id": "68aa09db-b0e1-4be2-acc8-302c86ab738d",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6819353,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Cashier was not able to tran"
+        },
+        {
+          "position": 2,
+          "score": 0.67335385,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "具体根因: Hardware - POS Cash Drawer Issue / Defect"
+        },
+        {
+          "position": 3,
+          "score": 0.6712165,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nPlease indicate the Serial Number and Acquisition Date of the Defective Cash drawer for the re"
+        },
+        {
+          "position": 4,
+          "score": 0.6669149,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "问题描述: Please indicate the Serial Number and Acquisition Date of the Defective Cash drawer for the re"
+        },
+        {
+          "position": 5,
+          "score": 0.65049946,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Good day, we still encountered error regarding Gcash int payment. amount was deducted to customer ac"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A25",
+      "query": "Member card无法识别",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6274,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "7c76d88f-ff90-40a7-91cc-122af2b93d4a",
+      "conversation_id": "783b4588-ca43-4f63-a841-4379acc5584c",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6274097,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "Expired accounts cannot log in to the PDA for receiving."
+        },
+        {
+          "position": 2,
+          "score": 0.6258371,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "问题描述: Issue:No access on dmall, with prompt \"account not registered\""
+        },
+        {
+          "position": 3,
+          "score": 0.62053853,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "问题描述: Unable to received PO."
+        },
+        {
+          "position": 4,
+          "score": 0.6180016,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "Resolution:\n- Not a valid ticket"
+        },
+        {
+          "position": 5,
+          "score": 0.61489457,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "解决方案:\nRoot Cause:User Error - Cashier forget to scan the other article of the customer and did not c"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A26",
+      "query": "Refund amount超出范围",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6357,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "14ba0e42-cb4c-4bc7-9ca4-e7dd4f7bf7f7",
+      "conversation_id": "ccb64032-c29d-425f-80a8-60bdc5f5475a",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6356986,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "【REQUEST FOR REVERSAL OF OVER GR】\n问题: REQUEST FOR REVERSAL OF OVER GR"
+        },
+        {
+          "position": 2,
+          "score": 0.63189125,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "问题描述: Issue:request for reversal of article#20410884 due to over scanned"
+        },
+        {
+          "position": 3,
+          "score": 0.6292768,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "Kindly set a limit in QUANTITY. Should only accept 999 as maximum."
+        },
+        {
+          "position": 4,
+          "score": 0.6197143,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "【Request for reversal】\n问题: Request for reversal"
+        },
+        {
+          "position": 5,
+          "score": 0.6007735,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "【OVER GR FOR REVERSAL】\n问题: OVER GR FOR REVERSAL"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A27",
+      "query": "Sign ON time记录异常",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6445,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "fe038b00-8e15-4c69-a08e-98a3112c43a0",
+      "conversation_id": "05c5c182-3bf0-4b76-a98f-aad87d60878a",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6444667,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "Please see error."
+        },
+        {
+          "position": 2,
+          "score": 0.6068214,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Please see attached error encountered."
+        },
+        {
+          "position": 3,
+          "score": 0.6044791,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "问题描述: Pls assist us to log in our cashier"
+        },
+        {
+          "position": 4,
+          "score": 0.5998247,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "Already Confirm fixed please check again"
+        },
+        {
+          "position": 5,
+          "score": 0.5998247,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "Already Confirm fixed please check again"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A28",
+      "query": "Article price不一致",
+      "grade": "PASS",
+      "retrieval_count": 5,
+      "top_score": 0.7131,
+      "answer_len": 232,
+      "answer_preview": "根据您提供的信息，这属于【price discrepancy】问题。具体来说，这是由于软件设置错误导致的价格不符。为了解决这个问题，请按照以下步骤操作：\n\n1. 检查价格相关的数据库和配置文件，确保所有商品的定价信息正确无误。\n2. 重新计算并更新所有产品的售价，特别是那些最近有变动的商品。\n3. 确认系统中的促销活动设置是否准确，避免因促销价错误导致的价格不一致。\n\n如果在执行上述步骤后问题仍然",
+      "message_id": "29d83c01-5ecf-4093-a4e1-6d2f4ea4200b",
+      "conversation_id": "8c52e0fc-9805-40e0-b8bb-3c5df56299f1",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7131073,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "解决方案:\nArticle is not for SC discount."
+        },
+        {
+          "position": 2,
+          "score": 0.7032963,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "【price discrepancy】\n问题: price discrepancy"
+        },
+        {
+          "position": 3,
+          "score": 0.7020261,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "问题描述: Type: Price Error"
+        },
+        {
+          "position": 4,
+          "score": 0.684227,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "具体根因: Software - Incorrect Price"
+        },
+        {
+          "position": 5,
+          "score": 0.684227,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "具体根因: Software - Incorrect Price"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A29",
+      "query": "系统报错代码E001",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6319,
+      "answer_len": 74,
+      "answer_preview": "根据现有知识库无法回答该问题。请提供关于错误代码E001的更多细节，例如出现在哪个模块或操作中触发了这个错误。这将有助于我为您提供更具体的解决方案。",
+      "message_id": "00931f58-e2f9-4f41-b8c5-3d05fb18a358",
+      "conversation_id": "465c1625-5e3f-4e3b-9c2a-5af516e4322e",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.63194096,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Please see attached error encountered."
+        },
+        {
+          "position": 2,
+          "score": 0.62623256,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "解决方案:\nRegenerate EOD file."
+        },
+        {
+          "position": 3,
+          "score": 0.62623256,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nRegenerate EOD file."
+        },
+        {
+          "position": 4,
+          "score": 0.62623256,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nRegenerate EOD file."
+        },
+        {
+          "position": 5,
+          "score": 0.62623256,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nRegenerate EOD file."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A30",
+      "query": "昨天的问题又出现了",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.7126,
+      "answer_len": 67,
+      "answer_preview": "我需要您提供更具体的信息，比如昨天遇到的问题是什么？这样我可以帮助您找到解决步骤。根据现有知识库无法回答该问题，请提供具体的故障现象。",
+      "message_id": "ecff0a28-020b-4423-8aab-d0b1ba9aaaa0",
+      "conversation_id": "e254b592-2b40-41e5-b592-3c1707830e96",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.71258014,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Please check again"
+        },
+        {
+          "position": 2,
+          "score": 0.71258014,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Please check again"
+        },
+        {
+          "position": 3,
+          "score": 0.71258014,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Please check again"
+        },
+        {
+          "position": 4,
+          "score": 0.71258014,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Please check again"
+        },
+        {
+          "position": 5,
+          "score": 0.70805156,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "But still error showing in the dashboard."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A31",
+      "query": "类似的问题怎么解决",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.7263,
+      "answer_len": 36,
+      "answer_preview": "根据现有知识库无法回答该问题。请提供具体的问题描述以便我能更好地帮助您。",
+      "message_id": "37f40ed1-353e-44ae-af15-fac097d6be9a",
+      "conversation_id": "d32df637-4181-429a-abbb-0de7bcf14910",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7263395,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "To resolve this issue:"
+        },
+        {
+          "position": 2,
+          "score": 0.7263395,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "To resolve this issue:"
+        },
+        {
+          "position": 3,
+          "score": 0.7263395,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "To resolve this issue:"
+        },
+        {
+          "position": 4,
+          "score": 0.7263395,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "To resolve this issue:"
+        },
+        {
+          "position": 5,
+          "score": 0.7263395,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "To resolve this issue:"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A32",
+      "query": "能不能帮我查下这个",
+      "grade": "PASS",
+      "retrieval_count": 5,
+      "top_score": 0.7121,
+      "answer_len": 57,
+      "answer_preview": "我需要您提供更多的信息，比如要查询的是哪个具体的问题或者工单号。这样我才能在知识库中进行准确的检索并为您提供帮助。",
+      "message_id": "b58162a1-7e30-4267-9b88-eb17049d4655",
+      "conversation_id": "89ed404a-6506-43c6-a8b9-e50d74f3731c",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.712147,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "For your checking"
+        },
+        {
+          "position": 2,
+          "score": 0.6931398,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "Please see details below for yo"
+        },
+        {
+          "position": 3,
+          "score": 0.6918326,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "Pls assist. Thanks"
+        },
+        {
+          "position": 4,
+          "score": 0.6869894,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "- For checking"
+        },
+        {
+          "position": 5,
+          "score": 0.68471014,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "Please see details below"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A33",
+      "query": "工号12345的权限问题",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.5752,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "2b258f22-2c5c-46aa-8859-8bb0227bb718",
+      "conversation_id": "695e0006-544f-4adf-afec-917010e749bc",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.5751551,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "解决方案:\nedited config."
+        },
+        {
+          "position": 2,
+          "score": 0.56796217,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "Please see error."
+        },
+        {
+          "position": 3,
+          "score": 0.5535295,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "问题描述: Type:\nDetails of Issue:Cashier employee number 4823502678555 already register, but upon login "
+        },
+        {
+          "position": 4,
+          "score": 0.55089307,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "问题描述: Unable to received PO."
+        },
+        {
+          "position": 5,
+          "score": 0.5477171,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "问题描述: DMall Support Team"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A34",
+      "query": "/etc/passwd",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6269,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "ee29a5c7-2ba7-4588-96e9-00abf0784394",
+      "conversation_id": "3874b80e-a2a5-4bb5-821f-52152c669021",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6269448,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "具体根因: Software - Password Reset"
+        },
+        {
+          "position": 2,
+          "score": 0.6269448,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "具体根因: Software - Password Reset"
+        },
+        {
+          "position": 3,
+          "score": 0.6269448,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "具体根因: Software - Password Reset"
+        },
+        {
+          "position": 4,
+          "score": 0.6269448,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "具体根因: Software - Password Reset"
+        },
+        {
+          "position": 5,
+          "score": 0.6269448,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "具体根因: Software - Password Reset"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A35",
+      "query": "SAP",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.702,
+      "answer_len": 133,
+      "answer_preview": "在您提到的 SAP Upl 解决方案中，已经加载了 SAP。关于您描述的问题：“未捕获的销售记录” 和 “SAP 系统中的文章被删除”，我需要更多的信息来提供具体的解决方案。根据现有知识库无法回答该问题。建议提供更多关于您的具体操作和环境的信息以便我能更好地帮助您。",
+      "message_id": "34b7a16f-6aae-4044-82d7-a87fb54c4044",
+      "conversation_id": "dcef0685-3ed0-4c42-8bdd-3c5103b98004",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7020223,
+          "document_name": "tickets_part5.txt",
+          "content_preview": "SAP Upl"
+        },
+        {
+          "position": 2,
+          "score": 0.6731717,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "解决方案:\nalready loaded SAP"
+        },
+        {
+          "position": 3,
+          "score": 0.65090966,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "Issue:Uncaptured Sales in SAP"
+        },
+        {
+          "position": 4,
+          "score": 0.64906055,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "ARTICLE DELETED IN SAP"
+        },
+        {
+          "position": 5,
+          "score": 0.6442809,
+          "document_name": "tickets_part2.txt",
+          "content_preview": "article description SAP SYSTEM&"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A36",
+      "query": "POS",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.765,
+      "answer_len": 15,
+      "answer_preview": "根据现有知识库无法回答该问题。",
+      "message_id": "875126df-e808-449d-8cbc-cb4ea435e79b",
+      "conversation_id": "a0b587b7-9d29-416a-bf7c-f1dca10bb6de",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7649882,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "POS12"
+        },
+        {
+          "position": 2,
+          "score": 0.7541685,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "POS4"
+        },
+        {
+          "position": 3,
+          "score": 0.7534133,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "POS15"
+        },
+        {
+          "position": 4,
+          "score": 0.7380899,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "POS18"
+        },
+        {
+          "position": 5,
+          "score": 0.7280058,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "POS#19"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A37",
+      "query": "EOD",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.6566,
+      "answer_len": 71,
+      "answer_preview": "根据现有知识库无法回答该问题。在提供的知识库中，没有关于\"EOD\"的具体信息或解决方案。请提供更多的上下文或者确认您所指的是哪个特定的EOD。",
+      "message_id": "936813e6-ba70-46c7-b22b-92f1a2531014",
+      "conversation_id": "f5ae5340-5c8b-4aac-86bd-8d0c4d447384",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6566472,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "解决方案:\nRegenerate EOD file"
+        },
+        {
+          "position": 2,
+          "score": 0.6566472,
+          "document_name": "tickets_part4.txt",
+          "content_preview": "解决方案:\nRegenerate EOD file"
+        },
+        {
+          "position": 3,
+          "score": 0.6566472,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nRegenerate EOD file"
+        },
+        {
+          "position": 4,
+          "score": 0.6566472,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nRegenerate EOD file"
+        },
+        {
+          "position": 5,
+          "score": 0.6566472,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nRegenerate EOD file"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "A38",
+      "query": "GCASH",
+      "grade": "PARTIAL",
+      "retrieval_count": 5,
+      "top_score": 0.5953,
+      "answer_len": 80,
+      "answer_preview": "关于“GCASH”的问题，我没有找到具体的故障现象、原因或解决步骤。根据现有知识库无法回答该问题。如果你能提供更多具体的信息或者描述遇到的问题，我会尽力帮助你。",
+      "message_id": "9570235a-c4be-40b3-8162-aac4d04791b3",
+      "conversation_id": "df110d91-41a5-4c0f-8090-076f0d094a4e",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.59526306,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "【CAN’T USE GCASH INT SINCE POS MIGRATION】\n问题: CAN’T USE GCASH INT SINCE POS MIGRATION"
+        },
+        {
+          "position": 2,
+          "score": 0.5925848,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "【CANNOT CONNECT TO GCASH INT POSTING SERVER】\n问题: CANNOT CONNECT TO GCASH INT POSTING SERVER"
+        },
+        {
+          "position": 3,
+          "score": 0.572232,
+          "document_name": "tickets_part1.txt",
+          "content_preview": "解决方案:\nRequest:REQUEST FOR TEMPORARY DEACTIVATION OF GCASH STATIC FOR SSM ONLY"
+        },
+        {
+          "position": 4,
+          "score": 0.569355,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "GCCA\nTHANK YOU."
+        },
+        {
+          "position": 5,
+          "score": 0.5679265,
+          "document_name": "tickets_part3.txt",
+          "content_preview": "GCCA, THANK YOU."
+        }
+      ],
+      "error": null
+    }
+  ]
+}

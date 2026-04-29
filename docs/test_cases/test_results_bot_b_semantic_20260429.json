@@ -1,0 +1,2450 @@
+{
+  "bot": "b",
+  "search_method": "semantic",
+  "embedding": "bge-m3",
+  "score_threshold": 0.5,
+  "timestamp": "2026-04-29T23:50:20.695372",
+  "total": 64,
+  "stats": {
+    "PASS": 63,
+    "PARTIAL": 1,
+    "FAIL": 0,
+    "ERROR": 0
+  },
+  "pass_rate": 98.4375,
+  "retrieval_success_rate": "64/64",
+  "results": [
+    {
+      "id": "B01",
+      "query": "How does POS handle cashier login and logout?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7811,
+      "answer_len": 1444,
+      "answer_preview": "In the POS module, when a cashier wants to log into the system, they can input their account details manually or scan a barcode on their employee card. After entering the correct credentials, they cli",
+      "message_id": "fb474243-0d69-4df3-97cf-098f2c7c4b41",
+      "conversation_id": "633ec067-5d43-4ebb-a7b7-a121b8093d3b",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.78110623,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Page Screenshot | Function Description\nPOS Login Page | Login POS Upon launching the POS system, inp"
+        },
+        {
+          "position": 2,
+          "score": 0.75221795,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Cashiers should be able to login & logout if the POS has no network work connection as there is an o"
+        },
+        {
+          "position": 3,
+          "score": 0.71192086,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Today the cashier is able to login via either manually inputting the account and password or scan a "
+        },
+        {
+          "position": 4,
+          "score": 0.71122307,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Today the POS will automatically force reset the cashier password every 30 days."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B02",
+      "query": "What payment methods are supported at POS?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.8015,
+      "answer_len": 192,
+      "answer_preview": "The POS module supports paying by EFT (Electronic Fund Transfer). In this system, when you need to pay using the EFT method, a request is sent to an EFT device for the payment to be completed.",
+      "message_id": "b90d5bff-c646-42a6-a9b3-c227ab0571eb",
+      "conversation_id": "e7c4f1c3-a895-48a2-8955-571592737168",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.80153525,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS Payment Details"
+        },
+        {
+          "position": 2,
+          "score": 0.7756156,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS Payment Method Summary"
+        },
+        {
+          "position": 3,
+          "score": 0.74021226,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS support to pay by EFT, which system needs to request EFT device to finish the payment."
+        },
+        {
+          "position": 4,
+          "score": 0.74021226,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS support to pay by EFT, which system needs to request EFT device to finish the payment."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B03",
+      "query": "How to suspend and recall an order in POS?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7772,
+      "answer_len": 2303,
+      "answer_preview": "Sure, here is a step-by-step guide on how to perform an order suspension and recall in the POS module of the SM-Dmall ERP system:\n\n### How to Suspend Order\n\n1. **Navigate to Function Area:**\n   - Go t",
+      "message_id": "1a748e2a-4f71-474e-a076-a655f43d6bb2",
+      "conversation_id": "9800605e-f0b4-466c-b414-f3664e8b048c",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.77720284,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Today POS can perform order suspend and order recall with a suspend receipt. Also, before EOS all su"
+        },
+        {
+          "position": 2,
+          "score": 0.7469574,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "With network connection, the POS allows order suspension and recall within the same store across dif"
+        },
+        {
+          "position": 3,
+          "score": 0.7465373,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Page Screenshot | Function Description\nSuspend Order Function Entry | Suspend Order When there are a"
+        },
+        {
+          "position": 4,
+          "score": 0.7389528,
+          "document_name": "user_manual_pos.txt",
+          "content_preview": "Steps/Explanation\nTo recall an order, select the \"Recall Order\" button from the function area.\nIf th"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B04",
+      "query": "What happens during End of Day (EOD) process?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6605,
+      "answer_len": 1786,
+      "answer_preview": "During the EOD process, several steps occur to ensure data consistency and synchronization across different systems in our ERP system:\n\n1. **Reconciliation**: The In-Store POS server reconciles sales ",
+      "message_id": "e0fef159-034e-48a6-aa38-1f415c8d5ae7",
+      "conversation_id": "85469f87-49c9-4ab1-8353-9662dc9b9d71",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6604624,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "End of Day(EOD), for compatibilities with Legacy or External system interactions."
+        },
+        {
+          "position": 2,
+          "score": 0.57480854,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Data reconciliation | Data reconciliation In-store POS server will reconcile the sales data between "
+        },
+        {
+          "position": 3,
+          "score": 0.55111635,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "In DMALL cloud server, the EOD trigger time can be configured. The system will automatically trigger"
+        },
+        {
+          "position": 4,
+          "score": 0.5500917,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "After all the cashiers finished their pre-commit for today. EOD will be operated on the POS server t"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B05",
+      "query": "How does POS handle void items and cancel orders?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7628,
+      "answer_len": 1352,
+      "answer_preview": "In the POS module of the SM-Dmall ERP system, voiding items or cancelling orders is handled through two main methods when the system has no internet connection:\n\n1. **Item Void**: This function allows",
+      "message_id": "a0f0867f-22ef-4874-8a74-66165c5c5b09",
+      "conversation_id": "d77ea32e-7843-4ba3-a585-82e3a749d4c4",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.76280403,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Both item void and cancel order can be achieved even if POS has no internet connection."
+        },
+        {
+          "position": 2,
+          "score": 0.7417573,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Today POS provides three functions “Item Void”, “Line Void” and “Sale Cancel” for voiding item or vo"
+        },
+        {
+          "position": 3,
+          "score": 0.72530025,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS will send void requests through payment system and gateway to GCASH. Once POS sends a void reque"
+        },
+        {
+          "position": 4,
+          "score": 0.7070919,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS will send void request through cloud server to DAC. Once POS sends a reversal points redemption "
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B06",
+      "query": "POS怎么处理预订单?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6736,
+      "answer_len": 599,
+      "answer_preview": "In POS (Point of Sale) module, there isn't a specific feature for handling pre-orders directly. However, you can manage this by modifying the order type selection process to include a 'Pre-Order' opti",
+      "message_id": "3b913105-2ab4-41ed-9a04-56a60a0fb0c4",
+      "conversation_id": "08aa5acb-b4b1-4e01-8473-54e74b078382",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6736014,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS Payment Details"
+        },
+        {
+          "position": 2,
+          "score": 0.66866964,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS order query only can be used online."
+        },
+        {
+          "position": 3,
+          "score": 0.660678,
+          "document_name": "user_manual_pos.txt",
+          "content_preview": "166\n7.Backend process\n4.POS Order Management (2)\nquery conditions\nSelect selling time duration\nSelec"
+        },
+        {
+          "position": 4,
+          "score": 0.656017,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS will call the printer hardware to print out the receipts for different transactions or functions"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B07",
+      "query": "What is the offline mode in POS?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7173,
+      "answer_len": 787,
+      "answer_preview": "In POS (Point of Sale), when the network goes offline, the system can operate in an offline mode. This allows for transactions to be processed locally using stored data from the database. Transactions",
+      "message_id": "8c42b991-e720-4068-9f0d-43409e6c8941",
+      "conversation_id": "7d38194f-47ae-4ef9-970c-15eeddd23991",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7173307,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "When POS is offline, the 'pick up' can still proceed, the record will stay in a local asynchronous t"
+        },
+        {
+          "position": 2,
+          "score": 0.71551126,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Manual switching If the store network suddenly disconnected for quite a long time, to protect the ov"
+        },
+        {
+          "position": 3,
+          "score": 0.69657725,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS order query only can be used online."
+        },
+        {
+          "position": 4,
+          "score": 0.6808917,
+          "document_name": "user_manual_pos.txt",
+          "content_preview": "139\n6. EOD & Others\n6. Setting\nSteps/Explanation\nNetwork Mode: If set to offline mode, all POS trans"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B08",
+      "query": "How to add an article in POS sales page?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6814,
+      "answer_len": 1197,
+      "answer_preview": "In the POS (Sales) module of the SM-Dmall ERP system, adding an article involves several steps that you need to follow:\n\n1. **Navigate to the Article Management Section**: From any screen within the P",
+      "message_id": "ea61507b-a315-4eec-aaf4-876742b8d0f7",
+      "conversation_id": "cdfdb257-4995-4ba7-99f3-0d711e0aaf97",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6814248,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "[Function Design Solution > Sales > Adding article approaches]"
+        },
+        {
+          "position": 2,
+          "score": 0.6814248,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "[Function Design Solution > Sales > Adding article approaches]"
+        },
+        {
+          "position": 3,
+          "score": 0.6814248,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "[Function Design Solution > Sales > Adding article approaches]"
+        },
+        {
+          "position": 4,
+          "score": 0.6814248,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "[Function Design Solution > Sales > Adding article approaches]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B09",
+      "query": "cashier forgot password怎么办",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.765,
+      "answer_len": 139,
+      "answer_preview": "如果现金员认忘记了密码，您可以按照以下步骤操作来重置其登录密码：\n\n1. 输入该现金员的账号ID；\n2. 输入原始密码；\n3. 输入新密码两次（确保输入的新密码一致）；\n4. 点击“提交”以使新的密码生效。\n\n这是一套基于POS模块的操作指南，用于重置和设置现金员认的登录密码。",
+      "message_id": "360c35ab-43c3-4f1e-ba17-e99080a2d9f7",
+      "conversation_id": "d21f6b26-e72b-4cd7-98eb-7a46fdbbb08e",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7650402,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "If cashier forgets his/her password, the supervisor can reset cashier login password with the Partne"
+        },
+        {
+          "position": 2,
+          "score": 0.74994445,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Today the POS will automatically force reset the cashier password every 30 days."
+        },
+        {
+          "position": 3,
+          "score": 0.74124503,
+          "document_name": "user_manual_pos.txt",
+          "content_preview": "Steps/Explanation\nInput Cashier account ID;\nInput original password;\nInput new password twice;\nClick"
+        },
+        {
+          "position": 4,
+          "score": 0.71474594,
+          "document_name": "user_manual_pos.txt",
+          "content_preview": "Steps/ Explanation\nInput Cashier account ID and password;\nClick “Log in”."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B10",
+      "query": "POS screen frozen what to do",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7258,
+      "answer_len": 935,
+      "answer_preview": "If the POS screen is frozen and unresponsive, follow these steps:\n\n1. First, ensure that the hard disk of the POS device is still working properly.\n2. If the transaction files on the hard disk can be ",
+      "message_id": "a230a18c-9b0d-4f7f-baf6-013d422ec8c3",
+      "conversation_id": "7443915b-0518-4f93-a092-9f06ea6ed09d",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.72580713,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS physically broken"
+        },
+        {
+          "position": 2,
+          "score": 0.668332,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS does not connect to in-store POS server"
+        },
+        {
+          "position": 3,
+          "score": 0.6564062,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Firstly, make sure the hard disk still works, at least the transaction files can be copied from POS."
+        },
+        {
+          "position": 4,
+          "score": 0.6442732,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "If POS realize that SI# cannot remain continued (like the local DB broken) the POS system will tempo"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B11",
+      "query": "how to print receipt again",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7367,
+      "answer_len": 413,
+      "answer_preview": "To reprint a receipt in the POS module, follow these steps:\n\n1. Click on the main menu located at the left side of the screen.\n2. Locate and click on the \"Reprint Receipt\" button.\n3. From there, you c",
+      "message_id": "4a281d58-ba04-4000-a879-433ac5bf94d6",
+      "conversation_id": "20a447d9-4ab0-4664-9a92-098f8081ecd2",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.73674107,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Cannot return without receipt"
+        },
+        {
+          "position": 2,
+          "score": 0.7148795,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Currently, POS only support to reprint last receipt."
+        },
+        {
+          "position": 3,
+          "score": 0.7076304,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "[Function Design Solution > Other Cases > Receipt reprinting]"
+        },
+        {
+          "position": 4,
+          "score": 0.707473,
+          "document_name": "user_manual_pos.txt",
+          "content_preview": "136\n6. EOD & Others\n4. Reprint receipt\nSteps/Explanation\nClick [Reprint Receipt] button on the left "
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B12",
+      "query": "void transaction after EOD",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6739,
+      "answer_len": 822,
+      "answer_preview": "After the End of Day (EOD) process is completed in the POS module, any payment that has been successfully processed but later needs to be canceled or reversed is known as a void transaction. This typi",
+      "message_id": "15685e08-dbf6-49f2-955a-38aa36590107",
+      "conversation_id": "caf0c8c1-bc17-4e2c-a7c0-8d93a44c860a",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.67388064,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment void"
+        },
+        {
+          "position": 2,
+          "score": 0.67388064,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment void"
+        },
+        {
+          "position": 3,
+          "score": 0.67388064,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment void"
+        },
+        {
+          "position": 4,
+          "score": 0.66543674,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Void Transaction Details"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B13",
+      "query": "How does goods receiving from vendor work?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7084,
+      "answer_len": 1186,
+      "answer_preview": "Goods Receiving from Vendor involves the physical inbound movement of goods from an external vendor. This process can occur either without a Purchase Order (PO) or with a PO, and it results in an incr",
+      "message_id": "c432c498-9e02-4769-ba75-a069dc53cb60",
+      "conversation_id": "a1b5cce0-04d4-4fc9-8d3d-56337fa740dc",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7084182,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Goods Receiving from Vendor is the physical inbound movement of goods from an external vendor, eithe"
+        },
+        {
+          "position": 2,
+          "score": 0.66438675,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Goods Receiving from DC/store is the physical inbound movement of goods from DC or stores to the sto"
+        },
+        {
+          "position": 3,
+          "score": 0.65642786,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "3.2 Good receiving from vendor (DSA)"
+        },
+        {
+          "position": 4,
+          "score": 0.6532557,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "[Goods Receiving(2)-from Vendor（single PO）]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B14",
+      "query": "What is the stock adjustment process?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7285,
+      "answer_len": 1076,
+      "answer_preview": "In the Inventory module of the SM-Dmall ERP system, a stock adjustment is used to correct discrepancies between the recorded inventory and the actual quantities on hand. This can include adjustments f",
+      "message_id": "6fd7b00c-7c75-4dd0-92ad-c79e77b55e37",
+      "conversation_id": "95f426f8-0e80-4645-b508-58ea1e0fcd05",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7284592,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Business scenarios supported by stock adjustment"
+        },
+        {
+          "position": 2,
+          "score": 0.69633794,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Stock Adjustment Report"
+        },
+        {
+          "position": 3,
+          "score": 0.695178,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "4.1.2.2.12 Stock Adjustment"
+        },
+        {
+          "position": 4,
+          "score": 0.6222285,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Price Adjustment Details"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B15",
+      "query": "How to perform stock transfer between stores?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.76,
+      "answer_len": 1289,
+      "answer_preview": "To perform a stock transfer between stores within the POS module of SM-Dmall ERP system, follow these steps:\n\n1. **Navigate to the Stock Transfer Menu**:\n   - Go to the main menu and select **Inventor",
+      "message_id": "b47f5310-03a8-4791-9542-ab59d24bda72",
+      "conversation_id": "0128360c-73fa-4be3-9d65-6b516983fd82",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.76000226,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Store transfer to store directly"
+        },
+        {
+          "position": 2,
+          "score": 0.7387006,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "3.6 Store transfer to store"
+        },
+        {
+          "position": 3,
+          "score": 0.6998862,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Option 1: Store transfer to store directly"
+        },
+        {
+          "position": 4,
+          "score": 0.6998862,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Option 1: Store transfer to store directly"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B16",
+      "query": "How does the inventory counting work?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6974,
+      "answer_len": 1902,
+      "answer_preview": "In the Inventory module of the SM-Dmall ERP system, the process for inventory counting involves several key steps:\n\n1. **Prepare List of Articles**: The first step is to create a list of articles that",
+      "message_id": "8a86bca9-936e-4e8a-859b-238af842177b",
+      "conversation_id": "5bad7151-6532-484c-883e-21c075f695b6",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.69744813,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Inventory handling"
+        },
+        {
+          "position": 2,
+          "score": 0.67604923,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Step | Operation | System | Role | Input | Output | Details | Screenshot PC | Screenshot APP\n1 | Pre"
+        },
+        {
+          "position": 3,
+          "score": 0.6734115,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "Scan the product code or country barcode to perform inventory"
+        },
+        {
+          "position": 4,
+          "score": 0.6734115,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "Scan the product code or country barcode to perform inventory"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B17",
+      "query": "What is TPS in inventory?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.73,
+      "answer_len": 513,
+      "answer_preview": "In the Inventory module of the SM-Dmall ERP system, TPS stands for Tag Printing System. It’s used to manage and handle inventory adjustments based on Bill of Materials (BOM). When you have large packa",
+      "message_id": "8a32d113-4069-49cb-a0e5-f4efb31e1abc",
+      "conversation_id": "27783a6f-0fd6-4c76-be48-6da18b0db8c9",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.730006,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "The TPS system"
+        },
+        {
+          "position": 2,
+          "score": 0.6261709,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "TPS: Tag Printing System."
+        },
+        {
+          "position": 3,
+          "score": 0.60039186,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "This function can be used for handling inventory adjustment of different articles.It also requests t"
+        },
+        {
+          "position": 4,
+          "score": 0.59945023,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "TPS system provides Shelf tag to manage price tag information, simplify the price tag print and past"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B18",
+      "query": "库存调拨怎么操作?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6567,
+      "answer_len": 337,
+      "answer_preview": "在Inventory模块中，您可以执行库存调拨。以下是基本的操作步骤：\n\n1. 首先，在主界面找到并点击“Stock Transfer”（库存调拨）菜单。\n2. 然后，根据您的需求选择是“Store to Store”还是“Directly to Store”。您提到的是Option 1: Store transfer to store directly，这表示您可以直接从一个存储地点转移到另一个",
+      "message_id": "09cf161a-17a7-480a-898b-cd0c1cf765a7",
+      "conversation_id": "ed19b339-6a72-4829-ae66-5426c59f6e64",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.65667796,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Store transfer to store directly"
+        },
+        {
+          "position": 2,
+          "score": 0.6535718,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Inventory handling"
+        },
+        {
+          "position": 3,
+          "score": 0.6327382,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Option 1: Store transfer to store directly"
+        },
+        {
+          "position": 4,
+          "score": 0.6327382,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Option 1: Store transfer to store directly"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B19",
+      "query": "PDA scanning not working during receiving",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6535,
+      "answer_len": 713,
+      "answer_preview": "It sounds like there might be an issue with PDA scanning during the receiving process. Could you please specify which module this issue is related to? It could be in the Inventory or POS modules, for ",
+      "message_id": "ab94f5e4-7dd1-4b30-9bc7-37e01c04f29e",
+      "conversation_id": "039996aa-b297-4e38-8e9b-0776c2fb62e1",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6534568,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "3) Offline mode receiving only support 1 step receiving. Please perform scan 1 and scan 2 receiving "
+        },
+        {
+          "position": 2,
+          "score": 0.6358608,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "12. Click Scan2 button to perform second receiving."
+        },
+        {
+          "position": 3,
+          "score": 0.62706196,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Operation type: APP receiving, PC receiving"
+        },
+        {
+          "position": 4,
+          "score": 0.624491,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "When performing 2nd scan, only the receive quantity can be edited."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B20",
+      "query": "goods received but quantity wrong",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6669,
+      "answer_len": 903,
+      "answer_preview": "If a goods receipt has an incorrect quantity recorded, you should first verify the details provided by the supplier or vendor during the receiving process. This includes checking the SKU, description,",
+      "message_id": "bff11167-0bc9-4fba-b6e5-5d6bc5c403c9",
+      "conversation_id": "2e47cdc5-6037-4dd9-bb14-3caff5edf342",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6668968,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment failed"
+        },
+        {
+          "position": 2,
+          "score": 0.6668968,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment failed"
+        },
+        {
+          "position": 3,
+          "score": 0.6668968,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment failed"
+        },
+        {
+          "position": 4,
+          "score": 0.6668968,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment failed"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B21",
+      "query": "can I cancel goods receipt after confirm",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7078,
+      "answer_len": 767,
+      "answer_preview": "In the Inventory module of our ERP system, there isn't a direct function to \"cancel\" a Goods Receipt (GR). The primary purpose of a GR is to record incoming inventory, and once recorded, it cannot be ",
+      "message_id": "fb83a593-23fa-41d4-9db8-ddbd6cb95553",
+      "conversation_id": "5f7473e0-3afd-49af-9911-3d2ca4ed6127",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.70782995,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Popup To Confirm Void Order Reason Codes for Order Void | Cancel Order When there are items in the s"
+        },
+        {
+          "position": 2,
+          "score": 0.6996625,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Cannot return without receipt"
+        },
+        {
+          "position": 3,
+          "score": 0.6766485,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Cancel the order after confirming the reason. If any payment record exists, determine the payment re"
+        },
+        {
+          "position": 4,
+          "score": 0.6650908,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Post void: Fully cancel transaction within a day, refund through the original tender."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B22",
+      "query": "怎么查询库存台账",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6568,
+      "answer_len": 245,
+      "answer_preview": "在Inventory模块中，你可以进行库存查询。请按照以下步骤操作：\n\n1. 从主菜单进入“Master Data”模块。\n2. 在“Master Data”页面下，点击“Stocktake”（库存盘点）。\n3. 进入“Stocktake Offline”选项卡，在这里可以选择“Scan 2/spot check”（扫码抽查）。\n4. 然后选择你想查看的存货类型或供应商等信息进行查询。\n\n这应该能",
+      "message_id": "34e8d555-4036-4916-8db8-226e7051ab53",
+      "conversation_id": "a75427b5-5df5-4cef-abcb-02d42ac14e40",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6568064,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Stock take order details: Manage and check count details"
+        },
+        {
+          "position": 2,
+          "score": 0.6330582,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "Monitor and display the daily sales performance of the store"
+        },
+        {
+          "position": 3,
+          "score": 0.6317455,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "1. Click Menu entrance to Gap Check Report page.\nInventory Mgt\nGap Check Report"
+        },
+        {
+          "position": 4,
+          "score": 0.6271219,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "Stocktake Offline:\nFor Scan 2/spot check\nSelect “Stocktake” in HHT to enter inventory count list"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B23",
+      "query": "How is site master data created?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7719,
+      "answer_len": 569,
+      "answer_preview": "In the Master Data module of the system, to create site master data, you would typically follow these steps:\n\n1. Access the appropriate screen or menu path where you can add new sites.\n2. Fill in all ",
+      "message_id": "097b1406-319f-4f53-b1d7-e0e955d77535",
+      "conversation_id": "6086bb0c-e5d3-4ff0-a6e3-239f7d500b05",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.77188265,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Site master data is maintained in SAP"
+        },
+        {
+          "position": 2,
+          "score": 0.68884456,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Article master data"
+        },
+        {
+          "position": 3,
+          "score": 0.6636103,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Master data, which is the basis for the project."
+        },
+        {
+          "position": 4,
+          "score": 0.6598003,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "[3. Function Design Solution > 3.1 Site Master data system design and structure > 3.1.1 Site master "
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B24",
+      "query": "What is a BOM article?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7085,
+      "answer_len": 354,
+      "answer_preview": "A BOM (Bill of Materials) article refers to an intermediate product that requires further processing to be transformed into a final product or another intermediate product. In the context of SM-Dmall ",
+      "message_id": "09e8e084-4b99-4ff8-b4d9-b1d3b772e385",
+      "conversation_id": "9745e156-b427-4d81-9c52-250f4c880ff7",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.70850074,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "BOM"
+        },
+        {
+          "position": 2,
+          "score": 0.6858473,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Both material article and finished article can have multiple BOM relationships."
+        },
+        {
+          "position": 3,
+          "score": 0.6817323,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "One bundle article can have multiple BOM relationships."
+        },
+        {
+          "position": 4,
+          "score": 0.6674657,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "One pack article can have multiple BOM relationships"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B25",
+      "query": "How does vendor master integrate from SAP?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7356,
+      "answer_len": 396,
+      "answer_preview": "Vendor master data is integrated from SAP into DMALL to maintain a comprehensive list of vendors. This integration includes setting flags for the top 32 vendors, adding returnable flag at the vendor l",
+      "message_id": "63ebe165-1a24-4959-aee1-175c323d4e1c",
+      "conversation_id": "b6c02105-b22b-4ee8-81f5-ace1b290dd9b",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7355753,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Vendor master data is maintained in SAP"
+        },
+        {
+          "position": 2,
+          "score": 0.6417333,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Special items will be interfaced from SAP to DMALL and identify the vendor is the top 32"
+        },
+        {
+          "position": 3,
+          "score": 0.62082684,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Article master data | Combi articles | To satisfy the same article, same vendor, in different stores"
+        },
+        {
+          "position": 4,
+          "score": 0.60902905,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "There’s only vendor article level return control, no vendor level return control in SAP"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B26",
+      "query": "商品主数据如何管理?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6604,
+      "answer_len": 238,
+      "answer_preview": "在SM-Dmall ERP系统中，商品主数据是通过Master Data模块来维护的。这个模块负责文章、站点和供应商这样的基本信息资料。\n\n具体来说，用户可以按照以下步骤操作：\n\n1. 导航到Master Data菜单。\n2. 选择其中的\"Article\"子菜单来创建或管理商品信息。\n3. 使用相关工具如新增、编辑或者删除等功能来维护库存中的商品数据。\n\n请注意，这个模块不仅限于管理商品主数据。还",
+      "message_id": "5c77e725-6dbf-40f3-806b-0c5b282bd355",
+      "conversation_id": "2cb5f9aa-4cfc-419f-83b4-28403b4ce54a",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6603662,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Vendor master data is maintained in SAP"
+        },
+        {
+          "position": 2,
+          "score": 0.65015674,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Inventory handling"
+        },
+        {
+          "position": 3,
+          "score": 0.63867146,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "Monitor and display daily sales performance of merchants"
+        },
+        {
+          "position": 4,
+          "score": 0.63171494,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "Monitor and display the daily sales performance of the store"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B27",
+      "query": "What are inventory locations by site?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.8088,
+      "answer_len": 345,
+      "answer_preview": "Inventory locations can be set up per store and managed within the SAP system. This means that for each physical location or store where goods are received, stored, and distributed, you can define an ",
+      "message_id": "0bf1ac50-19a4-42b1-b720-55767a4ad52b",
+      "conversation_id": "4f022e9b-f8e7-4745-b11f-27269b810805",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.80882347,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Inventory location definition"
+        },
+        {
+          "position": 2,
+          "score": 0.7662512,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Inventory location can be set up by store level"
+        },
+        {
+          "position": 3,
+          "score": 0.7355289,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Inventory sites are managed in SAP"
+        },
+        {
+          "position": 4,
+          "score": 0.73434573,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Inventory locations can be set up per store."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B28",
+      "query": "article price update batch process",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7503,
+      "answer_len": 675,
+      "answer_preview": "In the Inventory module of our ERP system, there isn't a specific article price update batch process mentioned directly. However, you can typically adjust prices for multiple articles at once through ",
+      "message_id": "b495cff4-1412-4218-97d0-bc5e2d4759d9",
+      "conversation_id": "1aac95c6-f7ff-4b0b-ad5a-af9e1d11b242",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7503396,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Article price change"
+        },
+        {
+          "position": 2,
+          "score": 0.7503396,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Article price change"
+        },
+        {
+          "position": 3,
+          "score": 0.6700135,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Article info change"
+        },
+        {
+          "position": 4,
+          "score": 0.65267235,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Price Adjustment Details"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B29",
+      "query": "vendor code changed in SAP",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.656,
+      "answer_len": 952,
+      "answer_preview": "If you need to change a vendor code in SAP, you would typically follow these steps:\n\n1. **Access the Vendor Master Screen:**\n   - Navigate to `Master Data` > `Vendor Management`.\n\n2. **Find the Vendor",
+      "message_id": "48fda675-caf5-4c50-880b-2a315dc3abc4",
+      "conversation_id": "2ad76073-561a-4094-a3cc-ed9a975e6a8c",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.656016,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Vendor master data is maintained in SAP"
+        },
+        {
+          "position": 2,
+          "score": 0.6479249,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "4.6 Changed label"
+        },
+        {
+          "position": 3,
+          "score": 0.6459302,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "There’s only vendor article level return control, no vendor level return control in SAP"
+        },
+        {
+          "position": 4,
+          "score": 0.6256222,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "SAP"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B30",
+      "query": "BOM component missing how to add",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6489,
+      "answer_len": 848,
+      "answer_preview": "To add a BOM (Bill of Materials) component in the Inventory module, follow these steps:\n\n1. Navigate to the **Master Data** section.\n2. From there, select the **Article** screen where you can manage y",
+      "message_id": "39b383fe-29ee-4978-815f-5915ec6b1b33",
+      "conversation_id": "bf267a0f-d6a5-4f5e-8580-2ac84e8d71f7",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.64894134,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "BOM"
+        },
+        {
+          "position": 2,
+          "score": 0.63442403,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "4.1.2.1.7 BOM"
+        },
+        {
+          "position": 3,
+          "score": 0.5874936,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "BOM: Bill of Materials."
+        },
+        {
+          "position": 4,
+          "score": 0.5750965,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "6.BOM"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B31",
+      "query": "What types of promotions are supported?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7624,
+      "answer_len": 227,
+      "answer_preview": "In the Promotion module of SM Phase 1A, multiple promotion types are supported. The specific details on each type and their management within this system can be found in the blueprints or user manuals",
+      "message_id": "23e48f46-b219-4a9f-a977-98a6060d2315",
+      "conversation_id": "68317744-21f0-430e-bd67-1d6727f1a948",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7623908,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "SM supports multiple promotion types."
+        },
+        {
+          "position": 2,
+          "score": 0.75649893,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "SM supports promotion management."
+        },
+        {
+          "position": 3,
+          "score": 0.7411412,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Promotion start"
+        },
+        {
+          "position": 4,
+          "score": 0.7411412,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Promotion start"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B32",
+      "query": "How does promotion approval process work?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7171,
+      "answer_len": 907,
+      "answer_preview": "In the Promotion module of our system, when a promotion activity is submitted for review by the System Admin team, it goes through an approval process. Once approved by a supervisor or approver, the s",
+      "message_id": "af7270aa-ceb9-4171-919c-60653f14f3c6",
+      "conversation_id": "932b4099-a34f-4d2d-a31d-9422b067f19e",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7171091,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "In the promotion execution stage, the system admin team would set up promotion activities and submit"
+        },
+        {
+          "position": 2,
+          "score": 0.6929906,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "The approver can approve or reject the promotion activity."
+        },
+        {
+          "position": 3,
+          "score": 0.6863491,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "The approval flow needs to be completed before the promotion starts, otherwise the system will defau"
+        },
+        {
+          "position": 4,
+          "score": 0.67686075,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Promotion start"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B33",
+      "query": "How does pricing work with vouchers?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6972,
+      "answer_len": 919,
+      "answer_preview": "In the POS module of our system, when dealing with promotions and vouchers, if a voucher corresponds to a specific promotion type (like \"Buy A get B\" or \"Buy A get C\"), it takes precedence over other ",
+      "message_id": "199d587d-a6bf-4aaf-b16a-d18abd53de80",
+      "conversation_id": "8d2119cf-c983-40d9-880f-8733c0261b26",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.69719887,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "Calculating order: As described in Section 3.6.4 above,, if voucher and regular promotion triggers t"
+        },
+        {
+          "position": 2,
+          "score": 0.6782387,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "will correspond to specific promotion, each order can support multiple vouchers, the order pricing l"
+        },
+        {
+          "position": 3,
+          "score": 0.63867986,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "Pricing"
+        },
+        {
+          "position": 4,
+          "score": 0.63789916,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "[3. Function Description > 3.6 Pricing > 3.6.4 Pricing Logic with Promotion Voucher]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B34",
+      "query": "What is the E-voucher process?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7812,
+      "answer_len": 1129,
+      "answer_preview": "The E-voucher process in our system revolves around creating and issuing electronic vouchers. This process can be found within the Promotion module of the ERP system, where you manage various types of",
+      "message_id": "d37a74b1-f46a-4b98-81db-d45e5aae6b07",
+      "conversation_id": "57937c34-35d8-4c4e-989f-11282030a3f6",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7811559,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "E-voucher Creation & Issuance New Process"
+        },
+        {
+          "position": 2,
+          "score": 0.7689357,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "1.E-voucher"
+        },
+        {
+          "position": 3,
+          "score": 0.74048465,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "Legacy E-voucher Handling Process"
+        },
+        {
+          "position": 4,
+          "score": 0.73569477,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "E-voucher Handling details Process in DMALL POS"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B35",
+      "query": "促销活动如何在POS执行?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7103,
+      "answer_len": 305,
+      "answer_preview": "在POS模块中，您可以选择不同的促销类型。例如，当顾客购物时，系统可以通过扫描商品条形码触发特定的促销活动。另外，您也可以手动添加促销活动，在POS界面直接设置奖励或积分奖励给顾客。\n\n对于自动触发的促销活动，如在总价下输入时，POS系统会根据当前商品价格和促销活动计算出最新售价。\n\n如果您想要执行一个手动添加的促销活动，比如针对BDO支付的优惠，您需要通过扫描特定促销条形码来启动这个促销活动。然",
+      "message_id": "d256936b-726d-4955-8ee6-b8ea85c10316",
+      "conversation_id": "e35f6b15-d533-4881-b6dc-a5c3294e210f",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7103431,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Today POS can trigger promotion by clicking the subtotal or scanning certain offline promo barcode."
+        },
+        {
+          "position": 2,
+          "score": 0.6883118,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "promotions, conditional promotions, transaction promotions, and so forth. Manual Promotion Cashiers "
+        },
+        {
+          "position": 3,
+          "score": 0.6861919,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "Prototypes of Pages & Interactions | Details\nReward upon POS order | The Marketing toolset system ca"
+        },
+        {
+          "position": 4,
+          "score": 0.68511134,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS Operation Flow"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B36",
+      "query": "What is the stacking rule for promotions?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6382,
+      "answer_len": 486,
+      "answer_preview": "In the context provided, Unit Promotion by default can be stacked with other Promotion Activities in the pricing order. This means that if a customer qualifies for more than one promotion on an item o",
+      "message_id": "6098bb8c-4452-4fe8-a54a-041c2f92e2eb",
+      "conversation_id": "21d665eb-07d6-4266-a432-9335d7313fee",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6381849,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "the default being Medium. The enumeration values include very high, high, medium, low, and very low."
+        },
+        {
+          "position": 2,
+          "score": 0.6374469,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Promotion start"
+        },
+        {
+          "position": 3,
+          "score": 0.6374469,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Promotion start"
+        },
+        {
+          "position": 4,
+          "score": 0.63652164,
+          "document_name": "user_manual_promotion.txt",
+          "content_preview": "Activity Stack Rules section\nUnit Promotion is default can be Stacked with other Promotion Activity"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B37",
+      "query": "promotion not applied at checkout",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6828,
+      "answer_len": 1140,
+      "answer_preview": "It sounds like there might be an issue with applying a promotion code at checkout. This could happen due to incorrect input of the promotion code or issues related to the promotion settings themselves",
+      "message_id": "16360247-559c-498c-92e5-b01fffb30ffd",
+      "conversation_id": "17e2bef4-5a6a-4426-af3a-ce7396027e87",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.68276167,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Promotion info changed"
+        },
+        {
+          "position": 2,
+          "score": 0.67641467,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Promotion end"
+        },
+        {
+          "position": 3,
+          "score": 0.67641467,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Promotion end"
+        },
+        {
+          "position": 4,
+          "score": 0.66168284,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment failed"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B38",
+      "query": "multiple promotions at same time",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.729,
+      "answer_len": 570,
+      "answer_preview": "In the Promotion module of the SM-Dmall ERP system, multiple promotions can be managed simultaneously by navigating to the Promotion System menu and selecting an appropriate option for managing or app",
+      "message_id": "1f1f4e06-075a-4708-abc7-d911dfa5034f",
+      "conversation_id": "1cc2fe36-6dda-44d1-af93-89a76392581f",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.72899425,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "SM supports multiple promotion types."
+        },
+        {
+          "position": 2,
+          "score": 0.7272612,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Promotion info changed"
+        },
+        {
+          "position": 3,
+          "score": 0.71771306,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "Copy the promotion activity in the promotion system."
+        },
+        {
+          "position": 4,
+          "score": 0.7176178,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Promotion start"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B39",
+      "query": "怎么创建满减活动",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.5902,
+      "answer_len": 188,
+      "answer_preview": "在Promotion模块中，您可以创建满减活动。以下是操作步骤：\n\n1. 在左侧的菜单栏中点击“Marketing List”。\n2. 从下拉菜单中选择“Offline Promotion”选项进入促销管理页面。\n3. 点击页面右上角的“Create”按钮来创建新的促销活动。\n\n请注意，具体步骤可能会根据当前系统的版本和配置有所不同。建议参考系统操作手册以获取最准确的信息。",
+      "message_id": "99c7428b-b914-49b4-b540-bf4892526b54",
+      "conversation_id": "d6aef624-b0bb-4148-8f79-6a25beaceba9",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.5902312,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "2. Click the \"Create\"to perform a SM Eat"
+        },
+        {
+          "position": 2,
+          "score": 0.5887562,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "7. Click Create to generate a new empty order.\n."
+        },
+        {
+          "position": 3,
+          "score": 0.5887562,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "7. Click Create to generate a new empty order.\n."
+        },
+        {
+          "position": 4,
+          "score": 0.5876833,
+          "document_name": "user_manual_promotion.txt",
+          "content_preview": "Click on Marketing List from the left pane\nClick on Offline Promotion option under Marketing & Promo"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B40",
+      "query": "voucher expired can still use",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6024,
+      "answer_len": 712,
+      "answer_preview": "In the context provided, it seems that once an E-voucher is issued and used on a POS system (SM), its validity relies on central management by DMALL's promotion system. If you are trying to understand",
+      "message_id": "51a01f8d-a004-4617-8a8b-fcb4f971166b",
+      "conversation_id": "731586a7-0cc5-4939-8b5c-d3d9ee78c82c",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.60240173,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "SM supports some kind of voucher management."
+        },
+        {
+          "position": 2,
+          "score": 0.59428895,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "SM supports E-voucher."
+        },
+        {
+          "position": 3,
+          "score": 0.58615613,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "On the SM legacy POS, E-vouchers can still be used. However, since the validity of E-voucher codes i"
+        },
+        {
+          "position": 4,
+          "score": 0.5802031,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "DMALL supports E-voucher."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B41",
+      "query": "What reports are available in Data Dashboard?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7262,
+      "answer_len": 531,
+      "answer_preview": "In the Data Dashboard module, there are various types of reports available to support both management and operational teams. These include analysis reports that provide visibility into different aspec",
+      "message_id": "6fbcdbd2-d408-4317-8360-d09b2ce47e1f",
+      "conversation_id": "cbca2577-d81c-4595-b090-456e27079ccc",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7261694,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "Standard Data Dashboard provides management analysis report and operational detail reports. Those st"
+        },
+        {
+          "position": 2,
+          "score": 0.72528166,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "Click the Data Dashboard Menu Button and view all reports / functions authorized"
+        },
+        {
+          "position": 3,
+          "score": 0.7050488,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "[Data Dashboard]"
+        },
+        {
+          "position": 4,
+          "score": 0.7050488,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "[Data Dashboard]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B42",
+      "query": "How does drill down work in reports?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.662,
+      "answer_len": 623,
+      "answer_preview": "In the Data Dashboard module of our ERP system, when you click on highlighted data in blue within a report, it allows you to perform a drill-down feature. This interactive capability lets you analyze ",
+      "message_id": "4f86247c-07c2-488e-8746-cfcf1c092e4f",
+      "conversation_id": "2c65762d-3b7c-4eab-b14b-bcdd73b10242",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6619882,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "In certain reports, highlighted data in blue offers a special interactive feature. Upon clicking, us"
+        },
+        {
+          "position": 2,
+          "score": 0.6313688,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "Can rank the report data (increase/decrease) by click the button"
+        },
+        {
+          "position": 3,
+          "score": 0.6259368,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "Can drill down to deeper analysis ways to view the report by click the blue color data"
+        },
+        {
+          "position": 4,
+          "score": 0.6143166,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "Choose the report according to user’s analysis purpose"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B43",
+      "query": "What is HQ Real-time Sales big screen?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6338,
+      "answer_len": 881,
+      "answer_preview": "HQ Real-time Sales big screen refers to a feature within our Data Dashboard solution that provides real-time sales monitoring capabilities on a large display or TV screen for high-level executives and",
+      "message_id": "d81bbb1c-b28a-4633-84eb-5d630e5419f3",
+      "conversation_id": "5b09bcaa-0549-49ba-89ff-f0ad3a96c6cf",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.63378245,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "[3. SM Data Dashboard Solution > 3.5 Addtional Product – Big Screen > 3.5.1 HQ Real-time Sales Monit"
+        },
+        {
+          "position": 2,
+          "score": 0.62141633,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS Real-time Sales"
+        },
+        {
+          "position": 3,
+          "score": 0.62141633,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS Real-time Sales"
+        },
+        {
+          "position": 4,
+          "score": 0.62141633,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS Real-time Sales"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B44",
+      "query": "销售报表怎么导出",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6596,
+      "answer_len": 131,
+      "answer_preview": "在数据大屏模块，你可以点击查询按钮来获取销售数据报告。如果你想要将这些数据下载到Excel文件中，你需要先执行一次查询操作。之后，你可以在显示的表格下方找到一个“导出”按钮。点击这个按钮后，系统会提示你选择保存的位置和文件名，然后就会生成你所需的Excel文件。",
+      "message_id": "3b77b075-39c6-4534-85dd-61a0cb80f7e8",
+      "conversation_id": "f0d0ef4e-f7f2-402e-a11a-141193441763",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6595951,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "Monitor and display the daily sales performance of the store"
+        },
+        {
+          "position": 2,
+          "score": 0.6420807,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Sales Summary Report"
+        },
+        {
+          "position": 3,
+          "score": 0.63173646,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "Monitor and display daily sales performance of merchants"
+        },
+        {
+          "position": 4,
+          "score": 0.6294259,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "Enter filtering criteria, then click 'Query' to search data.\nClick Export button to download Excel f"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B45",
+      "query": "report data not updated",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6343,
+      "answer_len": 550,
+      "answer_preview": "If the report data is not updating automatically, you might need to generate the data manually by clicking on the [Query] button. Make sure that no other operations are blocking this process and that ",
+      "message_id": "bafc46e4-7d72-4a79-b9a5-54c2627698c9",
+      "conversation_id": "e1299c24-7a96-45a5-b6f2-80d349b3d9fa",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6342703,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "Click [Query] button to generate the data in report"
+        },
+        {
+          "position": 2,
+          "score": 0.6221366,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "Can rank the report data (increase/decrease) by click the button"
+        },
+        {
+          "position": 3,
+          "score": 0.6151423,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "Users need to stay on the current page and wait for data preparation to complete"
+        },
+        {
+          "position": 4,
+          "score": 0.6129664,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "Vendor Reports"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B46",
+      "query": "can I customize report layout",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6753,
+      "answer_len": 577,
+      "answer_preview": "In the Data Dashboard module of our ERP system, you can indeed customize and tailor the layout to suit your analysis needs. However, customizing layouts is not directly supported through user adjustme",
+      "message_id": "1b53061a-7c05-4bf4-86d9-a99a42bef5d8",
+      "conversation_id": "d6191eb7-c616-441e-8788-a6d42ed9ed87",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.67532676,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "Choose the report according to user’s analysis purpose"
+        },
+        {
+          "position": 2,
+          "score": 0.6577848,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "Data Dashboard standard report layout is well tuned in formats. The adjustment includes but not limi"
+        },
+        {
+          "position": 3,
+          "score": 0.6575816,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "Can export the current report page via xls. Or xlsx. Format"
+        },
+        {
+          "position": 4,
+          "score": 0.64935637,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "Can rank the report data (increase/decrease) by click the button"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B47",
+      "query": "How does SAP integration with DMALL work?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7868,
+      "answer_len": 961,
+      "answer_preview": "In the System Integration module of the SM-Dmall ERP system, SAP data synchronization to and from DMALL is handled for both outbound (sending information) and inbound (retrieving information).\n\nFor ou",
+      "message_id": "fca8d5d3-b32d-4e40-9e2f-4cdce0e4ff6d",
+      "conversation_id": "a6c91948-fa31-437f-b110-d4af3f8eb199",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7867612,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "DMALL to send Goods Receipt information to SAP"
+        },
+        {
+          "position": 2,
+          "score": 0.7867612,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "DMALL to send Goods Receipt information to SAP"
+        },
+        {
+          "position": 3,
+          "score": 0.77129185,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "DMALL to retrieve DN and related info from SAP"
+        },
+        {
+          "position": 4,
+          "score": 0.76927614,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "DMALL to send In store bundle result to SAP"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B48",
+      "query": "What is the EOD data posting process?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6658,
+      "answer_len": 1569,
+      "answer_preview": "The EOD (End of Day) data posting process involves several key steps to ensure that all sales and related transactions from a day are correctly recorded in the ERP system, particularly for systems lik",
+      "message_id": "f11de72a-61af-490d-a599-f2d46c8129d6",
+      "conversation_id": "899acbca-c8f8-4acb-b0d2-a8efc6926fd8",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.66580874,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "EOD USB Copy then Upload to Cloud"
+        },
+        {
+          "position": 2,
+          "score": 0.6610587,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Data reconciliation | Data reconciliation In-store POS server will reconcile the sales data between "
+        },
+        {
+          "position": 3,
+          "score": 0.64273196,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "All records provide a manual data posting button for exceptional scenarios.\nRemark EOD term Z genera"
+        },
+        {
+          "position": 4,
+          "score": 0.63740754,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Secondly, manually paste the files into cloud server and manually trigger the EOD data posting."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B49",
+      "query": "How does EIS integration work?",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6133,
+      "answer_len": 1576,
+      "answer_preview": "The EIS (Eletronic Invoice System) integration in our system is designed to facilitate near real-time data transmission from the POS module to the Bureau of Internal Revenue (BIR). Here’s a high-level",
+      "message_id": "59d7a2cc-311d-4414-9854-dc603e460e56",
+      "conversation_id": "0026fe80-69fa-47d9-81e1-9d2701c20270",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6132687,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(End of Day Mapp"
+        },
+        {
+          "position": 2,
+          "score": 0.6038563,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Integration details"
+        },
+        {
+          "position": 3,
+          "score": 0.60330147,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Background: EIS (Eletronic Invoice System) is the data that needs to be sent to the Bureau of Intern"
+        },
+        {
+          "position": 4,
+          "score": 0.5881689,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "4.1.2.3.6 EIS"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B50",
+      "query": "接口日志怎么查看",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.5914,
+      "answer_len": 258,
+      "answer_preview": "要在SM-Dmall ERP系统中查看接口日志，您需要登录到**System Integration**模块。从菜单路径上来说，首先会进入系统集成管理页面，在这里您可以找到与接口相关的操作和日志记录。\n\n如果使用的是Web界面，请确保您的浏览器支持显示表格数据以及可能的图表或图形展示接口API的日志信息。对于移动应用端（如果您指的是手机上的应用程序），请查阅相关文档了解如何访问这些日志信息，因为不",
+      "message_id": "9cda9b2c-9804-4688-a8f5-437fc5842652",
+      "conversation_id": "bac990b6-0a42-490c-bf25-69002c889349",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.59135175,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "After upload, can check the daily and original monthly budget in budget view page"
+        },
+        {
+          "position": 2,
+          "score": 0.5878605,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "User can see the label performance in related reports immediately"
+        },
+        {
+          "position": 3,
+          "score": 0.5719431,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Monitoring matrix for the kinds of API Interface failure:"
+        },
+        {
+          "position": 4,
+          "score": 0.5685681,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Integration Detail Content: Refer to (SM)_(Phase 1A)_(System Integration Blueprint)_(EOD Map_Ad Hoc)"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B51",
+      "query": "SAP connection timeout",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6944,
+      "answer_len": 221,
+      "answer_preview": "I don't have specific information about a SAP connection timeout within the context provided for the SM-Dmall ERP system. If you could provide more details or ask about another functionality, I'd be h",
+      "message_id": "2ef5a86c-2876-419e-90be-15e17b60655f",
+      "conversation_id": "10d36980-7755-4488-a977-55ddd210226d",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.69436276,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment timeout"
+        },
+        {
+          "position": 2,
+          "score": 0.69436276,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment timeout"
+        },
+        {
+          "position": 3,
+          "score": 0.69436276,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment timeout"
+        },
+        {
+          "position": 4,
+          "score": 0.69436276,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment timeout"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B52",
+      "query": "data sync failed between SAP and DMALL",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7647,
+      "answer_len": 1095,
+      "answer_preview": "If there is a data synchronization failure between SAP and DMALL (a module for system integration), it typically means that the information being sent or received from one system to another has not be",
+      "message_id": "cea1fbd8-d00f-402d-b49f-bea989cc0640",
+      "conversation_id": "39e97286-e185-438f-8619-67832f8650ff",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7646763,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "DMALL to retrieve DN and related info from SAP"
+        },
+        {
+          "position": 2,
+          "score": 0.7405187,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "DMALL to send Goods Receipt information to SAP"
+        },
+        {
+          "position": 3,
+          "score": 0.7405187,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "DMALL to send Goods Receipt information to SAP"
+        },
+        {
+          "position": 4,
+          "score": 0.73048663,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "For this process DMALL won’t send update to SAP, so no integration."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B53",
+      "query": "POS机怎么进行日结",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.688,
+      "answer_len": 488,
+      "answer_preview": "在POS模块中，进行日结操作可以通过以下步骤完成：\n\n1. **进入EOD（End of Day）界面**：这是所有POS相关事务处理的最后一步。通常，在当天的销售交易完成后，系统会自动提示进行EOD处理。\n\n2. **执行EOD流程**：\n   - 如果是第一次进行EOD，系统可能会询问是否为新店或者旧店录入信息。\n   - 输入日期、确认无误后点击“确定”，即可开始正式的日结流程。\n   \n3",
+      "message_id": "f9cdc4bf-446b-4d67-9969-3258bf26e438",
+      "conversation_id": "d74482c0-51d7-4c5c-85ce-0c19ff58ab4d",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6879816,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS Payment Details"
+        },
+        {
+          "position": 2,
+          "score": 0.6522678,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "methods that can be automatically triggered by POS scanning on the receipt."
+        },
+        {
+          "position": 3,
+          "score": 0.6506723,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS Operation Flow"
+        },
+        {
+          "position": 4,
+          "score": 0.64968103,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Today the POS will automatically force reset the cashier password every 30 days."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B54",
+      "query": "E-voucher在收银台怎么用",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7017,
+      "answer_len": 490,
+      "answer_preview": "在SM的POS模块中使用电子优惠券（E-Voucher）进行操作时，以下是详细步骤：\n\n1. 当顾客携带电子优惠券来到收银台，并向你展示电子优惠券。\n2. 点击屏幕下方“功能”区内的“E-Voucher”按钮。如果当前页面未显示该功能，你可以通过菜单路径进入：\n   - **POS** > **功能管理** > **E-Voucher**\n3. POS系统将扫描电子优惠券的QR码，并且提示你选择电",
+      "message_id": "239f0780-6691-44be-acc1-47875fc49f2f",
+      "conversation_id": "c0af9f49-36aa-4ec6-bb93-8ac1a0fc7c21",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.7017274,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Page Screenshot | Function Description\nE-Voucher Entry Button Submenu To Scan/Input E-Voucher (Coupo"
+        },
+        {
+          "position": 2,
+          "score": 0.6900719,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "1.E-voucher"
+        },
+        {
+          "position": 3,
+          "score": 0.67284966,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "SM supports E-voucher."
+        },
+        {
+          "position": 4,
+          "score": 0.6702672,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "not be used because the minimum threshold is not met, it may become \"Available\" after adding more it"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B55",
+      "query": "SAP接口数据传输失败怎么办",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7506,
+      "answer_len": 543,
+      "answer_preview": "如果在使用SM-Dmall ERP系统时遇到从DMALL到SAP的数据传输失败问题，可以按照以下步骤尝试解决：\n\n1. **检查配置文件**：确认DMALL和SAP之间的数据传输配置是否正确无误。包括但不限于IP地址、端口号、用户名及密码等。\n   \n2. **验证接口连接**：确保DMALL和SAP之间建立了稳定的网络连接，并且能正常进行数据交互。\n\n3. **查看日志记录**：检查系统或应用程",
+      "message_id": "553cbda4-172b-4a9f-84da-042b56c740bd",
+      "conversation_id": "725d75c8-2b35-479e-ba88-22ba4ad5874b",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.75059307,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "SFTP files transfer failure"
+        },
+        {
+          "position": 2,
+          "score": 0.71476215,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "API Interface failure"
+        },
+        {
+          "position": 3,
+          "score": 0.6377816,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "a. DMALL to send Transferring Posting to SAP"
+        },
+        {
+          "position": 4,
+          "score": 0.6319817,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "SAP"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B56",
+      "query": "库存盘点PDA扫描不到",
+      "grade": "PARTIAL",
+      "retrieval_count": 4,
+      "top_score": 0.6464,
+      "answer_len": 236,
+      "answer_preview": "如果在进行库存盘点时，使用PDA无法扫描到商品信息，可能是由于以下原因导致：\n\n1. **条形码损坏或标签脱落**：确保所有商品的标签没有破损，并且上面的条形码清晰可读。\n2. **系统同步问题**：检查您的POS是否已经与系统服务器成功同步。如果未同步，请尝试重新同步数据。\n3. **PDA设置问题**：确认PDA已经正确配置并连接到网络，以及已安装了所需的盘点APP。\n\n您可以先检查以上几点，",
+      "message_id": "c8a6e84d-4c5f-4643-af11-244f20bea9a4",
+      "conversation_id": "52f11171-9d45-4065-baee-055e3b1bfeb9",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6463607,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "QR code fetching failed"
+        },
+        {
+          "position": 2,
+          "score": 0.63030195,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Dummy barcode will not be visible on POS"
+        },
+        {
+          "position": 3,
+          "score": 0.62259984,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS does not connect to in-store POS server"
+        },
+        {
+          "position": 4,
+          "score": 0.5958608,
+          "document_name": "user_manual_pos.txt",
+          "content_preview": "Note:\nIf specific record cannot be found, it is normally because the data haven’t been sync form POS"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B57",
+      "query": "促销价格POS不显示",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.7201,
+      "answer_len": 154,
+      "answer_preview": "在当前的配置下，POS系统并不支持直接查看促销信息和商品详情。如果你需要进行涉及促销的价格调整或查询，可能需要通过其他方式进行操作。如果有具体的促销活动正在进行，你可以尝试联系IT部门或者管理层来了解是否有正在实施的解决方案或是临时调整以满足需求。请问这是针对哪个模块的问题？还是有特定的操作步骤想要知道呢？",
+      "message_id": "8c555997-76fd-4ffc-bac4-b13a0eff4c16",
+      "conversation_id": "3c801675-af3b-48cb-b570-3e0a6254a0cd",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.72013015,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Dummy barcode will not be visible on POS"
+        },
+        {
+          "position": 2,
+          "score": 0.6982752,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Currently POS has no function to search article details include promo info."
+        },
+        {
+          "position": 3,
+          "score": 0.6975472,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS does not connect to in-store POS server"
+        },
+        {
+          "position": 4,
+          "score": 0.6614435,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Today POS only has item price override but no order level price override."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B58",
+      "query": "会员积分怎么兑换",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.5941,
+      "answer_len": 225,
+      "answer_preview": "关于会员积分的兑换规则，通常是由SM-Dmall ERP系统根据具体的业务需求和公司政策来设定。在我们的知识库中，并没有直接提及会员积分具体如何兑换的信息。\n\n如果你能提供更多的上下文信息，比如是哪种类型的会员（例如SMAC会员），或者是在哪个模块下进行操作，我可以尝试给出更准确的指导。对于这样的问题，一般可以参考“Promotion”模块下的相关规则和设置。如果关于特定功能的操作流程感兴趣，你可",
+      "message_id": "c3ce3990-7ea3-4943-b6bd-8f739753887f",
+      "conversation_id": "8c155591-3beb-44bb-b729-903a898dcb4c",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.5940639,
+          "document_name": "blueprint_promotion.txt",
+          "content_preview": "After payment, DMALL will calculate the points numbers that should be issued based on basic points r"
+        },
+        {
+          "position": 2,
+          "score": 0.58798677,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Today, cashiers can validate the SMAC member by selecting the SMAC button on the keyboard and then s"
+        },
+        {
+          "position": 3,
+          "score": 0.5844022,
+          "document_name": "user_manual_promotion.txt",
+          "content_preview": "[Extra Points Rewards]"
+        },
+        {
+          "position": 4,
+          "score": 0.5844022,
+          "document_name": "user_manual_promotion.txt",
+          "content_preview": "[Extra Points Rewards]"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B59",
+      "query": "system hang what to do",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6084,
+      "answer_len": 584,
+      "answer_preview": "If the system hangs and is not responding, you can try restarting it. To do this, follow these steps:\n\n1. **For a Windows-based POS system:**\n   - Press the <Windows> key + <R> to open Run.\n   - Type ",
+      "message_id": "c835fbab-7f52-4604-aea4-cb6e970029e0",
+      "conversation_id": "6e5b2648-de6d-42d5-822e-31821982fec8",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.6084202,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "If the download is complete, the system will prompt the user"
+        },
+        {
+          "position": 2,
+          "score": 0.6037061,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Here is a suggested process to follow when Alarm raised."
+        },
+        {
+          "position": 3,
+          "score": 0.6000985,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "If POS realize that SI# cannot remain continued (like the local DB broken) the POS system will tempo"
+        },
+        {
+          "position": 4,
+          "score": 0.5873481,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "The above process is a manually checking process. System has 2 kinds of auto-trigger replenishment t"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B60",
+      "query": "forgot the steps can you remind me",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6121,
+      "answer_len": 296,
+      "answer_preview": "Certainly! When an alarm is raised, here are the steps to follow:\n\n1. Log into your account.\n2. Enter your password.\n3. Type in the verification code provided for security.\n\nIf you need more specific ",
+      "message_id": "f93a0356-1cce-4fb1-a946-843a2db30851",
+      "conversation_id": "564ba10c-7dd6-43a8-b2f9-3e0e4bf96d6a",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.61214876,
+          "document_name": "user_manual_pos.txt",
+          "content_preview": "[Steps/ Explanation]"
+        },
+        {
+          "position": 2,
+          "score": 0.5630332,
+          "document_name": "blueprint_system_integration.txt",
+          "content_preview": "Here is a suggested process to follow when Alarm raised."
+        },
+        {
+          "position": 3,
+          "score": 0.54491925,
+          "document_name": "user_manual_data_dashboard.txt",
+          "content_preview": "Type in account and password, then type the verification code"
+        },
+        {
+          "position": 4,
+          "score": 0.54196095,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Manual lock for temporary absences."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B61",
+      "query": "昨天还好好的今天就不行了",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6071,
+      "answer_len": 118,
+      "answer_preview": "您的描述听起来像是设备出了问题，但我不确定这是不是您正在询问POS系统的问题。如果您是在问关于POS模块的某个具体操作或设置，请告诉我详细信息，我会尽力帮助您。如果这不是您想要了解的信息，我建议您检查一下POS系统的连接状态和设备状况。",
+      "message_id": "c99f9b67-db6c-4dbc-9b94-d799fcb71137",
+      "conversation_id": "f96136be-8947-4e6d-bf86-7d4df047be12",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.60705715,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "POS physically broken"
+        },
+        {
+          "position": 2,
+          "score": 0.5961637,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment failed"
+        },
+        {
+          "position": 3,
+          "score": 0.5961637,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment failed"
+        },
+        {
+          "position": 4,
+          "score": 0.5961637,
+          "document_name": "blueprint_pos.txt",
+          "content_preview": "Payment failed"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B62",
+      "query": "这是哪个模块的功能",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6167,
+      "answer_len": 127,
+      "answer_preview": "您的问题看起来像是在询问某个功能所属的模块，但是您没有提供具体的功能或操作。为了能更好地回答这个问题，请提供更具体的信息，比如您正在尝试使用POS、Inventory、Master Data等模块中的哪项功能。这样我可以帮助您确定这个功能位于哪个模块中。",
+      "message_id": "dad8dbd1-c0ab-49fb-97b7-2f5af5db0bec",
+      "conversation_id": "a2252d3c-cf68-4580-914d-107f00ed834b",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.61671597,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Note: this is just for explaining the function and logic. It might be changed when developing."
+        },
+        {
+          "position": 2,
+          "score": 0.61671597,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Note: this is just for explaining the function and logic. It might be changed when developing."
+        },
+        {
+          "position": 3,
+          "score": 0.61671597,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Note: this is just for explaining the function and logic. It might be changed when developing."
+        },
+        {
+          "position": 4,
+          "score": 0.61671597,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Note: this is just for explaining the function and logic. It might be changed when developing."
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B63",
+      "query": "帮我完整操作一遍",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.6457,
+      "answer_len": 86,
+      "answer_preview": "您需要完成的操作是在哪个模块进行的呢？请您具体说明一下，比如是POS、Inventory还是Master Data等模块的操作。根据不同的模块，我会为您提供相应的步骤指导。",
+      "message_id": "7b99f1bb-e520-4956-a1aa-2c6ec7010c7f",
+      "conversation_id": "e1a998b8-6f1b-4c33-976d-ca0ea5e06404",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.64573705,
+          "document_name": "user_manual_pos.txt",
+          "content_preview": "[Steps/ Explanation]"
+        },
+        {
+          "position": 2,
+          "score": 0.6398083,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "3. Input shipment details."
+        },
+        {
+          "position": 3,
+          "score": 0.63481855,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "2. Input shipment details."
+        },
+        {
+          "position": 4,
+          "score": 0.6340902,
+          "document_name": "user_manual_inventory.txt",
+          "content_preview": "5. Click “Ok” to enter task detail"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "B64",
+      "query": "和另一个系统有什么区别",
+      "grade": "PASS",
+      "retrieval_count": 4,
+      "top_score": 0.5882,
+      "answer_len": 172,
+      "answer_preview": "不同的系统之间主要的区别可能体现在设计、功能覆盖范围以及具体的操作流程上。对于SM-Dmall ERP系统而言，它特别强调的是数据的实时更新和安全性，例如通过动态调整报告内容来确保只有权限允许接收信息的人才能看到特定的信息。\n\n至于其他系统的详细对比，这需要更多关于这些系统的具体细节信息。请问您是想了解哪个系统？或者是希望得到更具体的比较呢？",
+      "message_id": "be55043b-3e61-4c12-a5a8-746106294bee",
+      "conversation_id": "7514639e-147a-491b-917f-ab41c64d3677",
+      "retriever_resources": [
+        {
+          "position": 1,
+          "score": 0.5881717,
+          "document_name": "blueprint_master_data.txt",
+          "content_preview": "Different attributes can be different article code, if there's multi- package, then system will also"
+        },
+        {
+          "position": 2,
+          "score": 0.5663058,
+          "document_name": "blueprint_data_dashboard.txt",
+          "content_preview": "What sets this system apart is its intelligent backend mechanism. When reports are sent out, the sys"
+        },
+        {
+          "position": 3,
+          "score": 0.5576993,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "For closing, operation team should separately check the issue quantity in DMALL system and receiving"
+        },
+        {
+          "position": 4,
+          "score": 0.5314521,
+          "document_name": "blueprint_inventory.txt",
+          "content_preview": "Note: this is just for explaining the function and logic. It might be changed when developing."
+        }
+      ],
+      "error": null
+    }
+  ]
+}
