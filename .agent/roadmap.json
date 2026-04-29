@@ -95,7 +95,13 @@
       "TASK-M4-003": "申请飞书多维表格访问权限（app_id + app_secret）",
       "TASK-M4-004": "开发飞书定时同步服务（Bot C数据）",
       "TASK-M4-005": "配置Dify Bot C（版本指南）- Agent + 飞书电子表格插件（已完成）",
-      "TASK-M4-006": "Bot对话流程测试与调优"
+      "TASK-M4-006": "Bot对话流程测试与调优",
+      "TASK-M4-006-1": "生成 Bot A 检索测试用例（38条）- bot_a_retrieval_test_v2.md",
+      "TASK-M4-006-2": "生成 Bot B 检索测试用例（64条）- bot_b_retrieval_test_v2.md",
+      "TASK-M4-006-3": "生成自动化测试脚本 - run_retrieval_test.py",
+      "TASK-M4-006-4": "执行 Bot A 检索测试并记录结果",
+      "TASK-M4-006-5": "执行 Bot B 检索测试并记录结果",
+      "TASK-M4-006-6": "分析测试结果，制定调优方案"
     },
     "M5": {
       "TASK-M5-001": "Python/FastAPI后端服务搭建 + PostgreSQL部署 + Schema初始化 + JWT中间件 + 初始数据种子",

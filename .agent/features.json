@@ -154,7 +154,37 @@
     },
     {
       "id": "TASK-M4-006",
-      "description": "Bot对话流程测试与调优",
+      "description": "Bot对话流程测试与调优 - 检索准确性测试（Bot A 38条 + Bot B 64条 = 102条测试用例）",
+      "pass": false
+    },
+    {
+      "id": "TASK-M4-006-1",
+      "description": "生成 Bot A 检索测试用例（38条）- bot_a_retrieval_test_v2.md",
+      "pass": true
+    },
+    {
+      "id": "TASK-M4-006-2",
+      "description": "生成 Bot B 检索测试用例（64条）- bot_b_retrieval_test_v2.md",
+      "pass": true
+    },
+    {
+      "id": "TASK-M4-006-3",
+      "description": "生成自动化测试脚本 - run_retrieval_test.py",
+      "pass": true
+    },
+    {
+      "id": "TASK-M4-006-4",
+      "description": "执行 Bot A 检索测试并记录结果",
+      "pass": false
+    },
+    {
+      "id": "TASK-M4-006-5",
+      "description": "执行 Bot B 检索测试并记录结果",
+      "pass": false
+    },
+    {
+      "id": "TASK-M4-006-6",
+      "description": "分析测试结果，制定调优方案",
       "pass": false
     },
     {

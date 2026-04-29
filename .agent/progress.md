@@ -317,6 +317,33 @@
 - URL: http://localhost:8000/api/terminal-versions
 - URL: http://localhost:8000/api/search?keyword={keyword}
 
+### TASK-M4-006 检索准确性测试用例（2026-04-29）
+
+**生成文件:**
+| 文件 | 内容 |
+|------|------|
+| `docs/test_cases/bot_a_retrieval_test_v2.md` | Bot A 测试用例 38条 |
+| `docs/test_cases/bot_b_retrieval_test_v2.md` | Bot B 测试用例 64条 |
+| `docs/test_cases/run_retrieval_test.py` | 自动化测试脚本 |
+| `docs/test_cases/README.md` | 测试计划说明 |
+
+**子任务状态:**
+| 子任务ID | 描述 | 状态 |
+|----------|------|------|
+| TASK-M4-006-1 | 生成 Bot A 测试用例（38条） | ✅ 已完成 |
+| TASK-M4-006-2 | 生成 Bot B 测试用例（64条） | ✅ 已完成 |
+| TASK-M4-006-3 | 生成自动化测试脚本 | ✅ 已完成 |
+| TASK-M4-006-4 | 执行 Bot A 检索测试 | ⏳ 待执行 |
+| TASK-M4-006-5 | 执行 Bot B 检索测试 | ⏳ 待执行 |
+| TASK-M4-006-6 | 分析结果，制定调优方案 | ⏳ 待执行 |
+
+**测试用例统计:**
+| Bot | 原有用例 | V2新增 | 总计 |
+|-----|---------|--------|------|
+| Bot A | 19条 | +19条 | 38条 |
+| Bot B | 35条 | +29条 | 64条 |
+| **合计** | 54条 | **+48条** | **102条** |
+
 ### TASK-M5-001: 后端服务搭建 (2026-04-23 完成)
 
 **新增文件结构:**
