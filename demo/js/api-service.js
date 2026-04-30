@@ -599,7 +599,17 @@
             if (buffer.trim()) {
               this._processSSEData(buffer.trim(), onChunk, (data) => {
                 conversationId = data.conversation_id || conversationId;
-                citations = data.metadata?.citations || citations;
+                const raw = data.metadata?.retriever_resources;
+                if (raw && raw.length) {
+                  citations = raw.map(r => ({
+                    title: r.document_name || '',
+                    snippet: r.content || '',
+                    content: r.content || '',
+                    score: r.score,
+                    position: r.position,
+                    dataset_name: r.dataset_name || '',
+                  }));
+                }
               });
             }
             const result = { conversationId, citations };
@@ -615,7 +625,17 @@
           for (const line of lines) {
             this._processSSEData(line, onChunk, (data) => {
               conversationId = data.conversation_id || conversationId;
-              citations = data.metadata?.citations || citations;
+              const raw = data.metadata?.retriever_resources;
+              if (raw && raw.length) {
+                citations = raw.map(r => ({
+                  title: r.document_name || '',
+                  snippet: r.content || '',
+                  content: r.content || '',
+                  score: r.score,
+                  position: r.position,
+                  dataset_name: r.dataset_name || '',
+                }));
+              }
             });
           }
 

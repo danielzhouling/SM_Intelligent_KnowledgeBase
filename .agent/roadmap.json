@@ -90,7 +90,11 @@
         "TASK-M6-012",
         "TASK-M6-013",
         "TASK-M6-014",
-        "TASK-M6-015"
+        "TASK-M6-015",
+        "TASK-M6-016",
+        "TASK-M6-017",
+        "TASK-M6-018",
+        "TASK-M6-019"
       ],
       "status": "pending"
     }
@@ -172,7 +176,11 @@
       "TASK-M6-012": "改造管理后台feedback.html：反馈卡片列表 + 审核操作 + 筛选 + 响应式 + 无障碍",
       "TASK-M6-013": "适配管理后台JS渲染逻辑(admin-api-service.js + admin-app.js)：DOM选择器适配新class名和HTML结构",
       "TASK-M6-014": "全页面ARIA无障碍：语义化标签(nav/main/section) + aria-label/role + 键盘导航 + 焦点管理 + aria-live动态区域",
-      "TASK-M6-015": "全页面多端验收测试：Desktop(1440px) + Tablet(768-1024px) + Mobile(375px) + 无障碍检查"
+      "TASK-M6-015": "全页面多端验收测试：Desktop(1440px) + Tablet(768-1024px) + Mobile(375px) + 无障碍检查",
+      "TASK-M6-016": "【引用摘要修复】验证Dify Bot A/B 'Cite and Show Source'配置已开启，确保Dify返回retriever_resources数据",
+      "TASK-M6-017": "【引用摘要修复】后端chat.py字段名修正: metadata.citations → metadata.retriever_resources + 字段映射(document_name→title, content→snippet)",
+      "TASK-M6-018": "【引用摘要修复】前端api-service.js字段名修正: data.metadata?.citations → data.metadata?.retriever_resources + 字段映射",
+      "TASK-M6-019": "【引用摘要修复】端到端验证：阻塞模式+流式模式引用摘要显示，Bot A/B聊天确认Sources区域和引用标签可点击展开"
     }
   }
 }

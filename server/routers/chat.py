@@ -170,7 +170,18 @@ async def send_message(
         conversation_id = dify_resp.get("conversation_id", "")
         message_id = dify_resp.get("message_id", "")
         answer = dify_resp.get("answer", "")
-        citations = dify_resp.get("metadata", {}).get("citations", [])
+        raw_resources = dify_resp.get("metadata", {}).get("retriever_resources", [])
+        citations = [
+            {
+                "title": r.get("document_name", ""),
+                "snippet": r.get("content", ""),
+                "content": r.get("content", ""),
+                "score": r.get("score"),
+                "position": r.get("position"),
+                "dataset_name": r.get("dataset_name", ""),
+            }
+            for r in raw_resources
+        ]
 
         # Create or get conversation mapping
         if body.conversation_id:

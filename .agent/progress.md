@@ -664,3 +664,22 @@ server/
 - 2026-04-24: 修复Nginx proxy_request_buffering配置 — 移除on避免缓冲POST请求
 - 2026-04-24: 系统测试执行 — 36项测试，API 14/14通过，UI 12/22通过（10项因Bot未配置/AdminData未定义而失败）
 - 2026-04-24: Bot A在管理后台配置为active — 用户端可见Bot A卡片
+
+## TASK-M6-016~019 引用摘要修复（2026-04-30 完成）
+
+### 问题根因
+Dify API 返回 `metadata.retriever_resources`，但后端和前端读取的是 `metadata.citations`（不存在的字段名），导致引用数据始终为空数组。
+
+### 变更清单
+- **M6-016**: curl直调Dify API确认 `retriever_resources` 字段存在且非空（Bot A 5条, Bot B 4条, Bot C 0条）
+- **M6-017**: `server/routers/chat.py` 阻塞模式 — `metadata.citations` → `metadata.retriever_resources` + 字段映射(`document_name→title, content→snippet/content, score, position, dataset_name`)
+  - 新增 3 个 pytest 测试: `test_citations_mapping.py` (映射/空数组/无metadata)
+- **M6-018**: `demo/js/api-service.js` SSE流式解析 — `metadata?.citations` → `metadata?.retriever_resources` + 字段映射（2处）
+  - 附带修复: `demo/style-a-tech/chat.html` 缺少 `#chat-form`/`#chat-input` ID（form/input标签未绑定JS）
+- **M6-019**: Playwright E2E验证 4/4通过 (Bot A/B source tags显示, Bot C无doc tags, source detail点击展开)
+
+### 验证结果
+- 后端: 79 pytest 全部通过（含3个新测试）, 0回归
+- 前端: Playwright citation测试 4/4 通过
+- API: curl阻塞模式Bot A返回5条citations, Bot B流式返回4条, Bot C返回0条
+- Docker: chat.py通过docker cp更新并重启backend容器, api-service.js通过bind mount自动生效
