@@ -42,6 +42,7 @@ from server.routers.roles import router as roles_router  # noqa: E402
 from server.routers.bots import router as bots_router  # noqa: E402
 from server.routers.feedbacks import router as feedbacks_router  # noqa: E402
 from server.routers.chat import router as chat_router  # noqa: E402
+from server.routers.announcements import router as announcements_router  # noqa: E402
 
 app.include_router(auth_router)
 app.include_router(feishu_router)
@@ -50,6 +51,7 @@ app.include_router(roles_router)
 app.include_router(bots_router)
 app.include_router(feedbacks_router)
 app.include_router(chat_router)
+app.include_router(announcements_router)
 
 
 @app.get("/health")

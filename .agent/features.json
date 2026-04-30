@@ -444,8 +444,8 @@
     },
     {
       "id": "TASK-M7-004",
-      "description": "系统公告 - 后端API与数据模型：创建announcements表、POST发布+GET列表(分页)+PUT编辑+PATCH上线/下线+GET /active用户端获取最新1条生效公告，全员广播不区分角色，不做草稿只有发布和下线",
-      "pass": false
+      "description": "系统公告 - 后端API：announcements表 + POST/GET/PUT/PATCH/GET-active端点。16个测试全部通过，106后端测试0回归",
+      "pass": true
     },
     {
       "id": "TASK-M7-005",

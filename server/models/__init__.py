@@ -5,6 +5,7 @@ from server.models.conversation import ConversationModel
 from server.models.feedback import FeedbackModel
 from server.models.sync_status import SyncStatusModel
 from server.models.password_history import PasswordHistoryModel
+from server.models.announcement import AnnouncementModel
 
 __all__ = [
     "UserModel",
@@ -17,4 +18,5 @@ __all__ = [
     "FeedbackModel",
     "SyncStatusModel",
     "PasswordHistoryModel",
+    "AnnouncementModel",
 ]
