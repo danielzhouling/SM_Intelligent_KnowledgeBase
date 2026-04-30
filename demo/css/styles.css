@@ -553,7 +553,7 @@ a:hover {
 
 .bots-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -576,6 +576,8 @@ a:hover {
   transition: all 0.2s ease;
   position: relative;
   box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
 }
 
 .bot-card:hover:not(.bot-card-locked) {
@@ -594,6 +596,7 @@ a:hover {
 
 .bot-card-body {
   padding: 20px;
+  flex: 1;
 }
 
 .bot-card-footer {
@@ -1729,6 +1732,10 @@ textarea.form-input {
   }
 
   .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bots-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
