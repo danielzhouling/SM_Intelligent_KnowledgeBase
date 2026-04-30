@@ -553,7 +553,7 @@ a:hover {
 
 .bots-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -576,6 +576,8 @@ a:hover {
   transition: all 0.2s ease;
   position: relative;
   box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
 }
 
 .bot-card:hover:not(.bot-card-locked) {
@@ -594,6 +596,7 @@ a:hover {
 
 .bot-card-body {
   padding: 20px;
+  flex: 1;
 }
 
 .bot-card-footer {
@@ -1731,6 +1734,10 @@ textarea.form-input {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .bots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* Mobile: <768px */
@@ -2465,4 +2472,156 @@ textarea.form-input {
 
 .btn-link:hover {
   text-decoration: underline;
+}
+
+/* ============================================
+   User Dropdown Menu
+   ============================================ */
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  min-width: 160px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.dropdown-item:hover {
+  background: var(--bg-page);
+}
+
+/* ============================================
+   Profile Modal
+   ============================================ */
+
+.profile-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.profile-tab {
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.profile-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.profile-tab-content .form-group {
+  margin-bottom: 16px;
+}
+
+.profile-tab-content label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.profile-tab-content input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.profile-tab-content input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.pwd-strength {
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.pwd-strength.weak { color: var(--error); }
+.pwd-strength.medium { color: var(--warning); }
+.pwd-strength.strong { color: var(--success); }
+
+.profile-msg {
+  font-size: 13px;
+  margin-top: 8px;
+  min-height: 18px;
+}
+
+.profile-msg.success { color: var(--success); }
+.profile-msg.error { color: var(--error); }
+
+/* ============================================
+   Announcement Banner
+   ============================================ */
+
+.announcement-banner {
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  position: relative;
+  z-index: 100;
+}
+
+.announcement-text { flex: 1; }
+
+.announcement-close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.announcement-close:hover { opacity: 1; }
+
+.announcement-info {
+  background: var(--primary-light);
+  color: white;
+}
+
+.announcement-warning {
+  background: var(--warning);
+  color: #1a1a1a;
+}
+
+.announcement-urgent {
+  background: var(--error);
+  color: white;
 }

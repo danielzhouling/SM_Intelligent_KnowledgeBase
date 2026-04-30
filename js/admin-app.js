@@ -292,6 +292,7 @@ async function initPage() {
     case 'roles.html':
     case 'bots.html':
     case 'feedback.html':
+    case 'announcements.html':
       await initMainPage();
       break;
     default:
@@ -302,6 +303,208 @@ async function initPage() {
       }
   }
 }
+
+// ============================================
+// Admin Profile Modal (M7)
+// ============================================
+
+const AdminProfileModal = {
+  _tab: 'profile',
+
+  show() {
+    this._tab = 'profile';
+    this._render();
+    this._loadProfile();
+  },
+
+  _render() {
+    let existing = document.getElementById('admin-profile-modal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'admin-profile-modal';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);';
+    overlay.innerHTML = `
+      <div style="background:var(--bg-card);border-radius:var(--radius-lg);width:420px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);">
+        <div style="padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+          <h3 style="margin:0;font-size:16px;">Personal Settings</h3>
+          <button id="apm-close" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-muted);">&times;</button>
+        </div>
+        <div style="padding:0 20px;border-bottom:1px solid var(--border);">
+          <button class="profile-tab ${this._tab === 'profile' ? 'active' : ''}" data-tab="profile" style="padding:10px 16px;border:none;background:none;cursor:pointer;font-size:14px;font-weight:500;border-bottom:2px solid ${this._tab === 'profile' ? 'var(--primary)' : 'transparent'};color:${this._tab === 'profile' ? 'var(--primary)' : 'var(--text-muted)'};">Profile</button>
+          <button class="profile-tab ${this._tab === 'password' ? 'active' : ''}" data-tab="password" style="padding:10px 16px;border:none;background:none;cursor:pointer;font-size:14px;font-weight:500;border-bottom:2px solid ${this._tab === 'password' ? 'var(--primary)' : 'transparent'};color:${this._tab === 'password' ? 'var(--primary)' : 'var(--text-muted)'};">Change Password</button>
+        </div>
+        <div style="padding:20px;">
+          <div id="apm-profile-panel" style="display:${this._tab === 'profile' ? 'block' : 'none'};">
+            <div style="margin-bottom:12px;">
+              <label style="display:block;font-size:13px;font-weight:500;margin-bottom:4px;">Display Name</label>
+              <input id="apm-display-name" type="text" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);box-sizing:border-box;" />
+            </div>
+            <div style="margin-bottom:12px;">
+              <label style="display:block;font-size:13px;font-weight:500;margin-bottom:4px;">Email</label>
+              <input id="apm-email" type="email" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);box-sizing:border-box;" />
+            </div>
+            <div style="margin-bottom:12px;">
+              <label style="display:block;font-size:13px;font-weight:500;margin-bottom:4px;">Phone</label>
+              <input id="apm-phone" type="tel" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);box-sizing:border-box;" />
+            </div>
+            <div id="apm-profile-msg" class="profile-msg"></div>
+            <button id="apm-save-profile" class="btn btn-primary" style="width:100%;margin-top:8px;">Save</button>
+          </div>
+          <div id="apm-password-panel" style="display:${this._tab === 'password' ? 'block' : 'none'};">
+            <div style="margin-bottom:12px;">
+              <label style="display:block;font-size:13px;font-weight:500;margin-bottom:4px;">Current Password</label>
+              <input id="apm-current-pwd" type="password" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);box-sizing:border-box;" />
+            </div>
+            <div style="margin-bottom:12px;">
+              <label style="display:block;font-size:13px;font-weight:500;margin-bottom:4px;">New Password</label>
+              <input id="apm-new-pwd" type="password" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);box-sizing:border-box;" />
+              <div id="apm-strength" class="pwd-strength" style="display:none;margin-top:6px;">
+                <div class="pwd-strength-bar"><div id="apm-strength-fill" class="pwd-strength-fill"></div></div>
+                <span id="apm-strength-text" class="pwd-strength-text"></span>
+              </div>
+            </div>
+            <div style="margin-bottom:12px;">
+              <label style="display:block;font-size:13px;font-weight:500;margin-bottom:4px;">Confirm New Password</label>
+              <input id="apm-confirm-pwd" type="password" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);box-sizing:border-box;" />
+            </div>
+            <div id="apm-pwd-msg" class="profile-msg"></div>
+            <button id="apm-save-pwd" class="btn btn-primary" style="width:100%;margin-top:8px;">Change Password</button>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+    document.getElementById('apm-close').addEventListener('click', () => overlay.remove());
+
+    overlay.querySelectorAll('.profile-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        this._tab = tab.dataset.tab;
+        this._render();
+      });
+    });
+
+    document.getElementById('apm-save-profile').addEventListener('click', () => this._saveProfile());
+    document.getElementById('apm-save-pwd').addEventListener('click', () => this._savePassword());
+
+    const newPwdInput = document.getElementById('apm-new-pwd');
+    if (newPwdInput) {
+      newPwdInput.addEventListener('input', () => this._updateStrength(newPwdInput.value));
+    }
+  },
+
+  async _loadProfile() {
+    try {
+      const result = await AdminApiService.getProfile();
+      if (result.success && result.data) {
+        const d = result.data;
+        const dn = document.getElementById('apm-display-name');
+        const em = document.getElementById('apm-email');
+        const ph = document.getElementById('apm-phone');
+        if (dn) dn.value = d.display_name || '';
+        if (em) em.value = d.email || '';
+        if (ph) ph.value = d.phone || '';
+      }
+    } catch (e) { console.error(e); }
+  },
+
+  _updateStrength(pwd) {
+    const el = document.getElementById('apm-strength');
+    const fill = document.getElementById('apm-strength-fill');
+    const text = document.getElementById('apm-strength-text');
+    if (!el) return;
+
+    if (!pwd) { el.style.display = 'none'; return; }
+    el.style.display = 'block';
+
+    let score = 0;
+    if (pwd.length >= 8) score++;
+    if (/[a-z]/.test(pwd)) score++;
+    if (/[A-Z]/.test(pwd)) score++;
+    if (/\d/.test(pwd)) score++;
+    if (/[^a-zA-Z0-9]/.test(pwd)) score++;
+
+    const levels = [
+      { w: '20%', c: '#EF4444', t: 'Very Weak' },
+      { w: '40%', c: '#F97316', t: 'Weak' },
+      { w: '60%', c: '#EAB308', t: 'Fair' },
+      { w: '80%', c: '#22C55E', t: 'Strong' },
+      { w: '100%', c: '#10B981', t: 'Very Strong' },
+    ];
+    const lvl = levels[Math.min(score, 4)];
+    fill.style.width = lvl.w;
+    fill.style.background = lvl.c;
+    text.textContent = lvl.t;
+    text.style.color = lvl.c;
+  },
+
+  async _saveProfile() {
+    const msgEl = document.getElementById('apm-profile-msg');
+    const displayName = document.getElementById('apm-display-name')?.value.trim();
+    const email = document.getElementById('apm-email')?.value.trim();
+    const phone = document.getElementById('apm-phone')?.value.trim();
+    try {
+      const result = await AdminApiService.updateProfile({ display_name: displayName, email, phone });
+      if (result.success) {
+        msgEl.textContent = 'Profile updated!';
+        msgEl.className = 'profile-msg success';
+        const userNameEl = document.getElementById('user-name');
+        if (userNameEl && displayName) userNameEl.textContent = displayName;
+      } else {
+        msgEl.textContent = result.error?.message || 'Update failed';
+        msgEl.className = 'profile-msg error';
+      }
+    } catch (e) {
+      msgEl.textContent = e.message;
+      msgEl.className = 'profile-msg error';
+    }
+  },
+
+  async _savePassword() {
+    const msgEl = document.getElementById('apm-pwd-msg');
+    const currentPwd = document.getElementById('apm-current-pwd')?.value;
+    const newPwd = document.getElementById('apm-new-pwd')?.value;
+    const confirmPwd = document.getElementById('apm-confirm-pwd')?.value;
+
+    if (!currentPwd || !newPwd || !confirmPwd) {
+      msgEl.textContent = 'All fields required';
+      msgEl.className = 'profile-msg error';
+      return;
+    }
+    if (newPwd !== confirmPwd) {
+      msgEl.textContent = 'Passwords do not match';
+      msgEl.className = 'profile-msg error';
+      return;
+    }
+    try {
+      const result = await AdminApiService.changePassword({
+        current_password: currentPwd,
+        new_password: newPwd,
+        confirm_password: confirmPwd,
+      });
+      if (result.success) {
+        msgEl.textContent = 'Password changed! Please re-login.';
+        msgEl.className = 'profile-msg success';
+        setTimeout(() => {
+          const modal = document.getElementById('admin-profile-modal');
+          if (modal) modal.remove();
+          AdminSession.clear();
+          window.location.href = 'login.html';
+        }, 1500);
+      } else {
+        msgEl.textContent = result.error?.message || 'Failed';
+        msgEl.className = 'profile-msg error';
+      }
+    } catch (e) {
+      msgEl.textContent = e.message;
+      msgEl.className = 'profile-msg error';
+    }
+  },
+};
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', initPage);

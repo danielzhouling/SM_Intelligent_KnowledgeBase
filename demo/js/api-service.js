@@ -949,6 +949,50 @@
     },
 
     // ========================================
+    // 个人中心
+    // ========================================
+
+    async getProfile() {
+      return await this._get('/auth/profile');
+    },
+
+    async updateProfile(data) {
+      return await this._put('/auth/profile', data);
+    },
+
+    async changePassword(data) {
+      const result = await this._put('/auth/password', data);
+      if (result.success && result.data) {
+        TokenManager.saveTokens(result.data);
+      }
+      return result;
+    },
+
+    // ========================================
+    // 系统公告
+    // ========================================
+
+    async getActiveAnnouncement() {
+      return await this._get('/announcements/active');
+    },
+
+    async getAnnouncements(page = 1, pageSize = 20) {
+      return await this._get(`/announcements?page=${page}&page_size=${pageSize}`);
+    },
+
+    async createAnnouncement(data) {
+      return await this._post('/announcements', data);
+    },
+
+    async updateAnnouncement(id, data) {
+      return await this._put(`/announcements/${id}`, data);
+    },
+
+    async toggleAnnouncementStatus(id, status) {
+      return await this._request('PATCH', `/announcements/${id}/status`, { status });
+    },
+
+    // ========================================
     // Mock登录 (保留用于开发)
     // ========================================
 

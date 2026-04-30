@@ -435,12 +435,12 @@
     {
       "id": "TASK-M7-002",
       "description": "个人中心 - 用户端前端：导航栏用户名点击下拉菜单(个人设置入口)、Modal弹窗含个人信息Tab(display_name+预留email/phone)和修改密码Tab(当前+新+确认+实时强度提示)、修改密码成功后Token刷新",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M7-003",
       "description": "个人中心 - 管理后台前端：导航栏用户名下拉菜单(个人设置入口)、复用Modal弹窗(个人信息+修改密码)",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M7-004",
@@ -450,17 +450,17 @@
     {
       "id": "TASK-M7-005",
       "description": "系统公告 - 管理后台前端：公告管理页面(列表+发布+编辑+上线/下线)、发布表单(标题+类型info/warning/urgent+内容)、管理后台侧边栏新增公告管理入口",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M7-006",
       "description": "系统公告 - 用户端前端：顶部Banner组件(info蓝/warning黄/urgent红)、urgent不可关闭其他可关闭(session内不显示刷新重新出现)、只展示最新1条生效公告、bots页+chat页展示(login页不展示)",
-      "pass": false
+      "pass": true
     },
     {
       "id": "TASK-M7-007",
-      "description": "个人中心+系统公告 - 端到端测试：个人信息修改全流程、密码修改+复杂度+历史+Token刷新验证、公告发布→展示→关闭→下线全流程、urgent不可关闭验证、Playwright覆盖",
-      "pass": false
+      "description": "个人中心+系统公告 - 端到端测试：16个Playwright E2E测试全部通过，覆盖ProfileModal(5)、公告管理页面(5)、用户Banner(1)、跨页面导航(5)",
+      "pass": true
     }
   ]
 }

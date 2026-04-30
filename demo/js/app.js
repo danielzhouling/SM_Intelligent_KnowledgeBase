@@ -306,6 +306,8 @@ async function initBotsPage() {
   }
 
   setupAuthHandler();
+  setupUserDropdown();
+  loadAnnouncementBanner();
 
   // 获取当前用户
   let user = ApiService.getCurrentUser();
@@ -432,6 +434,8 @@ async function initChatPage() {
   }
 
   setupAuthHandler();
+  setupUserDropdown();
+  loadAnnouncementBanner();
 
   // Get bot ID from URL
   currentBotId = getUrlParam('id') || 'A';
@@ -1320,6 +1324,163 @@ function openFeedbackReasonModal(msgIndex) {
 
 function generateId() {
   return `id_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+}
+
+// ============================================
+// User Dropdown & Profile Modal
+// ============================================
+
+const ProfileModal = {
+  show() {
+    const user = ApiService.getCurrentUser();
+    if (!user) return;
+    Modal.show({
+      title: 'Personal Settings',
+      content: `
+        <div class="profile-tabs">
+          <button class="profile-tab active" data-tab="info" onclick="ProfileModal.switchTab('info')">Profile</button>
+          <button class="profile-tab" data-tab="password" onclick="ProfileModal.switchTab('password')">Change Password</button>
+        </div>
+        <div id="profile-tab-info" class="profile-tab-content">
+          <div class="form-group"><label for="profile-display-name">Display Name</label>
+            <input type="text" id="profile-display-name" value="${user.display_name || ''}" /></div>
+          <div class="form-group"><label for="profile-email">Email</label>
+            <input type="email" id="profile-email" value="${user.email || ''}" placeholder="Optional" /></div>
+          <div class="form-group"><label for="profile-phone">Phone</label>
+            <input type="tel" id="profile-phone" value="${user.phone || ''}" placeholder="Optional" /></div>
+          <div id="profile-save-msg" class="profile-msg"></div>
+        </div>
+        <div id="profile-tab-password" class="profile-tab-content" style="display:none;">
+          <div class="form-group"><label for="current-pwd">Current Password</label>
+            <input type="password" id="current-pwd" /></div>
+          <div class="form-group"><label for="new-pwd">New Password</label>
+            <input type="password" id="new-pwd" oninput="ProfileModal.updateStrength()" />
+            <div id="pwd-strength" class="pwd-strength"></div></div>
+          <div class="form-group"><label for="confirm-pwd">Confirm Password</label>
+            <input type="password" id="confirm-pwd" /></div>
+          <div id="password-save-msg" class="profile-msg"></div>
+        </div>
+      `,
+      footer: `
+        <button class="btn btn-secondary" onclick="Modal.hide()">Cancel</button>
+        <button class="btn btn-primary" id="profile-save-btn" onclick="ProfileModal.saveProfile()">Save</button>
+      `,
+    });
+  },
+
+  switchTab(tab) {
+    $$('.profile-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+    $('#profile-tab-info').style.display = tab === 'info' ? '' : 'none';
+    $('#profile-tab-password').style.display = tab === 'password' ? '' : 'none';
+    $('#profile-save-btn').onclick = tab === 'info' ? () => ProfileModal.saveProfile() : () => ProfileModal.savePassword();
+  },
+
+  updateStrength() {
+    const pwd = $('#new-pwd').value;
+    const el = $('#pwd-strength');
+    if (!pwd) { el.textContent = ''; el.className = 'pwd-strength'; return; }
+    let score = 0;
+    if (pwd.length >= 8) score++;
+    if (pwd.length >= 12) score++;
+    if (/[A-Z]/.test(pwd)) score++;
+    if (/[a-z]/.test(pwd)) score++;
+    if (/[0-9]/.test(pwd)) score++;
+    if (/[^A-Za-z0-9]/.test(pwd)) score++;
+    if (score <= 2) { el.textContent = 'Weak'; el.className = 'pwd-strength weak'; }
+    else if (score <= 4) { el.textContent = 'Medium'; el.className = 'pwd-strength medium'; }
+    else { el.textContent = 'Strong'; el.className = 'pwd-strength strong'; }
+  },
+
+  async saveProfile() {
+    const data = {
+      display_name: $('#profile-display-name').value.trim(),
+      email: $('#profile-email').value.trim(),
+      phone: $('#profile-phone').value.trim(),
+    };
+    try {
+      const result = await ApiService.updateProfile(data);
+      if (result.success) {
+        const user = ApiService.getCurrentUser();
+        if (user) user.display_name = data.display_name;
+        $('#profile-save-msg').textContent = 'Saved!';
+        $('#profile-save-msg').className = 'profile-msg success';
+        const nameEl = $('#user-name');
+        if (nameEl) nameEl.textContent = data.display_name;
+      }
+    } catch (e) {
+      $('#profile-save-msg').textContent = e.message || 'Save failed';
+      $('#profile-save-msg').className = 'profile-msg error';
+    }
+  },
+
+  async savePassword() {
+    const current = $('#current-pwd').value;
+    const newPwd = $('#new-pwd').value;
+    const confirm = $('#confirm-pwd').value;
+    const msgEl = $('#password-save-msg');
+    if (!current || !newPwd || !confirm) { msgEl.textContent = 'All fields required'; msgEl.className = 'profile-msg error'; return; }
+    if (newPwd !== confirm) { msgEl.textContent = 'Passwords do not match'; msgEl.className = 'profile-msg error'; return; }
+    try {
+      const result = await ApiService.changePassword({ current_password: current, new_password: newPwd });
+      if (result.success) {
+        msgEl.textContent = 'Password changed!';
+        msgEl.className = 'profile-msg success';
+        setTimeout(() => Modal.hide(), 1000);
+      } else {
+        msgEl.textContent = result.error?.message || 'Change failed';
+        msgEl.className = 'profile-msg error';
+      }
+    } catch (e) {
+      msgEl.textContent = e.message || 'Change failed';
+      msgEl.className = 'profile-msg error';
+    }
+  },
+};
+
+function setupUserDropdown() {
+  const trigger = $('.user-badge') || $('.user-mini');
+  if (!trigger) return;
+  trigger.style.cursor = 'pointer';
+  trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    let dd = document.getElementById('user-dropdown');
+    if (dd) { dd.remove(); return; }
+    dd = document.createElement('div');
+    dd.id = 'user-dropdown';
+    dd.className = 'user-dropdown';
+    dd.innerHTML = `
+      <button class="dropdown-item" onclick="ProfileModal.show(); document.getElementById('user-dropdown')?.remove();">Personal Settings</button>
+      <button class="dropdown-item" onclick="document.getElementById('user-dropdown')?.remove(); document.getElementById('btn-logout')?.click();">Logout</button>
+    `;
+    trigger.style.position = 'relative';
+    trigger.appendChild(dd);
+  });
+  document.addEventListener('click', () => {
+    const dd = document.getElementById('user-dropdown');
+    if (dd) dd.remove();
+  });
+}
+
+// ============================================
+// Announcement Banner
+// ============================================
+
+async function loadAnnouncementBanner() {
+  try {
+    const result = await ApiService.getActiveAnnouncement();
+    if (!result.success || !result.data) return;
+    const ann = result.data;
+    const closedKey = `announcement_closed_${ann.id}`;
+    if (ann.type !== 'urgent' && sessionStorage.getItem(closedKey)) return;
+    const banner = document.createElement('div');
+    banner.className = `announcement-banner announcement-${ann.type}`;
+    banner.setAttribute('role', 'alert');
+    banner.innerHTML = `
+      <span class="announcement-text">${ann.title}: ${ann.content}</span>
+      ${ann.type !== 'urgent' ? `<button class="announcement-close" aria-label="Close" onclick="this.parentElement.remove(); sessionStorage.setItem('${closedKey}', 'true');">&times;</button>` : ''}
+    `;
+    document.body.prepend(banner);
+  } catch (e) { /* non-critical */ }
 }
 
 // ============================================

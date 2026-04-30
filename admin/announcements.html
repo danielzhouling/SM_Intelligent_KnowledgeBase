@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SM-Dmall Admin - Announcements</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .announcement-form { background: var(--bg-card); border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px; border: 1px solid var(--border); }
+    .announcement-form h3 { margin: 0 0 16px; font-size: 16px; }
+    .type-select { display: flex; gap: 8px; margin-bottom: 16px; }
+    .type-btn { padding: 6px 16px; border: 2px solid var(--border); border-radius: var(--radius-full); background: none; cursor: pointer; font-size: 13px; font-weight: 500; }
+    .type-btn.active-info { border-color: var(--primary-light); background: var(--primary-light); color: white; }
+    .type-btn.active-warning { border-color: var(--warning); background: var(--warning); color: #1a1a1a; }
+    .type-btn.active-urgent { border-color: var(--error); background: var(--error); color: white; }
+    .announcement-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .announcement-item-content { flex: 1; }
+    .announcement-item-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+    .announcement-item-text { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+    .announcement-item-meta { display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--text-muted); }
+    .type-tag { padding: 2px 8px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; color: white; }
+    .type-tag-info { background: var(--primary-light); }
+    .type-tag-warning { background: var(--warning); color: #1a1a1a; }
+    .type-tag-urgent { background: var(--error); }
+    .status-tag { padding: 2px 8px; border-radius: var(--radius-full); font-size: 11px; font-weight: 600; }
+    .status-tag-published { background: rgba(16,185,129,0.1); color: var(--success); }
+    .status-tag-offline { background: rgba(148,163,184,0.15); color: var(--text-muted); }
+    .announcement-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <div class="admin-page">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <div class="admin-logo">
+          <div class="admin-logo-icon">
+            <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#1E40AF"/><path d="M12 20L18 26L28 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="admin-logo-text">
+            <span class="admin-logo-name">SM-Dmall</span>
+            <span class="admin-logo-sub">Admin Panel</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="admin-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Overview</div>
+          <a href="index.html" class="nav-item"><span class="nav-item-icon">📊</span><span>Dashboard</span></a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Management</div>
+          <a href="users.html" class="nav-item"><span class="nav-item-icon">👥</span><span>Users</span></a>
+          <a href="roles.html" class="nav-item"><span class="nav-item-icon">🔐</span><span>Roles</span></a>
+          <a href="bots.html" class="nav-item"><span class="nav-item-icon">🤖</span><span>Bots</span></a>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">Feedback</div>
+          <a href="feedback.html" class="nav-item"><span class="nav-item-icon">💬</span><span>Feedback Review</span></a>
+          <a href="announcements.html" class="nav-item" style="background:var(--bg-sidebar-hover);"><span class="nav-item-icon">📢</span><span>Announcements</span></a>
+        </div>
+      </nav>
+
+      <div class="admin-sidebar-footer">
+        <div class="admin-user-info">
+          <div class="admin-user-avatar" id="user-avatar">A</div>
+          <div class="admin-user-details">
+            <div id="user-name" class="admin-user-name">Admin</div>
+            <div id="user-role" class="admin-user-role">Super Admin</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary" style="width:100%;margin-bottom:4px;" onclick="AdminProfileModal.show()">Personal Settings</button>
+        <button id="btn-logout" class="btn btn-secondary" style="width: 100%;"><span>Logout</span><span>→</span></button>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <button class="admin-mobile-btn" id="adminMobileBtn" aria-label="Open menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <h1 class="admin-header-title">Announcements</h1>
+      </header>
+
+      <div class="admin-content">
+        <!-- Create Form -->
+        <div class="announcement-form">
+          <h3>Publish Announcement</h3>
+          <div class="form-group" style="margin-bottom:12px;">
+            <input type="text" id="ann-title" placeholder="Title" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);box-sizing:border-box;" />
+          </div>
+          <div class="form-group" style="margin-bottom:12px;">
+            <textarea id="ann-content" placeholder="Content" rows="3" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);box-sizing:border-box;resize:vertical;"></textarea>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span style="font-size:13px;font-weight:500;">Type:</span>
+            <div class="type-select">
+              <button class="type-btn active-info" data-type="info" onclick="selectType(this)">Info</button>
+              <button class="type-btn" data-type="warning" onclick="selectType(this)">Warning</button>
+              <button class="type-btn" data-type="urgent" onclick="selectType(this)">Urgent</button>
+            </div>
+            <button class="btn btn-primary" style="margin-left:auto;" onclick="publishAnnouncement()">Publish</button>
+          </div>
+          <div id="ann-msg" class="profile-msg"></div>
+        </div>
+
+        <!-- List -->
+        <div id="announcements-list"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/admin-api-service.js"></script>
+  <script src="../js/admin-app.js"></script>
+  <script>
+    let selectedType = 'info';
+
+    function selectType(btn) {
+      document.querySelectorAll('.type-btn').forEach(b => b.className = 'type-btn');
+      const type = btn.dataset.type;
+      btn.classList.add('active-' + type);
+      selectedType = type;
+    }
+
+    async function loadAnnouncements() {
+      try {
+        const result = await AdminApiService.getAnnouncements();
+        const list = document.getElementById('announcements-list');
+        if (!result.success || !result.data?.items?.length) {
+          list.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:24px;">No announcements yet.</p>';
+          return;
+        }
+        list.innerHTML = result.data.items.map(a => `
+          <div class="announcement-item">
+            <div class="announcement-item-content">
+              <div class="announcement-item-title">${escHtml(a.title)}</div>
+              <div class="announcement-item-text">${escHtml(a.content)}</div>
+              <div class="announcement-item-meta">
+                <span class="type-tag type-tag-${a.type}">${a.type}</span>
+                <span class="status-tag status-tag-${a.status}">${a.status}</span>
+                <span>${a.published_at ? new Date(a.published_at).toLocaleDateString() : ''}</span>
+              </div>
+            </div>
+            <div class="announcement-actions">
+              ${a.status === 'published' ? `<button class="btn btn-secondary btn-sm" onclick="toggleStatus('${a.id}','offline')">Take Offline</button>` : `<button class="btn btn-primary btn-sm" onclick="toggleStatus('${a.id}','published')">Republish</button>`}
+              <button class="btn btn-secondary btn-sm" onclick="editAnnouncement('${a.id}','${escAttr(a.title)}','${escAttr(a.content)}','${a.type}')">Edit</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) { console.error(e); }
+    }
+
+    async function publishAnnouncement() {
+      const title = document.getElementById('ann-title').value.trim();
+      const content = document.getElementById('ann-content').value.trim();
+      const msgEl = document.getElementById('ann-msg');
+      if (!title || !content) { msgEl.textContent = 'Title and content required'; msgEl.className = 'profile-msg error'; return; }
+      try {
+        const result = await AdminApiService.createAnnouncement({ title, content, type: selectedType });
+        if (result.success) {
+          msgEl.textContent = 'Published!';
+          msgEl.className = 'profile-msg success';
+          document.getElementById('ann-title').value = '';
+          document.getElementById('ann-content').value = '';
+          loadAnnouncements();
+        } else {
+          msgEl.textContent = result.error?.message || 'Failed';
+          msgEl.className = 'profile-msg error';
+        }
+      } catch (e) { msgEl.textContent = e.message; msgEl.className = 'profile-msg error'; }
+    }
+
+    async function toggleStatus(id, status) {
+      await AdminApiService.toggleAnnouncementStatus(id, status);
+      loadAnnouncements();
+    }
+
+    function editAnnouncement(id, title, content, type) {
+      const newTitle = prompt('Title:', title);
+      if (newTitle === null) return;
+      const newContent = prompt('Content:', content);
+      if (newContent === null) return;
+      AdminApiService.updateAnnouncement(id, { title: newTitle, content: newContent }).then(() => loadAnnouncements());
+    }
+
+    function escHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+    function escAttr(s) { return s.replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (typeof AdminApiService === 'undefined') return;
+
+      // Wait for admin-app.js initMainPage() to finish auth
+      // by checking periodically until access token is available
+      let retries = 0;
+      while (!AdminApiService.TokenManager?.getAccessToken?.() && retries < 30) {
+        await new Promise(r => setTimeout(r, 100));
+        retries++;
+      }
+
+      if (!AdminApiService.TokenManager?.getAccessToken?.()) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Update user info in sidebar
+      const user = AdminApiService.getCurrentUser();
+      if (user) {
+        const avatarEl = document.getElementById('user-avatar');
+        const nameEl = document.getElementById('user-name');
+        const roleEl = document.getElementById('user-role');
+        if (avatarEl) avatarEl.textContent = (user.display_name || user.username || 'A').charAt(0).toUpperCase();
+        if (nameEl) nameEl.textContent = user.display_name || user.username || 'Admin';
+        if (roleEl) roleEl.textContent = user.roleName || user.role || '';
+      }
+
+      loadAnnouncements();
+
+      // Mobile menu
+      const mobileBtn = document.getElementById('adminMobileBtn');
+      const sidebar = document.querySelector('.admin-sidebar');
+      if (mobileBtn && sidebar) {
+        mobileBtn.addEventListener('click', () => sidebar.classList.toggle('mobile-open'));
+      }
+      const logoutBtn = document.getElementById('btn-logout');
+      if (logoutBtn) logoutBtn.addEventListener('click', () => { AdminApiService.TokenManager?.clearTokens?.(); window.location.href = 'login.html'; });
+    });
+  </script>
+</body>
+</html>

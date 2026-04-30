@@ -414,17 +414,22 @@
             <span class="nav-item-icon">💬</span>
             <span>Feedback Review</span>
           </a>
+          <a href="announcements.html" class="nav-item">
+            <span class="nav-item-icon">📢</span>
+            <span>Announcements</span>
+          </a>
         </div>
       </nav>
 
       <div class="admin-sidebar-footer">
-        <div class="admin-user-info">
+        <div class="admin-user-info" id="admin-user-trigger" style="cursor:pointer;">
           <div class="admin-user-avatar" id="user-avatar">A</div>
           <div class="admin-user-details">
             <div id="user-name" class="admin-user-name">Admin</div>
             <div id="user-role" class="admin-user-role">Super Admin</div>
           </div>
         </div>
+        <button class="btn btn-secondary" style="width:100%;margin-bottom:4px;" onclick="AdminProfileModal.show()">Personal Settings</button>
         <button id="btn-logout" class="btn btn-secondary" style="width: 100%;">
           <span>Logout</span>
           <span>→</span>
