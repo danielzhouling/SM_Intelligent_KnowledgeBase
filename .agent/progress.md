@@ -683,3 +683,26 @@ Dify API 返回 `metadata.retriever_resources`，但后端和前端读取的是 
 - 前端: Playwright citation测试 4/4 通过
 - API: curl阻塞模式Bot A返回5条citations, Bot B流式返回4条, Bot C返回0条
 - Docker: chat.py通过docker cp更新并重启backend容器, api-service.js通过bind mount自动生效
+
+## Bugfix: admin users.html Role列显示[object Object]（2026-04-30）
+
+### 问题
+API `/api/users` 返回 `roles: [{id, name}]` 对象数组，前端 `getRoleName()` 期望字符串ID，对象找不到匹配后直接渲染为 `[object Object]`。
+
+### 修复
+- admin/users.html 列表渲染: 检测 `typeof r === 'object'` 优先取 `r.name`
+- admin/users.html 编辑回填: 从角色对象提取 `r.id` 用于 checkbox 匹配
+
+## Bugfix: bots.html 3列布局+按钮底部对齐（2026-04-30）
+
+### 问题
+1. bots-grid 使用 `auto-fit, minmax(280px, 1fr)` 不稳定，未明确3列
+2. 描述文字长短不一时 Start Chat 按钮高度不对齐
+3. 之前改错文件 (style-a-tech/bots.html)，nginx 实际服务的是 demo/bots.html + demo/css/styles.css
+
+### 修复
+- demo/css/styles.css: `.bots-grid` 改为 `repeat(3, 1fr)` 桌面3列
+- demo/css/styles.css: `.bot-card` 加 `display: flex; flex-direction: column`
+- demo/css/styles.css: `.bot-card-body` 加 `flex: 1` 按钮底部对齐
+- tablet 断点 (≤1024px): 2列
+- mobile 断点 (≤768px): 1列（已有）
