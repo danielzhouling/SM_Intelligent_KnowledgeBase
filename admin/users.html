@@ -309,7 +309,10 @@
 
           tbody.innerHTML = users.map(u => {
             const userRoles = Array.isArray(u.roles) ? u.roles : (u.role ? [u.role] : []);
-            const roleNames = userRoles.map(rid => `<span class="role-tag">${getRoleName(rid)}</span>`).join(' ');
+            const roleNames = userRoles.map(r => {
+              const name = (typeof r === 'object' && r.name) ? r.name : getRoleName(r);
+              return `<span class="role-tag">${escapeHtml(name)}</span>`;
+            }).join(' ');
             return `
             <tr>
               <td>${escapeHtml(u.username)}</td>
@@ -385,8 +388,9 @@
 
             // Set checkbox for roles (multi-role support)
             const userRoles = Array.isArray(user.roles) ? user.roles : (user.role ? [user.role] : []);
+            const roleIds = userRoles.map(r => typeof r === 'object' ? r.id : r);
             $$('input[name="roles"]').forEach(cb => {
-              cb.checked = userRoles.includes(cb.value);
+              cb.checked = roleIds.includes(cb.value);
             });
 
             openModal(true);
