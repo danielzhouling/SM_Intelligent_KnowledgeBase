@@ -362,7 +362,7 @@
     /* Bots Grid */
     .bots-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
 
@@ -372,6 +372,8 @@
       border-radius: var(--radius-lg);
       overflow: hidden;
       transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
     }
 
     .bot-card:hover {
@@ -420,6 +422,7 @@
 
     .bot-card-body {
       padding: 20px;
+      flex: 1;
     }
 
     .bot-name {
@@ -532,6 +535,12 @@
 
       .bot-card-footer {
         padding: 12px 16px 16px;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .bots-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
