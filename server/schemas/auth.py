@@ -30,3 +30,24 @@ class UserMeResponse(BaseModel):
     display_name: str
     roles: list[RoleInfo]
     permissions: list[str]
+
+
+class ProfileResponse(BaseModel):
+    id: str
+    username: str
+    display_name: str
+    email: str
+    phone: str
+    roles: list[RoleInfo]
+    password_age_days: int | None
+
+
+class ProfileUpdateRequest(BaseModel):
+    display_name: str
+    email: str = ""
+    phone: str = ""
+
+
+class PasswordChangeRequest(BaseModel):
+    current_password: str
+    new_password: str

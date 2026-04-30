@@ -6,7 +6,7 @@
 
 | 任务ID | 描述 | 状态 |
 |--------|------|------|
-| TASK-M7-001 | 个人中心 - 后端API与数据模型（users表新增字段+password_history表+密码策略+profile/password接口） | ⏳ 待开始 |
+| TASK-M7-001 | 个人中心 - 后端API与数据模型（users表新增字段+password_history表+密码策略+profile/password接口） | ✅ 已完成 (2026-05-01) |
 | TASK-M7-002 | 个人中心 - 用户端前端（导航栏下拉菜单+Modal弹窗：个人信息Tab+修改密码Tab+实时强度提示） | ⏳ 待开始 |
 | TASK-M7-003 | 个人中心 - 管理后台前端（导航栏下拉菜单+复用Modal弹窗） | ⏳ 待开始 |
 | TASK-M7-004 | 系统公告 - 后端API与数据模型（announcements表+CRUD+用户端获取生效公告） | ⏳ 待开始 |
@@ -747,3 +747,49 @@ API `/api/users` 返回 `roles: [{id, name}]` 对象数组，前端 `getRoleName
 - demo/css/styles.css: `.bot-card-body` 加 `flex: 1` 按钮底部对齐
 - tablet 断点 (≤1024px): 2列
 - mobile 断点 (≤768px): 1列（已有）
+
+## TASK-M7-001 个人中心后端API与数据模型（2026-05-01 完成）
+
+### 变更内容
+
+**数据模型**:
+- `UserModel` 新增字段: `email`(VARCHAR(100)), `phone`(VARCHAR(20)), `password_changed_at`(TIMESTAMP), `must_change_password`(BOOLEAN)
+- 新建 `PasswordHistoryModel`: `id`, `user_id`(FK CASCADE), `password_hash`, `created_at`
+- PostgreSQL 迁移: ALTER TABLE 添加4列 + CREATE TABLE password_history
+
+**密码策略工具函数** (`auth/password_policy.py`):
+- `validate_password_complexity()`: 8位+大小写+数字+特殊字符，返回错误列表
+- `check_password_in_history()`: bcrypt比对最近5次历史密码
+- `get_password_age_days()`: 计算密码天数（兼容naive/aware datetime）
+- `is_password_expired()`: 超过90天过期
+- `is_password_expiring_soon()`: 83-90天内即将过期
+
+**API端点** (`routers/auth.py` 新增3个):
+- `GET /api/auth/profile`: 返回个人信息+密码天数
+- `PUT /api/auth/profile`: 修改display_name/email/phone
+- `PUT /api/auth/password`: 当前密码验证→复杂度→与当前不同→历史比对→写入历史→更新密码→签发新JWT
+
+**Pydantic Schemas** (`schemas/auth.py` 新增):
+- `ProfileResponse`, `ProfileUpdateRequest`, `PasswordChangeRequest`
+
+### 文件变更清单
+| 文件 | 变更 |
+|------|------|
+| `server/models/user.py` | 新增4字段 |
+| `server/models/password_history.py` | 新建 |
+| `server/models/__init__.py` | 导出PasswordHistoryModel |
+| `server/auth/password_policy.py` | 新建密码策略工具 |
+| `server/schemas/auth.py` | 新增3个Schema |
+| `server/routers/auth.py` | 新增3个端点 |
+| `server/tests/test_password_policy.py` | 新建19个测试 |
+| `server/tests/test_profile_api.py` | 新建13个测试 |
+
+### 测试结果
+- 密码策略单元测试: 19/19 通过
+- Profile API集成测试: 13/13 通过
+- 全量后端测试: 90/90 通过，0回归
+- curl端到端验证: profile查询/修改、密码修改/历史比对/Token刷新全部通过
+
+### 安全断点
+- TASK-M7-002 (用户端前端) 和 TASK-M7-003 (管理后台前端) 可以并行开始，依赖已就绪
+- admin密码已从admin123改为Adm1nP@ss（满足复杂度要求），后续测试需注意

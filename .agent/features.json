@@ -429,8 +429,8 @@
     },
     {
       "id": "TASK-M7-001",
-      "description": "个人中心 - 后端API与数据模型：users表新增email/phone/password_changed_at/must_change_password字段、创建password_history表、密码复杂度校验工具函数(8位+大小写+数字+特殊字符)+历史验证(最近5次bcrypt比对)+过期检查(90天+7天提醒)、GET /api/auth/profile、PUT /api/auth/profile(修改display_name+预留email/phone)、PUT /api/auth/password(当前密码验证+复杂度+历史比对+签发新Token)",
-      "pass": false
+      "description": "个人中心 - 后端API与数据模型：users表新增email/phone/password_changed_at/must_change_password字段、创建password_history表、密码复杂度校验(8位+大小写+数字+特殊字符)+历史验证(最近5次bcrypt)+过期检查(90天+7天)、GET/PUT /api/auth/profile + PUT /api/auth/password。32个新测试全部通过，90个后端测试0回归",
+      "pass": true
     },
     {
       "id": "TASK-M7-002",
