@@ -1,68 +1,110 @@
 # 未来规划 / Future Planning
 
 > 本文档记录已讨论但未纳入当前迭代的功能需求，作为后续版本规划的参考。
+> 个人中心、系统公告已确认纳入M7，从本文档移除。
 
 **文档更新日期**: 2026-04-30
 
 ---
 
-## 一、已识别待实现功能清单
+## 一、待实现功能清单（按优先级）
 
-### P0 — 企业商用必备
+### P0 — 安全与合规
 
-| 功能 | 描述 | 优先级 | 预计工时 |
-|------|------|--------|----------|
-| **个人中心** | 用户修改个人信息（姓名、联系方式）、修改密码 | P0 | 2-3天 |
-| **操作审计日志** | 管理员操作留痕（创建/删除/修改谁、什么时间、做了什么） | P0 | 2-3天 |
-| **登录失败锁定** | 密码连续错误5次锁定账号15分钟，防暴力破解 | P0 | 1天 |
+| 功能 | 描述 | 优先级 |
+|------|------|--------|
+| **数据库备份策略** | pg_dump定时备份 + 恢复验证流程，保障数据安全 | P0 |
+| **登录失败锁定** | 密码连续错误5次锁定账号15分钟（PostgreSQL实现，不引入Redis） | P0 |
+| **操作审计日志** | 管理员操作留痕，FastAPI中间件拦截器自动记录 | P0 |
 
-### P1 — 企业内控与体验提升
+### P1 — 运营与体验
 
-| 功能 | 描述 | 优先级 | 预计工时 |
-|------|------|--------|----------|
-| **密码策略** | 密码复杂度要求（8位+大小写+数字+特殊字符）、90天过期提示 | P1 | 1-2天 |
-| **Bot用量统计** | 各Bot对话次数/用户数/平均响应时间统计面板 | P1 | 2天 |
-| **会话管理** | 管理员查看用户活跃会话、支持强制下线 | P1 | 1-2天 |
-| **系统公告** | 管理员发布公告，用户端顶部展示，支持上下线时间 | P1 | 2天 |
-| **反馈统计分析** | 汇总统计：按Bot/按月/按评分分布的Dashboard | P1 | 2天 |
+| 功能 | 描述 | 优先级 |
+|------|------|--------|
+| **Bot用量统计** | 各Bot对话次数/用户数/平均响应时间统计面板（需引入图表库） | P1 |
+| **会话管理** | 管理员查看活跃会话、支持强制下线（JWT黑名单） | P1 |
+| **反馈统计分析** | 汇总统计：按Bot/按月/按评分分布的Dashboard | P1 |
 
-### P2 — 长期价值功能
+### P2 — 长期价值
 
-| 功能 | 描述 | 优先级 | 预计工时 |
-|------|------|--------|----------|
-| **知识库文档管理界面** | 在系统内管理Dify知识库文档，上传/删除/版本对比 | P2 | 5-7天 |
-| **头像上传** | 用户上传自定义头像（存储到本地或OSS） | P2 | 1-2天 |
-| **WebHook通知** | 反馈审核通过/新用户注册等事件触发WebHook回调 | P2 | 1-2天 |
-| **邮件通知** | 密码过期提醒、审计日志定期汇总邮件 | P2 | 2-3天 |
-| **登录历史** | 用户查看自己的登录设备、时间、地点（IP） | P2 | 1天 |
+| 功能 | 描述 | 优先级 |
+|------|------|--------|
+| **知识库文档管理界面** | 在系统内管理Dify知识库文档，上传/删除/版本对比（依赖Dify Knowledge API） | P2 |
+| **头像上传** | 用户上传自定义头像（存储到本地或OSS） | P2 |
+| **WebHook通知** | 反馈审核通过/新用户注册等事件触发WebHook回调 | P2 |
+| **登录历史** | 用户查看自己的登录设备、时间、地点（IP） | P2 |
+
+### 按需 — 生产环境上线后
+
+| 功能 | 说明 |
+|------|------|
+| **LLM模型升级** | Bot A PASS率仅26.3%（3B模型限制），生产环境需升级至7B/14B或接入云端API |
+| **邮件通知** | 密码过期提醒、审计日志汇总邮件（需SMTP配置） |
+| **API速率限制** | 如系统暴露公网则需添加（本地部署暂不需要） |
 
 ---
 
 ## 二、功能详细说明
 
-### 2.1 个人中心
+### 2.1 数据库备份策略
 
-**需求背景**: 用户当前无法自助修改密码，密码泄露或过期时必须联系管理员重置，运维成本高。
+**备份工具**: `pg_dump` + `crontab` 定时执行
 
-**功能点**:
-- 修改个人信息：显示名称、联系方式（邮箱/手机）
-- 修改密码：当前密码 + 新密码 + 确认密码
-- 修改成功后强制刷新JWT Token
+**备份策略**:
+| 类型 | 频率 | 保留 | 存储位置 |
+|------|------|------|---------|
+| 全量备份 | 每日凌晨2:00 | 保留最近7天 | 宿主机 `/opt/backups/postgres/` |
+| 手动备份 | 系统升级/数据迁移前 | 手动管理 | 同上 |
 
-**交互设计**:
-- 用户端导航栏用户名点击 → 下拉菜单 → "个人设置"
-- 独立页面 `/user/profile.html` 或 Modal 弹窗
+**备份脚本**:
+```bash
+#!/bin/bash
+# /opt/scripts/backup-postgres.sh
+BACKUP_DIR="/opt/backups/postgres"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+BACKUP_FILE="$BACKUP_DIR/sm_kb_${TIMESTAMP}.sql.gz"
 
-**安全要求**:
-- 修改密码必须验证当前密码
-- 新密码不能与最近3次密码相同
-- 密码强度实时校验提示
+docker exec sm-app-postgres pg_dump -U kb_app knowledge_base_app | gzip > "$BACKUP_FILE"
+find "$BACKUP_DIR" -name "sm_kb_*.sql.gz" -mtime +7 -delete
+
+echo "[$TIMESTAMP] Backup completed: $BACKUP_FILE"
+```
+
+**恢复流程**:
+```bash
+docker stop sm-app-backend
+gunzip -c /opt/backups/postgres/sm_kb_YYYYMMDD_HHMMSS.sql.gz > restore.sql
+docker exec -i sm-app-postgres psql -U kb_app knowledge_base_app < restore.sql
+docker start sm-app-backend
+```
+
+**定期验证**: 每月手动执行一次恢复到测试库，确认备份文件可用。
 
 ---
 
-### 2.2 操作审计日志
+### 2.2 登录失败锁定
 
-**需求背景**: 企业合规要求管理员操作需留痕，出了问题能追溯。
+**策略**:
+| 条件 | 动作 |
+|------|------|
+| 连续5次密码错误 | 锁定账号15分钟 |
+| 连续10次密码错误 | 锁定账号1小时，管理后台显示警告 |
+
+**实现方案（PostgreSQL，不引入Redis）**:
+
+`users` 表新增字段：
+```sql
+ALTER TABLE users ADD COLUMN failed_login_count INTEGER DEFAULT 0;
+ALTER TABLE users ADD COLUMN locked_until TIMESTAMP;
+```
+
+**说明**:
+- 仅做账号级别锁定，不做IP级别锁定（企业内网共享NAT出口IP）
+- 系统为本地部署、用户量小，PostgreSQL方案完全满足需求
+
+---
+
+### 2.3 操作审计日志
 
 **记录范围**:
 | 操作类型 | 触发条件 | 记录内容 |
@@ -79,58 +121,50 @@ CREATE TABLE audit_logs (
     id VARCHAR(36) PRIMARY KEY,
     operator_id VARCHAR(36) REFERENCES users(id),
     operator_name VARCHAR(100),
-    action VARCHAR(50) NOT NULL,        -- user.create / bot.update / login.success ...
-    target_type VARCHAR(50),            -- user / role / bot / feedback
+    action VARCHAR(50) NOT NULL,
+    target_type VARCHAR(50),
     target_id VARCHAR(36),
     target_name VARCHAR(200),
-    detail JSONB,                       -- 操作的详细变更内容
+    detail JSONB,
     ip_address VARCHAR(45),
     user_agent TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
 ```
 
-**管理后台**:
-- 审计日志列表页：支持按操作人/操作类型/时间范围筛选
-- 详情查看：展示操作前后的变更对比（JSON Diff）
+**实现方案**: FastAPI中间件拦截器，自动记录所有写操作（POST/PUT/PATCH/DELETE），无需每个路由手动埋点。
 
 ---
 
-### 2.3 登录失败锁定
+### 2.4 会话管理
 
-**需求背景**: 当前系统密码错误可无限次尝试，有暴力破解风险。
+**功能点**:
+- 管理员查看当前活跃会话列表
+- 强制下线指定会话（JWT黑名单）
+- 会话详情查看（仅元数据）
 
-**策略**:
-| 条件 | 动作 |
-|------|------|
-| 连续5次密码错误 | 锁定账号15分钟 |
-| 连续10次密码错误 | 锁定账号1小时，并通知管理员 |
-| 30分钟内连续3次IP登录失败 | 锁定IP 15分钟 |
+**数据模型**:
+```sql
+CREATE TABLE user_sessions (
+    id VARCHAR(36) PRIMARY KEY,
+    user_id VARCHAR(36) REFERENCES users(id),
+    refresh_token_hash VARCHAR(255),
+    device_info VARCHAR(200),
+    ip_address VARCHAR(45),
+    last_active_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT NOW(),
+    expires_at TIMESTAMP
+);
 
-**交互设计**:
-- 用户看到提示："密码错误连续超过5次，请在15分钟后重试"
-- 管理员收到通知（在仪表盘显示警告badge）
-
-**额外防护**:
-- 验证码（CAPTCHA）连续3次失败后弹出
-- 密码错误次数计入Redis，5分钟窗口期
-
----
-
-### 2.4 密码策略
-
-**策略规则**:
-| 规则 | 要求 |
-|------|------|
-| 最小长度 | 8位 |
-| 复杂度 | 大写字母 + 小写字母 + 数字 + 特殊字符（@$!%*?&）|
-| 历史密码 | 不能与最近5次密码相同 |
-| 过期时间 | 90天，过期前7天提醒 |
-| 首次登录 | 首次登录必须修改默认密码 |
-
-**前端交互**:
-- 注册/修改密码时实时显示密码强度（弱/中/强）
-- 过期前7天登录时弹出修改密码提示
+CREATE TABLE token_blacklist (
+    id VARCHAR(36) PRIMARY KEY,
+    token_jti VARCHAR(100) UNIQUE NOT NULL,
+    user_id VARCHAR(36) REFERENCES users(id),
+    reason VARCHAR(50),
+    created_at TIMESTAMP DEFAULT NOW(),
+    expires_at TIMESTAMP NOT NULL
+);
+```
 
 ---
 
@@ -143,51 +177,19 @@ CREATE TABLE audit_logs (
 | 按Bot | 对话次数、独立用户数、平均对话轮次、知识库检索命中率 |
 | 按用户 | 个人对话次数、使用了哪些Bot、最后一次活跃时间 |
 
-**Dashboard设计**:
-- 管理后台新增 "统计分析" 页面
-- 卡片展示关键指标 + 折线图（按天/周/月趋势）
-- 支持导出CSV
+**实现要点**:
+- 后端从 conversations 表聚合统计数据
+- 前端引入图表库（Chart.js 或 ECharts）
+- 管理后台新增"统计分析"页面
+- 支持 CSV 导出
 
 ---
 
-### 2.6 会话管理
+### 2.6 反馈统计分析
 
-**功能点**:
-- 管理员查看当前活跃会话列表
-- 支持按用户/Bot/最后消息时间筛选
-- 强制下线指定会话
-- 会话详情查看（不包含聊天内容，仅元数据）
-
-**数据模型**:
-```sql
--- 新增 sessions 表跟踪在线状态
-CREATE TABLE user_sessions (
-    id VARCHAR(36) PRIMARY KEY,
-    user_id VARCHAR(36) REFERENCES users(id),
-    refresh_token_hash VARCHAR(255),
-    device_info VARCHAR(200),
-    ip_address VARCHAR(45),
-    last_active_at TIMESTAMP,
-    created_at TIMESTAMP DEFAULT NOW(),
-    expires_at TIMESTAMP
-);
-```
-
----
-
-### 2.7 系统公告
-
-**功能点**:
-- 管理员发布公告：标题 + 内容 + 上下线时间 + 目标用户范围
-- 用户端顶部Banner展示（可关闭）
-- 公告历史列表
-
-**公告类型**:
-| 类型 | 样式 |
-|------|------|
-| 通知 (info) | 蓝色背景 |
-| 警告 (warning) | 黄色背景 |
-| 紧急 (urgent) | 红色背景 + 不能关闭 |
+- 后端从 feedbacks 表聚合统计（按Bot/按月/按评分分布）
+- 前端统计图表（饼图：有用/没用比例，柱状图：按Bot分布）
+- 与Bot用量统计共用"统计分析"页面，Tab切换展示
 
 ---
 
@@ -215,51 +217,20 @@ CREATE TABLE user_sessions (
 |------|----------|------|
 | 日志聚合 | 仅文件日志 | 接入ELK或云监控 |
 | 性能监控 | 无 | 接入Sentry或类似APM |
-| 健康检查 | 基础存活检查 | 增加DB/Redis/Dify依赖检查 |
+| 健康检查 | 基础存活检查 | 增加DB/Dify依赖检查 |
 
 ---
 
-## 四、后续里程碑建议
+## 四、技术决策记录
 
-```
-M7: 企业内控与安全（3-4周）
-├── TASK-M7-001: 个人中心（修改密码、个人信息）
-├── TASK-M7-002: 登录失败锁定 + CAPTCHA
-├── TASK-M7-003: 操作审计日志
-├── TASK-M7-004: 密码策略（复杂度、过期）
-└── TASK-M7-005: 会话管理（查看/强制下线）
-
-M8: 数据分析与运营（2-3周）
-├── TASK-M8-001: Bot用量统计Dashboard
-├── TASK-M8-002: 反馈统计分析
-└── TASK-M8-003: 系统公告
-
-M9: 知识库管理界面（4-5周）
-├── TASK-M9-001: 知识库文档上传/删除
-├── TASK-M9-002: 文档版本管理
-└── TASK-M9-003: 知识库健康度报告
-```
-
----
-
-## 五、决策记录
-
-### 5.1 优先级判定依据
-
-P0 判定标准：
-- 影响系统安全底线（登录失败锁定）
-- 影响用户基本可用性（修改密码）
-- 企业合规必须（审计日志）
-
-P1 判定标准：
-- 提升运维效率（用量统计、会话管理）
-- 符合行业惯例（密码策略）
-- 用户明确会用到（系统公告）
-
-P2 判定标准：
-- 长期价值但非紧急（知识库界面）
-- 有替代方案（头像用默认）
-- 实现成本较高（邮件通知）
+| 决策项 | 方案 | 原因 |
+|--------|------|------|
+| 登录锁定存储 | PostgreSQL users表字段 | 系统用户量小、本地部署，无需引入Redis |
+| IP级别锁定 | 不做 | 企业内网共享NAT出口IP，IP锁定可能影响整个办公室 |
+| API速率限制 | 暂不做 | 本地部署，Ollama天然串行排队，用户量极小 |
+| 审计日志实现 | FastAPI中间件拦截器 | 自动记录所有写操作，避免路由遗漏 |
+| 强制下线 | JWT黑名单表 | 本地部署无需Redis，PostgreSQL表即可 |
+| 密码策略 | 随个人中心一起实现 | 个人中心是密码修改的前端入口，后端能力需同步到位 |
 
 ---
 

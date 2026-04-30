@@ -1334,3 +1334,245 @@ async def seed_initial_data():
 - 表单输入有 `<label>` 关联
 - 键盘可 Tab 到所有可交互元素
 - 焦点管理：Modal 打开时焦点陷阱，关闭后恢复触发元素
+
+## 二十二、个人中心规范（M7）
+
+### 22.1 后端API
+
+```
+GET  /api/auth/profile          # 获取当前用户个人信息
+PUT  /api/auth/profile          # 修改个人信息
+PUT  /api/auth/password         # 修改密码
+```
+
+**GET /api/auth/profile 响应**:
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "username": "hq-admin",
+    "display_name": "HQ Admin",
+    "email": "",
+    "phone": "",
+    "roles": [{"id": "r1", "name": "HQ IT Admin"}],
+    "password_age_days": 45
+  }
+}
+```
+
+**PUT /api/auth/profile 请求**:
+```json
+{
+  "display_name": "新名称",
+  "email": "admin@example.com",
+  "phone": ""
+}
+```
+
+**PUT /api/auth/password 请求**:
+```json
+{
+  "current_password": "old_password",
+  "new_password": "NewP@ss123"
+}
+```
+
+**PUT /api/auth/password 响应**（成功时签发新Token）:
+```json
+{
+  "success": true,
+  "data": {
+    "access_token": "new-jwt-token",
+    "refresh_token": "new-refresh-token",
+    "message": "密码修改成功"
+  }
+}
+```
+
+**密码修改后端校验顺序**:
+1. 验证当前密码（bcrypt.verify）
+2. 校验新密码复杂度（8位+大小写+数字+特殊字符）
+3. 新密码与当前密码不能相同
+4. 新密码与最近5次历史密码比对（bcrypt.verify逐条）
+5. 更新密码 + 写入password_history + 更新password_changed_at
+6. 签发新JWT Token返回
+
+### 22.2 数据模型变更
+
+```sql
+-- users表新增字段
+ALTER TABLE users ADD COLUMN email VARCHAR(100) DEFAULT '';
+ALTER TABLE users ADD COLUMN phone VARCHAR(20) DEFAULT '';
+ALTER TABLE users ADD COLUMN password_changed_at TIMESTAMP DEFAULT NOW();
+ALTER TABLE users ADD COLUMN must_change_password BOOLEAN DEFAULT FALSE;
+
+-- 密码历史表
+CREATE TABLE password_history (
+    id VARCHAR(36) PRIMARY KEY,
+    user_id VARCHAR(36) REFERENCES users(id) ON DELETE CASCADE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### 22.3 前端交互规范
+
+**Modal弹窗结构**:
+```html
+<!-- 个人设置Modal -->
+<div class="modal" role="dialog" aria-modal="true" aria-label="个人设置">
+  <div class="modal-tabs">
+    <button class="tab active" data-tab="info">个人信息</button>
+    <button class="tab" data-tab="password">修改密码</button>
+  </div>
+
+  <!-- Tab 1: 个人信息 -->
+  <div class="tab-content" id="tab-info">
+    <label for="profile-name">显示名称</label>
+    <input id="profile-name" type="text" />
+    <label for="profile-email">邮箱</label>
+    <input id="profile-email" type="email" />
+    <label for="profile-phone">手机号</label>
+    <input id="profile-phone" type="tel" />
+  </div>
+
+  <!-- Tab 2: 修改密码 -->
+  <div class="tab-content" id="tab-password" hidden>
+    <label for="current-pwd">当前密码</label>
+    <input id="current-pwd" type="password" />
+    <label for="new-pwd">新密码</label>
+    <input id="new-pwd" type="password" />
+    <div class="password-strength">弱/中/强</div>
+    <label for="confirm-pwd">确认密码</label>
+    <input id="confirm-pwd" type="password" />
+  </div>
+</div>
+```
+
+**密码强度算法**:
+```javascript
+function getPasswordStrength(password) {
+  let score = 0;
+  if (password.length >= 8) score++;
+  if (password.length >= 12) score++;
+  if (/[A-Z]/.test(password)) score++;
+  if (/[a-z]/.test(password)) score++;
+  if (/[0-9]/.test(password)) score++;
+  if (/[@$!%*?&]/.test(password)) score++;
+  if (score <= 2) return '弱';
+  if (score <= 4) return '中';
+  return '强';
+}
+```
+
+## 二十三、系统公告规范（M7）
+
+### 23.1 后端API
+
+```
+POST   /api/announcements              # 发布公告
+GET    /api/announcements              # 公告列表（管理后台，分页）
+PUT    /api/announcements/{id}         # 编辑公告
+PATCH  /api/announcements/{id}/status  # 上线/下线
+GET    /api/announcements/active       # 用户端获取最新1条生效公告
+```
+
+**POST /api/announcements 请求**:
+```json
+{
+  "title": "系统维护通知",
+  "content": "系统将于本周六凌晨进行维护...",
+  "type": "warning"
+}
+```
+
+**POST /api/announcements 响应**:
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "title": "系统维护通知",
+    "type": "warning",
+    "status": "published",
+    "published_at": "2026-04-30T10:00:00Z"
+  }
+}
+```
+
+**PATCH /api/announcements/{id}/status 请求**:
+```json
+{
+  "status": "offline"
+}
+```
+
+**GET /api/announcements/active 响应**（用户端调用，只返回1条）:
+```json
+{
+  "success": true,
+  "data": {
+    "id": "uuid",
+    "title": "系统维护通知",
+    "content": "系统将于本周六凌晨进行维护...",
+    "type": "warning"
+  }
+}
+```
+
+无生效公告时返回:
+```json
+{
+  "success": true,
+  "data": null
+}
+```
+
+### 23.2 数据模型
+
+```sql
+CREATE TABLE announcements (
+    id VARCHAR(36) PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    content TEXT NOT NULL,
+    type VARCHAR(20) DEFAULT 'info',        -- info / warning / urgent
+    status VARCHAR(20) DEFAULT 'published', -- published / offline
+    published_at TIMESTAMP DEFAULT NOW(),
+    created_by VARCHAR(36) REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### 23.3 前端交互规范
+
+**管理后台 — 公告管理页面**:
+- 侧边栏新增"公告管理"导航项
+- 公告列表：标题 + 类型标签 + 状态 + 发布时间 + 操作(编辑/上线/下线)
+- 发布表单：标题 + 类型选择(info/warning/urgent) + 内容textarea
+- 不做草稿，点击发布直接上线
+
+**用户端 — 顶部Banner组件**:
+```html
+<!-- 公告Banner（动态插入到页面顶部） -->
+<div class="announcement-banner" data-type="warning" role="alert">
+  <span class="announcement-icon">🔔</span>
+  <span class="announcement-text">系统将于本周六进行维护...</span>
+  <button class="announcement-close" aria-label="关闭通知">&times;</button>
+</div>
+```
+
+**Banner样式规范**:
+```css
+.announcement-banner { padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+.announcement-banner[data-type="info"]    { background: var(--primary-light); color: white; }
+.announcement-banner[data-type="warning"] { background: var(--warning); color: #1a1a1a; }
+.announcement-banner[data-type="urgent"]  { background: var(--error); color: white; }
+.announcement-banner[data-type="urgent"] .announcement-close { display: none; }
+```
+
+**关闭逻辑**:
+- info/warning: 点击关闭 → `sessionStorage.setItem('announcement_closed_{id}', 'true')` → 隐藏Banner
+- urgent: 不渲染关闭按钮
+- 页面加载时：调用 `GET /api/announcements/active` → 检查sessionStorage是否已关闭 → 决定是否显示

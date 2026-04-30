@@ -97,6 +97,21 @@
         "TASK-M6-019"
       ],
       "status": "completed"
+    },
+    {
+      "id": "M7",
+      "name": "个人中心 + 系统公告",
+      "description": "个人中心（修改个人信息/密码+密码策略）+ 系统公告（管理员发布/用户端Banner展示）",
+      "tasks": [
+        "TASK-M7-001",
+        "TASK-M7-002",
+        "TASK-M7-003",
+        "TASK-M7-004",
+        "TASK-M7-005",
+        "TASK-M7-006",
+        "TASK-M7-007"
+      ],
+      "status": "pending"
     }
   ],
   "task_definitions": {
@@ -181,6 +196,15 @@
       "TASK-M6-017": "【引用摘要修复】后端chat.py字段名修正: metadata.citations → metadata.retriever_resources + 字段映射(document_name→title, content→snippet)",
       "TASK-M6-018": "【引用摘要修复】前端api-service.js字段名修正: data.metadata?.citations → data.metadata?.retriever_resources + 字段映射",
       "TASK-M6-019": "【引用摘要修复】端到端验证：阻塞模式+流式模式引用摘要显示，Bot A/B聊天确认Sources区域和引用标签可点击展开"
+    },
+    "M7": {
+      "TASK-M7-001": "个人中心 - 后端API与数据模型：users表新增字段 + password_history表 + 密码策略(复杂度/历史/过期) + profile/password接口",
+      "TASK-M7-002": "个人中心 - 用户端前端：导航栏下拉菜单 + Modal弹窗(个人信息Tab+修改密码Tab+实时强度提示)",
+      "TASK-M7-003": "个人中心 - 管理后台前端：导航栏下拉菜单 + 复用Modal弹窗",
+      "TASK-M7-004": "系统公告 - 后端API与数据模型：announcements表 + CRUD + 用户端获取生效公告",
+      "TASK-M7-005": "系统公告 - 管理后台前端：公告管理页面(列表/发布/编辑/上下线)",
+      "TASK-M7-006": "系统公告 - 用户端前端：顶部Banner组件(info蓝/warning黄/urgent红) + 关闭逻辑",
+      "TASK-M7-007": "个人中心+系统公告 - 端到端测试"
     }
   }
 }

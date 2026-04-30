@@ -236,10 +236,11 @@ ApiService.toggleBot(botId, enabled)
 
 ## 八、待后续阶段完成
 
-- [ ] 环境部署（Dify + Qdrant + Ollama）
-- [ ] 知识库建设（文档处理 + Embedding）
-- [ ] Bot配置（Dify智能体 + MCP）
-- [ ] 真实API对接
+- [ ] 环境部署（Dify + Qdrant + Ollama） ✅ M2已完成
+- [ ] 知识库建设（文档处理 + Embedding） ✅ M3已完成
+- [ ] Bot配置（Dify智能体 + MCP） ✅ M4已完成
+- [ ] 真实API对接 ✅ M5已完成
+- [ ] 个人中心 + 系统公告 — M7进行中
 
 ## 九、技术决策记录
 
@@ -438,3 +439,23 @@ ApiService.toggleBot(botId, enabled)
   - 用户端和管理后台可并行开发
 - **里程碑**: M6（共15个任务，5个Phase）
 - **日期**: 2026-04-29
+
+### 9.26 个人中心方案
+
+- **决策**: Modal弹窗形式，不新增独立页面；用户端和管理后台都需要
+- **入口**: 导航栏用户名点击 → 下拉菜单 → "个人设置" → 打开Modal弹窗
+- **可编辑字段**: display_name（可编辑）、email/phone（预留字段，UI可编辑但系统暂不使用）、username/roles（不可编辑）
+- **修改密码流程**: 当前密码验证 → 新密码复杂度校验(8位+大小写+数字+特殊字符) → 历史密码比对(最近5次bcrypt) → 更新密码 → 签发新JWT Token → 前端替换本地Token
+- **密码强度提示**: 前端实时显示弱/中/强
+- **数据模型**: users表新增email/phone/password_changed_at/must_change_password字段，新增password_history表
+- **日期**: 2026-04-30
+
+### 9.27 系统公告方案
+
+- **决策**: 管理员发布/下线，用户端顶部Banner展示，全员广播不区分角色
+- **公告类型**: info(蓝色)/warning(黄色)/urgent(红色+不可关闭)
+- **状态**: 只有发布(published)和下线(offline)两种，不做草稿
+- **展示规则**: 只展示最新1条生效公告；bots选择页+chat页面展示，login页不展示
+- **关闭行为**: info和warning可关闭(session内不显示，刷新重新出现)，urgent不可关闭
+- **数据模型**: announcements表(id, title, content, type, status, published_at, expires_at, created_by)
+- **日期**: 2026-04-30

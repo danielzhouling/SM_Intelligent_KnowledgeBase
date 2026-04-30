@@ -424,8 +424,43 @@
     },
     {
       "id": "TASK-M6-019",
-      "description": "【引用摘要修复】E2E验证: curl阻塞模式Bot A返回5条citations, Bot B流式返回4条retriever_resources, Bot C返回0条; Playwright 4/4通过(Bot A/B显示source tags, Bot C无doc tags, source detail展开显示引用片段)"
+      "description": "【引用摘要修复】E2E验证: curl阻塞模式Bot A返回5条citations, Bot B流式返回4条retriever_resources, Bot C返回0条; Playwright 4/4通过(Bot A/B显示source tags, Bot C无doc tags, source detail展开显示引用片段)",
       "pass": true
+    },
+    {
+      "id": "TASK-M7-001",
+      "description": "个人中心 - 后端API与数据模型：users表新增email/phone/password_changed_at/must_change_password字段、创建password_history表、密码复杂度校验工具函数(8位+大小写+数字+特殊字符)+历史验证(最近5次bcrypt比对)+过期检查(90天+7天提醒)、GET /api/auth/profile、PUT /api/auth/profile(修改display_name+预留email/phone)、PUT /api/auth/password(当前密码验证+复杂度+历史比对+签发新Token)",
+      "pass": false
+    },
+    {
+      "id": "TASK-M7-002",
+      "description": "个人中心 - 用户端前端：导航栏用户名点击下拉菜单(个人设置入口)、Modal弹窗含个人信息Tab(display_name+预留email/phone)和修改密码Tab(当前+新+确认+实时强度提示)、修改密码成功后Token刷新",
+      "pass": false
+    },
+    {
+      "id": "TASK-M7-003",
+      "description": "个人中心 - 管理后台前端：导航栏用户名下拉菜单(个人设置入口)、复用Modal弹窗(个人信息+修改密码)",
+      "pass": false
+    },
+    {
+      "id": "TASK-M7-004",
+      "description": "系统公告 - 后端API与数据模型：创建announcements表、POST发布+GET列表(分页)+PUT编辑+PATCH上线/下线+GET /active用户端获取最新1条生效公告，全员广播不区分角色，不做草稿只有发布和下线",
+      "pass": false
+    },
+    {
+      "id": "TASK-M7-005",
+      "description": "系统公告 - 管理后台前端：公告管理页面(列表+发布+编辑+上线/下线)、发布表单(标题+类型info/warning/urgent+内容)、管理后台侧边栏新增公告管理入口",
+      "pass": false
+    },
+    {
+      "id": "TASK-M7-006",
+      "description": "系统公告 - 用户端前端：顶部Banner组件(info蓝/warning黄/urgent红)、urgent不可关闭其他可关闭(session内不显示刷新重新出现)、只展示最新1条生效公告、bots页+chat页展示(login页不展示)",
+      "pass": false
+    },
+    {
+      "id": "TASK-M7-007",
+      "description": "个人中心+系统公告 - 端到端测试：个人信息修改全流程、密码修改+复杂度+历史+Token刷新验证、公告发布→展示→关闭→下线全流程、urgent不可关闭验证、Playwright覆盖",
+      "pass": false
     }
   ]
 }
