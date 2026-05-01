@@ -133,14 +133,16 @@
       const url = CONFIG.API_BASE_URL + endpoint;
       let accessToken = TokenManager.getAccessToken();
 
-      // If no access token in memory but have refresh token, refresh first
+      // Try to restore session: if no access token but have refresh token, attempt refresh.
+      // If refresh fails (expired/invalid), clear stale token silently and continue.
+      // Login/register endpoints don't need a token; authenticated endpoints will
+      // get a 401 and the standard retry flow handles it.
       if (this._mode === 'real' && !accessToken && TokenManager.getRefreshToken()) {
         try {
           accessToken = await TokenManager.refresh();
         } catch (e) {
-          console.error('[AdminApiService] Initial token refresh failed:', e);
-          this._handleAuthFailure();
-          throw e;
+          TokenManager.clearTokens();
+          accessToken = null;
         }
       }
 
@@ -149,9 +151,8 @@
         try {
           accessToken = await TokenManager.refresh();
         } catch (e) {
-          console.error('[AdminApiService] Token refresh failed:', e);
-          this._handleAuthFailure();
-          throw e;
+          // Proactive refresh failed, continue with current token.
+          // If it's truly expired, the 401 handler will deal with it.
         }
       }
 
