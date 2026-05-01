@@ -283,10 +283,22 @@
         return;
       }
 
-      const user = AdminSession.get() || { username: 'Admin', roleName: 'Admin' };
-      $('#user-avatar').textContent = (user.username || 'A').charAt(0).toUpperCase();
-      $('#user-name').textContent = user.username || 'Admin';
-      $('#user-role').textContent = user.roleName || '';
+      // Wait for admin-app.js initMainPage() to finish token refresh (fresh page load)
+      let retries = 0;
+      while (!TokenManager.getAccessToken() && TokenManager.getRefreshToken() && retries < 50) {
+        await new Promise(r => setTimeout(r, 100));
+        retries++;
+      }
+      if (!TokenManager.getAccessToken()) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      try { await AdminApiService.getMe(); } catch(e) {}
+      const user = AdminApiService.getCurrentUser() || { username: 'Admin', roleName: 'Admin' };
+      $('#user-avatar').textContent = (user.display_name || user.username || 'A').charAt(0).toUpperCase();
+      $('#user-name').textContent = user.display_name || user.username || 'Admin';
+      $('#user-role').textContent = user.roleName || user.role || '';
 
       // Load roles for checkbox group (multi-role support)
       try {
