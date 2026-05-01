@@ -218,8 +218,10 @@
 
         // 处理401 - token失效
         if (response.status === 401) {
-          // 尝试刷新token重试一次
-          if (this._mode === 'real' && !options._retry) {
+          // Only attempt token refresh if we have a refresh token to use.
+          // Login/register endpoints don't need auth — if they return 401,
+          // it means wrong credentials, not expired tokens.
+          if (this._mode === 'real' && !options._retry && TokenManager.getRefreshToken()) {
             try {
               const newToken = await TokenManager.refresh();
               return this._request(method, endpoint, data, {
@@ -232,8 +234,12 @@
               throw new Error('认证已过期，请重新登录');
             }
           }
-          this._handleAuthFailure();
-          throw new Error('认证已过期，请重新登录');
+          // No refresh token or already retried — use server's error message
+          const serverError = result.error?.message || result.detail || '认证已过期，请重新登录';
+          if (TokenManager.getRefreshToken()) {
+            this._handleAuthFailure();
+          }
+          throw new Error(serverError);
         }
 
         if (!response.ok) {

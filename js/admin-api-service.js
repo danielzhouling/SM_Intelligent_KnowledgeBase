@@ -181,7 +181,8 @@
         const result = await response.json();
 
         if (response.status === 401) {
-          if (this._mode === 'real' && !options._retry) {
+          // Only attempt token refresh if we have a refresh token to use.
+          if (this._mode === 'real' && !options._retry && TokenManager.getRefreshToken()) {
             try {
               const newToken = await TokenManager.refresh();
               return this._request(method, endpoint, data, {
@@ -194,8 +195,12 @@
               throw new Error('认证已过期，请重新登录');
             }
           }
-          this._handleAuthFailure();
-          throw new Error('认证已过期，请重新登录');
+          // No refresh token or already retried — use server's error message
+          const serverError = result.error?.message || result.detail || '认证已过期，请重新登录';
+          if (TokenManager.getRefreshToken()) {
+            this._handleAuthFailure();
+          }
+          throw new Error(serverError);
         }
 
         if (!response.ok) {
