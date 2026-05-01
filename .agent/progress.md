@@ -748,6 +748,27 @@ API `/api/users` 返回 `roles: [{id, name}]` 对象数组，前端 `getRoleName
 - tablet 断点 (≤1024px): 2列
 - mobile 断点 (≤768px): 1列（已有）
 
+## Bugfix: 认证过期问题修复（2026-05-01）
+
+### 问题
+管理端和用户端登录后立即显示"认证已过期"/"登录已过期"，无法正常使用。
+
+### 根因
+1. **`admin/announcements.html` 引用 `AdminApiService.TokenManager`（undefined）**：TokenManager 是独立全局变量导出，不是 AdminApiService 的属性。导致页面认为未登录而跳转到 login.html。
+2. **`checkAuth()` 在 token 刷新失败时调用 `TokenManager.clearTokens()`**：如果刷新暂时失败（网络抖动），会永久销毁 refresh token，导致后续所有 API 调用都无法恢复。
+3. **Nginx 缓存头 `Cache-Control: public, immutable`**：浏览器缓存旧版 JS 文件长达1天且不验证，修复后用户无法获取新代码。
+
+### 修复
+- `admin/announcements.html`: `AdminApiService.TokenManager?.getRefreshToken?.()` → `TokenManager.getRefreshToken()`
+- `admin/announcements.html`: `AdminApiService.TokenManager?.clearTokens?.()` → `TokenManager.clearTokens()`
+- `js/admin-api-service.js` `checkAuth()`: 简化为直接调用 `getMe()`（内部 `_request()` 已有 proactive refresh + 401 retry），移除手动 refresh + clearTokens 逻辑
+- `demo/js/api-service.js` `checkAuth()`: 同样简化和移除 clearTokens
+- `docker/nginx.conf`: JS/CSS 文件缓存从 `expires 1d; public, immutable` 改为 `Cache-Control: no-cache`（每次访问重新验证）
+
+### 测试
+- Playwright M7 E2E: 16/16 通过
+- 后端测试: 48/48 通过
+
 ## TASK-M7-001 个人中心后端API与数据模型（2026-05-01 完成）
 
 ### 变更内容

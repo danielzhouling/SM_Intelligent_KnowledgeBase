@@ -133,7 +133,19 @@
       const url = CONFIG.API_BASE_URL + endpoint;
       let accessToken = TokenManager.getAccessToken();
 
-      if (this._mode === 'real' && TokenManager.isLoggedIn() && TokenManager.isTokenExpiringSoon()) {
+      // If no access token in memory but have refresh token, refresh first
+      if (this._mode === 'real' && !accessToken && TokenManager.getRefreshToken()) {
+        try {
+          accessToken = await TokenManager.refresh();
+        } catch (e) {
+          console.error('[AdminApiService] Initial token refresh failed:', e);
+          this._handleAuthFailure();
+          throw e;
+        }
+      }
+
+      // Proactive refresh if token is expiring soon
+      if (this._mode === 'real' && accessToken && TokenManager.isLoggedIn() && TokenManager.isTokenExpiringSoon()) {
         try {
           accessToken = await TokenManager.refresh();
         } catch (e) {
@@ -276,25 +288,13 @@
         return null;
       }
 
-      if (TokenManager.getAccessToken()) {
-        try {
-          const result = await this.getMe();
-          if (result.success && result.data) {
-            return result.data;
-          }
-        } catch (e) {}
-      }
-
-      if (TokenManager.getRefreshToken()) {
-        try {
-          await TokenManager.refresh();
-          const result = await this.getMe();
-          if (result.success && result.data) {
-            return result.data;
-          }
-        } catch (e) {
-          TokenManager.clearTokens();
+      try {
+        const result = await this.getMe();
+        if (result.success && result.data) {
+          return result.data;
         }
+      } catch (e) {
+        // _request() already handles token refresh; if it still fails, session is truly invalid
       }
 
       return null;

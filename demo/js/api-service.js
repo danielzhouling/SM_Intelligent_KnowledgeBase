@@ -172,13 +172,23 @@
       const url = CONFIG.API_BASE_URL + endpoint;
       let accessToken = TokenManager.getAccessToken();
 
+      // If no access token in memory but have refresh token, refresh first
+      if (this._mode === 'real' && !accessToken && TokenManager.getRefreshToken()) {
+        try {
+          accessToken = await TokenManager.refresh();
+        } catch (e) {
+          console.error('[ApiService] Initial token refresh failed:', e);
+          this._handleAuthFailure();
+          throw e;
+        }
+      }
+
       // 如果token即将过期，先刷新
-      if (this._mode === 'real' && TokenManager.isLoggedIn() && TokenManager.isTokenExpiringSoon()) {
+      if (this._mode === 'real' && accessToken && TokenManager.isLoggedIn() && TokenManager.isTokenExpiringSoon()) {
         try {
           accessToken = await TokenManager.refresh();
         } catch (e) {
           console.error('[ApiService] Token refresh failed:', e);
-          // 清除登录状态，让用户重新登录
           this._handleAuthFailure();
           throw e;
         }
@@ -339,29 +349,13 @@
         return null;
       }
 
-      // 有access_token，先尝试获取用户信息
-      if (TokenManager.getAccessToken()) {
-        try {
-          const result = await this.getMe();
-          if (result.success && result.data) {
-            return result.data;
-          }
-        } catch (e) {
-          // token可能过期，尝试刷新
+      try {
+        const result = await this.getMe();
+        if (result.success && result.data) {
+          return result.data;
         }
-      }
-
-      // 尝试刷新token
-      if (TokenManager.getRefreshToken()) {
-        try {
-          await TokenManager.refresh();
-          const result = await this.getMe();
-          if (result.success && result.data) {
-            return result.data;
-          }
-        } catch (e) {
-          TokenManager.clearTokens();
-        }
+      } catch (e) {
+        // _request() already handles token refresh; if it still fails, session is truly invalid
       }
 
       return null;

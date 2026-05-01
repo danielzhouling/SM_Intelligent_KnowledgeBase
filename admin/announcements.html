@@ -189,20 +189,13 @@
     document.addEventListener('DOMContentLoaded', async () => {
       if (typeof AdminApiService === 'undefined') return;
 
-      // Wait for admin-app.js initMainPage() to finish auth
-      // by checking periodically until access token is available
-      let retries = 0;
-      while (!AdminApiService.TokenManager?.getAccessToken?.() && retries < 30) {
-        await new Promise(r => setTimeout(r, 100));
-        retries++;
-      }
-
-      if (!AdminApiService.TokenManager?.getAccessToken?.()) {
+      if (!TokenManager.getRefreshToken()) {
         window.location.href = 'login.html';
         return;
       }
 
       // Update user info in sidebar
+      try { await AdminApiService.getMe(); } catch(e) {}
       const user = AdminApiService.getCurrentUser();
       if (user) {
         const avatarEl = document.getElementById('user-avatar');
@@ -222,7 +215,7 @@
         mobileBtn.addEventListener('click', () => sidebar.classList.toggle('mobile-open'));
       }
       const logoutBtn = document.getElementById('btn-logout');
-      if (logoutBtn) logoutBtn.addEventListener('click', () => { AdminApiService.TokenManager?.clearTokens?.(); window.location.href = 'login.html'; });
+      if (logoutBtn) logoutBtn.addEventListener('click', () => { TokenManager.clearTokens(); window.location.href = 'login.html'; });
     });
   </script>
 </body>
