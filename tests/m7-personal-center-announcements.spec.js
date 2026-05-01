@@ -6,7 +6,7 @@ const ADMIN_ANNOUNCEMENTS_URL = 'http://localhost/admin/announcements.html';
 const USER_LOGIN_URL = 'http://localhost/demo/index.html';
 
 const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'Adm1nP@ss';
+const ADMIN_PASSWORD = 'admin123';
 
 async function adminLogin(page) {
   await page.goto(ADMIN_LOGIN_URL);
