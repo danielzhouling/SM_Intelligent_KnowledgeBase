@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 import bcrypt
 
-PASSWORD_MIN_LENGTH = 8
+PASSWORD_MIN_LENGTH = 6
 PASSWORD_HISTORY_LIMIT = 5
 PASSWORD_EXPIRE_DAYS = 90
 PASSWORD_WARN_DAYS = 7
@@ -14,14 +14,6 @@ def validate_password_complexity(password: str) -> list[str]:
     errors: list[str] = []
     if len(password) < PASSWORD_MIN_LENGTH:
         errors.append(f"Password must be at least {PASSWORD_MIN_LENGTH} characters")
-    if not re.search(r"[A-Z]", password):
-        errors.append("Password must contain at least one uppercase letter")
-    if not re.search(r"[a-z]", password):
-        errors.append("Password must contain at least one lowercase letter")
-    if not re.search(r"[0-9]", password):
-        errors.append("Password must contain at least one digit")
-    if not re.search(r"[^A-Za-z0-9]", password):
-        errors.append("Password must contain at least one special character")
     return errors
 
 

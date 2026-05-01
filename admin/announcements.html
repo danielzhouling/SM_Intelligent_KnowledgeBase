@@ -30,34 +30,57 @@
 </head>
 <body>
   <div class="admin-page">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <aside class="admin-sidebar">
       <div class="admin-sidebar-header">
         <div class="admin-logo">
-          <div class="admin-logo-icon">
-            <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#1E40AF"/><path d="M12 20L18 26L28 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="admin-logo-text">
-            <span class="admin-logo-name">SM-Dmall</span>
-            <span class="admin-logo-sub">Admin Panel</span>
-          </div>
+          <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="adminLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#667EEA"/>
+                <stop offset="100%" style="stop-color:#764BA2"/>
+              </linearGradient>
+            </defs>
+            <rect x="2" y="2" width="36" height="36" rx="6" fill="url(#adminLogoGradient)"/>
+            <text x="20" y="26" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">SM</text>
+          </svg>
+          <span class="admin-logo-text">Admin Dashboard</span>
         </div>
       </div>
 
       <nav class="admin-nav">
         <div class="nav-section">
           <div class="nav-section-title">Overview</div>
-          <a href="index.html" class="nav-item"><span class="nav-item-icon">📊</span><span>Dashboard</span></a>
+          <a href="index.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Management</div>
-          <a href="users.html" class="nav-item"><span class="nav-item-icon">👥</span><span>Users</span></a>
-          <a href="roles.html" class="nav-item"><span class="nav-item-icon">🔐</span><span>Roles</span></a>
-          <a href="bots.html" class="nav-item"><span class="nav-item-icon">🤖</span><span>Bots</span></a>
+          <a href="users.html" class="nav-item">
+            <span class="nav-item-icon">👥</span>
+            <span>Users</span>
+          </a>
+          <a href="roles.html" class="nav-item">
+            <span class="nav-item-icon">🔐</span>
+            <span>Roles</span>
+          </a>
+          <a href="bots.html" class="nav-item">
+            <span class="nav-item-icon">🤖</span>
+            <span>Bots</span>
+          </a>
         </div>
         <div class="nav-section">
           <div class="nav-section-title">Feedback</div>
-          <a href="feedback.html" class="nav-item"><span class="nav-item-icon">💬</span><span>Feedback Review</span></a>
-          <a href="announcements.html" class="nav-item" style="background:var(--bg-sidebar-hover);"><span class="nav-item-icon">📢</span><span>Announcements</span></a>
+          <a href="feedback.html" class="nav-item">
+            <span class="nav-item-icon">💬</span>
+            <span>Feedback Review</span>
+          </a>
+          <a href="announcements.html" class="nav-item">
+            <span class="nav-item-icon">📢</span>
+            <span>Announcements</span>
+          </a>
         </div>
       </nav>
 
@@ -211,8 +234,18 @@
       // Mobile menu
       const mobileBtn = document.getElementById('adminMobileBtn');
       const sidebar = document.querySelector('.admin-sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
       if (mobileBtn && sidebar) {
-        mobileBtn.addEventListener('click', () => sidebar.classList.toggle('mobile-open'));
+        mobileBtn.addEventListener('click', () => {
+          sidebar.classList.add('mobile-open');
+          if (overlay) overlay.classList.add('visible');
+        });
+      }
+      if (overlay) {
+        overlay.addEventListener('click', () => {
+          sidebar.classList.remove('mobile-open');
+          overlay.classList.remove('visible');
+        });
       }
       const logoutBtn = document.getElementById('btn-logout');
       if (logoutBtn) logoutBtn.addEventListener('click', () => { TokenManager.clearTokens(); window.location.href = 'login.html'; });

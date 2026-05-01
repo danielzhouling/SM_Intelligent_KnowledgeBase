@@ -16,45 +16,37 @@ from server.auth.jwt import get_password_hash
 
 class TestPasswordComplexity:
     def test_valid_password(self):
-        errors = validate_password_complexity("GoodP@ss1")
+        errors = validate_password_complexity("abcdef")
         assert errors == []
 
     def test_too_short(self):
-        errors = validate_password_complexity("Aa1!")
+        errors = validate_password_complexity("abcde")
         assert any("at least" in e for e in errors)
 
-    def test_no_uppercase(self):
-        errors = validate_password_complexity("password1!")
-        assert any("uppercase" in e for e in errors)
+    def test_exactly_min_length(self):
+        errors = validate_password_complexity("abcdef")
+        assert errors == []
 
-    def test_no_lowercase(self):
-        errors = validate_password_complexity("PASSWORD1!")
-        assert any("lowercase" in e for e in errors)
+    def test_simple_password_is_valid(self):
+        errors = validate_password_complexity("password")
+        assert errors == []
 
-    def test_no_digit(self):
-        errors = validate_password_complexity("GoodP@ssword")
-        assert any("digit" in e for e in errors)
-
-    def test_no_special_char(self):
-        errors = validate_password_complexity("GoodPass1")
-        assert any("special" in e for e in errors)
-
-    def test_multiple_errors(self):
-        errors = validate_password_complexity("short")
-        assert len(errors) >= 3
+    def test_numeric_password_is_valid(self):
+        errors = validate_password_complexity("123456")
+        assert errors == []
 
 
 class TestPasswordHistory:
     def test_password_not_in_history(self):
-        hashes = [get_password_hash("OldPass1!"), get_password_hash("OldPass2!")]
-        assert check_password_in_history("NewPass1!", hashes) is False
+        hashes = [get_password_hash("oldpass1"), get_password_hash("oldpass2")]
+        assert check_password_in_history("newpass1", hashes) is False
 
     def test_password_in_history(self):
-        hashes = [get_password_hash("OldPass1!"), get_password_hash("OldPass2!")]
-        assert check_password_in_history("OldPass1!", hashes) is True
+        hashes = [get_password_hash("oldpass1"), get_password_hash("oldpass2")]
+        assert check_password_in_history("oldpass1", hashes) is True
 
     def test_empty_history(self):
-        assert check_password_in_history("AnyPass1!", []) is False
+        assert check_password_in_history("anypass", []) is False
 
 
 class TestPasswordAge:
