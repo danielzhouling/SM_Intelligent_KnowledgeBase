@@ -24,7 +24,7 @@
     .admin-user-avatar { width: 36px; height: 36px; background: var(--ai-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; }
     .admin-user-details { flex: 1; }
     .admin-user-name { font-size: 14px; font-weight: 500; color: white; }
-    .admin-user-role { font-size: 12px; color: var(--text-muted); }
+    .admin-user-role { font-size: 11px; color: rgba(255,255,255,0.6); display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 4px; }
     .admin-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
     .admin-header { background: var(--bg-card); border-bottom: 1px solid var(--border-light); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
     .admin-header-title { font-size: 18px; font-weight: 600; color: var(--text-primary); }
@@ -136,7 +136,7 @@
           <div class="admin-user-avatar" id="user-avatar">A</div>
           <div class="admin-user-details">
             <div id="user-name" class="admin-user-name">Admin</div>
-            <div id="user-role" class="admin-user-role">Super Admin</div>
+            <span id="user-role" class="admin-user-role">Super Admin</span>
           </div>
         </div>
         <button class="btn btn-secondary" style="width:100%;margin-bottom:4px;" onclick="AdminProfileModal.show()">Personal Settings</button>
@@ -217,11 +217,12 @@
   <script>
     // Base permissions (non-bot)
     const BASE_PERMISSIONS = [
-      { id: 'user.manage', label: 'User Management', type: 'function' },
-      { id: 'role.manage', label: 'Role Management', type: 'function' },
-      { id: 'feedback.view', label: 'View Feedback', type: 'function' },
-      { id: 'feedback.review', label: 'Review Feedback', type: 'function' },
-      { id: 'knowledge.*', label: 'Knowledge Management', type: 'function' },
+      { id: 'menu.dashboard', label: 'Dashboard', type: 'menu' },
+      { id: 'menu.users', label: 'User Management', type: 'menu' },
+      { id: 'menu.roles', label: 'Role Management', type: 'menu' },
+      { id: 'menu.bots', label: 'Bot Management', type: 'menu' },
+      { id: 'menu.feedback', label: 'Feedback Review', type: 'menu' },
+      { id: 'menu.announcements', label: 'Announcements', type: 'menu' },
     ];
 
     let cachedUsers = [];
@@ -234,11 +235,21 @@
         return;
       }
 
+      // Load user permissions and filter sidebar
+      await loadUserPermissions();
+      filterSidebarByPermissions();
+
+      // Check menu permission
+      if (!requireMenuPermission('menu.roles')) {
+        return;
+      }
+
       try { await AdminApiService.getMe(); } catch(e) {}
-      const user = AdminApiService.getCurrentUser() || { username: 'Admin', roleName: 'Admin' };
+      const user = AdminApiService.getCurrentUser() || { username: 'Admin', roles: [] };
       $('#user-avatar').textContent = (user.display_name || user.username || 'A').charAt(0).toUpperCase();
       $('#user-name').textContent = user.display_name || user.username || 'Admin';
-      $('#user-role').textContent = user.roleName || user.role || '';
+      const roleName = user.roles && user.roles.length > 0 ? user.roles[0].name : '';
+      $('#user-role').textContent = roleName || '';
 
       // Build permissions list dynamically
       await buildPermissionsList();
@@ -273,11 +284,11 @@
 
       function renderPermissionsList() {
         const permList = $('#permissions-list');
-        const basePerms = allPermissions.filter(p => p.type === 'function');
+        const menuPerms = allPermissions.filter(p => p.type === 'menu');
         const botPerms = allPermissions.filter(p => p.type === 'bot');
 
-        let html = '<div class="perm-section"><h4 class="perm-section-title">Function Permissions</h4>';
-        html += basePerms.map(p => `
+        let html = '<div class="perm-section"><h4 class="perm-section-title">Menu Permissions</h4>';
+        html += menuPerms.map(p => `
           <label class="permission-item">
             <input type="checkbox" name="permissions" value="${p.id}">
             <span>${p.label}</span>
@@ -311,10 +322,8 @@
           $('#role-count').textContent = `${roles.length} roles`;
 
           tbody.innerHTML = roles.map(r => {
-            const userCount = cachedUsers.filter(u => {
-              const userRoles = Array.isArray(u.roles) ? u.roles : (u.role ? [u.role] : []);
-              return userRoles.includes(r.id);
-            }).length;
+            // Use backend-provided user_count directly
+            const userCount = r.user_count || 0;
             // Fix: permissions is array of objects with key/name, show key instead
             const perms = (r.permissions || []).map(p => `<span class="permission-tag">${p.key || p}</span>`).join('');
             return `

@@ -44,8 +44,24 @@ async def get_current_user(
     return user
 
 
+# Menu to function permission mapping (for backward compatibility)
+MENU_TO_FUNC_PERMISSIONS = {
+    'menu.dashboard': [],  # Dashboard is view-only
+    'menu.users': ['user.manage'],
+    'menu.roles': ['role.manage'],
+    'menu.bots': ['bot.manage'],
+    'menu.feedback': ['feedback.view', 'feedback.review'],
+    'menu.announcements': ['announcements.manage'],
+}
+
+
 def require_permissions(*required_keys: str):
     """Dependency factory: checks if current user has any of the required permissions.
+
+    Menu permissions grant access to corresponding function operations:
+    - menu.roles -> role.manage
+    - menu.users -> user.manage
+    - etc.
 
     knowledge.* wildcard grants access to knowledge.X permissions only.
     """
@@ -54,6 +70,11 @@ def require_permissions(*required_keys: str):
         for role in current_user.roles:
             for perm in role.permissions:
                 user_permissions.add(perm.key)
+
+        # Expand menu permissions to function permissions
+        for menu_perm, func_perms in MENU_TO_FUNC_PERMISSIONS.items():
+            if menu_perm in user_permissions:
+                user_permissions.update(func_perms)
 
         has_wildcard = "knowledge.*" in user_permissions
 

@@ -204,7 +204,13 @@
         }
 
         if (!response.ok) {
-          throw new Error(result.error?.message || result.detail || `Request failed: ${response.status}`);
+          let errorMsg = result.error?.message || result.detail;
+          if (Array.isArray(errorMsg)) {
+            errorMsg = errorMsg.map(e => e.msg || JSON.stringify(e)).join(', ');
+          } else if (typeof errorMsg === 'object') {
+            errorMsg = JSON.stringify(errorMsg);
+          }
+          throw new Error(errorMsg || `Request failed: ${response.status}`);
         }
 
         return result;

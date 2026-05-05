@@ -24,7 +24,7 @@
     .admin-user-avatar { width: 36px; height: 36px; background: var(--ai-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; }
     .admin-user-details { flex: 1; }
     .admin-user-name { font-size: 14px; font-weight: 500; color: white; }
-    .admin-user-role { font-size: 12px; color: var(--text-muted); }
+    .admin-user-role { font-size: 11px; color: rgba(255,255,255,0.6); display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 4px; }
     .admin-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
     .admin-header { background: var(--bg-card); border-bottom: 1px solid var(--border-light); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
     .admin-header-title { font-size: 18px; font-weight: 600; color: var(--text-primary); }
@@ -152,7 +152,7 @@
           <div class="admin-user-avatar" id="user-avatar">A</div>
           <div class="admin-user-details">
             <div id="user-name" class="admin-user-name">Admin</div>
-            <div id="user-role" class="admin-user-role">Super Admin</div>
+            <span id="user-role" class="admin-user-role">Super Admin</span>
           </div>
         </div>
         <button class="btn btn-secondary" style="width:100%;margin-bottom:4px;" onclick="AdminProfileModal.show()">Personal Settings</button>
@@ -288,35 +288,8 @@
   <div class="toast-container" id="toast-container"></div>
 
   <script src="../js/admin-api-service.js"></script>
+  <script src="../js/admin-app.js"></script>
   <script>
-    // ============================================
-    // Toast Notification
-    // ============================================
-    const Toast = {
-      container: null,
-      init() {
-        if (!this.container) {
-          this.container = document.getElementById('toast-container');
-        }
-      },
-      show(message, type = 'info', duration = 3000) {
-        this.init();
-        const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
-        const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
-        toast.innerHTML = `<span class="toast-icon">${icons[type]}</span><span class="toast-message">${message}</span>`;
-        this.container.appendChild(toast);
-        setTimeout(() => {
-          toast.classList.add('hiding');
-          setTimeout(() => toast.remove(), 300);
-        }, duration);
-      },
-      success(m) { this.show(m, 'success'); },
-      error(m) { this.show(m, 'error'); },
-      warning(m) { this.show(m, 'warning'); },
-      info(m) { this.show(m, 'info'); },
-    };
-
     // ============================================
     // Utility
     // ============================================
@@ -355,6 +328,15 @@
         }
       }
 
+      // Load user permissions and filter sidebar
+      await loadUserPermissions();
+      filterSidebarByPermissions();
+
+      // Check menu permission
+      if (!requireMenuPermission('menu.feedback')) {
+        return;
+      }
+
       setupUserInfo();
       await loadBots();
       await loadFeedbacks();
@@ -366,7 +348,8 @@
       if (user) {
         $('#user-avatar').textContent = (user.display_name || user.username || 'A').charAt(0).toUpperCase();
         $('#user-name').textContent = user.display_name || user.username || 'Admin';
-        $('#user-role').textContent = user.roleName || user.role || '';
+        const roleName = user.roles && user.roles.length > 0 ? user.roles[0].name : '';
+        $('#user-role').textContent = roleName || '';
       }
     }
 

@@ -47,10 +47,10 @@ async def seed_initial_data(db: AsyncSession) -> None:
     admin_hash = get_password_hash("admin123")
     demo_hash = get_password_hash("password123")
 
-    u_admin = UserModel(username="admin", password_hash=admin_hash, display_name="系统管理员")
-    u_hq = UserModel(username="hq-admin", password_hash=demo_hash, display_name="HQ IT管理员")
-    u_store = UserModel(username="store-manager", password_hash=demo_hash, display_name="门店经理")
-    u_helpdesk = UserModel(username="helpdesk", password_hash=demo_hash, display_name="客服支持")
+    u_admin = UserModel(username="admin", password_hash=admin_hash, display_name="System Administrator")
+    u_hq = UserModel(username="hq-admin", password_hash=demo_hash, display_name="HQ IT Admin")
+    u_store = UserModel(username="store-manager", password_hash=demo_hash, display_name="Store Manager")
+    u_helpdesk = UserModel(username="helpdesk", password_hash=demo_hash, display_name="Support Agent")
 
     u_admin.roles = [r4]
     u_hq.roles = [r1]

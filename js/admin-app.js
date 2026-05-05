@@ -37,6 +37,82 @@ const AdminSession = {
 };
 
 // ============================================
+// Menu Permission System
+// ============================================
+
+// Cache user permissions for quick access
+let userPermissions = [];
+
+function setUserPermissions(permissions) {
+  // Handle both formats: array of strings ['menu.users', ...] or array of objects [{key: 'menu.users'}, ...]
+  userPermissions = (permissions || []).map(p => typeof p === 'string' ? { key: p } : p);
+}
+
+function hasMenuPermission(menuKey) {
+  return userPermissions.some(p => p.key === menuKey || p.key === 'menu.*');
+}
+
+function hasBotPermission(botKey) {
+  return userPermissions.some(p => p.key === `bot.${botKey}` || p.key === 'bot.*');
+}
+
+function requireMenuPermission(menuKey) {
+  if (!hasMenuPermission(menuKey)) {
+    showNoPermissionMessage();
+    return false;
+  }
+  return true;
+}
+
+function showNoPermissionMessage() {
+  document.querySelector('.admin-content').innerHTML = `
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh; text-align: center;">
+      <div style="font-size: 64px; margin-bottom: 20px;">🚫</div>
+      <h2 style="color: var(--text-primary); margin-bottom: 10px;">无权限访问</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 20px;">您没有访问此页面的权限</p>
+      <p style="color: var(--text-muted); margin-bottom: 30px;">请联系管理员获取相应权限</p>
+      <button class="btn btn-primary" onclick="window.location.href='index.html'">返回仪表盘</button>
+    </div>
+  `;
+  document.querySelector('.admin-header-title').textContent = '无权限访问';
+}
+
+function filterSidebarByPermissions() {
+  const menuItems = {
+    'menu.dashboard': 'a[href="index.html"]',
+    'menu.users': 'a[href="users.html"]',
+    'menu.roles': 'a[href="roles.html"]',
+    'menu.bots': 'a[href="bots.html"]',
+    'menu.feedback': 'a[href="feedback.html"]',
+    'menu.announcements': 'a[href="announcements.html"]'
+  };
+
+  Object.entries(menuItems).forEach(([permKey, selector]) => {
+    const item = document.querySelector(selector);
+    if (item) {
+      if (!hasMenuPermission(permKey)) {
+        item.style.display = 'none';
+      } else {
+        item.style.display = '';
+      }
+    }
+  });
+}
+
+// Load user permissions from API
+async function loadUserPermissions() {
+  try {
+    // Must call getMe() to fetch fresh data from API
+    const userRes = await AdminApiService.getMe();
+    if (userRes.success && userRes.data) {
+      setUserPermissions(userRes.data.permissions || []);
+    }
+  } catch (e) {
+    console.error('Failed to load user permissions:', e);
+  }
+}
+
+// ============================================
 // Toast Notification System
 // ============================================
 
@@ -248,8 +324,13 @@ async function initMainPage() {
 
   if (user) {
     $('#user-name').textContent = user.display_name || user.username || 'Admin';
-    $('#user-role').textContent = user.roleName || user.role || '';
+    const roleName = user.roles && user.roles.length > 0 ? user.roles[0].name : '';
+    $('#user-role').textContent = roleName || user.username || '';
   }
+
+  // Load permissions and filter sidebar
+  await loadUserPermissions();
+  filterSidebarByPermissions();
 
   // Logout handler
   $('#btn-logout')?.addEventListener('click', async () => {
