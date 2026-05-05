@@ -461,6 +461,11 @@
       "id": "TASK-M7-007",
       "description": "个人中心+系统公告 - 端到端测试：16个Playwright E2E测试全部通过，覆盖ProfileModal(5)、公告管理页面(5)、用户Banner(1)、跨页面导航(5)",
       "pass": true
+    },
+    {
+      "id": "TASK-M8-001",
+      "description": "菜单级权限系统：后端MENU_TO_FUNC_PERMISSIONS映射(menu.announcements→announcements.manage)、前端loadUserPermissions()+filterSidebarByPermissions()动态侧边栏、display_name+角色pill badge显示",
+      "pass": true
     }
   ]
 }

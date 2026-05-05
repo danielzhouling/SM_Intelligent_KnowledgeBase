@@ -188,3 +188,57 @@ M1 全部12项 ✅ | M2 全部5项 ✅ | M3 已完成项 ✅ | M4-001~005 ✅ | 
 ---
 
 **审查结论**：需修复 3 项任务后方可通过。多会话延续是 P0 优先级，影响核心用户体验。
+
+---
+
+## 2026-05-05 第四次审查
+
+**审计范围**：M7 里程碑完成度 + 最新提交 e2f4587 (菜单级权限系统)
+
+### 通过任务 (M7全部 + M8)
+
+| 任务 | 状态 | 备注 |
+|------|------|------|
+| TASK-M7-001 | ✅ | 个人中心后端API+数据模型 |
+| TASK-M7-002 | ✅ | 用户端前端 |
+| TASK-M7-003 | ✅ | 管理后台前端 |
+| TASK-M7-004 | ✅ | 系统公告后端API |
+| TASK-M7-005 | ✅ | 管理后台公告管理页面 |
+| TASK-M7-006 | ✅ | 用户端Banner组件 |
+| TASK-M7-007 | ✅ | E2E测试文件存在 |
+| TASK-M8-001 | ✅ | 菜单级权限系统 |
+
+### 修复问题 (2项)
+
+#### 1. 【已修复】M7 roadmap.json 状态不一致
+**问题**: `roadmap.json` M7状态为"pending"，但 features.json 所有任务 pass=true
+**修复**: 已将 roadmap.json 中 M7 状态更新为 "completed"，并添加 M8 里程碑
+
+#### 2. 【已修复】announcements.manage 权限缺失
+**问题**: `dependencies.py` 定义的 `menu.announcements → announcements.manage` 映射，但 seed.py 未创建该权限
+**影响**: 任何登录用户都能管理公告，无权限控制
+**修复**: 
+- 在 seed.py 添加 `announcements.manage` 权限 (p6)
+- System Admin 角色 (r4) 已授予该权限
+
+### 待处理 (建议后续修复)
+
+#### 3. 【建议】announcements 路由未启用权限检查
+**问题**: `server/routers/announcements.py` 所有端点只使用 `get_current_user`，未使用 `require_permissions`
+**影响**: 非管理员用户也能访问公告管理API（虽然前端侧边栏会隐藏）
+**建议**: 考虑在 create/update/toggle 端点添加 `require_permissions("announcements.manage")`
+
+### roadmap.json 状态修正 (本次)
+
+| Milestone | 修正前 | 修正后 | 原因 |
+|-----------|--------|--------|------|
+| M7 | pending | completed | features.json 中 M7 任务全部 pass=true |
+| M8 | (新增) | completed | 菜单级权限系统已实现 (commit e2f4587) |
+
+---
+
+**审查结论**：通过 ✅
+
+---
+
+

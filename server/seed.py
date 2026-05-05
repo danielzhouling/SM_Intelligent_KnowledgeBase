@@ -18,6 +18,7 @@ async def seed_initial_data(db: AsyncSession) -> None:
         "p3": PermissionModel(id="p3", key="feedback.view", name="反馈查看", type="function"),
         "p4": PermissionModel(id="p4", key="feedback.review", name="反馈审核", type="function"),
         "p5": PermissionModel(id="p5", key="knowledge.*", name="知识库管理", type="function"),
+        "p6": PermissionModel(id="p6", key="announcements.manage", name="公告管理", type="function"),
     }
 
     # --- Permissions (bot) ---
@@ -33,7 +34,7 @@ async def seed_initial_data(db: AsyncSession) -> None:
     r3 = RoleModel(id="r3", name="Helpdesk", description="客服支持")
     r4 = RoleModel(id="r4", name="System Admin", description="系统管理员（后台）")
 
-    r4.permissions = [perms["p1"], perms["p2"], perms["p3"], perms["p4"], perms["p5"],
+    r4.permissions = [perms["p1"], perms["p2"], perms["p3"], perms["p4"], perms["p5"], perms["p6"],
                        bot_perms["pb_a"], bot_perms["pb_b"], bot_perms["pb_c"]]
     # HQ IT Admin → Bot A + B + C + 反馈权限
     r1.permissions = [perms["p3"], perms["p4"],

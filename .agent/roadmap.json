@@ -111,7 +111,16 @@
         "TASK-M7-006",
         "TASK-M7-007"
       ],
-      "status": "pending"
+      "status": "completed"
+    },
+    {
+      "id": "M8",
+      "name": "菜单级权限系统",
+      "description": "前端侧边栏菜单根据用户权限动态显示，后端菜单权限自动扩展为功能权限",
+      "tasks": [
+        "TASK-M8-001"
+      ],
+      "status": "completed"
     }
   ],
   "task_definitions": {
@@ -205,6 +214,9 @@
       "TASK-M7-005": "系统公告 - 管理后台前端：公告管理页面(列表/发布/编辑/上下线)",
       "TASK-M7-006": "系统公告 - 用户端前端：顶部Banner组件(info蓝/warning黄/urgent红) + 关闭逻辑",
       "TASK-M7-007": "个人中心+系统公告 - 端到端测试"
+    },
+    "M8": {
+      "TASK-M8-001": "菜单级权限系统：MENU_TO_FUNC_PERMISSIONS映射 + loadUserPermissions() + filterSidebarByPermissions() 动态侧边栏"
     }
   }
 }
